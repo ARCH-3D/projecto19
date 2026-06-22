@@ -100,16 +100,23 @@ nav a:hover {
   text-align: center;
 }
 
-.hero-text h2 {
-  font-size: 84px;
-  font-weight: 500;
-  line-height: 1.2;
-  margin-bottom: 20px;
+.hero-text h2{
+    font-size: clamp(2rem, 8vw, 5.5rem);
+    line-height: 1.1;
 }
 
-.hero-text p {
-  font-size: 32px;
-  font-weight: 300;
+.hero-text p{
+    font-size: clamp(1rem, 3vw, 2rem);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+.project{
+    height:clamp(280px,50vw,520px);
 }
 
 /* ================== SECTION ================== */
