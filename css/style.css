@@ -50,6 +50,11 @@ header h1 {
   text-transform: uppercase;
 }
 
+header {
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
 /* ================== NAV ================== */
 nav a {
   margin-left: 25px;
@@ -63,6 +68,11 @@ nav a {
 
 nav a:hover {
   opacity: 0.6;
+}
+
+nav a:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 4px;
 }
 
 /* ================== HERO SLIDESHOW ================== */
@@ -81,6 +91,7 @@ nav a:hover {
   object-fit: cover;
   opacity: 0;
   transition: opacity 1.2s ease-in-out;
+  will-change: opacity;
 }
 
 .hero-image.active {
@@ -109,16 +120,6 @@ nav a:hover {
     font-size: clamp(1rem, 3vw, 2rem);
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:30px;
-}
-
-.project{
-    height:clamp(280px,50vw,520px);
-}
-
 /* ================== SECTION ================== */
 section {
   padding: 120px 60px;
@@ -135,7 +136,7 @@ section h3 {
 /* ================== PROJECT GRID ================== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 40px;
 }
 
@@ -143,7 +144,7 @@ section h3 {
 .project {
   position: relative;
   width: 100%;
-  height: 520px;
+  height: clamp(300px, 45vw, 520px);
   cursor: pointer;
   overflow: hidden;
 }
@@ -170,7 +171,7 @@ section h3 {
 
 /* ESCURECE NO HOVER */
 .project:hover::before {
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.35);
 }
 
 /* ================== PROJECT TITLE ================== */
@@ -298,10 +299,6 @@ nav a {
 
   .project {
     height: 360px;
-  }
-
-  nav a {
-    margin-left: 15px;
   }
 
   .hero-text {
