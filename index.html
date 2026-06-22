@@ -59,7 +59,22 @@ setInterval(() => {
   heroImages[heroIndex].classList.remove('active');
   heroIndex = (heroIndex + 1) % heroImages.length;
   heroImages[heroIndex].classList.add('active');
-}, 5000); // 3 segundos
+}, 5000);
+
+/* Efeito de toque para mobile */
+document.querySelectorAll('.project').forEach(project => {
+
+  project.addEventListener('touchstart', () => {
+
+    document.querySelectorAll('.project').forEach(item => {
+      item.classList.remove('touched');
+    });
+
+    project.classList.add('touched');
+
+  });
+
+});
 </script>
 
 </body>

@@ -111,8 +111,38 @@
     .close:hover { opacity: 1; }
 
     @media (max-width: 768px) {
-      .project { height: 360px; }
-    }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .project {
+    height: 360px;
+  }
+
+  .project {
+  position: relative;
+}
+
+.project:active img,
+.project:active video {
+  filter: brightness(1);
+}
+
+.project:active .project-title {
+  opacity: 1;
+}
+
+  .project.touched img,
+  .project.touched video {
+    filter: brightness(1);
+  }
+
+  .project.touched .project-title {
+    opacity: 1;
+  }
+}
     @media (max-width: 480px) {
       .project { height: 300px; }
     }
@@ -123,7 +153,7 @@
 <header>
   <div class="header-left">
     <a href="index.html" class="logo-link">
-      <img src="img/Logo.png" alt="Logo Projecto 19" class="logo">
+      <img src="img/logo.png" alt="Logo Projecto 19" class="logo">
       <h1>Projecto 19</h1>
     </a>
   </div>
@@ -537,6 +567,22 @@ document.addEventListener('keydown', function(e) {
     else if (e.key === "ArrowRight") mudarMidia(1);
     else if (e.key === "Escape") fecharModal();
   }
+});
+/* Hover para telemóvel */
+document.querySelectorAll('.project').forEach(project => {
+
+  project.addEventListener('touchstart', function() {
+
+    document.querySelectorAll('.project').forEach(item => {
+      if (item !== project) {
+        item.classList.remove('touched');
+      }
+    });
+
+    project.classList.add('touched');
+
+  });
+
 });
 </script>
 

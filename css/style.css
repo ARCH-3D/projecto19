@@ -69,7 +69,7 @@ nav a:hover {
 .hero {
   position: relative;
   width: 100%;
-  height: 90vh;
+  min-height: 90vh;
   overflow: hidden;
 }
 
@@ -90,12 +90,14 @@ nav a:hover {
 /* Texto sobre o hero */
 .hero-text {
   position: absolute;
-  top: 10%;
-  left: 40%;
-  transform: translateY(-50%);
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 5;
   max-width: 520px;
+  width: 90%;
   color: white;
+  text-align: center;
 }
 
 .hero-text h2 {
@@ -257,12 +259,34 @@ footer {
 
 /* ================== RESPONSIVE ================== */
 @media (max-width: 768px) {
+  
+  header {
+  flex-direction: column;
+  gap: 15px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+nav a {
+  margin-left: 0;
+}
+
   header {
     padding: 20px;
   }
 
   section {
     padding: 80px 20px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .project {
@@ -274,24 +298,45 @@ footer {
   }
 
   .hero-text {
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
+  width: 90%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
 
-  .hero-text h2 { font-size: 32px; }
-  .hero-text p { font-size: 14px; }
+.hero-text h2 {
+  font-size: 36px;
+  line-height: 1.2;
+  margin-bottom: 15px;
+}
+
+.hero-text p {
+  font-size: 16px;
+  line-height: 1.5;
+}
 
   .project::before {
-    background: none;
-  }
+  background: rgba(0, 0, 0, 0);
+}
 
-  .project-title {
-    opacity: 1;
-  }
+.project-title {
+  opacity: 0;
+}
+
+.project:active::before,
+.project.touched::before {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.project:active .project-title,
+.project.touched .project-title {
+  opacity: 1;
+}
 }
 
 @media (max-width: 480px) {
+
   .project {
     height: 300px;
   }
@@ -302,6 +347,17 @@ footer {
     max-height: 70vh;
   }
 
-  .hero-text h2 { font-size: 24px; }
-  .hero-text p { font-size: 12px; }
+  .hero-text {
+    width: 92%;
+  }
+
+  .hero-text h2 {
+    font-size: 26px;
+    line-height: 1.2;
+  }
+
+  .hero-text p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
 }
