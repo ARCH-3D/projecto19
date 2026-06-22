@@ -5,139 +5,116 @@
   <title>Projetos</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* ================== ESTILOS PARA PROJETOS E MODAL ================== */
-
+    /* ================== PROJECT GRID ================== */
     .grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+      gap: 40px;
     }
 
     .project {
       position: relative;
       width: 100%;
-      max-width: 500px;
-      height: 500px;
-      border-radius: 10px;
+      height: 520px;
       cursor: pointer;
       overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
+      background-color: #000;
     }
 
-    .project:hover {
-      transform: scale(1.03);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-
-    .project img, .project video {
+    .project img,
+    .project video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      filter: brightness(0.5);
+      transition: filter 0.3s;
     }
 
+    .project:hover img,
+    .project:hover video {
+      filter: brightness(1);
+    }
+
+    /* ================== PROJECT TITLE ================== */
     .project-title {
       position: absolute;
-      bottom: 0;
-      width: 100%;
-      background: rgba(0,0,0,0.6);
-      color: #fff;
-      text-align: center;
-      padding: 15px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.2em;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      border-radius: 0 0 10px 10px;
+      bottom: 20px;
+      left: 20px;
+      color: white;
+      font-size: 18px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .project:hover .project-title {
+      opacity: 1;
     }
 
     /* ================== MODAL ================== */
     .modal {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       background: rgba(0,0,0,0.95);
       z-index: 1000;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
-      padding: 40px 20px;
     }
 
     .modal-gallery {
       position: relative;
+      width: 100%;
+      height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
-      max-width: 90%;
-      max-height: 90%;
     }
 
     #modal-content img,
     #modal-content video {
-      width: 80vw;
-      max-height: 80vh;
+      max-width: 90vw;
+      max-height: 90vh;
       object-fit: contain;
-      border-radius: 10px;
+      border-radius: 5px;
     }
 
     .prev, .next {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(0,0,0,0.5);
+      background: none;
       color: white;
       font-size: 40px;
       border: none;
-      padding: 10px 20px;
       cursor: pointer;
-      border-radius: 5px;
-      transition: background 0.3s;
+      padding: 20px;
+      opacity: 0.6;
     }
 
-    .prev:hover, .next:hover {
-      background: rgba(0,0,0,0.8);
-    }
-
-    .prev { left: -60px; }
-    .next { right: -60px; }
+    .prev:hover, .next:hover { opacity: 1; }
+    .prev { left: 20px; }
+    .next { right: 20px; }
 
     .close {
       position: absolute;
       top: 20px;
-      right: 40px;
-      color: white;
-      font-size: 50px;
+      right: 30px;
+      font-size: 40px;
       cursor: pointer;
-      font-weight: bold;
-      transition: color 0.3s;
+      color: white;
+      z-index: 1010; /* garante que está acima do modal */
+      opacity: 0.6;
     }
-
-    .close:hover {
-      color: #aaa;
-    }
+    .close:hover { opacity: 1; }
 
     @media (max-width: 768px) {
-      .project {
-        width: 90%;
-        height: 350px;
-      }
-      .prev { left: -40px; }
-      .next { right: -40px; }
-      #modal-content img,
-      #modal-content video {
-        width: 95vw;
-      }
+      .project { height: 360px; }
     }
-
     @media (max-width: 480px) {
-      .project {
-        height: 300px;
-      }
+      .project { height: 300px; }
     }
   </style>
 </head>
@@ -161,23 +138,130 @@
 
 <section>
   <div class="grid">
-    <!-- Projeto 1 -->
-    <div class="project" onclick="abrirProjeto('projeto1')">
+    <!-- Projeto 0 -->
+    <!-- <div class="project" onclick="abrirProjeto('projeto0')">
+      <img src="img/projetos/0_Renovação Interior_Maina_Guimarães/0_1.png" alt="Projeto 0">
+      <div class="project-title">Renovação Interior - Maina Guimarães</div>
+    </div> -->
+    
+    <!-- Projeto 187 -->
+    <div class="project" onclick="abrirProjeto('projeto187')">
+      <img src="img/projetos/187_Moradia_SantoEstevao_Benavente/187_4.png" alt="Projeto 187">
+      <div class="project-title">Moradia em Santo Estêvão - Benavente</div>
+    </div>
+
+    <!-- Projeto 184 -->
+    <div class="project" onclick="abrirProjeto('projeto184')">
+      <img src="img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_1b.png" alt="Projeto 184">
+      <div class="project-title">Excritórios Fradelos - Braga</div>
+    </div>
+    
+    <!-- Projeto 183 -->
+    <div class="project" onclick="abrirProjeto('projeto183')">
+      <img src="img/projetos/183_RenovacaoExterior_CasteloPaiva/183_2.png" alt="Projeto 183">
+      <div class="project-title">Renovação Exterior - Castelo Paiva</div>
+    </div>
+    
+    <!-- Projeto 181 -->
+    <div class="project" onclick="abrirProjeto('projeto181')">
+      <img src="img/projetos/181_Moradia_Campo_Barcelos/181_1.png" alt="Projeto 181">
       <div class="project-title">Moradia em Campo - Barcelos</div>
-      <img src="img/projetos/181_Moradia_Campo_Barcelos/181_1.png" alt="Projeto 1">
     </div>
 
-    <!-- Projeto 2 -->
-    <div class="project" onclick="abrirProjeto('projeto2')">
+    <!-- Projeto 176 -->
+    <div class="project" onclick="abrirProjeto('projeto176')">
+      <img src="img/projetos/176_Renovacao_Real_Braga/176_1.png" alt="Projeto 176">
       <div class="project-title">Renovação em Real - Braga</div>
-      <img src="img/projetos/176_6.png" alt="Projeto 2">
     </div>
 
-    <!-- Projeto 3 -->
-    <div class="project" onclick="abrirProjeto('projeto3')">
+    <!-- Projeto 171 -->
+    <!-- <div class="project" onclick="abrirProjeto('projeto171')">
+      <img src="img/projetos/171_Moradia_Lijo_Barcelos/171_1.jpg" alt="Projeto 171">
+      <div class="project-title">Moradia em Lijó - Barcelos</div>
+    </div> -->
+
+    <!-- Projeto 168 -->
+    <div class="project" onclick="abrirProjeto('projeto168')">
+      <img src="img/projetos/168_Moradia_Mogege_Famalicao/Ext_5.png" alt="Projeto 168">
       <div class="project-title">Moradia em Mogege - Famalicão</div>
-      <img src="img/projetos/168_Moradia_Mogege_Famalicao/Ext_5.png" alt="Projeto 3">
     </div>
+
+    <!-- Projeto 158 -->
+    <div class="project" onclick="abrirProjeto('projeto158')">
+      <img src="img/projetos/158_Moradia_Espinho_Braga/158_1.png" alt="Projeto 158">
+      <div class="project-title">Moradia em Espinho - Braga</div>
+    </div>
+
+     <!-- Projeto 156 -->
+    <div class="project" onclick="abrirProjeto('projeto156')">
+      <img src="img/projetos/156_Moradia_Carapecos_Barcelos/156_1.png" alt="Projeto 156">
+      <div class="project-title">Moradia em Carapeços - Barcelos</div>
+    </div>
+
+    <!-- Projeto 146 -->
+    <div class="project" onclick="abrirProjeto('projeto146')">
+      <img src="img/projetos/146_Moradia_MireTibaes_Braga/146_01.jpg" alt="Projeto 146">
+      <div class="project-title">Moradia em Mire de Tibães - Braga</div>
+    </div>
+
+    <!-- Projeto 108 -->
+    <!-- <div class="project" onclick="abrirProjeto('projeto108')">
+      <img src="img/projetos/108_Moradia_Estela_PVarzim/108_1.png" alt="Projeto 108">
+      <div class="project-title">Moradia na Estela - Póvoa de Varzim</div>
+    </div> -->
+
+    <!-- Projeto 98 -->
+    <div class="project" onclick="abrirProjeto('projeto98')">
+      <img src="img/projetos/98_Moradia_VilarParaiso_VNGaia/98_1.png" alt="Projeto 98">
+      <div class="project-title">Moradia em Vilar do Paraíso - Vila Nova de Gaia</div>
+    </div>
+
+    <!-- Projeto 85 -->
+    <div class="project" onclick="abrirProjeto('projeto85')">
+      <img src="img/projetos/85_Moradia_Gove_Baiao/85_1.jpg" alt="Projeto 85">
+      <div class="project-title">Moradia em Gove - Baião</div>
+    </div>
+
+     <!-- Projeto 56 -->
+    <div class="project" onclick="abrirProjeto('projeto56')">
+      <img src="img/projetos/56_InterioresBanco_CostaMarfim/56_9.jpg" alt="Projeto 56">
+      <div class="project-title">Renovação Interior Banco - Costa do Marfim</div>
+    </div>
+
+      <!-- Projeto 45 -->
+    <div class="project" onclick="abrirProjeto('projeto45')">
+      <img src="img/projetos/45_Moradias_Frossos_Braga/45_1.png" alt="Projeto 45">
+      <div class="project-title">Moradias em Frossos - Braga</div>
+    </div>
+
+    <!-- Projeto 29 -->
+    <!-- <div class="project" onclick="abrirProjeto('projeto29')">
+      <img src="img/projetos/29_Moradia_Marinhas_Esposende/29_1.png" alt="Projeto 29">
+      <div class="project-title">Moradia nas Marinhas - Esposende</div>
+    </div>-->
+
+<!-- Projeto 19 -->
+    <div class="project" onclick="abrirProjeto('projeto19')">
+      <img src="img/projetos/19_Apartamentos Vila Verde/19_1.jpg" alt="Projeto 19">
+      <div class="project-title">Apartamentos em Vila Verde</div>
+    </div>
+
+     <!-- Projeto 18 -->
+    <div class="project" onclick="abrirProjeto('projeto18')">
+      <img src="img/projetos/18_Moradias_Real_Braga/18_1.jpg" alt="Projeto 18">
+      <div class="project-title">Moradias em Real - Braga</div>
+    </div>
+
+     <!-- Projeto 7 -->
+    <div class="project" onclick="abrirProjeto('projeto7')">
+      <img src="img/projetos/07_Moradia_Besteiros_Amares/07_1.jpg" alt="Projeto 7">
+      <div class="project-title">Moradia em Besteiros - Amares</div>
+    </div>
+
+      <!-- Projeto 5 -->
+    <div class="project" onclick="abrirProjeto('projeto5')">
+      <img src="img/projetos/05_Moradia_Pousa_Barcelos/05_1.jpg" alt="Projeto 5">
+      <div class="project-title">Moradia na Pousa - Barcelos</div>
   </div>
 </section>
 
@@ -193,29 +277,219 @@
 
 <script>
 const projetos = {
-  projeto1: [
+  projeto187: [
+    { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_1.png" },
+    { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_2.png" },
+    { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_3.png" },
+    { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_4.png" },
+    { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_5.png" },
+    { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_6.png" },
+    { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_7.png" },
+    { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_8.jpg" },
+    { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_9.jpg" },
+    { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_10.jpg" },
+    { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_11.jpg" }
+  ],
+  projeto184: [
+    { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_1.png" },
+    { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_2.png" },
+    { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_3.png" },
+    { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_4.png" },
+    { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_5.png" },
+    { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_6.png" },
+    { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_7.png" }
+  ],
+  projeto183: [
+    { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_1.png" },
+    { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_2.png" },
+    { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_3.png" },
+    { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_4.png" },
+    { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_5.png" },
+    { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_6.png" },
+    { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_7.png" }
+  ],
+  projeto181: [
     { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_1.png" },
-    { type: 'video', src: "img/projetos/181_Moradia_Campo_Barcelos/Video3D_MoradiaCampo.mp4" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_3.png" }
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_2.png" },
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_3.png" },
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_4.png" },
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_5.png" },
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_6.png" },
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_7.png" },
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_8.jpg" },
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_9.jpg" },
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_10.jpg" },
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_11.jpg" },
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_12.jpg" },
+    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_13.jpg" }
   ],
-  projeto2: [
-    { type: 'image', src: "img/projetos/176_6.png" },
-    { type: 'image', src: "img/projetos/176_7.png" },
-    { type: 'image', src: "img/projetos/176_8.png" }
+  projeto176: [
+    { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_1.png" },
+    { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_2.png" },
+    { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_3.png" },
+    { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_4.png" },
+    { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_5.png" },
+    { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_6.png" },
+    { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_7.jpg" }
   ],
-  projeto3: [
+  projeto171: [
+    { type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_1.png" },
+    { type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_2.png" },
+    { type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_3.png" },
+    { type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_4.png" },
+  ],
+  projeto168: [
     { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/Ext_3.png" },
     { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/Ext_4.png" },
     { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/Ext_5.png" },
-    { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/Ext_7.png" },
-    { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/Ext_8.png" }
+    { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_3.png" },
+    { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_9.jpg" },
+    { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_10.jpg" },
+    { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_11.jpg" },
+    { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_12.jpg" },
+    { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_13.jpg" },
+    { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_14.jpg" },
+    { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_15.jpg" },
+    { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_16.jpg" }
+  ],
+  projeto158: [
+    { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_1.png" },
+    { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_2.png" },
+    { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_3.jpg" },
+    { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_4.jpg" },
+    { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_5.jpg" },
+    { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_6.jpg" },
+    { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_7.jpg" },
+    { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_8.jpg" },
+    { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_9.jpg" }
+  ],
+   projeto156: [
+    { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_1.png" },
+    { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_2.png" },
+    { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_3.png" },
+    { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_4.png" },
+    { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_5.png" },
+    { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_6.png" },
+    { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_7.jpg" },
+    { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_8.jpg" }
+  ],
+  projeto146: [
+    { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_01.jpg" },
+    { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_02.jpg" },
+    { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_03.jpg" },
+    { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_04.jpg" },
+    { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_05.jpg" },
+    { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_06.jpg" },
+    { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_07.jpg" },
+    { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_08.jpg" },
+    { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_09.jpg" }
+  ],
+   projeto108: [
+    { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_1.png" },
+    { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_2.png" },
+    { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_3.png" }
+  ],
+   projeto98: [
+    { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_1.png" },
+    { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_2.png" },
+    { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_3.jpg" },
+    { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_4.jpg" },
+    { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_5.jpg" },
+    { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_6.jpg" },
+    { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_7.jpg" },
+    { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_8.jpg" },
+    { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_9.jpg" },
+    { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_10.jpg" }
+  ],
+   projeto85: [
+    { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_1.jpg" },
+    { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_2.jpg" },
+    { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_3.jpg" },
+    { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_4.jpg" },
+    { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_5.jpg" },
+    { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_6.jpg" }
+  ],
+  projeto56: [
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_1.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_2.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_3.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_4.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_5.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_6.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_6.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_7.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_8.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_9.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_10.jpg"},
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_11.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_12.jpg" },
+    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_13.jpg" }
+  ],
+  projeto45: [
+    { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_1.png" },
+    { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_2.png" },
+    { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_3.png" },
+    { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_4.png" },
+  ],
+  projeto29: [
+    { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_1.png" },
+    { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_2.png" },
+    { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_3.png" },
+    { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_4.png" },
+    { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_5.png" },
+    { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_6.png" }
+  ],
+projeto19: [
+    { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_1.jpg" },
+    { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_2.jpg" },
+    { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_3.jpg" },
+    { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_4.jpg" },
+    { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_5.jpg" },
+    { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_6.jpg" },
+    { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_7.jpg" },
+    { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_8.jpg" },
+    { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_9.jpg" }
+  ],
+  projeto18: [
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_1.jpg" },
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_2.jpg" },
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_3.jpg" },
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_4.jpg" },
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_5.jpg" },
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_6.jpg" },
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_7.jpg" },
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_8.jpg" },
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_9.jpg" },
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_10.jpg" },
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_11.jpg" },
+    { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_12.jpg" }
+  ],
+  projeto7: [
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_1.jpg" },
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_2.jpg" },
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_3.jpg" },
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_4.jpg" },
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_5.jpg" },
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_6.jpg" },
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_7.jpg" },
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_8.jpg" },
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_9.jpg" },
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_10.jpg" },
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_11.jpg" },
+    { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_12.jpg" }
+  ],
+  projeto5: [
+    { type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_1.jpg" },
+    { type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_2.jpg" },
+    { type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_3.jpg" },
+    { type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_4.jpg" },
+    { type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_5.jpg" }
   ]
 };
 
 let midiasAtuais = [];
 let indiceAtual = 0;
 
-/* Abrir modal */
 function abrirProjeto(nomeProjeto) {
   midiasAtuais = projetos[nomeProjeto];
   indiceAtual = 0;
@@ -223,13 +497,11 @@ function abrirProjeto(nomeProjeto) {
   document.getElementById('modal-projeto').style.display = 'flex';
 }
 
-/* Fechar modal */
 function fecharModal() {
   document.getElementById('modal-projeto').style.display = 'none';
   document.getElementById('modal-content').innerHTML = '';
 }
 
-/* Navegar entre mídias */
 function mudarMidia(direcao) {
   indiceAtual += direcao;
   if (indiceAtual < 0) indiceAtual = midiasAtuais.length - 1;
@@ -237,7 +509,6 @@ function mudarMidia(direcao) {
   mostrarMidia();
 }
 
-/* Mostrar mídia (imagem ou vídeo) */
 function mostrarMidia() {
   const conteudo = document.getElementById('modal-content');
   conteudo.innerHTML = '';
@@ -262,13 +533,9 @@ function mostrarMidia() {
 document.addEventListener('keydown', function(e) {
   const modal = document.getElementById('modal-projeto');
   if (modal.style.display === 'flex') {
-    if (e.key === "ArrowLeft") {
-      mudarMidia(-1);
-    } else if (e.key === "ArrowRight") {
-      mudarMidia(1);
-    } else if (e.key === "Escape") {
-      fecharModal();
-    }
+    if (e.key === "ArrowLeft") mudarMidia(-1);
+    else if (e.key === "ArrowRight") mudarMidia(1);
+    else if (e.key === "Escape") fecharModal();
   }
 });
 </script>

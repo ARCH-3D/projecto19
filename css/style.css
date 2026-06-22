@@ -1,22 +1,22 @@
-/* IMPORT FONTS */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500&display=swap');
+/* ================== IMPORT FONTS ================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
 
-/* RESET */
+/* ================== RESET ================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* BODY */
+/* ================== BODY ================== */
 body {
-  font-family: 'Montserrat', sans-serif;
-  color: #333;
+  font-family: 'Inter', Helvetica, Arial, sans-serif;
+  color: #111;
   background-color: #fff;
   line-height: 1.6;
 }
 
-/* ================== HEADER COM LOGO ================== */
+/* ================== HEADER ================== */
 header {
   padding: 30px 60px;
   display: flex;
@@ -27,217 +27,267 @@ header {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 15px; /* espaço entre logo e título */
+  gap: 12px;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
 }
 
 .logo {
-  width: 60px;
+  width: 42px;
   height: auto;
 }
 
 header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
+/* ================== NAV ================== */
 nav a {
   margin-left: 25px;
   text-decoration: none;
   color: #111;
-  font-size: 14px;
-  transition: color 0.3s;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: opacity 0.3s;
 }
 
 nav a:hover {
-  color: #555;
+  opacity: 0.6;
 }
 
-/* HERO */
+/* ================== HERO SLIDESHOW ================== */
 .hero {
-  background-color: #f5f2ee;
-  padding: 120px 60px;
-  text-align: left;
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
 }
 
-.hero h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 42px;
-  max-width: 600px;
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
 }
 
-.hero p {
-  margin-top: 20px;
-  max-width: 500px;
-  color: #555;
+.hero-image.active {
+  opacity: 1;
+}
+
+/* Texto sobre o hero */
+.hero-text {
+  position: absolute;
+  top: 10%;
+  left: 40%;
+  transform: translateY(-50%);
+  z-index: 5;
+  max-width: 520px;
+  color: white;
+}
+
+.hero-text h2 {
+  font-size: 84px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.hero-text p {
+  font-size: 32px;
   font-weight: 300;
 }
 
-/* SECTION */
+/* ================== SECTION ================== */
 section {
-  padding: 100px 30px;
-  background-color: #f5f2ee;
+  padding: 120px 60px;
 }
 
 section h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 32px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   margin-bottom: 40px;
 }
 
-/* GRID DE PROJETOS */
+/* ================== PROJECT GRID ================== */
 .grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 40px;
 }
 
-/* CADA PROJETO */
+/* ================== PROJECT ================== */
 .project {
   position: relative;
   width: 100%;
-  max-width: 500px;
-  height: 500px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 10px;
+  height: 520px;
   cursor: pointer;
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.project img, .project video {
+/* IMAGENS SEMPRE CLARAS */
+.project img,
+.project video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: none !important;
 }
 
-.project:hover {
-  transform: scale(1.03);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+/* OVERLAY ESCURO (INATIVO) */
+.project::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.3s ease;
+  z-index: 1;
 }
 
-/* TÍTULO SOBRE A IMAGEM */
+/* ESCURECE NO HOVER */
+.project:hover::before {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* ================== PROJECT TITLE ================== */
 .project-title {
   position: absolute;
-  bottom: 0;
-  width: 100%;
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  text-align: center;
-  padding: 15px;
-  font-family: 'Montserrat', serif;
-  font-size: 1.1em;
-  font-weight: 300;
-  letter-spacing: 1px;
-  border-radius: 0 0 10px 10px;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
 }
 
-/* FOOTER */
+.project:hover .project-title {
+  opacity: 1;
+}
+
+/* ================== FOOTER ================== */
 footer {
-  padding: 40px 60px;
-  border-top: 1px solid #ddd;
-  font-size: 14px;
-  color: #666;
+  padding: 60px;
+  font-size: 11px;
   text-align: center;
+  color: #777;
 }
 
 /* ================== MODAL ================== */
 .modal {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0,0,0,0.95);
   z-index: 1000;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  padding: 40px 20px;
 }
 
 .modal-gallery {
   position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 90%;
-  max-height: 90%;
 }
 
 #modal-content img,
 #modal-content video {
-  width: 80vw;
-  max-height: 80vh;
+  max-width: 90vw;
+  max-height: 90vh;
   object-fit: contain;
-  border-radius: 10px;
 }
 
-/* SETAS DE NAVEGAÇÃO */
-.prev, .next {
+/* ================== NAV ARROWS ================== */
+.prev,
+.next {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
+  background: none;
   color: white;
   font-size: 40px;
   border: none;
-  padding: 10px 20px;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background 0.3s;
+  padding: 20px;
+  opacity: 0.6;
 }
 
-.prev:hover, .next:hover {
-  background: rgba(0,0,0,0.8);
+.prev:hover,
+.next:hover {
+  opacity: 1;
 }
 
-.prev { left: -60px; }
-.next { right: -60px; }
+.prev { left: 20px; }
+.next { right: 20px; }
 
-/* BOTÃO DE FECHAR */
+/* ================== CLOSE ================== */
 .close {
   position: absolute;
   top: 20px;
-  right: 40px;
+  right: 30px;
   color: white;
-  font-size: 50px;
+  font-size: 40px;
   cursor: pointer;
-  font-weight: bold;
-  transition: color 0.3s;
+  opacity: 0.6;
 }
 
 .close:hover {
-  color: #aaa;
+  opacity: 1;
 }
 
-/* RESPONSIVO */
-@media (max-width: 1200px) {
-  .project {
-    height: 400px;
-  }
-}
-
+/* ================== RESPONSIVE ================== */
 @media (max-width: 768px) {
-  .project {
-    width: 90%;
-    height: 350px;
-  }
   header {
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 20px;
   }
+
+  section {
+    padding: 80px 20px;
+  }
+
+  .project {
+    height: 360px;
+  }
+
   nav a {
-    margin-left: 0;
-    margin-top: 15px;
+    margin-left: 15px;
   }
-  .hero {
-    padding: 80px 30px;
+
+  .hero-text {
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
+  }
+
+  .hero-text h2 { font-size: 32px; }
+  .hero-text p { font-size: 14px; }
+
+  .project::before {
+    background: none;
+  }
+
+  .project-title {
+    opacity: 1;
   }
 }
 
@@ -245,22 +295,13 @@ footer {
   .project {
     height: 300px;
   }
+
   #modal-content img,
   #modal-content video {
-    width: 95vw;
+    max-width: 95vw;
     max-height: 70vh;
   }
-}
 
-/* Mantém a logo e título alinhados e sem sublinhado */
-.logo-link {
-  display: flex;
-  align-items: center;
-  gap: 15px; /* espaço entre logo e título */
-  text-decoration: none;
-  color: inherit;
-}
-
-.logo-link:hover h1 {
-  color: #555; /* muda a cor do título ao passar o mouse */
+  .hero-text h2 { font-size: 24px; }
+  .hero-text p { font-size: 12px; }
 }

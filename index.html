@@ -23,19 +23,44 @@
   </nav>
 </header>
 
+<!-- HERO -->
 <div class="hero">
-  <h2>Arquitetura contemporânea, funcional e atemporal</h2>
-  <p>Criamos espaços que refletem identidade, equilíbrio e propósito.</p>
-</div>
+  <img src="img/hero/hero1.png" class="hero-image active">
+  <img src="img/hero/hero2.png" class="hero-image">
+  <img src="img/hero/hero3.png" class="hero-image">
+  <img src="img/hero/hero4.png" class="hero-image">
+  <img src="img/hero/hero5.png" class="hero-image">
+  <img src="img/hero/hero6.png" class="hero-image">
+  <img src="img/hero/hero7.png" class="hero-image">
+  <img src="img/hero/hero8.png" class="hero-image">
+  <img src="img/hero/hero9.png" class="hero-image">
+  <img src="img/hero/hero10.png" class="hero-image">
+  <img src="img/hero/hero11.png" class="hero-image">
+  <img src="img/hero/hero12.png" class="hero-image">
+  <img src="img/hero/hero13.png" class="hero-image">
+  <img src="img/hero/hero14.png" class="hero-image">
 
-<section>
-  <h3>Quem somos</h3>
-  <p>Somos um escritório de arquitetura focado em projetos residenciais e comerciais, com atenção ao detalhe, contexto e experiência do utilizador.</p>
-</section>
+
+  <div class="hero-text">
+    <h2>Projecto 19<br></h2>
+    <p>Arquitetura e Design</p>
+  </div>
+</div>
 
 <footer>
   © 2026 Projecto 19
 </footer>
+
+<script>
+const heroImages = document.querySelectorAll('.hero-image');
+let heroIndex = 0;
+
+setInterval(() => {
+  heroImages[heroIndex].classList.remove('active');
+  heroIndex = (heroIndex + 1) % heroImages.length;
+  heroImages[heroIndex].classList.add('active');
+}, 5000); // 3 segundos
+</script>
 
 </body>
 </html>
