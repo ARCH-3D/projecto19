@@ -198,11 +198,54 @@ section h3 {
 }
 
 /* ================== FOOTER ================== */
-footer {
-  padding: 60px;
-  font-size: 11px;
-  text-align: center;
-  color: #777;
+
+footer{
+    padding: 80px 60px;
+    text-align: center;
+}
+
+.social-links{
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 50px;
+
+    margin-bottom: 30px;
+}
+
+.social-links a{
+
+    color: #111;
+
+    text-decoration: none;
+
+    font-family: 'Inter', sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 300;
+
+    letter-spacing: 1px;
+
+    transition: opacity .3s ease;
+}
+
+.social-links a:hover{
+
+    opacity: .5;
+}
+
+footer p{
+
+    color: #777;
+
+    font-size: 11px;
+
+    font-weight: 300;
+
+    letter-spacing: 1px;
 }
 
 /* ================== MODAL ================== */
@@ -466,17 +509,12 @@ footer {
 
 @media (max-width:768px){
 
-    .contact-widget{
-
-        right:20px;
-        bottom:20px;
+    footer{
+        padding: 60px 30px;
     }
 
-    .contact-trigger{
-
-        width:110px;
-        height:48px;
-        font-size:11px;
+    .social-links{
+        gap: 30px;
     }
 
 }
