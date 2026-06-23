@@ -10,11 +10,17 @@
 
 /* ================== BODY ================== */
 body {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
   font-family: 'Inter', sans-serif;
   font-weight: 300;
   color: #111;
   background-color: #fff;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 /* ================== HEADER ================== */
@@ -129,13 +135,14 @@ nav a:focus-visible {
 
 /* ================== SECTION ================== */
 section {
-    padding: 120px clamp(25px, 5vw, 80px);
+    padding: 60px clamp(25px, 5vw, 80px);
 }
 
 section h3 {
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 1.5px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    margin-bottom: 20px;
 }
 
 /* ================== PROJECT GRID ================== */
@@ -176,7 +183,7 @@ section h3 {
 
 /* ESCURECE NO HOVER */
 .project:hover::before {
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.25);
 }
 
 /* ================== PROJECT TITLE ================== */
@@ -201,7 +208,11 @@ section h3 {
 /* ================== FOOTER ================== */
 
 footer{
+
+    margin-top: auto;
+
     padding: 80px 60px;
+
     text-align: center;
 }
 
@@ -271,33 +282,45 @@ footer p{
 
 #modal-content img,
 #modal-content video {
-  max-width: 90vw;
-  max-height: 90vh;
-  object-fit: contain;
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+
+    opacity: 1;
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+}
+
+#modal-content{
+    position:relative;
 }
 
 /* ================== NAV ARROWS ================== */
 .prev,
 .next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  color: white;
-  font-size: 40px;
-  border: none;
-  cursor: pointer;
-  padding: 20px;
-  opacity: 0.6;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.prev {
+    left: 30px;
+}
+
+.next {
+    right: 30px;
 }
 
 .prev:hover,
 .next:hover {
   opacity: 1;
 }
-
-.prev { left: 20px; }
-.next { right: 20px; }
 
 /* ================== CLOSE ================== */
 .close {
@@ -340,7 +363,7 @@ footer p{
   }
 
   section {
-    padding: 80px 20px;
+    padding: 50px 20px;
   }
 
   .grid {
@@ -428,8 +451,8 @@ footer p{
 
 .contact-trigger{
 
-    width: 160px;
-    height: 50px;
+    width: 170px;
+    height: 52px;
 
     background: rgba(255,255,255,.92);
 
@@ -441,10 +464,10 @@ footer p{
     0 8px 30px rgba(0,0,0,.10);
 
     font-family: 'Inter', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 300;
 
-    letter-spacing: 1.5px;
+    letter-spacing: 1.7px;
     text-transform: uppercase;
 
     color: #111;
@@ -529,4 +552,8 @@ footer p{
         gap: 30px;
     }
 
+}
+
+.projects-section{
+    padding-top: 0;
 }

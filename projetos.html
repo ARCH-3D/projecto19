@@ -136,7 +136,7 @@
   </nav>
 </header>
 
-<section>
+<section class="projects-section">
   <div class="grid">
     <!-- Projeto 0 -->
     <!-- <div class="project" onclick="abrirProjeto('projeto0')">
@@ -267,11 +267,17 @@
 
 <!-- Modal -->
 <div id="modal-projeto" class="modal">
+
   <span class="close" onclick="fecharModal()">&times;</span>
+
   <div class="modal-gallery">
+
     <button class="prev" onclick="mudarMidia(-1)">&#10094;</button>
+
     <div id="modal-content"></div>
+
     <button class="next" onclick="mudarMidia(1)">&#10095;</button>
+
   </div>
 </div>
 
@@ -494,22 +500,51 @@ let touchStartX = 0;
 let touchEndX = 0;
 
 function abrirProjeto(nomeProjeto) {
+
   midiasAtuais = projetos[nomeProjeto];
   indiceAtual = 0;
+
   mostrarMidia();
+
   document.getElementById('modal-projeto').style.display = 'flex';
+
+  document.querySelector('.contact-widget').style.display = 'none';
+
 }
 
 function fecharModal() {
+
   document.getElementById('modal-projeto').style.display = 'none';
+
   document.getElementById('modal-content').innerHTML = '';
+
+  document.querySelector('.contact-widget').style.display = 'block';
+
 }
 
 function mudarMidia(direcao) {
-  indiceAtual += direcao;
-  if (indiceAtual < 0) indiceAtual = midiasAtuais.length - 1;
-  if (indiceAtual >= midiasAtuais.length) indiceAtual = 0;
-  mostrarMidia();
+
+  const conteudo = document.getElementById('modal-content');
+  const elemento = conteudo.firstChild;
+
+  if (elemento) {
+    elemento.style.opacity = "0";
+  }
+
+  setTimeout(() => {
+
+    indiceAtual += direcao;
+
+    if (indiceAtual < 0)
+      indiceAtual = midiasAtuais.length - 1;
+
+    if (indiceAtual >= midiasAtuais.length)
+      indiceAtual = 0;
+
+    mostrarMidia();
+
+  }, 200);
+
 }
 
 function mostrarMidia() {
@@ -542,17 +577,6 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-/* Fechar ao clicar fora da imagem */
-
-document.getElementById('modal-projeto').addEventListener('click', function(e) {
-
-    if (e.target === this) {
-
-        fecharModal();
-
-    }
-
-});
 
 /* Swipe no telemóvel */
 
@@ -589,7 +613,44 @@ function handleSwipe() {
     }
 
 }
+
+
+/* FECHAR AO CLICAR FORA DA IMAGEM */
+
+document.getElementById("modal-projeto").addEventListener("click", function(e) {
+
+    if (
+        !e.target.closest("#modal-content") &&
+        !e.target.closest(".prev") &&
+        !e.target.closest(".next") &&
+        !e.target.closest(".close")
+    ) {
+
+        fecharModal();
+
+    }
+
+});
+
 </script>
+
+<footer>
+
+    <div class="social-links">
+
+        <a href="https://www.instagram.com/projecto_19/" target="_blank">
+            Instagram
+        </a>
+
+        <a href="https://www.facebook.com/projecto19" target="_blank">
+            Facebook
+        </a>
+
+    </div>
+
+    <p>© PROJETO 19</p>
+
+</footer>
 
 <div class="contact-widget">
 
