@@ -27,3 +27,53 @@
   <h3><strong>Serviços</strong></h3>
   <p>Arquitetura residencial e comercial, design de interiores, remodelações e acompanhamento de obra.</p>
 </section>
+
+<div class="contact-widget">
+
+    <div class="contact-links">
+
+        <a href="mailto:info.projecto19@gmail.com">
+            Email
+        </a>
+
+        <a href="https://wa.me/351934185719" target="_blank">
+            WhatsApp
+        </a>
+
+    </div>
+
+    <button class="contact-trigger">
+        Fale Connosco
+    </button>
+
+</div>
+
+<script>
+
+const contactWidget = document.querySelector(".contact-widget");
+const contactButton = document.querySelector(".contact-trigger");
+
+contactButton.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+    contactWidget.classList.toggle("active");
+
+});
+
+document.addEventListener("click", function(){
+
+    contactWidget.classList.remove("active");
+
+});
+
+contactWidget.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+});
+
+</script>
+
+</body>
+</html>

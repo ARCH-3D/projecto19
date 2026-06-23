@@ -106,9 +106,37 @@ document.querySelectorAll('.project').forEach(project => {
     </div>
 
     <button class="contact-trigger">
-        Contacto
+        Fale Connosco
     </button>
 
 </div>
+
+<script>
+
+const contactWidget = document.querySelector(".contact-widget");
+const contactButton = document.querySelector(".contact-trigger");
+
+contactButton.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+    contactWidget.classList.toggle("active");
+
+});
+
+document.addEventListener("click", function(){
+
+    contactWidget.classList.remove("active");
+
+});
+
+contactWidget.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+});
+
+</script>
+
 </body>
 </html>

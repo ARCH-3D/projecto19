@@ -60,11 +60,61 @@
 <br>
 
   <h3><strong>Nuno Rodrigues</strong> - Arquiteto</h3>
-  Nascido em 1987, em Braga, é Mestre em Arquitetura pela Escola de Arquitetura, Arte e Design da Universidade do Minho. 
+    Nascido em 1987, em Braga, é Mestre em Arquitetura pela Escola de Arquitetura, Arte e Design da Universidade do Minho. 
 
 <p>
 
 </section>
+
+<div class="contact-widget">
+
+    <div class="contact-links">
+
+        <a href="mailto:info.projecto19@gmail.com">
+            Email
+        </a>
+
+        <a href="https://wa.me/351934185719" target="_blank">
+            WhatsApp
+        </a>
+
+    </div>
+
+    <button class="contact-trigger">
+        Fale Connosco
+    </button>
+
+</div>
+
+<script>
+
+const contactWidget = document.querySelector(".contact-widget");
+const contactButton = document.querySelector(".contact-trigger");
+
+contactButton.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+    contactWidget.classList.toggle("active");
+
+});
+
+document.addEventListener("click", function(){
+
+    contactWidget.classList.remove("active");
+
+});
+
+contactWidget.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+});
+
+</script>
+
+</body>
+</html>
 
 
 

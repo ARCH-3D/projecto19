@@ -19,12 +19,13 @@ body {
 
 /* ================== HEADER ================== */
 header {
-  padding: 30px 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1800px;
-  margin: 0 auto;
+
+  width: 100%;
+
+  padding: 30px clamp(25px, 5vw, 80px);
 }
 
 .header-left {
@@ -128,7 +129,7 @@ nav a:focus-visible {
 
 /* ================== SECTION ================== */
 section {
-  padding: 120px 60px;
+    padding: 120px clamp(25px, 5vw, 80px);
 }
 
 section h3 {
@@ -316,6 +317,11 @@ footer p{
 /* ================== RESPONSIVE ================== */
 @media (max-width: 768px) {
 
+  .prev,
+  .next{
+    display:none;
+  }
+  
   header {
     flex-direction: column;
     gap: 15px;
@@ -422,7 +428,7 @@ footer p{
 
 .contact-trigger{
 
-    width: 125px;
+    width: 160px;
     height: 50px;
 
     background: rgba(255,255,255,.92);
@@ -457,9 +463,11 @@ footer p{
     position: absolute;
 
     right: 0;
+
     bottom: 65px;
 
     display: flex;
+
     flex-direction: column;
 
     gap: 10px;
@@ -468,14 +476,18 @@ footer p{
 
     visibility: hidden;
 
-    transition: .3s ease;
+    transform: translateY(10px);
+
+    transition: all .3s ease;
 }
 
-.contact-widget:hover .contact-links{
+.contact-widget.active .contact-links{
 
     opacity: 1;
 
     visibility: visible;
+
+    transform: translateY(0);
 }
 
 .contact-links a{

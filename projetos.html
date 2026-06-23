@@ -111,38 +111,8 @@
     .close:hover { opacity: 1; }
 
     @media (max-width: 768px) {
-
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .project {
-    height: 360px;
-  }
-
-  .project {
-  position: relative;
-}
-
-.project:active img,
-.project:active video {
-  filter: brightness(1);
-}
-
-.project:active .project-title {
-  opacity: 1;
-}
-
-  .project.touched img,
-  .project.touched video {
-    filter: brightness(1);
-  }
-
-  .project.touched .project-title {
-    opacity: 1;
-  }
-}
+      .project { height: 360px; }
+    }
     @media (max-width: 480px) {
       .project { height: 300px; }
     }
@@ -520,6 +490,9 @@ projeto19: [
 let midiasAtuais = [];
 let indiceAtual = 0;
 
+let touchStartX = 0;
+let touchEndX = 0;
+
 function abrirProjeto(nomeProjeto) {
   midiasAtuais = projetos[nomeProjeto];
   indiceAtual = 0;
@@ -568,23 +541,101 @@ document.addEventListener('keydown', function(e) {
     else if (e.key === "Escape") fecharModal();
   }
 });
-/* Hover para telemóvel */
-document.querySelectorAll('.project').forEach(project => {
 
-  project.addEventListener('touchstart', function() {
+/* Fechar ao clicar fora da imagem */
 
-    document.querySelectorAll('.project').forEach(item => {
-      if (item !== project) {
-        item.classList.remove('touched');
-      }
-    });
+document.getElementById('modal-projeto').addEventListener('click', function(e) {
 
-    project.classList.add('touched');
+    if (e.target === this) {
 
-  });
+        fecharModal();
+
+    }
 
 });
+
+/* Swipe no telemóvel */
+
+const modal = document.getElementById('modal-projeto');
+
+modal.addEventListener('touchstart', function(e) {
+
+    touchStartX = e.changedTouches[0].screenX;
+
+});
+
+modal.addEventListener('touchend', function(e) {
+
+    touchEndX = e.changedTouches[0].screenX;
+
+    handleSwipe();
+
+});
+
+function handleSwipe() {
+
+    const distancia = touchEndX - touchStartX;
+
+    if (distancia > 50) {
+
+        mudarMidia(-1);
+
+    }
+
+    if (distancia < -50) {
+
+        mudarMidia(1);
+
+    }
+
+}
 </script>
 
+<div class="contact-widget">
+
+    <div class="contact-links">
+
+        <a href="mailto:info.projecto19@gmail.com">
+            Email
+        </a>
+
+        <a href="https://wa.me/351934185719" target="_blank">
+            WhatsApp
+        </a>
+
+    </div>
+
+    <button class="contact-trigger">
+        Fale Connosco
+    </button>
+
+</div>
+
+<script>
+
+const contactWidget = document.querySelector(".contact-widget");
+const contactButton = document.querySelector(".contact-trigger");
+
+contactButton.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+    contactWidget.classList.toggle("active");
+
+});
+
+document.addEventListener("click", function(){
+
+    contactWidget.classList.remove("active");
+
+});
+
+contactWidget.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+});
+
+</script>
 </body>
 </html>
