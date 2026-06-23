@@ -557,3 +557,72 @@ footer p{
 .projects-section{
     padding-top: 0;
 }
+
+/* ===== RESPONSIVE IMPROVEMENTS ===== */
+
+header{
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+nav{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:18px;
+}
+
+nav a{
+    margin-left:0;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));
+    gap:30px;
+}
+
+.project{
+    aspect-ratio:4/5;
+    height:auto;
+}
+
+.hero{
+    min-height:100svh;
+}
+
+.hero-text{
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.social-links{
+    flex-wrap:wrap;
+    gap:25px;
+}
+
+.contact-widget{
+    right:20px;
+    bottom:20px;
+}
+
+@media (max-width:390px){
+
+    .hero-text h2{
+        font-size:28px;
+    }
+
+    .hero-text p{
+        font-size:13px;
+    }
+
+    nav a{
+        font-size:10px;
+    }
+
+    footer{
+        padding:40px 20px;
+    }
+
+}
