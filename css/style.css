@@ -509,6 +509,25 @@ footer p{
     transform:translateY(-2px);
 }
 
+/* ===== ZONAS DE TOQUE NO TELEMÓVEL ===== */
+
+.touch-left,
+.touch-right{
+    position:absolute;
+    top:0;
+    width:18%;
+    height:100%;
+    z-index:9998;
+}
+
+.touch-left{
+    left:0;
+}
+
+.touch-right{
+    right:0;
+}
+
 /* ================= RESPONSIVE ================= */
 
 @media (max-width:768px){
