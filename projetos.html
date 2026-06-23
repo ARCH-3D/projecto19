@@ -10,19 +10,26 @@
 <body>
 
 <header>
+
   <div class="header-left">
     <a href="index.html" class="logo-link">
       <img src="img/Logo.png" alt="Logo Projecto 19" class="logo">
       <h1>Projecto 19</h1>
     </a>
   </div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="projetos.html">Projetos</a>
-    <a href="sobre.html">Sobre</a>
-    <a href="servicos.html">Serviços</a>
-    <a href="contato.html">Contacto</a>
+
+  <button class="menu-toggle" onclick="toggleMenu()">
+      ☰
+  </button>
+
+  <nav id="menu">
+      <a href="index.html">Home</a>
+      <a href="projetos.html">Projetos</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="servicos.html">Serviços</a>
+      <a href="contato.html">Contacto</a>
   </nav>
+
 </header>
 
 <section class="projects-section">
@@ -41,8 +48,8 @@
 
     <!-- Projeto 184 -->
     <div class="project" onclick="abrirProjeto('projeto184')">
-      <img src="img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_1b.png" alt="Projeto 184">
-      <div class="project-title">Excritórios Fradelos - Braga</div>
+      <img src="img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_1.png" alt="Projeto 184">
+      <div class="project-title">Escritórios Fradelos - Braga</div>
     </div>
     
     <!-- Projeto 183 -->
@@ -129,7 +136,7 @@
       <div class="project-title">Moradia nas Marinhas - Esposende</div>
     </div>-->
 
-<!-- Projeto 19 -->
+    <!-- Projeto 19 -->
     <div class="project" onclick="abrirProjeto('projeto19')">
       <img src="img/projetos/19_Apartamentos Vila Verde/19_1.jpg" alt="Projeto 19">
       <div class="project-title">Apartamentos em Vila Verde</div>
@@ -151,23 +158,19 @@
     <div class="project" onclick="abrirProjeto('projeto5')">
       <img src="img/projetos/05_Moradia_Pousa_Barcelos/05_1.jpg" alt="Projeto 5">
       <div class="project-title">Moradia na Pousa - Barcelos</div>
+    </div>
   </div>
 </section>
 
 <!-- Modal -->
 <div id="modal-projeto" class="modal">
+    <span class="close" onclick="fecharModal()">&times;</span>
 
-  <span class="close" onclick="fecharModal()">&times;</span>
-
-  <div class="modal-gallery">
-
-    <button class="prev" onclick="mudarMidia(-1)">&#10094;</button>
+    <span class="prev" onclick="mudarMidia(-1)">‹</span>
 
     <div id="modal-content"></div>
 
-    <button class="next" onclick="mudarMidia(1)">&#10095;</button>
-
-  </div>
+    <span class="next" onclick="mudarMidia(1)">›</span>
 </div>
 
 <script>
@@ -311,7 +314,6 @@ const projetos = {
     { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_4.jpg" },
     { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_5.jpg" },
     { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_6.jpg" },
-    { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_6.jpg" },
     { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_7.jpg" },
     { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_8.jpg" },
     { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_9.jpg" },
@@ -397,7 +399,10 @@ function abrirProjeto(nomeProjeto) {
 
   document.getElementById('modal-projeto').style.display = 'flex';
 
-  document.querySelector('.contact-widget').style.display = 'none';
+  const widget = document.querySelector('.contact-widget');
+  if (widget) {
+    widget.style.display = 'none';
+  }
 
 }
 
@@ -407,7 +412,10 @@ function fecharModal() {
 
   document.getElementById('modal-content').innerHTML = '';
 
-  document.querySelector('.contact-widget').style.display = 'block';
+  const widget = document.querySelector('.contact-widget');
+  if (widget) {
+    widget.style.display = '';
+  }
 
 }
 
@@ -424,11 +432,7 @@ function mudarMidia(direcao) {
 
     indiceAtual += direcao;
 
-    if (indiceAtual < 0)
-      indiceAtual = midiasAtuais.length - 1;
-
-    if (indiceAtual >= midiasAtuais.length)
-      indiceAtual = 0;
+    indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
 
     mostrarMidia();
 
@@ -437,23 +441,54 @@ function mudarMidia(direcao) {
 }
 
 function mostrarMidia() {
-  const conteudo = document.getElementById('modal-content');
-  conteudo.innerHTML = '';
-  const midia = midiasAtuais[indiceAtual];
 
-  if (midia.type === 'image') {
-    const img = document.createElement('img');
-    img.src = midia.src;
-    conteudo.appendChild(img);
-  } else if (midia.type === 'video') {
-    const video = document.createElement('video');
-    video.src = midia.src;
-    video.controls = true;
-    video.autoplay = true;
-    video.muted = true;
-    video.loop = true;
-    conteudo.appendChild(video);
-  }
+    const conteudo = document.getElementById('modal-content');
+
+    conteudo.innerHTML = '';
+
+    const midia = midiasAtuais[indiceAtual];
+
+    if (midia.type === 'image') {
+
+        const img = document.createElement('img');
+
+        img.src = midia.src;
+
+        img.style.opacity = "0";
+
+        img.onload = function() {
+
+            img.style.opacity = "1";
+
+        };
+
+        conteudo.appendChild(img);
+
+    }
+
+    else if (midia.type === 'video') {
+
+        const video = document.createElement('video');
+
+        video.src = midia.src;
+
+        video.controls = true;
+        video.autoplay = true;
+        video.muted = true;
+        video.loop = true;
+
+        video.style.opacity = "0";
+
+        video.onloadeddata = function() {
+
+            video.style.opacity = "1";
+
+        };
+
+        conteudo.appendChild(video);
+
+    }
+
 }
 
 /* Navegação com teclado */
@@ -506,14 +541,9 @@ function handleSwipe() {
 
 /* FECHAR AO CLICAR FORA DA IMAGEM */
 
-document.getElementById("modal-projeto").addEventListener("click", function(e) {
+document.getElementById("modal-projeto").addEventListener("click", function(e){
 
-    if (
-        !e.target.closest("#modal-content") &&
-        !e.target.closest(".prev") &&
-        !e.target.closest(".next") &&
-        !e.target.closest(".close")
-    ) {
+    if (e.target === this){
 
         fecharModal();
 
@@ -521,18 +551,8 @@ document.getElementById("modal-projeto").addEventListener("click", function(e) {
 
 });
 
-document.querySelectorAll('.project').forEach(projeto => {
-
-    projeto.addEventListener('touchend', function() {
-
-        setTimeout(() => {
-
-            this.classList.remove('touched');
-
-        }, 200);
-
-    });
-
+document.getElementById('modal-content').addEventListener('click', function(e){
+    e.stopPropagation();
 });
 
 document.querySelectorAll('.project').forEach(projeto => {
@@ -595,25 +615,26 @@ const contactWidget = document.querySelector(".contact-widget");
 const contactButton = document.querySelector(".contact-trigger");
 
 contactButton.addEventListener("click", function(e){
-
     e.stopPropagation();
-
     contactWidget.classList.toggle("active");
-
 });
 
 document.addEventListener("click", function(){
-
     contactWidget.classList.remove("active");
-
 });
 
 contactWidget.addEventListener("click", function(e){
-
     e.stopPropagation();
-
 });
 
 </script>
+
+<script>
+
+function toggleMenu() {
+    document.getElementById("menu").classList.toggle("active");
+}
+</script>
+
 </body>
 </html>
