@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projetos</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projetos</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
 
 <header>
+
   <div class="header-left">
     <a href="index.html" class="logo-link">
       <img src="img/Logo.png" alt="Logo Projecto 19" class="logo">
       <h1>Projecto 19</h1>
     </a>
   </div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="projetos.html">Projetos</a>
-    <a href="sobre.html">Sobre</a>
-    <a href="servicos.html">Serviços</a>
-    <a href="contato.html">Contacto</a>
+
+  <button class="menu-toggle" onclick="toggleMenu()">
+      ☰
+  </button>
+
+  <nav id="menu">
+      <a href="index.html">Home</a>
+      <a href="projetos.html">Projetos</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="servicos.html">Serviços</a>
+      <a href="contato.html">Contacto</a>
   </nav>
+
 </header>
 
 <section>
@@ -106,6 +115,12 @@ contactWidget.addEventListener("click", function(e){
 
 });
 
+</script>
+
+<script>
+function toggleMenu() {
+    document.getElementById("menu").classList.toggle("active");
+}
 </script>
 
 </body>
