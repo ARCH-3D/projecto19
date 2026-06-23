@@ -1,5 +1,5 @@
 /* ================== IMPORT FONTS ================== */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200&display=swap');
 
 /* ================== RESET ================== */
 * {
@@ -10,7 +10,8 @@
 
 /* ================== BODY ================== */
 body {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
   color: #111;
   background-color: #fff;
   line-height: 1.6;
@@ -47,7 +48,7 @@ header {
 
 header h1 {
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: 1.5px;
   text-transform: uppercase;
 }
@@ -58,7 +59,8 @@ nav a {
   text-decoration: none;
   color: #111;
   font-size: 12px;
-  letter-spacing: 1px;
+  font-weight: 300;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
   transition: opacity 0.3s;
 }
@@ -98,7 +100,7 @@ nav a:focus-visible {
 /* Texto sobre o hero */
 .hero-text {
   position: absolute;
-  top: 5%;
+  top: 7%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
@@ -109,16 +111,18 @@ nav a:focus-visible {
 }
 
 .hero-text h2 {
+    font-family: 'Outfit', sans-serif;
     font-size: clamp(3rem, 9vw, 8rem);
     font-weight: 200;
-    letter-spacing: -0.05em;
-    line-height: 0.95;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+    margin-bottom: 20px;
 }
 
 .hero-text p {
-    font-size: clamp(1rem, 2vw, 1.4rem);
+    font-size: clamp(1rem, 2vw, 1.3rem);
     font-weight: 300;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.03em;
     opacity: 0.9;
 }
 
@@ -130,9 +134,7 @@ section {
 section h3 {
   font-size: 14px;
   font-weight: 400;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 40px;
+  letter-spacing: 1.5px;
 }
 
 /* ================== PROJECT GRID ================== */
@@ -183,6 +185,7 @@ section h3 {
   left: 20px;
   color: white;
   font-size: 12px;
+  font-weight: 300;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   opacity: 0;
@@ -310,7 +313,7 @@ footer {
 
 .hero-text h2 {
   font-size: 36px;
-  line-height: 1.2;
+  line-height: 1;
   margin-bottom: 15px;
 }
 
@@ -355,12 +358,125 @@ footer {
   }
 
   .hero-text h2 {
-    font-size: 26px;
-    line-height: 1.2;
+  font-size: 26px;
+  line-height: 1;
   }
 
   .hero-text p {
     font-size: 14px;
     line-height: 1.5;
   }
+}
+
+/* ================= CONTACT WIDGET ================= */
+
+.contact-widget{
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    z-index: 9999;
+}
+
+.contact-trigger{
+
+    width: 125px;
+    height: 50px;
+
+    background: rgba(255,255,255,.92);
+
+    border: none;
+
+    border-radius: 50px;
+
+    box-shadow:
+    0 8px 30px rgba(0,0,0,.10);
+
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    color: #111;
+
+    cursor: pointer;
+
+    transition: .3s ease;
+}
+
+.contact-trigger:hover{
+    transform: translateY(-2px);
+}
+
+.contact-links{
+
+    position: absolute;
+
+    right: 0;
+    bottom: 65px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: .3s ease;
+}
+
+.contact-widget:hover .contact-links{
+
+    opacity: 1;
+
+    visibility: visible;
+}
+
+.contact-links a{
+
+    background: rgba(255,255,255,.95);
+
+    padding: 14px 22px;
+
+    border-radius: 40px;
+
+    color: #111;
+
+    text-decoration: none;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+
+    letter-spacing: 1px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.10);
+
+    transition: .3s ease;
+}
+
+.contact-links a:hover{
+
+    transform: translateY(-2px);
+}
+
+@media (max-width:768px){
+
+    .contact-widget{
+
+        right:20px;
+        bottom:20px;
+    }
+
+    .contact-trigger{
+
+        width:110px;
+        height:48px;
+        font-size:11px;
+    }
+
 }
