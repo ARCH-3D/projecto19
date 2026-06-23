@@ -632,6 +632,34 @@ document.getElementById("modal-projeto").addEventListener("click", function(e) {
 
 });
 
+document.querySelectorAll('.project').forEach(projeto => {
+
+    projeto.addEventListener('touchend', function() {
+
+        setTimeout(() => {
+
+            this.classList.remove('touched');
+
+        }, 200);
+
+    });
+
+});
+
+document.querySelectorAll('.project').forEach(projeto => {
+
+    projeto.addEventListener('touchend', function() {
+
+        setTimeout(() => {
+
+            this.classList.remove('touched');
+
+        }, 200);
+
+    });
+
+});
+
 </script>
 
 <footer>
