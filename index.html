@@ -12,7 +12,7 @@
 
   <div class="header-left">
     <a href="index.html" class="logo-link">
-      <img src="img/Logo.png" alt="Logo Projecto 19" class="logo">
+      <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo">
       <h1>Projecto 19</h1>
     </a>
   </div>
@@ -33,37 +33,18 @@
 
 <!-- HERO -->
 <div class="hero">
-  <img src="img/hero/hero1.webp" class="hero-image active">
-  <img src="img/hero/hero2.webp" class="hero-image">
-  <img src="img/hero/hero3.webp" class="hero-image">
-  <img src="img/hero/hero4.webp" class="hero-image">
-  <img src="img/hero/hero5.webp" class="hero-image">
-  <img src="img/hero/hero6.webp" class="hero-image">
-  <img src="img/hero/hero7.webp" class="hero-image">
-  <img src="img/hero/hero8.webp" class="hero-image">
-  <img src="img/hero/hero9.webp" class="hero-image">
-  <img src="img/hero/hero10.webp" class="hero-image">
-  <img src="img/hero/hero11.webp" class="hero-image">
-  <img src="img/hero/hero12.webp" class="hero-image">
-  <img src="img/hero/hero13.webp" class="hero-image">
-  <img src="img/hero/hero14.webp" class="hero-image">
-  <img src="img/hero/hero15.webp" class="hero-image">
-  <img src="img/hero/hero16.webp" class="hero-image">
-  <img src="img/hero/hero17.webp" class="hero-image">
-  <img src="img/hero/hero18.webp" class="hero-image">
-  <img src="img/hero/hero19.webp" class="hero-image">
-  <img src="img/hero/hero20.webp" class="hero-image">
-  <img src="img/hero/hero21.webp" class="hero-image">
-  <img src="img/hero/hero22.webp" class="hero-image">
-  <img src="img/hero/hero23.webp" class="hero-image">
-  <img src="img/hero/hero24.webp" class="hero-image">
-  <img src="img/hero/hero25.webp" class="hero-image">
-  <img src="img/hero/hero26.webp" class="hero-image">
+  <div class="hero">
 
-  <div class="hero-text">
-    <h2>Projecto 19<br></h2>
-    <p>Arquitetura e Design</p>
-  </div>
+    <img id="hero-image"
+         class="hero-image"
+         src="img/hero/hero1.webp"
+         alt="Projeto 19">
+
+    <div class="hero-text">
+        <h2>Projecto 19</h2>
+        <p>Arquitetura e Design</p>
+    </div>
+
 </div>
 
 <footer>
@@ -85,13 +66,65 @@
 </footer>
 
 <script>
-const heroImages = document.querySelectorAll('.hero-image');
-let heroIndex = 0;
+const hero = document.getElementById("hero-image");
+
+const imagens = [
+    "img/hero/hero1.webp",
+    "img/hero/hero2.webp",
+    "img/hero/hero3.webp",
+    "img/hero/hero4.webp",
+    "img/hero/hero5.webp",
+    "img/hero/hero6.webp",
+    "img/hero/hero7.webp",
+    "img/hero/hero8.webp",
+    "img/hero/hero9.webp",
+    "img/hero/hero10.webp",
+    "img/hero/hero11.webp",
+    "img/hero/hero12.webp",
+    "img/hero/hero13.webp",
+    "img/hero/hero14.webp",
+    "img/hero/hero15.webp",
+    "img/hero/hero16.webp",
+    "img/hero/hero17.webp",
+    "img/hero/hero18.webp",
+    "img/hero/hero19.webp",
+    "img/hero/hero20.webp",
+    "img/hero/hero21.webp",
+    "img/hero/hero22.webp",
+    "img/hero/hero23.webp",
+    "img/hero/hero24.webp",
+    "img/hero/hero25.webp",
+    "img/hero/hero26.webp"
+];
+
+let indice = 0;
+
+// Pré-carrega a segunda imagem
+let preload = new Image();
+preload.src = imagens[1];
 
 setInterval(() => {
-  heroImages[heroIndex].classList.remove('active');
-  heroIndex = (heroIndex + 1) % heroImages.length;
-  heroImages[heroIndex].classList.add('active');
+
+    indice = (indice + 1) % imagens.length;
+
+    hero.style.opacity = 0;
+
+    setTimeout(() => {
+
+        hero.src = imagens[indice];
+
+        hero.onload = () => {
+
+            hero.style.opacity = 1;
+
+            // Pré-carrega a próxima
+            preload = new Image();
+            preload.src = imagens[(indice + 1) % imagens.length];
+
+        };
+
+    }, 400);
+
 }, 5000);
 
 /* Efeito de toque para mobile */

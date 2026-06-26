@@ -130,13 +130,9 @@ nav a:focus-visible{
 
     object-fit:cover;
 
-    opacity:0;
-
-    transition:opacity 1.2s ease;
-}
-
-.hero-image.active{
     opacity:1;
+
+    transition:opacity .8s ease;
 }
 
 /* ================== HERO TEXT ================== */
