@@ -191,6 +191,10 @@ section h3{
     margin-bottom:20px;
 }
 
+.section-title{
+    font-weight:700;
+}
+
 section p {
     margin: 0;
 }
