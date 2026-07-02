@@ -647,8 +647,8 @@ footer p{
     }
 
     .contact-widget{
-        right:15px;
-        bottom:15px;
+    right:15px;
+    bottom:max(15px, env(safe-area-inset-bottom));
     }
 
     .contact-trigger{
