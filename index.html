@@ -27,34 +27,34 @@
       href="css/style.css">
 
 </head>
+
 <body>
 
 <header>
 
-  <div class="header-left">
-    <a href="index.html" class="logo-link">
-      <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo">
-      <h1>Projecto 19</h1>
-    </a>
-  </div>
+    <div class="header-left">
+        <a href="index.html" class="logo-link">
+            <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo">
+            <h1>Projecto 19</h1>
+        </a>
+    </div>
 
-  <button class="menu-toggle" onclick="toggleMenu()">
-      ☰
-  </button>
+    <button class="menu-toggle" onclick="toggleMenu()">
+        ☰
+    </button>
 
-  <nav id="menu">
-      <a href="index.html">Home</a>
-      <a href="projetos.html">Projetos</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="servicos.html">Serviços</a>
-      <a href="contato.html">Contacto</a>
-  </nav>
+    <nav id="menu">
+        <a href="index.html">Home</a>
+        <a href="projetos.html">Projetos</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="contato.html">Contacto</a>
+    </nav>
 
 </header>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero">
 
     <img id="hero-image"
          class="hero-image"
@@ -72,11 +72,15 @@
 
     <div class="social-links">
 
-        <a href="https://www.instagram.com/projecto_19/" target="_blank">
+        <a href="https://www.instagram.com/projecto_19/"
+           target="_blank"
+           rel="noopener noreferrer">
             Instagram
         </a>
 
-        <a href="https://www.facebook.com/projecto19" target="_blank">
+        <a href="https://www.facebook.com/projecto19"
+           target="_blank"
+           rel="noopener noreferrer">
             Facebook
         </a>
 
@@ -87,6 +91,7 @@
 </footer>
 
 <script>
+
 const hero = document.getElementById("hero-image");
 
 const imagens = [
@@ -120,7 +125,6 @@ const imagens = [
 
 let indice = 0;
 
-// Pré-carrega a segunda imagem
 let preload = new Image();
 preload.src = imagens[1];
 
@@ -138,7 +142,6 @@ setInterval(() => {
 
             hero.style.opacity = 1;
 
-            // Pré-carrega a próxima
             preload = new Image();
             preload.src = imagens[(indice + 1) % imagens.length];
 
@@ -148,20 +151,6 @@ setInterval(() => {
 
 }, 5000);
 
-/* Efeito de toque para mobile */
-document.querySelectorAll('.project').forEach(project => {
-
-  project.addEventListener('touchstart', () => {
-
-    document.querySelectorAll('.project').forEach(item => {
-      item.classList.remove('touched');
-    });
-
-    project.classList.add('touched');
-
-  });
-
-});
 </script>
 
 <div class="contact-widget">
@@ -169,17 +158,40 @@ document.querySelectorAll('.project').forEach(project => {
     <div class="contact-links">
 
         <a href="mailto:info.projecto19@gmail.com">
-            Email
+
+            <img
+                src="img/icons/email.svg"
+                alt=""
+                class="contact-link-icon">
+
+            <span>Email</span>
+
         </a>
 
-        <a href="https://wa.me/351934185719" target="_blank">
-            WhatsApp
+        <a href="https://wa.me/351934185719"
+           target="_blank"
+           rel="noopener noreferrer">
+
+            <img
+                src="img/icons/whatsapp.svg"
+                alt=""
+                class="contact-link-icon">
+
+            <span>WhatsApp</span>
+
         </a>
 
     </div>
 
     <button class="contact-trigger">
-        Fale Connosco
+
+        <img
+            src="img/icons/chat.svg"
+            alt=""
+            class="contact-icon">
+
+        <span>Fale Connosco</span>
+
     </button>
 
 </div>
@@ -209,12 +221,12 @@ contactWidget.addEventListener("click", function(e){
 
 });
 
-</script>
-
-<script>
 function toggleMenu() {
+
     document.getElementById("menu").classList.toggle("active");
+
 }
+
 </script>
 
 </body>
