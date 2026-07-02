@@ -342,12 +342,26 @@ footer{
 }
 
 .social-links a{
+    display:flex;
+    align-items:center;
+    gap:6px;
+
     color:#111;
     text-decoration:none;
+
     font-size:12px;
     font-weight:300;
     letter-spacing:1px;
+
     transition:.3s ease;
+}
+
+.social-icon{
+    width:18px;
+    height:18px;
+
+    object-fit:contain;
+    flex-shrink:0;
 }
 
 .social-links a:hover{
@@ -473,6 +487,11 @@ footer p{
 
 .contact-trigger{
 
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
     width:170px;
     height:52px;
 
@@ -501,6 +520,16 @@ footer p{
 
 .contact-trigger:hover{
     transform:translateY(-2px);
+}
+
+.contact-icon{
+
+    width:36px;
+    height:36px;
+
+    flex-shrink:0;
+
+    object-fit:contain;
 }
 
 .contact-links{
@@ -532,6 +561,10 @@ footer p{
 
 .contact-links a{
 
+    display:flex;
+    align-items:center;
+    gap:6px;
+
     background:white;
 
     padding:14px 22px;
@@ -548,6 +581,16 @@ footer p{
     0 10px 30px rgba(0,0,0,.1);
 
     transition:.3s ease;
+}
+
+.contact-link-icon{
+
+    width:32px;
+    height:32px;
+
+    flex-shrink:0;
+
+    object-fit:contain;
 }
 
 .contact-links a:hover{
