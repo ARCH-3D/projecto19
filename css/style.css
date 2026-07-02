@@ -464,8 +464,12 @@ footer p{
 .contact-widget{
     position:fixed;
     right:20px;
-    bottom:20px;
-    z-index:1000;
+    bottom:max(20px, env(safe-area-inset-bottom));
+    z-index:99999;
+
+    transform:translateZ(0);
+    -webkit-transform:translateZ(0);
+    will-change:transform;
 }
 
 .contact-trigger{
