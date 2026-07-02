@@ -547,6 +547,10 @@ footer p{
 
 .contact-links a{
 
+    display:flex;
+    align-items:center;
+    gap:10px;
+
     background:white;
 
     padding:14px 22px;
@@ -563,6 +567,16 @@ footer p{
     0 10px 30px rgba(0,0,0,.1);
 
     transition:.3s ease;
+}
+
+.contact-link-icon{
+
+    width:16px;
+    height:16px;
+
+    flex-shrink:0;
+
+    object-fit:contain;
 }
 
 .contact-links a:hover{
