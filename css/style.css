@@ -26,6 +26,8 @@ body{
 
 /* ================== HEADER ================== */
 header{
+    position:relative;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -36,10 +38,6 @@ header{
     width:100%;
 
     padding:30px clamp(25px,5vw,80px);
-}
-
-header{
-    position:relative;
 }
 
 .header-left{
@@ -199,19 +197,44 @@ section p {
     margin: 0;
 }
 
-.service {
-    margin-bottom: 28px;
+/* ================== SERVICES ================== */
+
+.service{
+    display:flex;
+    align-items:flex-start;
+    gap:24px;
+
+    margin-bottom:40px;
 }
 
-.service h4 {
-    margin: 0 0 10px 0;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 1px;
+.service-icon{
+    width:64px;
+    min-width:64px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
 }
 
-.service p {
-    margin: 0;
+.service-icon img{
+    width:48px;
+    height:48px;
+    object-fit:contain;
+}
+
+.service-content{
+    flex:1;
+}
+
+.service h4{
+    margin:0 0 10px;
+    font-size:15px;
+    font-weight:500;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.service p{
+    margin:0;
 }
 
 /* ================== PROJECT GRID ================== */
@@ -569,10 +592,8 @@ footer p{
         padding:20px;
         border-radius:12px;
         box-shadow:0 10px 30px rgba(0,0,0,.15);
-
         flex-direction:column;
         gap:18px;
-
         z-index:1000;
     }
 
@@ -583,6 +604,20 @@ footer p{
     .prev,
     .next{
         display:none;
+    }
+
+    .service{
+        gap:18px;
+    }
+
+    .service-icon{
+    width:52px;
+    min-width:52px;
+    }
+
+    .service-icon img{
+    width:36px;
+    height:36px;
     }
 }
 
