@@ -462,14 +462,13 @@ footer p{
 /* ================= CONTACT WIDGET ================= */
 
 .contact-widget{
-    position:fixed;
-    right:20px;
-    bottom:max(20px, env(safe-area-inset-bottom));
-    z-index:99999;
+    position: fixed;
+    right: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    z-index: 999999;
 
-    transform:translateZ(0);
-    -webkit-transform:translateZ(0);
-    will-change:transform;
+    transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0,0,0);
 }
 
 .contact-trigger{
