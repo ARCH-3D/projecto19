@@ -476,7 +476,7 @@ footer p{
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:10px;
+    gap:14px;
 
     width:170px;
     height:52px;
@@ -510,8 +510,8 @@ footer p{
 
 .contact-icon{
 
-    width:18px;
-    height:18px;
+    width:26px;
+    height:26px;
 
     flex-shrink:0;
 
@@ -549,7 +549,7 @@ footer p{
 
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:14px;
 
     background:white;
 
@@ -571,8 +571,8 @@ footer p{
 
 .contact-link-icon{
 
-    width:16px;
-    height:16px;
+    width:22px;
+    height:22px;
 
     flex-shrink:0;
 
