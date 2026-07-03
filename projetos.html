@@ -761,13 +761,15 @@ function mostrarMidia() {
     const conteudo = document.getElementById('modal-content');
     const midia = midiasAtuais[indiceAtual];
 
-    // cria elemento novo
     let novoElemento;
 
     if (midia.type === 'image') {
 
         novoElemento = new Image();
         novoElemento.src = midia.src;
+
+        // iOS Safari fix: garante decode consistente
+        novoElemento.decoding = "async";
 
     } else if (midia.type === 'video') {
 
@@ -777,42 +779,57 @@ function mostrarMidia() {
         novoElemento.autoplay = true;
         novoElemento.muted = true;
         novoElemento.loop = true;
+        novoElemento.playsInline = true; // importante no iOS
     }
 
-    // estado inicial
+    // estado inicial (ANTES de entrar no DOM)
     novoElemento.style.opacity = "0";
     novoElemento.style.transition = "opacity .35s ease";
 
-    // quando carregar
     const mostrar = () => {
         requestAnimationFrame(() => {
             novoElemento.style.opacity = "1";
         });
     };
 
+    // evento de load seguro (iOS-friendly)
     if (midia.type === 'image') {
-        novoElemento.onload = mostrar;
+
+        if (novoElemento.complete) {
+            mostrar();
+        } else {
+            novoElemento.onload = mostrar;
+        }
+
     } else {
         novoElemento.onloadeddata = mostrar;
     }
 
-    // troca segura (sem apagar logo o anterior)
+    // elemento atual
     const atual = conteudo.firstElementChild;
 
+    // adiciona novo primeiro (evita flicker no Safari)
     conteudo.appendChild(novoElemento);
 
+    // força reflow (CRÍTICO para iPad Safari)
+    novoElemento.getBoundingClientRect();
+
+    // remove anterior com fade-out
     if (atual) {
+
+        atual.style.transition = "opacity .35s ease";
         atual.style.opacity = "0";
 
         setTimeout(() => {
-            if (atual.parentNode) {
+            if (atual && atual.parentNode) {
                 atual.remove();
             }
         }, 350);
     }
 
-    // preload próxima imagem (seguro)
+    // preload próxima imagem
     const proxima = midiasAtuais[(indiceAtual + 1) % midiasAtuais.length];
+
     if (proxima.type === "image") {
         const img = new Image();
         img.src = proxima.src;
