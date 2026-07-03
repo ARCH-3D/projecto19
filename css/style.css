@@ -245,39 +245,35 @@ section p {
     object-fit:contain;
 }
 
-.contact-page .service{
+.service{
     align-items:flex-start;
 }
 
-.contact-page .service-icon{
+.service-icon{
     width:42px;
     min-width:42px;
 }
 
-.contact-page .service h4{
-    margin-bottom:4px;
-}
-
-.contact-page .service{
+.service{
     margin-bottom:32px;
 }
 
-.contact-page a{
+.service[href]{
     color:#111;
     text-decoration:none;
     transition:.3s ease;
 }
 
-.contact-page a:hover{
+.service[href]:hover{
     opacity:.6;
 }
 
-.contact-page a:visited{
+.service[href]:visited,
+.service[href]:active,
+.service[href]:focus{
     color:#111;
-}
-
-.contact-page a:active{
-    color:#111;
+    text-decoration:none;
+    outline:none;
 }
 
 /* ================== PROJECT GRID ================== */
