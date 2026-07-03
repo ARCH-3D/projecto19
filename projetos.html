@@ -715,9 +715,8 @@ function toggleMenu() {
 ========================= */
 function abrirProjeto(nomeProjeto) {
 
-  if (!window.projetos || !window.projetos[nomeProjeto]) return;
-
-  midiasAtuais = window.projetos[nomeProjeto].media || [];
+  if (!projetos[nomeProjeto]) return;
+  midiasAtuais = projetos[nomeProjeto].media || [];
   indiceAtual = 0;
 
   mostrarMidia();
