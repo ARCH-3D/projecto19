@@ -246,7 +246,9 @@ section p {
 }
 
 .contact-page .service{
+    display:flex;
     align-items:flex-start;
+    gap:24px;
     margin-bottom:32px;
 
     color:#111;
@@ -263,12 +265,16 @@ section p {
     opacity:.6;
 }
 
+.contact-page .service:link,
 .contact-page .service:visited,
-.contact-page .service:active,
-.contact-page .service:focus{
+.contact-page .service:active{
     color:#111;
     text-decoration:none;
-    outline:none;
+}
+
+.contact-page .service:focus-visible{
+    outline:2px solid #111;
+    outline-offset:4px;
 }
 
 /* ================== PROJECT GRID ================== */
