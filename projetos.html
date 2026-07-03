@@ -760,25 +760,22 @@ function mostrarMidia() {
 
     const conteudo = document.getElementById('modal-content');
 
-    conteudo.innerHTML = '';
-
     const midia = midiasAtuais[indiceAtual];
 
+    // cria nova imagem sem destruir a antiga primeiro
     if (midia.type === 'image') {
 
-        const img = document.createElement('img');
+        const img = new Image();
 
         img.src = midia.src;
 
         img.style.opacity = "0";
 
-        img.onload = function() {
-
+        img.onload = function () {
+            conteudo.innerHTML = ""; // só limpa DEPOIS de carregar
             img.style.opacity = "1";
-
+            conteudo.appendChild(img);
         };
-
-        conteudo.appendChild(img);
 
     }
 
@@ -787,7 +784,6 @@ function mostrarMidia() {
         const video = document.createElement('video');
 
         video.src = midia.src;
-
         video.controls = true;
         video.autoplay = true;
         video.muted = true;
@@ -795,16 +791,13 @@ function mostrarMidia() {
 
         video.style.opacity = "0";
 
-        video.onloadeddata = function() {
-
+        video.onloadeddata = function () {
+            conteudo.innerHTML = "";
             video.style.opacity = "1";
-
+            conteudo.appendChild(video);
         };
 
-        conteudo.appendChild(video);
-
     }
-
 }
 
 /* Navegação com teclado */
