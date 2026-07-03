@@ -173,13 +173,6 @@
 </footer>
 
 <script>
-document.querySelectorAll(".accordion-title").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        btn.closest(".service").classList.toggle("active");
-    });
-});
-
 function toggleMenu() {
     document.getElementById("menu").classList.toggle("active");
 }
