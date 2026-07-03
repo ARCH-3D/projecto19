@@ -247,6 +247,7 @@ section p {
 
 .service{
     align-items:flex-start;
+    margin-bottom:32px;
 }
 
 .service-icon{
@@ -254,23 +255,20 @@ section p {
     min-width:42px;
 }
 
+.service a,
 .service{
-    margin-bottom:32px;
-}
-
-.service[href]{
     color:#111;
     text-decoration:none;
     transition:.3s ease;
 }
 
-.service[href]:hover{
+.service:hover{
     opacity:.6;
 }
 
-.service[href]:visited,
-.service[href]:active,
-.service[href]:focus{
+.service:visited,
+.service:active,
+.service:focus{
     color:#111;
     text-decoration:none;
     outline:none;
