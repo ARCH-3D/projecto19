@@ -782,10 +782,15 @@ function mostrarMidia() {
 
     // estilo da nova imagem
     novoElemento.style.position = "absolute";
-    novoElemento.style.inset = "0";
-    novoElemento.style.width = "100%";
-    novoElemento.style.height = "100%";
+    novoElemento.style.top = "50%";
+    novoElemento.style.left = "50%";
+    novoElemento.style.transform = "translate(-50%, -50%)";
+
+    novoElemento.style.maxWidth = "90vw";
+    novoElemento.style.maxHeight = "calc(100vh - 100px)";
+
     novoElemento.style.objectFit = "contain";
+
     novoElemento.style.opacity = "0";
     novoElemento.style.transition = "opacity .35s ease";
 
