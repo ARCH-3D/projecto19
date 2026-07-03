@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+  <!-- Calendário -->
+  <rect x="10" y="12" width="28" height="26" rx="2"></rect>
+
+  <!-- Argolas -->
+  <path d="M18 8V16"></path>
+  <path d="M30 8V16"></path>
+
+  <!-- Linha superior -->
+  <path d="M10 18H38"></path>
+
+</svg>
