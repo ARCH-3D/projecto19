@@ -399,7 +399,7 @@ footer p{
     align-items:center;
 
     width:100%;
-    height:100svh;
+    height:100vh;
 
     overflow:hidden;
 }
@@ -411,13 +411,10 @@ footer p{
 
     object-fit:contain;
 
-    transition:opacity .35s ease;
+    transition:opacity .3s ease;
 
     user-select:none;
     -webkit-user-drag:none;
-
-    display:block;
-    will-change:opacity;
 }
 
 @media (min-width:1600px){
@@ -667,14 +664,6 @@ footer p{
     transform:translateY(-2px);
 }
 
-/* ================= CONTACTS OVERRIDE ICONS ================= */
-
-section .contact-service-icon {
-    width: 28px;
-    height: 28px;
-    object-fit: contain;
-}
-
 /* ===== ZONAS DE TOQUE NO TELEMÓVEL ===== */
 
 .touch-left,
@@ -821,57 +810,4 @@ section .contact-service-icon {
     footer{
         padding:40px 20px;
     }
-}
-
-a {
-    color: inherit;
-}
-
-.service,
-.service:visited,
-.service:active {
-    color: inherit;
-    text-decoration: none;
-}
-
-.service {
-    cursor: pointer;
-    transition: .25s ease;
-    border-radius: 12px;
-}
-
-.service:hover {
-    transform: translateY(-2px);
-}
-
-.accordion-title {
-    background: none;
-    border: none;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    color: #111;
-}
-
-.accordion-content {
-    max-height: 0;
-    overflow: hidden;
-
-    opacity: 0;
-    transform: translateY(-5px);
-
-    transition: all 0.35s ease;
-}
-
-.service.active .accordion-content {
-    max-height: 1000px;
-
-    opacity: 1;
-    transform: translateY(0);
-
-    margin-top: 10px;
 }
