@@ -425,8 +425,9 @@ footer p{
     bottom:25px;
     transform:translateX(-50%);
 
-    width:fit-content;
-    max-width:90%;
+    width:100%;
+    max-width:700px;
+    padding:0 25px;
 
     z-index:10002;
     pointer-events:none;
@@ -446,6 +447,7 @@ footer p{
     justify-content:center;
     align-items:center;
     gap:60px;
+    flex-wrap:nowrap;
 }
 
 .modal-item{
