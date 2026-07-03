@@ -717,11 +717,10 @@ function abrirProjeto(nomeProjeto) {
 
   if (!projetos || !projetos[nomeProjeto]) return;
 
-  // 🔴 FIX PRINCIPAL: aqui NÃO existe .media
-  midiasAtuais = projetos[nomeProjeto];
+  midiasAtuais = projetos[nomeProjeto].media;
   indiceAtual = 0;
 
-  if (!midiasAtuais.length) return;
+  if (!midiasAtuais || !midiasAtuais.length) return;
 
   mostrarMidia();
 
