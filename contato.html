@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Projetos</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="contact-page">
 
 <header>
 
@@ -34,22 +39,53 @@
 </header>
 
 <section>
-  <h3><strong>Contactos</strong></h3>
-  <p>
-    E-mail:
-    <a href="mailto:info.projecto19@gmail.com">
-        info.projecto19@gmail.com
-    </a>
-</p>
 
-<p>
-    WhatsApp:
-    <a href="https://wa.me/351934185719">
-        +351 934 185 719
-    </a>
-</p>
+    <h3 class="section-title"><strong>Contactos</strong></h3>
 
-<p>Braga, Portugal</p>
+    <!-- EMAIL -->
+    <a class="service" href="mailto:info.projecto19@gmail.com" aria-label="Enviar email">
+        <div class="service-icon">
+            <img src="img/icons/e-mail.svg" alt="Email" class="contact-service-icon">
+        </div>
+
+        <div class="service-content">
+            <p>info.projecto19@gmail.com</p>
+        </div>
+    </a>
+
+    <!-- TELEFONE / WHATSAPP -->
+    <a class="service"
+       href="https://wa.me/351934185719"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Abrir WhatsApp">
+
+        <div class="service-icon">
+            <img src="img/icons/telefone.svg" alt="Telefone" class="contact-service-icon">
+        </div>
+
+        <div class="service-content">
+            <p>+351 934 185 719</p>
+        </div>
+    </a>
+
+    <!-- LOCALIZAÇÃO -->
+    <a class="service"
+       href="https://www.google.com/maps/search/?api=1&query=Braga+Portugal"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Ver localização no Google Maps">
+
+        <div class="service-icon">
+            <img src="img/icons/local.svg" alt="Localização" class="contact-service-icon">
+        </div>
+
+        <div class="service-content">
+            <p>Braga, Portugal</p>
+        </div>
+
+    </a>
+
 </section>
 
 <footer>
