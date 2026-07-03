@@ -754,93 +754,17 @@ function mostrarMidia() {
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
 
-    let novoElemento;
+    conteudo.innerHTML = "";
 
     if (midia.type === "image") {
 
-        novoElemento = new Image();
-        novoElemento.src = midia.src;
-        novoElemento.decoding = "async";
+        const img = document.createElement("img");
+        img.src = midia.src;
+        img.style.maxWidth = "90vw";
+        img.style.maxHeight = "calc(100vh - 100px)";
+        img.style.objectFit = "contain";
 
-    } else {
-
-        novoElemento = document.createElement("video");
-        novoElemento.src = midia.src;
-        novoElemento.controls = true;
-        novoElemento.autoplay = true;
-        novoElemento.muted = true;
-        novoElemento.loop = true;
-        novoElemento.playsInline = true;
-
-    }
-
-    novoElemento.style.position = "absolute";
-    novoElemento.style.top = "50%";
-    novoElemento.style.left = "50%";
-    novoElemento.style.transform = "translate(-50%, -50%)";
-
-    novoElemento.style.maxWidth = "90vw";
-    novoElemento.style.maxHeight = "calc(100vh - 100px)";
-    novoElemento.style.objectFit = "contain";
-
-    novoElemento.style.opacity = "0";
-    novoElemento.style.transition = "opacity .35s ease";
-
-    const atual = conteudo.firstElementChild;
-
-    conteudo.appendChild(novoElemento);
-
-    const mostrar = () => {
-
-        requestAnimationFrame(() => {
-
-            novoElemento.style.opacity = "1";
-
-            if (atual) {
-
-                atual.style.opacity = "0";
-
-                setTimeout(() => {
-
-                    if (atual.parentNode) {
-                        atual.remove();
-                    }
-
-                    animando = false;
-
-                }, 350);
-
-            } else {
-
-                animando = false;
-
-            }
-
-        });
-
-    };
-
-    if (midia.type === "image") {
-
-        if (novoElemento.complete) {
-            mostrar();
-        } else {
-            novoElemento.onload = mostrar;
-        }
-
-    } else {
-
-        novoElemento.onloadeddata = mostrar;
-
-    }
-
-    // Pré-carrega a próxima imagem
-    const proxima = midiasAtuais[(indiceAtual + 1) % midiasAtuais.length];
-
-    if (proxima && proxima.type === "image") {
-
-        const img = new Image();
-        img.src = proxima.src;
+        conteudo.appendChild(img);
 
     }
 
