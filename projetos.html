@@ -696,7 +696,6 @@ const projetos = {
 
 let midiasAtuais = [];
 let indiceAtual = 0;
-let animando = false;
 
 let touchStartX = 0;
 let touchEndX = 0;
@@ -738,33 +737,71 @@ function fecharModal() {
 
 function mudarMidia(direcao) {
 
-    if (animando) return;
+  const conteudo = document.getElementById('modal-content');
+  const elemento = conteudo.firstChild;
 
-    animando = true;
+  if (elemento) {
+    elemento.style.opacity = "0";
+  }
+
+  setTimeout(() => {
 
     indiceAtual += direcao;
+
     indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
 
     mostrarMidia();
+
+  }, 200);
 
 }
 
 function mostrarMidia() {
 
-    const conteudo = document.getElementById("modal-content");
+    const conteudo = document.getElementById('modal-content');
+
+    conteudo.innerHTML = '';
+
     const midia = midiasAtuais[indiceAtual];
 
-    conteudo.innerHTML = "";
+    if (midia.type === 'image') {
 
-    if (midia.type === "image") {
+        const img = document.createElement('img');
 
-        const img = document.createElement("img");
         img.src = midia.src;
-        img.style.maxWidth = "90vw";
-        img.style.maxHeight = "calc(100vh - 100px)";
-        img.style.objectFit = "contain";
+
+        img.style.opacity = "0";
+
+        img.onload = function() {
+
+            img.style.opacity = "1";
+
+        };
 
         conteudo.appendChild(img);
+
+    }
+
+    else if (midia.type === 'video') {
+
+        const video = document.createElement('video');
+
+        video.src = midia.src;
+
+        video.controls = true;
+        video.autoplay = true;
+        video.muted = true;
+        video.loop = true;
+
+        video.style.opacity = "0";
+
+        video.onloadeddata = function() {
+
+            video.style.opacity = "1";
+
+        };
+
+        conteudo.appendChild(video);
 
     }
 
