@@ -262,6 +262,24 @@ section p {
     margin-bottom:32px;
 }
 
+.contact-page a{
+    color:#111;
+    text-decoration:none;
+    transition:.3s ease;
+}
+
+.contact-page a:hover{
+    opacity:.6;
+}
+
+.contact-page a:visited{
+    color:#111;
+}
+
+.contact-page a:active{
+    color:#111;
+}
+
 /* ================== PROJECT GRID ================== */
 
 .grid{
