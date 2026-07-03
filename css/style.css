@@ -411,7 +411,7 @@ footer p{
 
     object-fit:contain;
 
-    transition:opacity .3s ease;
+    transition:opacity .35s ease;
 
     user-select:none;
     -webkit-user-drag:none;
