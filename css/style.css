@@ -245,30 +245,27 @@ section p {
     object-fit:contain;
 }
 
-.service{
+.contact-page .service{
     align-items:flex-start;
     margin-bottom:32px;
-}
 
-.service-icon{
-    width:42px;
-    min-width:42px;
-}
-
-.service a,
-.service{
     color:#111;
     text-decoration:none;
     transition:.3s ease;
 }
 
-.service:hover{
+.contact-page .service-icon{
+    width:42px;
+    min-width:42px;
+}
+
+.contact-page .service:hover{
     opacity:.6;
 }
 
-.service:visited,
-.service:active,
-.service:focus{
+.contact-page .service:visited,
+.contact-page .service:active,
+.contact-page .service:focus{
     color:#111;
     text-decoration:none;
     outline:none;
