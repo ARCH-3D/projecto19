@@ -868,7 +868,7 @@ a {
 }
 
 .service.active .accordion-content {
-    max-height: 300px;
+    max-height: 1000px;
 
     opacity: 1;
     transform: translateY(0);
