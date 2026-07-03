@@ -24,6 +24,11 @@ body{
     overflow-x:hidden;
 }
 
+/* Bloquear scroll quando o modal está aberto */
+body.modal-open{
+    overflow:hidden;
+}
+
 /* ================== HEADER ================== */
 header{
     position:relative;
