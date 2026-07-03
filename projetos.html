@@ -710,20 +710,18 @@ function abrirProjeto(nomeProjeto) {
 
     mostrarMidia();
 
-    document.getElementById("modal-title").textContent =
-        projetoAtual.info.nome;
-
-    document.getElementById("modal-year").textContent =
-        projetoAtual.info.ano;
-
-    document.getElementById("modal-area").textContent =
-        projetoAtual.info.area;
-
-    document.getElementById("modal-location").textContent =
-        projetoAtual.info.local;
+    document.getElementById("modal-title").textContent = projetoAtual.info.nome;
+    document.getElementById("modal-year").textContent = projetoAtual.info.ano;
+    document.getElementById("modal-area").textContent = projetoAtual.info.area;
+    document.getElementById("modal-location").textContent = projetoAtual.info.local;
 
     document.getElementById("modal-projeto").style.display = "flex";
     document.body.style.overflow = "hidden";
+
+    const widget = document.querySelector('.contact-widget');
+    if (widget) {
+        widget.style.display = 'none';
+    }
 }
 
 function fecharModal() {
