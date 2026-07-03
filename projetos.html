@@ -169,6 +169,18 @@
 
     <div class="touch-left" onclick="mudarMidia(-1)"></div>
 
+    <div class="modal-info">
+
+    <h2 id="modal-title"></h2>
+
+    <p><strong>Ano:</strong> <span id="modal-year"></span></p>
+
+    <p><strong>Área:</strong> <span id="modal-area"></span></p>
+
+    <p><strong>Local:</strong> <span id="modal-location"></span></p>
+
+</div>
+
     <div id="modal-content"></div>
 
     <div class="touch-right" onclick="mudarMidia(1)"></div>
@@ -211,21 +223,32 @@ const projetos = {
     { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_6.webp" },
     { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_7.webp" }
   ],
-  projeto181: [
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_1.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_2.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_3.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_4.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_5.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_6.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_7.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_8.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_9.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_10.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_11.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_12.webp" },
-    { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_13.webp" }
-  ],
+projeto181: {
+
+    info: {
+        nome: "Moradia em Campo",
+        ano: "2025",
+        area: "320 m²",
+        local: "Barcelos"
+    },
+
+    media: [
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_1.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_2.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_3.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_4.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_5.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_6.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_7.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_8.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_9.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_10.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_11.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_12.webp" },
+        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_13.webp" }
+    ]
+
+},
   projeto176: [
     { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_1.webp" },
     { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_2.webp" },
@@ -428,9 +451,15 @@ let touchEndX = 0;
 
 function abrirProjeto(nomeProjeto) {
 
-  midiasAtuais = projetos[nomeProjeto];
+  const projeto = projetos[nomeProjeto];
+
+  midiasAtuais = projeto.media;
   indiceAtual = 0;
 
+  document.getElementById("modal-title").textContent = projeto.info.nome;
+  document.getElementById("modal-year").textContent = projeto.info.ano;
+  document.getElementById("modal-area").textContent = projeto.info.area;
+  document.getElementById("modal-location").textContent = projeto.info.local;
   mostrarMidia();
 
   document.getElementById('modal-projeto').style.display = 'flex';

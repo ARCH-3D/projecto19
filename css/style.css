@@ -413,6 +413,38 @@ footer p{
     transition:opacity .3s ease;
 }
 
+/* ================= PROJECT INFO ================= */
+
+.modal-info{
+    position:absolute;
+
+    left:40px;
+    bottom:35px;
+
+    max-width:350px;
+
+    color:#111;
+
+    z-index:10002;
+}
+
+.modal-info h2{
+    font-size:22px;
+    font-weight:500;
+
+    margin-bottom:14px;
+}
+
+.modal-info p{
+    font-size:12px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+
+    color:#666;
+
+    margin-bottom:6px;
+}
+
 /* ================== FECHAR ================== */
 
 .close{
@@ -657,13 +689,28 @@ footer p{
     }
 
     .service-icon{
-    width:52px;
-    min-width:52px;
+        width:52px;
+        min-width:52px;
     }
 
     .service-icon img{
-    width:36px;
-    height:36px;
+        width:36px;
+        height:36px;
+    }
+
+    .modal-info{
+        left:20px;
+        right:20px;
+        bottom:20px;
+        max-width:calc(100% - 40px);
+    }
+
+    .modal-info h2{
+        font-size:18px;
+    }
+
+    .modal-info p{
+        font-size:11px;
     }
 }
 
