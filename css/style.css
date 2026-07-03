@@ -442,6 +442,7 @@ footer p{
     height:100vh;
 
     overflow:hidden;
+    position:relative;
 }
 
 #modal-content img,
