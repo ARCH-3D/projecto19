@@ -443,6 +443,7 @@ footer p{
     font-weight:500;
 
     margin:0;
+    display:none;
 }
 
 .modal-details{
@@ -757,7 +758,7 @@ footer p{
     .modal-item{
 
     font-size:11px;
-    }
+}
 }
 
 @media (max-width:480px){
