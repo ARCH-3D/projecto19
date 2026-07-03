@@ -83,7 +83,7 @@
     <div class="service-content">
       <button class="accordion-title">Design de Interiores</button>
       <div class="accordion-content">
-        <p>Conceção de espaços interiores que conciliam funcionalidade, conforto e estética.</p>
+        <p>Conceção de espaços interiores que conciliam funcionalidade, conforto e estética, refletindo a identidade e as necessidades de cada cliente.</p>
       </div>
     </div>
   </div>
@@ -97,7 +97,7 @@
     <div class="service-content">
       <button class="accordion-title">Licenciamento e Processos Administrativos</button>
       <div class="accordion-content">
-        <p>Tratamento de todos os processos necessários junto das entidades competentes, incluindo licenciamento e legalização de obras.</p>
+        <p>Tratamento de todos os processos necessários junto das entidades competentes, incluindo licenciamento, comunicação prévia, legalização de obras e demais procedimentos administrativos.</p>
       </div>
     </div>
   </div>
@@ -111,7 +111,7 @@
     <div class="service-content">
       <button class="accordion-title">Acompanhamento de Obra</button>
       <div class="accordion-content">
-        <p>Acompanhamento contínuo da obra, garantindo a correta execução do projeto.</p>
+        <p>Acompanhamento contínuo da obra, garantindo a correta execução do projeto e a coordenação entre todas as entidades envolvidas.</p>
       </div>
     </div>
   </div>
@@ -125,7 +125,7 @@
     <div class="service-content">
       <button class="accordion-title">Fiscalização</button>
       <div class="accordion-content">
-        <p>Controlo técnico da obra em todas as fases, assegurando qualidade e conformidade.</p>
+        <p>Controlo técnico e rigoroso da obra em todas as fases, assegurando a conformidade com o projeto, as normas e os padrões de qualidade definidos.</p>
       </div>
     </div>
   </div>
@@ -137,9 +137,9 @@
     </div>
 
     <div class="service-content">
-      <button class="accordion-title">Imagens 3D</button>
+      <button class="accordion-title">Desenvolvimento de Imagens 3D</button>
       <div class="accordion-content">
-        <p>Representação realista do projeto através de imagens 3D.</p>
+        <p>Representação rigorosa do projeto através de imagens 3D, permitindo visualizar os espaços, os materiais, a iluminação e os acabamentos, facilitando a tomada de decisão durante a fase de projeto.</p>
       </div>
     </div>
   </div>
@@ -153,7 +153,7 @@
     <div class="service-content">
       <button class="accordion-title">Realidade Virtual</button>
       <div class="accordion-content">
-        <p>Visualização imersiva do projeto em realidade virtual.</p>
+        <p>Visualização imersiva do projeto em realidade virtual, proporcionando uma perceção real da escala, dos materiais e da organização dos espaços.</p>
       </div>
     </div>
   </div>
@@ -167,7 +167,7 @@
     <div class="service-content">
       <button class="accordion-title">Impressão 3D</button>
       <div class="accordion-content">
-        <p>Criação de modelos físicos em impressão 3D para análise do projeto.</p>
+        <p>Materialização do projeto através de modelos físicos em impressão 3D, permitindo avaliar a volumetria, as proporções e estudar soluções construtivas com maior rigor.</p>
       </div>
     </div>
   </div>
@@ -190,48 +190,11 @@
     <p>© PROJETO 19</p>
 </footer>
 
-<div class="contact-widget">
-    <div class="contact-links">
-        <a href="mailto:info.projecto19@gmail.com">
-            <img src="img/icons/e-mail.svg" class="contact-link-icon">
-            <span>Email</span>
-        </a>
-
-        <a href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer">
-            <img src="img/icons/whatsapp.svg" class="contact-link-icon">
-            <span>WhatsApp</span>
-        </a>
-    </div>
-
-    <button class="contact-trigger">
-        <img src="img/icons/faleconnosco.svg" class="contact-icon">
-        <span>Fale Connosco</span>
-    </button>
-</div>
-
 <script>
 document.querySelectorAll(".accordion-title").forEach(btn => {
     btn.addEventListener("click", () => {
         btn.closest(".service").classList.toggle("active");
     });
-});
-</script>
-
-<script>
-const contactWidget = document.querySelector(".contact-widget");
-const contactButton = document.querySelector(".contact-trigger");
-
-contactButton.addEventListener("click", function(e){
-    e.stopPropagation();
-    contactWidget.classList.toggle("active");
-});
-
-document.addEventListener("click", function(){
-    contactWidget.classList.remove("active");
-});
-
-contactWidget.addEventListener("click", function(e){
-    e.stopPropagation();
 });
 
 function toggleMenu() {
