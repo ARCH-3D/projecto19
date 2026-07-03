@@ -191,9 +191,10 @@
 </footer>
 
 <script>
-document.querySelectorAll(".service").forEach(service => {
-    service.addEventListener("click", (e) => {
-        service.classList.toggle("active");
+document.querySelectorAll(".accordion-title").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        btn.closest(".service").classList.toggle("active");
     });
 });
 
