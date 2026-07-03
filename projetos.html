@@ -716,7 +716,7 @@ function abrirProjeto(nomeProjeto) {
     document.getElementById("modal-location").textContent = projetoAtual.info.local;
 
     document.getElementById("modal-projeto").style.display = "flex";
-    document.body.style.overflow = "hidden";
+    document.body.classList.add("modal-open");
 
     const widget = document.querySelector('.contact-widget');
     if (widget) {
@@ -729,7 +729,7 @@ function fecharModal() {
     document.getElementById('modal-projeto').style.display = 'none';
     document.getElementById('modal-content').innerHTML = '';
 
-    document.body.style.overflow = "";
+    document.body.classList.remove("modal-open");
 
     const widget = document.querySelector('.contact-widget');
     if (widget) {
