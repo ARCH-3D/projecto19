@@ -431,6 +431,10 @@ footer p{
     padding:14px 26px;
 
     z-index:10002;
+
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
 }
 
 .modal-info h2{
@@ -447,9 +451,11 @@ footer p{
     display:flex;
     justify-content:flex-start;
 
+    align-items:center;
+
     gap:40px;
 
-    align-items:center;
+    width:100%;
 }
 
 .modal-item{
