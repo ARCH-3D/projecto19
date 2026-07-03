@@ -699,27 +699,27 @@ let indiceAtual = 0;
 
 let touchStartX = 0;
 let touchEndX = 0;
+let bloqueado = false;
 
 /* =========================
    ABRIR PROJETO
 ========================= */
 function abrirProjeto(nomeProjeto) {
 
-  if (!projetos[nomeProjeto]) return;
+  if (!projetos || !projetos[nomeProjeto]) return;
 
-  midiasAtuais = projetos[nomeProjeto].media;
+  midiasAtuais = projetos[nomeProjeto].media || [];
   indiceAtual = 0;
 
   mostrarMidia();
 
-  document.getElementById('modal-projeto').style.display = 'flex';
+  const modal = document.getElementById('modal-projeto');
+  if (modal) modal.style.display = 'flex';
 
-  document.body.style.overflow = "hidden"; // trava scroll fundo
+  document.body.style.overflow = "hidden";
 
   const widget = document.querySelector('.contact-widget');
-  if (widget) {
-    widget.style.display = 'none';
-  }
+  if (widget) widget.style.display = 'none';
 }
 
 /* =========================
@@ -727,29 +727,28 @@ function abrirProjeto(nomeProjeto) {
 ========================= */
 function fecharModal() {
 
-  document.getElementById('modal-projeto').style.display = 'none';
-  document.getElementById('modal-content').innerHTML = '';
+  const modal = document.getElementById('modal-projeto');
+  const content = document.getElementById('modal-content');
 
-  document.body.style.overflow = ""; // desbloqueia scroll
+  if (modal) modal.style.display = 'none';
+  if (content) content.innerHTML = '';
+
+  document.body.style.overflow = "";
 
   const widget = document.querySelector('.contact-widget');
-  if (widget) {
-    widget.style.display = '';
-  }
+  if (widget) widget.style.display = '';
 }
 
 /* =========================
    MUDAR MEDIA
 ========================= */
-let bloqueado = false;
-
 function mudarMidia(direcao) {
 
   if (bloqueado || midiasAtuais.length === 0) return;
   bloqueado = true;
 
   const conteudo = document.getElementById('modal-content');
-  const elemento = conteudo.firstElementChild;
+  const elemento = conteudo ? conteudo.firstElementChild : null;
 
   if (elemento) {
     elemento.style.opacity = "0";
@@ -757,7 +756,9 @@ function mudarMidia(direcao) {
 
   setTimeout(() => {
 
-    indiceAtual = (indiceAtual + direcao + midiasAtuais.length) % midiasAtuais.length;
+    indiceAtual =
+      (indiceAtual + direcao + midiasAtuais.length) %
+      midiasAtuais.length;
 
     mostrarMidia();
     bloqueado = false;
@@ -771,6 +772,8 @@ function mudarMidia(direcao) {
 function mostrarMidia() {
 
   const conteudo = document.getElementById('modal-content');
+  if (!conteudo) return;
+
   conteudo.innerHTML = '';
 
   const midia = midiasAtuais[indiceAtual];
@@ -784,7 +787,7 @@ function mostrarMidia() {
     img.style.opacity = "0";
     img.style.transition = "opacity 0.3s ease";
 
-    img.onload = function () {
+    img.onload = () => {
       img.style.opacity = "1";
     };
 
@@ -804,7 +807,7 @@ function mostrarMidia() {
     video.style.opacity = "0";
     video.style.transition = "opacity 0.3s ease";
 
-    video.onloadeddata = function () {
+    video.onloadeddata = () => {
       video.style.opacity = "1";
     };
 
@@ -818,30 +821,29 @@ function mostrarMidia() {
 document.addEventListener('keydown', function (e) {
 
   const modal = document.getElementById('modal-projeto');
+  if (!modal || modal.style.display !== 'flex') return;
 
-  if (modal.style.display === 'flex') {
-
-    if (e.key === "ArrowLeft") mudarMidia(-1);
-    else if (e.key === "ArrowRight") mudarMidia(1);
-    else if (e.key === "Escape") fecharModal();
-  }
+  if (e.key === "ArrowLeft") mudarMidia(-1);
+  else if (e.key === "ArrowRight") mudarMidia(1);
+  else if (e.key === "Escape") fecharModal();
 });
 
 /* =========================
    SWIPE MOBILE
 ========================= */
-const modal = document.getElementById('modal-projeto');
+const modalEl = document.getElementById('modal-projeto');
 
-modal.addEventListener('touchstart', function (e) {
-  touchStartX = e.changedTouches[0].screenX;
-});
+if (modalEl) {
 
-modal.addEventListener('touchend', function (e) {
+  modalEl.addEventListener('touchstart', function (e) {
+    touchStartX = e.changedTouches[0].screenX;
+  });
 
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-
-});
+  modalEl.addEventListener('touchend', function (e) {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+}
 
 function handleSwipe() {
 
@@ -854,29 +856,25 @@ function handleSwipe() {
 /* =========================
    FECHAR AO CLICAR FORA
 ========================= */
-document.getElementById("modal-projeto").addEventListener("click", function (e) {
+document.addEventListener('click', function (e) {
 
-  if (e.target === this) {
+  const modal = document.getElementById('modal-projeto');
+
+  if (!modal) return;
+
+  if (e.target === modal) {
     fecharModal();
   }
-
 });
 
-document.getElementById('modal-content').addEventListener('click', function (e) {
-  e.stopPropagation();
-});
+document.addEventListener('DOMContentLoaded', function () {
 
-/* =========================
-   TOUCH CLEANUP
-========================= */
-document.querySelectorAll('.project').forEach(projeto => {
+  const content = document.getElementById('modal-content');
 
-  projeto.addEventListener('touchend', function () {
-
-    setTimeout(() => {
-      this.classList.remove('touched');
-    }, 200);
-
-  });
+  if (content) {
+    content.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+  }
 
 });
