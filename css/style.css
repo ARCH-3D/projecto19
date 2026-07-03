@@ -742,10 +742,10 @@ footer p{
     }
 
     .modal-details{
-        width:100%;
-        justify-content:space-between;
-        gap:10px;
-        flex-wrap:wrap;
+    width:100%;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
     }
 
     .modal-item{
