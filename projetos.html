@@ -788,6 +788,18 @@ function mostrarMidia() {
   const midia = midiasAtuais[indiceAtual];
   if (!midia) return;
 
+  // Atualizar informação do projeto
+const projeto = projetos[Object.keys(projetos).find(
+    key => projetos[key].media === midiasAtuais
+)];
+
+if (projeto) {
+    document.getElementById("modal-title").textContent = projeto.info.nome;
+    document.getElementById("modal-year").textContent = projeto.info.ano;
+    document.getElementById("modal-area").textContent = projeto.info.area;
+    document.getElementById("modal-location").textContent = projeto.info.local;
+}
+
   if (midia.type === 'image') {
 
     const img = document.createElement('img');
