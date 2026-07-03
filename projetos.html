@@ -717,15 +717,16 @@ function abrirProjeto(nomeProjeto) {
 
   if (!projetos || !projetos[nomeProjeto]) return;
 
-  midiasAtuais = projetos[nomeProjeto].media || [];
+  // 🔴 FIX PRINCIPAL: aqui NÃO existe .media
+  midiasAtuais = projetos[nomeProjeto];
   indiceAtual = 0;
+
+  if (!midiasAtuais.length) return;
 
   mostrarMidia();
 
   const modal = document.getElementById('modal-projeto');
-  if (!modal) return;
-
-  modal.style.display = 'flex';
+  if (modal) modal.style.display = 'flex';
 
   document.body.style.overflow = "hidden";
 
@@ -755,15 +756,13 @@ function fecharModal() {
 ========================= */
 function mudarMidia(direcao) {
 
-  if (bloqueado || midiasAtuais.length === 0) return;
+  if (bloqueado || !midiasAtuais.length) return;
   bloqueado = true;
 
   const conteudo = document.getElementById('modal-content');
   const elemento = conteudo?.firstElementChild;
 
-  if (elemento) {
-    elemento.style.opacity = "0";
-  }
+  if (elemento) elemento.style.opacity = "0";
 
   setTimeout(() => {
 
@@ -798,9 +797,7 @@ function mostrarMidia() {
     img.style.opacity = "0";
     img.style.transition = "opacity 0.3s ease";
 
-    img.onload = () => {
-      img.style.opacity = "1";
-    };
+    img.onload = () => img.style.opacity = "1";
 
     conteudo.appendChild(img);
   }
@@ -818,9 +815,7 @@ function mostrarMidia() {
     video.style.opacity = "0";
     video.style.transition = "opacity 0.3s ease";
 
-    video.onloadeddata = () => {
-      video.style.opacity = "1";
-    };
+    video.onloadeddata = () => video.style.opacity = "1";
 
     conteudo.appendChild(video);
   }
@@ -835,8 +830,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* TECLADO */
   document.addEventListener('keydown', function (e) {
-
-    const modal = document.getElementById('modal-projeto');
     if (!modal || modal.style.display !== 'flex') return;
 
     if (e.key === "ArrowLeft") mudarMidia(-1);
@@ -853,39 +846,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     modal.addEventListener('touchend', function (e) {
       touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
+
+      const distancia = touchEndX - touchStartX;
+
+      if (distancia > 50) mudarMidia(-1);
+      if (distancia < -50) mudarMidia(1);
     });
 
-  }
-
-  function handleSwipe() {
-    const distancia = touchEndX - touchStartX;
-
-    if (distancia > 50) mudarMidia(-1);
-    else if (distancia < -50) mudarMidia(1);
-  }
-
-  /* FECHAR AO CLICAR FORA */
-  if (modal) {
+    /* FECHAR AO CLICAR FORA */
     modal.addEventListener('click', function (e) {
       if (e.target === modal) fecharModal();
     });
   }
 
-  /* EVITAR FECHO AO CLICAR NA IMAGEM */
+  /* PREVENIR FECHO AO CLICAR NO CONTEÚDO */
   const content = document.getElementById('modal-content');
   if (content) {
     content.addEventListener('click', function (e) {
       e.stopPropagation();
     });
   }
-
 });
-
-/* =========================
-   EXPOSIÇÃO GLOBAL (IMPORTANTÍSSIMO)
-========================= */
-window.abrirProjeto = abrirProjeto;
-window.fecharModal = fecharModal;
-window.mudarMidia = mudarMidia;
-window.toggleMenu = toggleMenu;
