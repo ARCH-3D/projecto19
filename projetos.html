@@ -696,6 +696,7 @@ const projetos = {
 
 let midiasAtuais = [];
 let indiceAtual = 0;
+let animando = false;
 
 let touchStartX = 0;
 let touchEndX = 0;
@@ -737,27 +738,20 @@ function fecharModal() {
 
 function mudarMidia(direcao) {
 
-    const conteudo = document.getElementById("modal-content");
-    const atual = conteudo.firstElementChild;
+    if (animando) return;
 
-    if (atual) {
-        atual.style.opacity = "0";
-    }
+    animando = true;
 
-    setTimeout(() => {
+    indiceAtual += direcao;
+    indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
 
-        indiceAtual += direcao;
-        indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
-
-        mostrarMidia();
-
-    }, 350);
+    mostrarMidia();
 
 }
 
 function mostrarMidia() {
 
-    const conteudo = document.getElementById('modal-content');
+    const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
 
     let novoElemento;
@@ -780,7 +774,6 @@ function mostrarMidia() {
 
     }
 
-    // estilo da nova imagem
     novoElemento.style.position = "absolute";
     novoElemento.style.top = "50%";
     novoElemento.style.left = "50%";
@@ -788,7 +781,6 @@ function mostrarMidia() {
 
     novoElemento.style.maxWidth = "90vw";
     novoElemento.style.maxHeight = "calc(100vh - 100px)";
-
     novoElemento.style.objectFit = "contain";
 
     novoElemento.style.opacity = "0";
@@ -809,8 +801,18 @@ function mostrarMidia() {
                 atual.style.opacity = "0";
 
                 setTimeout(() => {
-                    if (atual.parentNode) atual.remove();
+
+                    if (atual.parentNode) {
+                        atual.remove();
+                    }
+
+                    animando = false;
+
                 }, 350);
+
+            } else {
+
+                animando = false;
 
             }
 
@@ -832,12 +834,14 @@ function mostrarMidia() {
 
     }
 
-    // preload próxima imagem
+    // Pré-carrega a próxima imagem
     const proxima = midiasAtuais[(indiceAtual + 1) % midiasAtuais.length];
 
-    if (proxima.type === "image") {
+    if (proxima && proxima.type === "image") {
+
         const img = new Image();
         img.src = proxima.src;
+
     }
 
 }
