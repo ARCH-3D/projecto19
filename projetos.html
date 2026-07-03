@@ -808,11 +808,9 @@ function mostrarMidia() {
     // elemento atual
     const atual = conteudo.firstElementChild;
 
-    // adiciona novo primeiro (evita flicker no Safari)
-    conteudo.appendChild(novoElemento);
-
-    // força reflow (CRÍTICO para iPad Safari)
-    novoElemento.getBoundingClientRect();
+    // limpa tudo imediatamente (evita sobreposição)
+      conteudo.innerHTML = "";
+      conteudo.appendChild(novoElemento);
 
     // remove anterior com fade-out
     if (atual) {
