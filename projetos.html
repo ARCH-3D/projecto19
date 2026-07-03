@@ -767,23 +767,27 @@ function mostrarMidia() {
 
         const img = document.createElement('img');
 
+        img.classList.add("fade-media");
+
         img.src = midia.src;
 
-        img.style.opacity = "0";
+        img.onload = function () {
 
-        img.onload = function() {
+        requestAnimationFrame(() => {
+        img.classList.add("show");
+    });
 
-            img.style.opacity = "1";
+};
 
-        };
-
-        conteudo.appendChild(img);
+conteudo.appendChild(img);
 
     }
 
     else if (midia.type === 'video') {
 
         const video = document.createElement('video');
+
+        video.classList.add("fade-media");
 
         video.src = midia.src;
 
@@ -792,15 +796,15 @@ function mostrarMidia() {
         video.muted = true;
         video.loop = true;
 
-        video.style.opacity = "0";
+        video.onloadeddata = function () {
 
-        video.onloadeddata = function() {
+        requestAnimationFrame(() => {
+        video.classList.add("show");
+    });
 
-            video.style.opacity = "1";
+};
 
-        };
-
-        conteudo.appendChild(video);
+conteudo.appendChild(video);
 
     }
 

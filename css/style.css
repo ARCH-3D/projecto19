@@ -463,6 +463,14 @@ footer p{
     -webkit-user-drag:none;
 }
 
+.fade-media{
+    opacity:0;
+}
+
+.fade-media.show{
+    opacity:1;
+}
+
 @media (min-width:1600px){
     #modal-content img,
     #modal-content video{
