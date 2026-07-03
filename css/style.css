@@ -430,10 +430,6 @@ footer p{
 
     padding:14px 26px;
 
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
     z-index:10002;
 }
 
@@ -449,7 +445,10 @@ footer p{
 .modal-details{
 
     display:flex;
-    gap:30px;
+    justify-content:flex-start;
+
+    gap:40px;
+
     align-items:center;
 }
 
