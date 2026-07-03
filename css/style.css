@@ -417,10 +417,10 @@ footer p{
     -webkit-user-drag:none;
 }
 
-@media (min-width:2000px){
+@media (min-width:1600px){
     #modal-content img,
     #modal-content video{
-        max-height:calc(100vh - 120px);
+        max-height:calc(100vh - 130px);
     }
 }
 
