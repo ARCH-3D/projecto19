@@ -757,7 +757,7 @@ function mudarMidia(direcao) {
 
 function mostrarMidia() {
 
-    const conteudo = document.getElementById("modal-content");
+    const conteudo = document.getElementById('modal-content');
     const midia = midiasAtuais[indiceAtual];
 
     let novoElemento;
@@ -777,22 +777,38 @@ function mostrarMidia() {
         novoElemento.muted = true;
         novoElemento.loop = true;
         novoElemento.playsInline = true;
+
     }
 
+    // estilo da nova imagem
+    novoElemento.style.position = "absolute";
+    novoElemento.style.inset = "0";
+    novoElemento.style.width = "100%";
+    novoElemento.style.height = "100%";
+    novoElemento.style.objectFit = "contain";
     novoElemento.style.opacity = "0";
     novoElemento.style.transition = "opacity .35s ease";
 
-    const inserir = () => {
+    const atual = conteudo.firstElementChild;
 
-        // Remove a imagem anterior apenas agora
-        conteudo.innerHTML = "";
+    conteudo.appendChild(novoElemento);
 
-        conteudo.appendChild(novoElemento);
+    const mostrar = () => {
 
         requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                novoElemento.style.opacity = "1";
-            });
+
+            novoElemento.style.opacity = "1";
+
+            if (atual) {
+
+                atual.style.opacity = "0";
+
+                setTimeout(() => {
+                    if (atual.parentNode) atual.remove();
+                }, 350);
+
+            }
+
         });
 
     };
@@ -800,29 +816,23 @@ function mostrarMidia() {
     if (midia.type === "image") {
 
         if (novoElemento.complete) {
-            inserir();
+            mostrar();
         } else {
-            novoElemento.onload = inserir;
+            novoElemento.onload = mostrar;
         }
 
     } else {
 
-        novoElemento.onloadeddata = inserir;
+        novoElemento.onloadeddata = mostrar;
 
     }
 
-    // Pré-carrega as próximas 3 imagens
-    for (let i = 1; i <= 3; i++) {
+    // preload próxima imagem
+    const proxima = midiasAtuais[(indiceAtual + 1) % midiasAtuais.length];
 
-        const prox = midiasAtuais[(indiceAtual + i) % midiasAtuais.length];
-
-        if (prox.type === "image") {
-
-            const img = new Image();
-            img.src = prox.src;
-
-        }
-
+    if (proxima.type === "image") {
+        const img = new Image();
+        img.src = proxima.src;
     }
 
 }
