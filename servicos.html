@@ -191,9 +191,9 @@
 </footer>
 
 <script>
-document.querySelectorAll(".accordion-title").forEach(btn => {
-    btn.addEventListener("click", () => {
-        btn.closest(".service").classList.toggle("active");
+document.querySelectorAll(".service").forEach(service => {
+    service.addEventListener("click", (e) => {
+        service.classList.toggle("active");
     });
 });
 
