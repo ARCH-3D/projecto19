@@ -420,18 +420,15 @@ footer p{
 /* ================= PROJECT INFO ================= */
 
 .modal-info{
-
     position:absolute;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%);
 
-    left:0;
-    bottom:20px;
-
-    width:100%;
-
-    padding:0 25px;
+    width:fit-content;
+    max-width:90%;
 
     z-index:10002;
-
     pointer-events:none;
 }
 
@@ -445,12 +442,9 @@ footer p{
 }
 
 .modal-details{
-
     display:flex;
-    justify-content:flex-start;
-
+    justify-content:center;
     align-items:center;
-
     gap:60px;
 }
 
@@ -734,6 +728,8 @@ footer p{
     }
 
     .modal-info{
+        left:0;
+        transform:none;
         width:100%;
         bottom:15px;
         padding:0 16px;
@@ -745,9 +741,7 @@ footer p{
 
     .modal-details{
         width:100%;
-        display:flex;
         justify-content:space-between;
-        align-items:center;
         gap:10px;
         flex-wrap:wrap;
     }
