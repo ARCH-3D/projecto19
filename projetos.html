@@ -700,7 +700,12 @@ let indiceAtual = 0;
 let touchStartX = 0;
 let touchEndX = 0;
 
+/* =========================
+   ABRIR PROJETO
+========================= */
 function abrirProjeto(nomeProjeto) {
+
+  if (!projetos[nomeProjeto]) return;
 
   midiasAtuais = projetos[nomeProjeto].media;
   indiceAtual = 0;
@@ -709,30 +714,42 @@ function abrirProjeto(nomeProjeto) {
 
   document.getElementById('modal-projeto').style.display = 'flex';
 
+  document.body.style.overflow = "hidden"; // trava scroll fundo
+
   const widget = document.querySelector('.contact-widget');
   if (widget) {
     widget.style.display = 'none';
   }
-
 }
 
+/* =========================
+   FECHAR MODAL
+========================= */
 function fecharModal() {
 
   document.getElementById('modal-projeto').style.display = 'none';
-
   document.getElementById('modal-content').innerHTML = '';
+
+  document.body.style.overflow = ""; // desbloqueia scroll
 
   const widget = document.querySelector('.contact-widget');
   if (widget) {
     widget.style.display = '';
   }
-
 }
+
+/* =========================
+   MUDAR MEDIA
+========================= */
+let bloqueado = false;
 
 function mudarMidia(direcao) {
 
+  if (bloqueado || midiasAtuais.length === 0) return;
+  bloqueado = true;
+
   const conteudo = document.getElementById('modal-content');
-  const elemento = conteudo.firstChild;
+  const elemento = conteudo.firstElementChild;
 
   if (elemento) {
     elemento.style.opacity = "0";
@@ -740,258 +757,126 @@ function mudarMidia(direcao) {
 
   setTimeout(() => {
 
-    indiceAtual += direcao;
-
-    indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
+    indiceAtual = (indiceAtual + direcao + midiasAtuais.length) % midiasAtuais.length;
 
     mostrarMidia();
+    bloqueado = false;
 
   }, 200);
-
 }
 
+/* =========================
+   MOSTRAR MEDIA
+========================= */
 function mostrarMidia() {
 
-    const conteudo = document.getElementById('modal-content');
+  const conteudo = document.getElementById('modal-content');
+  conteudo.innerHTML = '';
 
-    conteudo.innerHTML = '';
+  const midia = midiasAtuais[indiceAtual];
+  if (!midia) return;
 
-    const midia = midiasAtuais[indiceAtual];
+  if (midia.type === 'image') {
 
-    if (midia.type === 'image') {
+    const img = document.createElement('img');
+    img.src = midia.src;
 
-        const img = document.createElement('img');
+    img.style.opacity = "0";
+    img.style.transition = "opacity 0.3s ease";
 
-        img.src = midia.src;
+    img.onload = function () {
+      img.style.opacity = "1";
+    };
 
-        img.style.opacity = "0";
+    conteudo.appendChild(img);
+  }
 
-        img.onload = function() {
+  else if (midia.type === 'video') {
 
-            img.style.opacity = "1";
+    const video = document.createElement('video');
+    video.src = midia.src;
 
-        };
+    video.controls = true;
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
 
-        conteudo.appendChild(img);
+    video.style.opacity = "0";
+    video.style.transition = "opacity 0.3s ease";
 
-    }
+    video.onloadeddata = function () {
+      video.style.opacity = "1";
+    };
 
-    else if (midia.type === 'video') {
-
-        const video = document.createElement('video');
-
-        video.src = midia.src;
-
-        video.controls = true;
-        video.autoplay = true;
-        video.muted = true;
-        video.loop = true;
-
-        video.style.opacity = "0";
-
-        video.onloadeddata = function() {
-
-            video.style.opacity = "1";
-
-        };
-
-        conteudo.appendChild(video);
-
-    }
-
+    conteudo.appendChild(video);
+  }
 }
 
-/* Navegação com teclado */
-document.addEventListener('keydown', function(e) {
+/* =========================
+   TECLADO
+========================= */
+document.addEventListener('keydown', function (e) {
+
   const modal = document.getElementById('modal-projeto');
+
   if (modal.style.display === 'flex') {
+
     if (e.key === "ArrowLeft") mudarMidia(-1);
     else if (e.key === "ArrowRight") mudarMidia(1);
     else if (e.key === "Escape") fecharModal();
   }
 });
 
-
-/* Swipe no telemóvel */
-
+/* =========================
+   SWIPE MOBILE
+========================= */
 const modal = document.getElementById('modal-projeto');
 
-modal.addEventListener('touchstart', function(e) {
-
-    touchStartX = e.changedTouches[0].screenX;
-
+modal.addEventListener('touchstart', function (e) {
+  touchStartX = e.changedTouches[0].screenX;
 });
 
-modal.addEventListener('touchend', function(e) {
+modal.addEventListener('touchend', function (e) {
 
-    touchEndX = e.changedTouches[0].screenX;
-
-    handleSwipe();
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
 
 });
 
 function handleSwipe() {
 
-    const distancia = touchEndX - touchStartX;
+  const distancia = touchEndX - touchStartX;
 
-    if (distancia > 50) {
-
-        mudarMidia(-1);
-
-    }
-
-    if (distancia < -50) {
-
-        mudarMidia(1);
-
-    }
-
+  if (distancia > 50) mudarMidia(-1);
+  if (distancia < -50) mudarMidia(1);
 }
 
+/* =========================
+   FECHAR AO CLICAR FORA
+========================= */
+document.getElementById("modal-projeto").addEventListener("click", function (e) {
 
-/* FECHAR AO CLICAR FORA DA IMAGEM */
-
-document.getElementById("modal-projeto").addEventListener("click", function(e){
-
-    if (e.target === this){
-
-        fecharModal();
-
-    }
+  if (e.target === this) {
+    fecharModal();
+  }
 
 });
 
-document.getElementById('modal-content').addEventListener('click', function(e){
-    e.stopPropagation();
+document.getElementById('modal-content').addEventListener('click', function (e) {
+  e.stopPropagation();
 });
 
+/* =========================
+   TOUCH CLEANUP
+========================= */
 document.querySelectorAll('.project').forEach(projeto => {
 
-    projeto.addEventListener('touchend', function() {
+  projeto.addEventListener('touchend', function () {
 
-        setTimeout(() => {
+    setTimeout(() => {
+      this.classList.remove('touched');
+    }, 200);
 
-            this.classList.remove('touched');
-
-        }, 200);
-
-    });
+  });
 
 });
-
-</script>
-
-<footer>
-
-    <div class="social-links">
-
-        <a href="https://www.instagram.com/projecto_19/"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/instagram.svg"
-                alt=""
-                class="social-icon">
-
-            <span>Instagram</span>
-
-        </a>
-
-        <a href="https://www.facebook.com/projecto19"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/facebook.svg"
-                alt=""
-                class="social-icon">
-
-            <span>Facebook</span>
-
-        </a>
-
-    </div>
-
-    <p>© PROJETO 19</p>
-
-</footer>
-
-<div class="contact-widget">
-
-    <div class="contact-links">
-
-        <a href="mailto:info.projecto19@gmail.com">
-
-            <img
-                src="img/icons/e-mail.svg"
-                alt=""
-                class="contact-link-icon">
-
-            <span>Email</span>
-
-        </a>
-
-        <a href="https://wa.me/351934185719"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/whatsapp.svg"
-                alt=""
-                class="contact-link-icon">
-
-            <span>WhatsApp</span>
-
-        </a>
-
-    </div>
-
-    <button class="contact-trigger">
-
-        <img
-            src="img/icons/faleconnosco.svg"
-            alt=""
-            class="contact-icon">
-
-        <span>Fale Connosco</span>
-
-    </button>
-
-</div>
-
-<script>
-
-const contactWidget = document.querySelector(".contact-widget");
-const contactButton = document.querySelector(".contact-trigger");
-
-contactButton.addEventListener("click", function(e){
-
-    e.stopPropagation();
-
-    contactWidget.classList.toggle("active");
-
-});
-
-document.addEventListener("click", function(){
-
-    contactWidget.classList.remove("active");
-
-});
-
-contactWidget.addEventListener("click", function(e){
-
-    e.stopPropagation();
-
-});
-
-</script>
-
-<script>
-function toggleMenu() {
-    document.getElementById("menu").classList.toggle("active");
-}
-</script>
-
-</body>
-</html>
