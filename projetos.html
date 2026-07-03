@@ -726,14 +726,15 @@ function abrirProjeto(nomeProjeto) {
 
 function fecharModal() {
 
-  document.getElementById('modal-projeto').style.display = 'none';
+    document.getElementById('modal-projeto').style.display = 'none';
+    document.getElementById('modal-content').innerHTML = '';
 
-  document.getElementById('modal-content').innerHTML = '';
+    document.body.style.overflow = "";
 
-  const widget = document.querySelector('.contact-widget');
-  if (widget) {
-    widget.style.display = '';
-  }
+    const widget = document.querySelector('.contact-widget');
+    if (widget) {
+        widget.style.display = '';
+    }
 
 }
 
