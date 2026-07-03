@@ -407,7 +407,7 @@ footer p{
 #modal-content img,
 #modal-content video{
     max-width:90vw;
-    max-height:calc(100vh - 120px);
+    max-height:calc(100vh - 100px);
 
     object-fit:contain;
 
@@ -415,6 +415,13 @@ footer p{
 
     user-select:none;
     -webkit-user-drag:none;
+}
+
+@media (min-width:2000px){
+    #modal-content img,
+    #modal-content video{
+        max-height:calc(100vh - 120px);
+    }
 }
 
 /* ================= PROJECT INFO ================= */
