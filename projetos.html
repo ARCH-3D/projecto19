@@ -697,17 +697,14 @@ const projetos = {
 let midiasAtuais = [];
 let indiceAtual = 0;
 
+let touchStartX = 0;
+let touchEndX = 0;
+
 function abrirProjeto(nomeProjeto) {
 
-  const projeto = projetos[nomeProjeto];
-
-  midiasAtuais = projeto.media;
+  midiasAtuais = projetos[nomeProjeto];
   indiceAtual = 0;
 
-  document.getElementById("modal-title").textContent = projeto.info.nome;
-  document.getElementById("modal-year").textContent = projeto.info.ano;
-  document.getElementById("modal-area").textContent = projeto.info.area;
-  document.getElementById("modal-location").textContent = projeto.info.local;
   mostrarMidia();
 
   document.getElementById('modal-projeto').style.display = 'flex';
@@ -750,11 +747,6 @@ function mudarMidia(direcao) {
     mostrarMidia();
 
   }, 200);
-
-  const proximo = (indiceAtual + 1) % midiasAtuais.length;
-
-  const preload = new Image();
-  preload.src = midiasAtuais[proximo].src;
 
 }
 
@@ -822,39 +814,38 @@ document.addEventListener('keydown', function(e) {
 
 /* Swipe no telemóvel */
 
-const modal = document.getElementById("modal-projeto");
-
-let touchStartX = 0;
-let touchEndX = 0;
-let isSwiping = false;
+const modal = document.getElementById('modal-projeto');
 
 modal.addEventListener('touchstart', function(e) {
-    touchStartX = e.changedTouches[0].screenX;
-    isSwiping = false;
-});
 
-modal.addEventListener('touchmove', function(e) {
-    const delta = Math.abs(e.changedTouches[0].screenX - touchStartX);
-    if (delta > 10) {
-        isSwiping = true;
-    }
+    touchStartX = e.changedTouches[0].screenX;
+
 });
 
 modal.addEventListener('touchend', function(e) {
+
     touchEndX = e.changedTouches[0].screenX;
+
     handleSwipe();
+
 });
 
 function handleSwipe() {
+
     const distancia = touchEndX - touchStartX;
 
     if (distancia > 50) {
+
         mudarMidia(-1);
+
     }
 
     if (distancia < -50) {
+
         mudarMidia(1);
+
     }
+
 }
 
 
@@ -862,10 +853,10 @@ function handleSwipe() {
 
 document.getElementById("modal-projeto").addEventListener("click", function(e){
 
-    if (isSwiping) return;
-
     if (e.target === this){
+
         fecharModal();
+
     }
 
 });
@@ -883,17 +874,6 @@ document.querySelectorAll('.project').forEach(projeto => {
             this.classList.remove('touched');
 
         }, 200);
-
-    });
-
-});
-
-window.addEventListener("load", () => {
-
-    Object.values(projetos).forEach(projeto => {
-
-        const img = new Image();
-        img.src = projeto.media[0].src;
 
     });
 
