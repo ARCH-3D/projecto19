@@ -840,3 +840,27 @@ a {
 .service:hover {
     transform: translateY(-2px);
 }
+
+.accordion-title {
+    background: none;
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    color: #111;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.service.active .accordion-content {
+    max-height: 500px;
+    margin-top: 10px;
+}
