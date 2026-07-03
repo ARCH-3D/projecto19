@@ -761,50 +761,62 @@ function mostrarMidia() {
     const conteudo = document.getElementById('modal-content');
     const midia = midiasAtuais[indiceAtual];
 
+    // cria elemento novo
+    let novoElemento;
+
     if (midia.type === 'image') {
 
-        const img = new Image();
+        novoElemento = new Image();
+        novoElemento.src = midia.src;
 
-        img.src = midia.src;
-        img.style.opacity = "0";
-        img.style.transition = "opacity .3s ease";
+    } else if (midia.type === 'video') {
 
-        img.onload = function () {
-            conteudo.innerHTML = "";
-            conteudo.appendChild(img);
-            img.style.opacity = "1";
-        };
-
+        novoElemento = document.createElement('video');
+        novoElemento.src = midia.src;
+        novoElemento.controls = true;
+        novoElemento.autoplay = true;
+        novoElemento.muted = true;
+        novoElemento.loop = true;
     }
 
-    else if (midia.type === 'video') {
+    // estado inicial
+    novoElemento.style.opacity = "0";
+    novoElemento.style.transition = "opacity .35s ease";
 
-        const video = document.createElement('video');
+    // quando carregar
+    const mostrar = () => {
+        requestAnimationFrame(() => {
+            novoElemento.style.opacity = "1";
+        });
+    };
 
-        video.src = midia.src;
-        video.controls = true;
-        video.autoplay = true;
-        video.muted = true;
-        video.loop = true;
-
-        video.style.opacity = "0";
-        video.style.transition = "opacity .3s ease";
-
-        video.onloadeddata = function () {
-            conteudo.innerHTML = "";
-            conteudo.appendChild(video);
-            video.style.opacity = "1";
-        };
-
+    if (midia.type === 'image') {
+        novoElemento.onload = mostrar;
+    } else {
+        novoElemento.onloadeddata = mostrar;
     }
 
+    // troca segura (sem apagar logo o anterior)
+    const atual = conteudo.firstElementChild;
+
+    conteudo.appendChild(novoElemento);
+
+    if (atual) {
+        atual.style.opacity = "0";
+
+        setTimeout(() => {
+            if (atual.parentNode) {
+                atual.remove();
+            }
+        }, 350);
+    }
+
+    // preload próxima imagem (seguro)
     const proxima = midiasAtuais[(indiceAtual + 1) % midiasAtuais.length];
-
     if (proxima.type === "image") {
-        const next = new Image();
-        next.src = proxima.src;
+        const img = new Image();
+        img.src = proxima.src;
     }
-
 }
 
 /* Navegação com teclado */
