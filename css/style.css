@@ -415,6 +415,9 @@ footer p{
 
     user-select:none;
     -webkit-user-drag:none;
+
+    display:block;
+    will-change:opacity;
 }
 
 @media (min-width:1600px){
