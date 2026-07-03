@@ -737,101 +737,94 @@ function fecharModal() {
 
 function mudarMidia(direcao) {
 
-  const conteudo = document.getElementById('modal-content');
-  const elemento = conteudo.firstChild;
+    const conteudo = document.getElementById("modal-content");
+    const atual = conteudo.firstElementChild;
 
-  if (elemento) {
-    elemento.style.opacity = "0";
-  }
+    if (atual) {
+        atual.style.opacity = "0";
+    }
 
-  setTimeout(() => {
+    setTimeout(() => {
 
-    indiceAtual += direcao;
+        indiceAtual += direcao;
+        indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
 
-    indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
+        mostrarMidia();
 
-    mostrarMidia();
-
-  }, 200);
+    }, 350);
 
 }
 
 function mostrarMidia() {
 
-    const conteudo = document.getElementById('modal-content');
+    const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
 
     let novoElemento;
 
-    if (midia.type === 'image') {
+    if (midia.type === "image") {
 
         novoElemento = new Image();
         novoElemento.src = midia.src;
-
-        // iOS Safari fix: garante decode consistente
         novoElemento.decoding = "async";
 
-    } else if (midia.type === 'video') {
+    } else {
 
-        novoElemento = document.createElement('video');
+        novoElemento = document.createElement("video");
         novoElemento.src = midia.src;
         novoElemento.controls = true;
         novoElemento.autoplay = true;
         novoElemento.muted = true;
         novoElemento.loop = true;
-        novoElemento.playsInline = true; // importante no iOS
+        novoElemento.playsInline = true;
     }
 
-    // estado inicial (ANTES de entrar no DOM)
     novoElemento.style.opacity = "0";
     novoElemento.style.transition = "opacity .35s ease";
 
-    const mostrar = () => {
+    const inserir = () => {
+
+        // Remove a imagem anterior apenas agora
+        conteudo.innerHTML = "";
+
+        conteudo.appendChild(novoElemento);
+
         requestAnimationFrame(() => {
-            novoElemento.style.opacity = "1";
+            requestAnimationFrame(() => {
+                novoElemento.style.opacity = "1";
+            });
         });
+
     };
 
-    // evento de load seguro (iOS-friendly)
-    if (midia.type === 'image') {
+    if (midia.type === "image") {
 
         if (novoElemento.complete) {
-            mostrar();
+            inserir();
         } else {
-            novoElemento.onload = mostrar;
+            novoElemento.onload = inserir;
         }
 
     } else {
-        novoElemento.onloadeddata = mostrar;
+
+        novoElemento.onloadeddata = inserir;
+
     }
 
-    // elemento atual
-    const atual = conteudo.firstElementChild;
+    // Pré-carrega as próximas 3 imagens
+    for (let i = 1; i <= 3; i++) {
 
-    // limpa tudo imediatamente (evita sobreposição)
-      conteudo.innerHTML = "";
-      conteudo.appendChild(novoElemento);
+        const prox = midiasAtuais[(indiceAtual + i) % midiasAtuais.length];
 
-    // remove anterior com fade-out
-    if (atual) {
+        if (prox.type === "image") {
 
-        atual.style.transition = "opacity .35s ease";
-        atual.style.opacity = "0";
+            const img = new Image();
+            img.src = prox.src;
 
-        setTimeout(() => {
-            if (atual && atual.parentNode) {
-                atual.remove();
-            }
-        }, 350);
+        }
+
     }
 
-    // preload próxima imagem
-    const proxima = midiasAtuais[(indiceAtual + 1) % midiasAtuais.length];
-
-    if (proxima.type === "image") {
-        const img = new Image();
-        img.src = proxima.src;
-    }
 }
 
 /* Navegação com teclado */
