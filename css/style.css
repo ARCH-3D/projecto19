@@ -838,6 +838,5 @@ a {
 }
 
 .service:hover {
-    background: rgba(0,0,0,0.04);
     transform: translateY(-2px);
 }
