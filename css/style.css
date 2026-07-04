@@ -481,6 +481,15 @@ footer p{
         max-height:calc(100vh - 130px);
     }
 }
+/* iPad e tablets na horizontal */
+@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
+
+    #modal-content img,
+    #modal-content video{
+        max-height:calc(100vh - 170px);
+    }
+
+}
 
 /* ================= PROJECT INFO ================= */
 
