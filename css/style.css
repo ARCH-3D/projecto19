@@ -2,13 +2,21 @@
 
 
 /* ================== RESET ================== */
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
 
+/* ================== HTML ================== */
+
+html{
+    scrollbar-gutter: stable;
+}
+
 /* ================== BODY ================== */
+
 body{
     min-height:100vh;
     display:flex;
