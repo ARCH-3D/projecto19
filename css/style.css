@@ -444,9 +444,6 @@ footer p{
 
     overflow:hidden;
     touch-action:pan-y;
-
-    height:100vh;
-    height:100dvh;
 }
 
 #modal-content{
