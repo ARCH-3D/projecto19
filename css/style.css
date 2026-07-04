@@ -465,7 +465,7 @@ footer p{
 #modal-content img,
 #modal-content video{
     max-width:90vw;
-    max-height:calc(100dvh - 100px);
+    max-height:calc(100dvh - 160px);
 
     object-fit:contain;
 
