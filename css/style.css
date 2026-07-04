@@ -438,27 +438,30 @@ footer p{
 
     z-index:9999;
 
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+
     overflow:hidden;
     touch-action:pan-y;
 }
 
 #modal-content{
-    position:relative;
-
     display:flex;
     justify-content:center;
     align-items:center;
 
     width:100%;
-    height:100%;
+    height:100vh;
 
     overflow:hidden;
+    position:relative;
 }
 
 #modal-content img,
 #modal-content video{
     max-width:90vw;
-    max-height:100%;
+    max-height:calc(100vh - 100px);
 
     object-fit:contain;
 
@@ -478,7 +481,7 @@ footer p{
         max-height:calc(100vh - 130px);
     }
 }
-
+/* iPad e tablets na horizontal */
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
 
     #modal-content img,
@@ -488,43 +491,20 @@ footer p{
 
 }
 
-.modal-gallery{
-    display:flex;
-    flex-direction:column;
-
-    width:100%;
-    height:100dvh;
-    height:100svh;
-}
-
-.modal-media{
-    flex:1;
-    min-height:0;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    overflow:hidden;
-}
-
 /* ================= PROJECT INFO ================= */
 
 .modal-info{
-    position:relative;
+    position:absolute;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%);
 
     width:100%;
-    min-height:90px;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-
-    padding:15px 25px;
-
-    background:#fff;
+    max-width:700px;
+    padding:0 25px;
 
     z-index:10002;
+    pointer-events:none;
 }
 
 .modal-info h2{
@@ -832,9 +812,11 @@ footer p{
     }
 
     .modal-info{
-    width:100%;
-    min-height:90px;
-    padding:15px 16px;
+        left:0;
+        transform:none;
+        width:100%;
+        bottom:15px;
+        padding:0 16px;
     }
 
     .modal-info h2{
