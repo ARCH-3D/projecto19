@@ -482,6 +482,15 @@ footer p{
     }
 }
 
+@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
+
+    #modal-content img,
+    #modal-content video{
+        max-height:calc(100vh - 170px);
+    }
+
+}
+
 .modal-gallery{
     display:flex;
     flex-direction:column;
