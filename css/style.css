@@ -459,7 +459,9 @@ footer p{
 
     transition:opacity .3s ease;
     will-change: opacity;
-    transform: translateZ(0);
+    transform: translate3d(0,0,0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 
     user-select:none;
     -webkit-user-drag:none;
