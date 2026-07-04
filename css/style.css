@@ -458,6 +458,8 @@ footer p{
     object-fit:contain;
 
     transition:opacity .3s ease;
+    will-change: opacity;
+    transform: translateZ(0);
 
     user-select:none;
     -webkit-user-drag:none;
