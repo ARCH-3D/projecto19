@@ -736,77 +736,77 @@ function fecharModal() {
 
 function mudarMidia(direcao) {
 
-  const conteudo = document.getElementById('modal-content');
-  const elemento = conteudo.firstChild;
-
-  if (elemento) {
-    elemento.style.opacity = "0";
-  }
-
-  setTimeout(() => {
-
     indiceAtual += direcao;
 
     indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
 
     mostrarMidia();
 
-  }, 200);
-
 }
 
 function mostrarMidia() {
 
-    const conteudo = document.getElementById('modal-content');
-
-    conteudo.innerHTML = '';
-
+    const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
 
-    if (midia.type === 'image') {
+    let elemento = conteudo.firstElementChild;
 
-        const img = document.createElement('img');
+    // Se não existir elemento ou mudou de imagem para vídeo (ou vice-versa)
+    if (
+        !elemento ||
+        (midia.type === "image" && elemento.tagName !== "IMG") ||
+        (midia.type === "video" && elemento.tagName !== "VIDEO")
+    ) {
 
-        img.classList.add("fade-media");
+        conteudo.innerHTML = "";
 
-        img.src = midia.src;
+        if (midia.type === "image") {
 
-        img.onload = function () {
+            elemento = document.createElement("img");
 
-            setTimeout(() => {
-                img.classList.add("show");
-            }, 20);
+        } else {
 
-        };
+            elemento = document.createElement("video");
+            elemento.controls = true;
+            elemento.autoplay = true;
+            elemento.muted = true;
+            elemento.loop = true;
 
-        conteudo.appendChild(img);
+        }
 
-    }
-
-    else if (midia.type === 'video') {
-
-        const video = document.createElement('video');
-
-        video.classList.add("fade-media");
-
-        video.src = midia.src;
-
-        video.controls = true;
-        video.autoplay = true;
-        video.muted = true;
-        video.loop = true;
-
-        video.onloadeddata = function () {
-
-            setTimeout(() => {
-                video.classList.add("show");
-            }, 20);
-
-        };
-
-        conteudo.appendChild(video);
+        conteudo.appendChild(elemento);
 
     }
+
+    elemento.style.opacity = "0";
+
+    setTimeout(() => {
+
+        if (midia.type === "image") {
+
+            elemento.onload = () => {
+
+                elemento.style.opacity = "1";
+
+            };
+
+            elemento.src = midia.src;
+
+        } else {
+
+            elemento.onloadeddata = () => {
+
+                elemento.style.opacity = "1";
+
+            };
+
+            elemento.src = midia.src;
+
+            elemento.play();
+
+        }
+
+    }, 180);
 
 }
 
