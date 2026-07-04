@@ -878,10 +878,3 @@ footer p{
         max-height:88dvh;
     }
 }
-
-/* Desktop grande */
-@media (min-width: 1200px){
-    .grid{
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
