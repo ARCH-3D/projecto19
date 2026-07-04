@@ -462,39 +462,22 @@ footer p{
 #modal-content img,
 #modal-content video{
     max-width:90vw;
-    max-height:calc(100vh - 100px);
+    max-height:75dvh;
 
     object-fit:contain;
 
-    transition:opacity .3s ease;
-    will-change: opacity;
-    transform: translate3d(0,0,0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-
-    user-select:none;
-    -webkit-user-drag:none;
+    display:block;
+    margin:auto;
 }
 
-/* iPad landscape fix */
-@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
-
-    #modal-content img,
-    #modal-content video{
-        max-height:calc(100vh - 180px);
-    }
-
-    .modal-info{
-        bottom:35px;
-    }
-}
 
 /* ================= PROJECT INFO ================= */
 
 .modal-info{
     position:absolute;
     left:50%;
-    bottom:25px;
+    bottom:calc(20px + env(safe-area-inset-bottom));
+
     transform:translateX(-50%);
 
     width:100%;
@@ -838,7 +821,7 @@ footer p{
     #modal-content img,
     #modal-content video{
         max-width:95vw;
-        max-height:calc(100vh - 120px);
+        max-height:75dvh;
     }
 
     .hero-text{
