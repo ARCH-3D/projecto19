@@ -453,15 +453,19 @@ footer p{
 
     width:100%;
     height:100vh;
+    height:100dvh;
 
     overflow:hidden;
     position:relative;
+
+    padding-bottom:120px; /* <- espaço garantido para não bater na info */
+    box-sizing:border-box;
 }
 
 #modal-content img,
 #modal-content video{
     max-width:90vw;
-    max-height:calc(100vh - 100px);
+    max-height:calc(100dvh - 160px);
 
     object-fit:contain;
 
