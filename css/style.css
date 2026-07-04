@@ -491,14 +491,11 @@ footer p{
 /* iPad e tablets na horizontal */
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
 
-    #modal-content{
-        padding-bottom:150px; /* cria mais espaço entre imagem e info */
-    }
-
     #modal-content img,
     #modal-content video{
-        max-height:calc(100dvh - 210px); /* reduz ligeiramente a altura da imagem */
+        max-height:calc(100vh - 170px);
     }
+
 }
 
 /* ================= PROJECT INFO ================= */
