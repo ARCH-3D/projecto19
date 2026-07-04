@@ -296,7 +296,7 @@ section p {
     display:grid;
 
     grid-template-columns:
-    repeat(auto-fit,minmax(380px,1fr));
+    repeat(auto-fit,minmax(320px,1fr));
 
     gap:30px;
 }
@@ -444,7 +444,6 @@ footer p{
 
     overflow:hidden;
     touch-action:pan-y;
-
 }
 
 #modal-content{
@@ -453,7 +452,7 @@ footer p{
     align-items:center;
 
     width:100%;
-    height:100dvh;
+    height:100vh;
 
     overflow:hidden;
     position:relative;
@@ -461,23 +460,43 @@ footer p{
 
 #modal-content img,
 #modal-content video{
-    max-width:94vw;
-    max-height:82dvh;
+    max-width:90vw;
+    max-height:calc(100vh - 100px);
 
     object-fit:contain;
 
-    display:block;
-    margin:auto;
+    transition:opacity .3s ease;
+    will-change: opacity;
+    transform: translate3d(0,0,0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    user-select:none;
+    -webkit-user-drag:none;
 }
 
+@media (min-width:1600px){
+    #modal-content img,
+    #modal-content video{
+        max-height:calc(100vh - 130px);
+    }
+}
+/* iPad e tablets na horizontal */
+@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
+
+    #modal-content img,
+    #modal-content video{
+        max-height:calc(100vh - 170px);
+    }
+
+}
 
 /* ================= PROJECT INFO ================= */
 
 .modal-info{
     position:absolute;
     left:50%;
-    bottom:calc(20px + env(safe-area-inset-bottom));
-
+    bottom:25px;
     transform:translateX(-50%);
 
     width:100%;
@@ -821,7 +840,7 @@ footer p{
     #modal-content img,
     #modal-content video{
         max-width:95vw;
-        max-height:75dvh;
+        max-height:calc(100vh - 120px);
     }
 
     .hero-text{
@@ -865,13 +884,5 @@ footer p{
 
     footer{
         padding:40px 20px;
-    }
-}
-
-@media (min-width:1024px){
-    #modal-content img,
-    #modal-content video{
-        max-width:90vw;
-        max-height:88dvh;
     }
 }
