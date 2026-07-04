@@ -452,7 +452,7 @@ footer p{
     align-items:center;
 
     width:100%;
-    height:100vh;
+    height:100dvh;
 
     overflow:hidden;
     position:relative;
@@ -461,7 +461,7 @@ footer p{
 #modal-content img,
 #modal-content video{
     max-width:90vw;
-    max-height:calc(100vh - 100px);
+    max-height:calc(100dvh - 100px);
 
     object-fit:contain;
 
