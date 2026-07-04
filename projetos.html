@@ -773,13 +773,13 @@ function mostrarMidia() {
 
         img.onload = function () {
 
-        requestAnimationFrame(() => {
-        img.classList.add("show");
-    });
+            setTimeout(() => {
+                img.classList.add("show");
+            }, 20);
 
-};
+        };
 
-conteudo.appendChild(img);
+        conteudo.appendChild(img);
 
     }
 
@@ -798,13 +798,13 @@ conteudo.appendChild(img);
 
         video.onloadeddata = function () {
 
-        requestAnimationFrame(() => {
-        video.classList.add("show");
-    });
+            setTimeout(() => {
+                video.classList.add("show");
+            }, 20);
 
-};
+        };
 
-conteudo.appendChild(video);
+        conteudo.appendChild(video);
 
     }
 
