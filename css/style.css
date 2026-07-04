@@ -445,8 +445,6 @@ footer p{
     overflow:hidden;
     touch-action:pan-y;
 
-    padding-bottom:140px;
-    box-sizing:border-box;
 }
 
 #modal-content{
@@ -483,11 +481,11 @@ footer p{
 
     #modal-content img,
     #modal-content video{
-        max-height:calc(100vh - 200px);
+        max-height:calc(100vh - 180px);
     }
 
     .modal-info{
-        bottom:50px;
+        bottom:35px;
     }
 }
 
