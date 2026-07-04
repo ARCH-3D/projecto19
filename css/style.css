@@ -294,12 +294,11 @@ section p {
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:30px;
-}
 
-.project{
-    aspect-ratio:4/5;
+    grid-template-columns:
+    repeat(auto-fit,minmax(320px,1fr));
+
+    gap:30px;
 }
 
 /* ================== PROJECT ================== */
@@ -462,8 +461,8 @@ footer p{
 
 #modal-content img,
 #modal-content video{
-    max-width:92vw;
-    max-height:80dvh;
+    max-width:94vw;
+    max-height:82dvh;
 
     object-fit:contain;
 
@@ -869,10 +868,10 @@ footer p{
     }
 }
 
-@media (min-width: 1024px){
+@media (min-width:1024px){
     #modal-content img,
     #modal-content video{
-        max-width:88vw;
-        max-height:85dvh;
+        max-width:90vw;
+        max-height:88dvh;
     }
 }
