@@ -867,3 +867,11 @@ footer p{
         padding:40px 20px;
     }
 }
+
+@media (min-width: 1024px){
+    #modal-content img,
+    #modal-content video{
+        max-width:90vw;
+        max-height:88dvh;
+    }
+}
