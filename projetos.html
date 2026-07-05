@@ -1029,17 +1029,60 @@ function handleSwipe() {
 
     const distancia = touchEndX - touchStartX;
 
-    if (distancia > 50) {
+    const elemento = document.querySelector("#modal-content img, #modal-content video");
 
-        mudarMidia(-1);
+    if (!elemento) return;
+
+    // Swipe para a direita
+    if (distancia > 80) {
+
+        elemento.style.transition =
+            "transform .25s ease-out, opacity .25s ease-out";
+
+        elemento.style.transform =
+            "translate(calc(-50% + 100vw), -50%)";
+
+        elemento.style.opacity = "0";
+
+        setTimeout(() => {
+
+            mudarMidia(-1);
+
+        }, 220);
+
+        return;
 
     }
 
-    if (distancia < -50) {
+    // Swipe para a esquerda
+    if (distancia < -80) {
 
-        mudarMidia(1);
+        elemento.style.transition =
+            "transform .25s ease-out, opacity .25s ease-out";
+
+        elemento.style.transform =
+            "translate(calc(-50% - 100vw), -50%)";
+
+        elemento.style.opacity = "0";
+
+        setTimeout(() => {
+
+            mudarMidia(1);
+
+        }, 220);
+
+        return;
 
     }
+
+    // Se não chegou ao limite, volta ao centro
+    elemento.style.transition =
+        "transform .30s ease, opacity .30s ease";
+
+    elemento.style.transform =
+        "translate(-50%, -50%)";
+
+    elemento.style.opacity = "1";
 
 }
 
