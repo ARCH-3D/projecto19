@@ -898,74 +898,35 @@ function mostrarMidia() {
 
     }
 
-    // animação de saída
-    elemento.classList.remove(
-        "slide-in-left",
-        "slide-in-right"
-    );
-
-    elemento.classList.add(
-    direcaoSlide === 1 ? "slide-out-left" : "slide-out-right"
-    );
+    elemento.style.opacity = "0";
 
     setTimeout(() => {
 
-    if (midia.type === "image") {
+        if (midia.type === "image") {
 
-        elemento.onload = () => {
+            elemento.onload = () => {
 
-            elemento.classList.remove(
-                "slide-out-left",
-                "slide-out-right"
-            );
+                elemento.style.opacity = "1";
 
-            elemento.classList.add(
-                direcaoSlide === 1 ? "slide-in-right" : "slide-in-left"
-            );
+            };
 
-            requestAnimationFrame(() => {
+            elemento.src = midia.src;
 
-                elemento.classList.remove(
-                    "slide-in-left",
-                    "slide-in-right"
-                );
+        } else {
 
-            });
+            elemento.onloadeddata = () => {
 
-        };
+                elemento.style.opacity = "1";
 
-        elemento.src = midia.src;
+            };
 
-    } else {
+            elemento.src = midia.src;
 
-        elemento.onloadeddata = () => {
+            elemento.play();
 
-            elemento.classList.remove(
-                "slide-out-left",
-                "slide-out-right"
-            );
+        }
 
-            elemento.classList.add(
-                direcaoSlide === 1 ? "slide-in-right" : "slide-in-left"
-            );
-
-            requestAnimationFrame(() => {
-
-                elemento.classList.remove(
-                    "slide-in-left",
-                    "slide-in-right"
-                );
-
-            });
-
-        };
-
-        elemento.src = midia.src;
-        elemento.play();
-
-    }
-
-}, 180);
+    }, 180);
 
 }
 
