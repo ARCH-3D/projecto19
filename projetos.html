@@ -23,17 +23,19 @@
           src="img/Logo.webp"
           alt="Logo Projecto 19"
           class="logo"
+          fetchpriority="high"
           decoding="async">
       <h1>Projecto 19</h1>
     </a>
   </div>
 
-  <button
-      class="menu-toggle"
-      onclick="toggleMenu()"
-      aria-label="Abrir menu">
-      ☰
-  </button>
+    <button
+        class="menu-toggle"
+        onclick="toggleMenu()"
+        aria-label="Abrir menu"
+        aria-controls="menu">
+        ☰
+    </button>
 
   <nav id="menu">
       <a href="index.html">Home</a>
