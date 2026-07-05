@@ -853,6 +853,8 @@ function fecharModal() {
 
 function mudarMidia(direcao) {
 
+    direcaoSlide = direcao;
+
     indiceAtual += direcao;
 
     indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
@@ -896,35 +898,74 @@ function mostrarMidia() {
 
     }
 
-    elemento.style.opacity = "0";
+    // animação de saída
+    elemento.classList.remove(
+        "slide-in-left",
+        "slide-in-right"
+    );
+
+    elemento.classList.add(
+    direcaoSlide === 1 ? "slide-out-left" : "slide-out-right"
+    );
 
     setTimeout(() => {
 
-        if (midia.type === "image") {
+    if (midia.type === "image") {
 
-            elemento.onload = () => {
+        elemento.onload = () => {
 
-                elemento.style.opacity = "1";
+            elemento.classList.remove(
+                "slide-out-left",
+                "slide-out-right"
+            );
 
-            };
+            elemento.classList.add(
+                direcaoSlide === 1 ? "slide-in-right" : "slide-in-left"
+            );
 
-            elemento.src = midia.src;
+            requestAnimationFrame(() => {
 
-        } else {
+                elemento.classList.remove(
+                    "slide-in-left",
+                    "slide-in-right"
+                );
 
-            elemento.onloadeddata = () => {
+            });
 
-                elemento.style.opacity = "1";
+        };
 
-            };
+        elemento.src = midia.src;
 
-            elemento.src = midia.src;
+    } else {
 
-            elemento.play();
+        elemento.onloadeddata = () => {
 
-        }
+            elemento.classList.remove(
+                "slide-out-left",
+                "slide-out-right"
+            );
 
-    }, 180);
+            elemento.classList.add(
+                direcaoSlide === 1 ? "slide-in-right" : "slide-in-left"
+            );
+
+            requestAnimationFrame(() => {
+
+                elemento.classList.remove(
+                    "slide-in-left",
+                    "slide-in-right"
+                );
+
+            });
+
+        };
+
+        elemento.src = midia.src;
+        elemento.play();
+
+    }
+
+}, 180);
 
 }
 
