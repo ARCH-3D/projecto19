@@ -34,12 +34,12 @@
 
     <div class="header-left">
         <a href="index.html" class="logo-link">
-            <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo">
+            <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo" decoding="async">
             <h1>Projecto 19</h1>
         </a>
     </div>
 
-    <button class="menu-toggle" onclick="toggleMenu()">
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">
         ☰
     </button>
 
@@ -59,7 +59,9 @@
     <img id="hero-image"
          class="hero-image"
          src="img/hero/hero1.webp"
-         alt="Projeto 19">
+         alt="Projeto 19"
+         fetchpriority="high"
+         decoding="async">
 
     <div class="hero-text">
         <h2>Projecto 19</h2>
@@ -197,7 +199,7 @@ setInterval(() => {
 
     </div>
 
-    <button class="contact-trigger">
+    <button class="contact-trigger" aria-label="Abrir contactos">
 
         <img
             src="img/icons/faleconnosco.svg"
@@ -240,6 +242,16 @@ function toggleMenu() {
     document.getElementById("menu").classList.toggle("active");
 
 }
+
+document.querySelectorAll("#menu a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        document.getElementById("menu").classList.remove("active");
+
+    });
+
+});
 
 </script>
 
