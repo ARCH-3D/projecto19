@@ -456,6 +456,8 @@ footer p{
 
     overflow:hidden;
     position:relative;
+
+    contain:layout paint;
 }
 
 #modal-content img,
@@ -469,10 +471,12 @@ footer p{
     transform:translateX(0);
 
     transition:
-        transform .35s ease,
-        opacity .35s ease;
+        transform .45s cubic-bezier(.22,.61,.36,1),
+        opacity .45s ease;
 
     will-change:transform,opacity;
+
+    transform:translate3d(0,0,0);
 
     backface-visibility:hidden;
     -webkit-backface-visibility:hidden;
@@ -895,20 +899,20 @@ footer p{
 
 .slide-out-left{
     opacity:0;
-    transform:translateX(-80px);
+    transform:translateX(-50px);
 }
 
 .slide-out-right{
     opacity:0;
-    transform:translateX(80px);
+    transform:translateX(50px);
 }
 
 .slide-in-left{
     opacity:0;
-    transform:translateX(-80px);
+    transform:translateX(-50px);
 }
 
 .slide-in-right{
     opacity:0;
-    transform:translateX(80px);
+    transform:translateX(50px);
 }
