@@ -989,6 +989,25 @@ modal.addEventListener('touchstart', function(e) {
 
 });
 
+modal.addEventListener('touchmove', function(e) {
+
+    e.preventDefault();
+
+    if (!isDragging) return;
+
+    const touchX = e.changedTouches[0].screenX;
+
+    currentTranslate = touchX - touchStartX;
+
+    const elemento = document.querySelector("#modal-content img, #modal-content video");
+
+    if (!elemento) return;
+
+    elemento.style.transform =
+        `translate(calc(-50% + ${currentTranslate}px), -50%)`;
+
+});
+
 modal.addEventListener('touchend', function(e) {
 
     touchEndX = e.changedTouches[0].screenX;
