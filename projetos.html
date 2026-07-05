@@ -1011,6 +1011,16 @@ modal.addEventListener('touchend', function(e) {
 
     touchEndX = e.changedTouches[0].screenX;
 
+    isDragging = false;
+
+    const elemento = document.querySelector("#modal-content img, #modal-content video");
+
+    if (elemento) {
+
+        elemento.style.transform = "translate(-50%, -50%)";
+
+    }
+
     handleSwipe();
 
 });
