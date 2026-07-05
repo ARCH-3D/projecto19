@@ -790,6 +790,9 @@ let direcaoSlide = 1;
 let touchStartX = 0;
 let touchEndX = 0;
 
+let currentTranslate = 0;
+let isDragging = false;
+
 function preloadImagens() {
 
     const proximas = [
@@ -980,6 +983,9 @@ const modal = document.getElementById('modal-projeto');
 modal.addEventListener('touchstart', function(e) {
 
     touchStartX = e.changedTouches[0].screenX;
+
+    currentTranslate = 0;
+    isDragging = true;
 
 });
 
