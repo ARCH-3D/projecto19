@@ -869,64 +869,96 @@ function mostrarMidia() {
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
 
-    let elemento = conteudo.firstElementChild;
+    const antigo = conteudo.firstElementChild;
 
-    // Se não existir elemento ou mudou de imagem para vídeo (ou vice-versa)
-    if (
-        !elemento ||
-        (midia.type === "image" && elemento.tagName !== "IMG") ||
-        (midia.type === "video" && elemento.tagName !== "VIDEO")
-    ) {
+    // cria o novo elemento
+    let novo;
 
-        conteudo.innerHTML = "";
+    if (midia.type === "image") {
 
-        if (midia.type === "image") {
+        novo = document.createElement("img");
+        novo.src = midia.src;
 
-            elemento = document.createElement("img");
+    } else {
 
-        } else {
-
-            elemento = document.createElement("video");
-            elemento.controls = true;
-            elemento.autoplay = true;
-            elemento.muted = true;
-            elemento.loop = true;
-
-        }
-
-        conteudo.appendChild(elemento);
+        novo = document.createElement("video");
+        novo.src = midia.src;
+        novo.controls = true;
+        novo.autoplay = true;
+        novo.muted = true;
+        novo.loop = true;
 
     }
 
-    elemento.style.opacity = "0";
+    novo.style.position = "absolute";
+    novo.style.left = "50%";
+    novo.style.top = "50%";
+    novo.style.transform =
+        direcaoSlide === 1
+        ? "translate(calc(-50% + 50px), -50%)"
+        : "translate(calc(-50% - 50px), -50%)";
 
-    setTimeout(() => {
+    novo.style.opacity = "0";
 
-        if (midia.type === "image") {
+    conteudo.appendChild(novo);
 
-            elemento.onload = () => {
+    const iniciarAnimacao = () => {
 
-                elemento.style.opacity = "1";
+        requestAnimationFrame(() => {
 
-            };
+            // imagem antiga sai
+            if (antigo) {
 
-            elemento.src = midia.src;
+                antigo.style.transform =
+                    direcaoSlide === 1
+                    ? "translate(calc(-50% - 50px), -50%)"
+                    : "translate(calc(-50% + 50px), -50%)";
+
+                antigo.style.opacity = "0";
+
+            }
+
+            // nova entra
+            novo.style.transform = "translate(-50%, -50%)";
+            novo.style.opacity = "1";
+
+        });
+
+        setTimeout(() => {
+
+            if (antigo) {
+
+                antigo.remove();
+
+            }
+
+            if (midia.type === "video") {
+
+                novo.play();
+
+            }
+
+        }, 450);
+
+    };
+
+    if (midia.type === "image") {
+
+        if (novo.complete) {
+
+            iniciarAnimacao();
 
         } else {
 
-            elemento.onloadeddata = () => {
-
-                elemento.style.opacity = "1";
-
-            };
-
-            elemento.src = midia.src;
-
-            elemento.play();
+            novo.onload = iniciarAnimacao;
 
         }
 
-    }, 180);
+    } else {
+
+        novo.onloadeddata = iniciarAnimacao;
+
+    }
 
 }
 
