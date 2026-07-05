@@ -793,6 +793,9 @@ let touchEndX = 0;
 let currentTranslate = 0;
 let isDragging = false;
 
+let elementoAtual = null;
+let animationFrame = null;
+
 function preloadImagens() {
 
     const proximas = [
@@ -981,29 +984,39 @@ const modal = document.getElementById('modal-projeto');
 
 modal.addEventListener('touchstart', function(e) {
 
-    touchStartX = e.changedTouches[0].screenX;
+    touchStartX = e.touches[0].clientX;
 
     currentTranslate = 0;
     isDragging = true;
+
+    elementoAtual =
+        document.querySelector("#modal-content img, #modal-content video");
+
+    if (elementoAtual) {
+
+        elementoAtual.style.transition = "none";
+
+    }
 
 });
 
 modal.addEventListener('touchmove', function(e) {
 
-    e.preventDefault();
+    if (!isDragging || !elementoAtual) return;
 
-    if (!isDragging) return;
+    currentTranslate =
+        e.touches[0].clientX - touchStartX;
 
-    const touchX = e.changedTouches[0].screenX;
+    if (animationFrame) return;
 
-    currentTranslate = touchX - touchStartX;
+    animationFrame = requestAnimationFrame(() => {
 
-    const elemento = document.querySelector("#modal-content img, #modal-content video");
+        elementoAtual.style.transform =
+            `translate3d(${currentTranslate}px,0,0)`;
 
-    if (!elemento) return;
+        animationFrame = null;
 
-    elemento.style.transform =
-        `translate(calc(-50% + ${currentTranslate}px), -50%)`;
+    });
 
 });
 
