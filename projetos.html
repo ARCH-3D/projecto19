@@ -789,6 +789,28 @@ let indiceAtual = 0;
 let touchStartX = 0;
 let touchEndX = 0;
 
+function preloadImagens() {
+
+    const proximas = [
+        (indiceAtual + 1) % midiasAtuais.length,
+        (indiceAtual + 2) % midiasAtuais.length
+    ];
+
+    proximas.forEach(i => {
+
+        const media = midiasAtuais[i];
+
+        if (media.type === "image") {
+
+            const img = new Image();
+            img.src = media.src;
+
+        }
+
+    });
+
+}
+
 function abrirProjeto(nomeProjeto) {
 
     if (!projetos[nomeProjeto]) return;
@@ -798,6 +820,7 @@ function abrirProjeto(nomeProjeto) {
     indiceAtual = 0;
 
     mostrarMidia();
+    preloadImagens();
 
     document.getElementById("modal-title").textContent = projetoAtual.info.nome;
     document.getElementById("modal-year").textContent = projetoAtual.info.ano;
@@ -834,6 +857,7 @@ function mudarMidia(direcao) {
     indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
 
     mostrarMidia();
+    preloadImagens();
 
 }
 
