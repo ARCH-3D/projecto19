@@ -901,8 +901,8 @@ function mostrarMidia() {
 
     novo.style.transform =
         direcaoSlide === 1
-        ? "translate3d(50px,0,0)"
-        : "translate3d(-50px,0,0)";
+        ? "translate(-50%, -50%) translate3d(50px,0,0)"
+        : "translate(-50%, -50%) translate3d(-50px,0,0)";
 
     novo.style.opacity = "0";
 
@@ -916,14 +916,14 @@ function mostrarMidia() {
 
                 antigo.style.transform =
                     direcaoSlide === 1
-                    ? "translate3d(-50px,0,0)"
-                    : "translate3d(50px,0,0)";
+                    ? "translate(-50%, -50%) translate3d(-50px,0,0)"
+                    : "translate(-50%, -50%) translate3d(50px,0,0)";
 
                 antigo.style.opacity = "0";
 
             }
 
-            novo.style.transform = "translate3d(0,0,0)";
+            novo.style.transform = "translate(-50%, -50%) translate3d(0,0,0)";
             novo.style.opacity = "1";
 
         });
