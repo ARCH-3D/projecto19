@@ -1020,7 +1020,7 @@ modal.addEventListener('touchmove', function(e) {
 
 modal.addEventListener('touchend', function(e) {
 
-    touchEndX = e.changedTouches[0].screenX;
+    touchEndX = e.changedTouches[0].clientX;
 
     isDragging = false;
 
@@ -1028,7 +1028,7 @@ modal.addEventListener('touchend', function(e) {
 
     if (elemento) {
 
-        elemento.style.transform = "translate(-50%, -50%)";
+        elemento.style.transform = "translate3d(0,0,0)";
 
     }
 
@@ -1044,6 +1044,9 @@ function handleSwipe() {
 
     if (!elemento) return;
 
+    elemento.style.transition =
+    "transform .45s cubic-bezier(.22,.61,.36,1), opacity .45s ease";
+
     // Swipe para a direita
     if (distancia > 80) {
 
@@ -1051,7 +1054,7 @@ function handleSwipe() {
             "transform .25s ease-out, opacity .25s ease-out";
 
         elemento.style.transform =
-            "translate(calc(-50% + 100vw), -50%)";
+            "translate3d(100vw,0,0)";
 
         elemento.style.opacity = "0";
 
@@ -1072,7 +1075,7 @@ function handleSwipe() {
             "transform .25s ease-out, opacity .25s ease-out";
 
         elemento.style.transform =
-            "translate(calc(-50% - 100vw), -50%)";
+            "translate3d(-100vw,0,0)";
 
         elemento.style.opacity = "0";
 
@@ -1091,7 +1094,7 @@ function handleSwipe() {
         "transform .30s ease, opacity .30s ease";
 
     elemento.style.transform =
-        "translate(-50%, -50%)";
+        "translate3d(0,0,0)";
 
     elemento.style.opacity = "1";
 
