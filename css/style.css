@@ -465,10 +465,9 @@ footer p{
 
     position:absolute;
 
-    left:50%;
-    top:50%;
+    inset:0;
 
-    transform:translate(-50%, -50%);
+    margin:auto;
 
     max-width:90vw;
     max-height:calc(100vh - 100px);

@@ -877,7 +877,6 @@ function mostrarMidia() {
 
     const antigo = conteudo.firstElementChild;
 
-    // cria o novo elemento
     let novo;
 
     if (midia.type === "image") {
@@ -897,12 +896,13 @@ function mostrarMidia() {
     }
 
     novo.style.position = "absolute";
-    novo.style.left = "50%";
-    novo.style.top = "50%";
+    novo.style.inset = "0";
+    novo.style.margin = "auto";
+
     novo.style.transform =
         direcaoSlide === 1
-        ? "translate(calc(-50% + 50px), -50%)"
-        : "translate(calc(-50% - 50px), -50%)";
+        ? "translate3d(50px,0,0)"
+        : "translate3d(-50px,0,0)";
 
     novo.style.opacity = "0";
 
@@ -912,20 +912,18 @@ function mostrarMidia() {
 
         requestAnimationFrame(() => {
 
-            // imagem antiga sai
             if (antigo) {
 
                 antigo.style.transform =
                     direcaoSlide === 1
-                    ? "translate(calc(-50% - 50px), -50%)"
-                    : "translate(calc(-50% + 50px), -50%)";
+                    ? "translate3d(-50px,0,0)"
+                    : "translate3d(50px,0,0)";
 
                 antigo.style.opacity = "0";
 
             }
 
-            // nova entra
-            novo.style.transform = "translate(-50%, -50%)";
+            novo.style.transform = "translate3d(0,0,0)";
             novo.style.opacity = "1";
 
         });
