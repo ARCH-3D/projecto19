@@ -870,7 +870,7 @@ function mudarMidia(direcao) {
 
 }
 
-function mostrarMidia() {
+function mostrarMidia(animar = true) {
 
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
@@ -913,6 +913,28 @@ function mostrarMidia() {
 
     const iniciarAnimacao = () => {
 
+        if (!animar) {
+
+            if (antigo) {
+
+                antigo.remove();
+
+            }
+
+            novo.style.transform =
+                "translate(-50%, -50%) translate3d(0,0,0)";
+            novo.style.opacity = "1";
+
+            if (midia.type === "video") {
+
+                novo.play();
+
+            }
+
+            return;
+
+        }
+
         requestAnimationFrame(() => {
 
             if (antigo) {
@@ -926,7 +948,8 @@ function mostrarMidia() {
 
             }
 
-            novo.style.transform = "translate(-50%, -50%) translate3d(0,0,0)";
+            novo.style.transform =
+                "translate(-50%, -50%) translate3d(0,0,0)";
             novo.style.opacity = "1";
 
         });
