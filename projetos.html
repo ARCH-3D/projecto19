@@ -896,8 +896,8 @@ function mostrarMidia() {
     }
 
     novo.style.position = "absolute";
-    novo.style.inset = "0";
-    novo.style.margin = "auto";
+    novo.style.left = "50%";
+    novo.style.top = "50%";
 
     novo.style.transform =
         direcaoSlide === 1
@@ -990,11 +990,14 @@ modal.addEventListener('touchstart', function(e) {
     elementoAtual =
         document.querySelector("#modal-content img, #modal-content video");
 
-    if (elementoAtual) {
+    if (!elementoAtual) return;
 
-        elementoAtual.style.transition = "none";
+    // Remove qualquer animação enquanto arrastas
+    elementoAtual.style.transition = "none";
 
-    }
+    // Garante que começa sempre centrado
+    elementoAtual.style.transform =
+        "translate(-50%, -50%) translate3d(0,0,0)";
 
 });
 
@@ -1010,7 +1013,7 @@ modal.addEventListener('touchmove', function(e) {
     animationFrame = requestAnimationFrame(() => {
 
         elementoAtual.style.transform =
-            `translate3d(${currentTranslate}px,0,0)`;
+            `translate(-50%, -50%) translate3d(${currentTranslate}px, 0, 0)`;
 
         animationFrame = null;
 
@@ -1024,11 +1027,13 @@ modal.addEventListener('touchend', function(e) {
 
     isDragging = false;
 
-    const elemento = document.querySelector("#modal-content img, #modal-content video");
+    const elemento =
+        document.querySelector("#modal-content img, #modal-content video");
 
     if (elemento) {
 
-        elemento.style.transform = "translate3d(0,0,0)";
+        elemento.style.transform =
+            `translate(-50%, -50%) translate3d(${currentTranslate}px, 0, 0)`;
 
     }
 
@@ -1040,12 +1045,10 @@ function handleSwipe() {
 
     const distancia = touchEndX - touchStartX;
 
-    const elemento = document.querySelector("#modal-content img, #modal-content video");
+    const elemento =
+        document.querySelector("#modal-content img, #modal-content video");
 
     if (!elemento) return;
-
-    elemento.style.transition =
-    "transform .45s cubic-bezier(.22,.61,.36,1), opacity .45s ease";
 
     // Swipe para a direita
     if (distancia > 80) {
@@ -1054,7 +1057,7 @@ function handleSwipe() {
             "transform .25s ease-out, opacity .25s ease-out";
 
         elemento.style.transform =
-            "translate3d(100vw,0,0)";
+            "translate(-50%, -50%) translate3d(100vw, 0, 0)";
 
         elemento.style.opacity = "0";
 
@@ -1075,7 +1078,7 @@ function handleSwipe() {
             "transform .25s ease-out, opacity .25s ease-out";
 
         elemento.style.transform =
-            "translate3d(-100vw,0,0)";
+            "translate(-50%, -50%) translate3d(-100vw, 0, 0)";
 
         elemento.style.opacity = "0";
 
@@ -1094,7 +1097,7 @@ function handleSwipe() {
         "transform .30s ease, opacity .30s ease";
 
     elemento.style.transform =
-        "translate3d(0,0,0)";
+        "translate(-50%, -50%) translate3d(0, 0, 0)";
 
     elemento.style.opacity = "1";
 

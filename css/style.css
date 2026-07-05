@@ -465,9 +465,8 @@ footer p{
 
     position:absolute;
 
-    inset:0;
-
-    margin:auto;
+    left:50%;
+    top:50%;
 
     max-width:90vw;
     max-height:calc(100vh - 100px);
@@ -480,13 +479,12 @@ footer p{
         transform .45s cubic-bezier(.22,.61,.36,1),
         opacity .45s ease;
 
-    will-change:transform,opacity;
+    will-change:transform;
 
     backface-visibility:hidden;
     -webkit-backface-visibility:hidden;
-
-    user-select:none;
     -webkit-user-drag:none;
+    user-select:none;
 }
 
 @media (min-width:1600px){
