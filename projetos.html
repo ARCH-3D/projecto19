@@ -1080,10 +1080,10 @@ function handleSwipe() {
     if (distancia > 80) {
 
         elemento.style.transition =
-            "transform .25s ease-out, opacity .25s ease-out";
+            "transform .30s cubic-bezier(.22,.61,.36,1), opacity .30s ease";
 
         elemento.style.transform =
-            "translate(-50%, -50%) translate3d(100vw, 0, 0)";
+            "translate(-50%, -50%) translate3d(120vw, 0, 0)";
 
         elemento.style.opacity = "0";
 
@@ -1091,7 +1091,7 @@ function handleSwipe() {
 
             mudarMidia(-1);
 
-        }, 220);
+        }, 280);
 
         return;
 
@@ -1101,10 +1101,10 @@ function handleSwipe() {
     if (distancia < -80) {
 
         elemento.style.transition =
-            "transform .25s ease-out, opacity .25s ease-out";
+            "transform .30s cubic-bezier(.22,.61,.36,1), opacity .30s ease";
 
         elemento.style.transform =
-            "translate(-50%, -50%) translate3d(-100vw, 0, 0)";
+            "translate(-50%, -50%) translate3d(-120vw, 0, 0)";
 
         elemento.style.opacity = "0";
 
@@ -1112,18 +1112,18 @@ function handleSwipe() {
 
             mudarMidia(1);
 
-        }, 220);
+        }, 280);
 
         return;
 
     }
 
-    // Se não chegou ao limite, volta ao centro
+    // Não chegou ao limite → volta ao centro
     elemento.style.transition =
-        "transform .30s ease, opacity .30s ease";
+        "transform .30s cubic-bezier(.22,.61,.36,1), opacity .30s ease";
 
     elemento.style.transform =
-        "translate(-50%, -50%) translate3d(0, 0, 0)";
+        "translate(-50%, -50%) translate3d(0,0,0)";
 
     elemento.style.opacity = "1";
 
