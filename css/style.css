@@ -910,17 +910,16 @@ footer p{
     width: 8px;
     height: 8px;
     border-radius: 50%;
-
     background: rgba(255,255,255,.22);
 
-    transition:
-        transform .25s ease,
-        background .25s ease;
+    transition: all .3s ease;
 }
 
 .media-indicators span.active {
     background: #fff;
-    transform: scale(1.5);
+    transform: scale(1.35);
+
+    box-shadow: 0 0 0 1.5px rgba(255,255,255,.8);
 }
 
 .fullscreen-btn{
