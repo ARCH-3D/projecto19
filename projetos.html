@@ -1293,7 +1293,7 @@ function handleSwipe() {
     // ---------- SWIPE ESQUERDA ----------
     if (distancia < -limite) {
 
-        if (!elementoAnterior) return;
+        if (!elementoSeguinte) return;
 
         elementoAtual.style.transition =
             "transform .25s ease-out, opacity .25s ease-out";
