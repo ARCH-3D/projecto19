@@ -1195,34 +1195,14 @@ function handleSwipe() {
         return;
     }
 
+
     // ---------- SWIPE DIREITA ----------
     if (distancia > 80) {
-
-        const indiceAnterior =
-            (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
-
-        if (elementoSeguinte) {
-
-            elementoSeguinte.remove();
-
-        }
-
-        elementoSeguinte =
-            criarElementoMidia(midiasAtuais[indiceAnterior]);
-        
-        elementoSeguinte.style.zIndex = "1";
-
-        elementoSeguinte.style.transform =
-            "translate(calc(-50% - 100vw), -50%)";
-
-        document
-            .getElementById("modal-content")
-            .appendChild(elementoSeguinte);
 
         elementoAtual.style.transition =
             "transform .25s ease-out, opacity .25s ease-out";
 
-        elementoSeguinte.style.transition =
+        elementoAnterior.style.transition =
             "transform .25s ease-out";
 
         elementoAtual.style.transform =
@@ -1230,21 +1210,23 @@ function handleSwipe() {
 
         elementoAtual.style.opacity = "0";
 
-        elementoSeguinte.style.transform =
+        elementoAnterior.style.transform =
             "translate(-50%, -50%)";
 
         setTimeout(() => {
 
             elementoAtual.remove();
 
-            elementoAtual = elementoSeguinte;
-            elementoSeguinte = null;
+            elementoAtual = elementoAnterior;
+            elementoAnterior = null;
 
-            indiceAtual = indiceAnterior;
+            indiceAtual =
+                (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
 
             preloadImagens();
             prepararImagemAnterior();
             prepararProximaImagem();
+
         },250);
 
         return;
