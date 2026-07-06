@@ -1167,11 +1167,12 @@ modal.addEventListener('touchend', function(e) {
 function handleSwipe() {
 
     const distancia = touchEndX - touchStartX;
+    const limite = window.innerWidth * 0.20;
 
     if (!elementoAtual) return;
 
     // ---------- SWIPE ESQUERDA ----------
-    if (distancia < -80) {
+    if (distancia < -limite) {
 
         elementoAtual.style.transition =
             "transform .25s ease-out, opacity .25s ease-out";
@@ -1208,7 +1209,7 @@ function handleSwipe() {
 
 
     // ---------- SWIPE DIREITA ----------
-    if (distancia > 80) {
+    if (distancia > limite) {
         
         if (!elementoAnterior) return;
 
