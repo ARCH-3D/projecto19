@@ -1201,11 +1201,24 @@ modal.addEventListener('touchmove', function(e) {
 modal.addEventListener('touchend', function(e) {
 
     touchEndX = e.changedTouches[0].clientX;
+    touchEndY = e.changedTouches[0].clientY;
 
     isDragging = false;
 
-    handleSwipe();
+    const dx = touchEndX - touchStartX;
+    const dy = touchEndY - touchStartY;
 
+    const limiteX = window.innerWidth * 0.20;
+    const limiteY = window.innerHeight * 0.20;
+
+    // 🔥 PRIORIDADE: swipe para baixo = fechar modal
+    if (dy > limiteY && Math.abs(dy) > Math.abs(dx)) {
+        fecharModal();
+        return;
+    }
+
+    // senão continua navegação normal horizontal
+    handleSwipe();
 });
 
 function handleSwipe() {
@@ -1524,4 +1537,3 @@ function toggleMenu() {
 
 </body>
 </html>
-
