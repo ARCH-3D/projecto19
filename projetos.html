@@ -793,9 +793,6 @@ let touchEndX = 0;
 let currentTranslate = 0;
 let isDragging = false;
 
-let elementoAtual = null;
-let animationFrame = null;
-
 function preloadImagens() {
 
     const proximas = [
@@ -870,13 +867,14 @@ function mudarMidia(direcao) {
 
 }
 
-function mostrarMidia(animar = true) {
+function mostrarMidia() {
 
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
 
     const antigo = conteudo.firstElementChild;
 
+    // cria o novo elemento
     let novo;
 
     if (midia.type === "image") {
@@ -898,58 +896,33 @@ function mostrarMidia(animar = true) {
     novo.style.position = "absolute";
     novo.style.left = "50%";
     novo.style.top = "50%";
-
     novo.style.transform =
         direcaoSlide === 1
-        ? "translate(-50%, -50%) translate3d(50px,0,0)"
-        : "translate(-50%, -50%) translate3d(-50px,0,0)";
+        ? "translate(calc(-50% + 50px), -50%)"
+        : "translate(calc(-50% - 50px), -50%)";
 
     novo.style.opacity = "0";
 
     conteudo.appendChild(novo);
 
-    novo.style.display = "block";
-    novo.offsetHeight;
-
     const iniciarAnimacao = () => {
-
-        if (!animar) {
-
-            if (antigo) {
-
-                antigo.remove();
-
-            }
-
-            novo.style.transform =
-                "translate(-50%, -50%) translate3d(0,0,0)";
-            novo.style.opacity = "1";
-
-            if (midia.type === "video") {
-
-                novo.play();
-
-            }
-
-            return;
-
-        }
 
         requestAnimationFrame(() => {
 
+            // imagem antiga sai
             if (antigo) {
 
                 antigo.style.transform =
                     direcaoSlide === 1
-                    ? "translate(-50%, -50%) translate3d(-50px,0,0)"
-                    : "translate(-50%, -50%) translate3d(50px,0,0)";
+                    ? "translate(calc(-50% - 50px), -50%)"
+                    : "translate(calc(-50% + 50px), -50%)";
 
                 antigo.style.opacity = "0";
 
             }
 
-            novo.style.transform =
-                "translate(-50%, -50%) translate3d(0,0,0)";
+            // nova entra
+            novo.style.transform = "translate(-50%, -50%)";
             novo.style.opacity = "1";
 
         });
@@ -1008,58 +981,43 @@ const modal = document.getElementById('modal-projeto');
 
 modal.addEventListener('touchstart', function(e) {
 
-    touchStartX = e.touches[0].clientX;
+    touchStartX = e.changedTouches[0].screenX;
 
     currentTranslate = 0;
     isDragging = true;
-
-    elementoAtual =
-        document.querySelector("#modal-content img, #modal-content video");
-
-    if (!elementoAtual) return;
-
-    // Remove qualquer animação enquanto arrastas
-    elementoAtual.style.transition = "none";
-
-    // Garante que começa sempre centrado
-    elementoAtual.style.transform =
-        "translate(-50%, -50%) translate3d(0,0,0)";
 
 });
 
 modal.addEventListener('touchmove', function(e) {
 
-    if (!isDragging || !elementoAtual) return;
+    e.preventDefault();
 
-    currentTranslate =
-        e.touches[0].clientX - touchStartX;
+    if (!isDragging) return;
 
-    if (animationFrame) return;
+    const touchX = e.changedTouches[0].screenX;
 
-    animationFrame = requestAnimationFrame(() => {
+    currentTranslate = touchX - touchStartX;
 
-        elementoAtual.style.transform =
-            `translate(-50%, -50%) translate3d(${currentTranslate}px, 0, 0)`;
+    const elemento = document.querySelector("#modal-content img, #modal-content video");
 
-        animationFrame = null;
+    if (!elemento) return;
 
-    });
+    elemento.style.transform =
+        `translate(calc(-50% + ${currentTranslate}px), -50%)`;
 
 });
 
 modal.addEventListener('touchend', function(e) {
 
-    touchEndX = e.changedTouches[0].clientX;
+    touchEndX = e.changedTouches[0].screenX;
 
     isDragging = false;
 
-    const elemento =
-        document.querySelector("#modal-content img, #modal-content video");
+    const elemento = document.querySelector("#modal-content img, #modal-content video");
 
     if (elemento) {
 
-        elemento.style.transform =
-            `translate(-50%, -50%) translate3d(${currentTranslate}px, 0, 0)`;
+        elemento.style.transform = "translate(-50%, -50%)";
 
     }
 
@@ -1071,8 +1029,7 @@ function handleSwipe() {
 
     const distancia = touchEndX - touchStartX;
 
-    const elemento =
-        document.querySelector("#modal-content img, #modal-content video");
+    const elemento = document.querySelector("#modal-content img, #modal-content video");
 
     if (!elemento) return;
 
@@ -1080,10 +1037,10 @@ function handleSwipe() {
     if (distancia > 80) {
 
         elemento.style.transition =
-            "transform .30s cubic-bezier(.22,.61,.36,1), opacity .30s ease";
+            "transform .25s ease-out, opacity .25s ease-out";
 
         elemento.style.transform =
-            "translate(-50%, -50%) translate3d(120vw, 0, 0)";
+            "translate(calc(-50% + 100vw), -50%)";
 
         elemento.style.opacity = "0";
 
@@ -1091,7 +1048,7 @@ function handleSwipe() {
 
             mudarMidia(-1);
 
-        }, 280);
+        }, 220);
 
         return;
 
@@ -1101,10 +1058,10 @@ function handleSwipe() {
     if (distancia < -80) {
 
         elemento.style.transition =
-            "transform .30s cubic-bezier(.22,.61,.36,1), opacity .30s ease";
+            "transform .25s ease-out, opacity .25s ease-out";
 
         elemento.style.transform =
-            "translate(-50%, -50%) translate3d(-120vw, 0, 0)";
+            "translate(calc(-50% - 100vw), -50%)";
 
         elemento.style.opacity = "0";
 
@@ -1112,18 +1069,18 @@ function handleSwipe() {
 
             mudarMidia(1);
 
-        }, 280);
+        }, 220);
 
         return;
 
     }
 
-    // Não chegou ao limite → volta ao centro
+    // Se não chegou ao limite, volta ao centro
     elemento.style.transition =
-        "transform .30s cubic-bezier(.22,.61,.36,1), opacity .30s ease";
+        "transform .30s ease, opacity .30s ease";
 
     elemento.style.transform =
-        "translate(-50%, -50%) translate3d(0,0,0)";
+        "translate(-50%, -50%)";
 
     elemento.style.opacity = "1";
 
