@@ -1238,7 +1238,6 @@ modal.addEventListener('touchend', function(e) {
 
     isDragging = false;
 
-    const dx = touchEndX - touchStartX;
     const dy = touchEndY - touchStartY;
 
     const limiteY = window.innerHeight * 0.20;
@@ -1248,6 +1247,8 @@ modal.addEventListener('touchend', function(e) {
 
         // se puxou o suficiente para baixo → FECHA
         if (dy > limiteY) {
+
+            if (!elementoAtual) return;
 
             elementoAtual.style.transition =
                 "transform .25s ease, opacity .25s ease";
