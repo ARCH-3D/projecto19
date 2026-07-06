@@ -793,6 +793,7 @@ let touchEndX = 0;
 let currentTranslate = 0;
 let isDragging = false;
 
+let elementoAnterior = null;
 let elementoAtual = null;
 let elementoSeguinte = null;
 
@@ -928,6 +929,33 @@ function prepararProximaImagem() {
 
 }
 
+function prepararImagemAnterior() {
+
+    const conteudo = document.getElementById("modal-content");
+
+    if (elementoAnterior && elementoAnterior.parentNode) {
+
+        elementoAnterior.remove();
+
+    }
+
+    const indiceAnterior =
+        (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+
+    elementoAnterior =
+        criarElementoMidia(midiasAtuais[indiceAnterior]);
+
+    elementoAnterior.style.zIndex = "1";
+
+    elementoAnterior.style.transform =
+        "translate(calc(-50% - 100vw), -50%)";
+
+    elementoAnterior.style.opacity = "1";
+
+    conteudo.appendChild(elementoAnterior);
+
+}
+
 function mostrarMidia() {
 
     const conteudo = document.getElementById("modal-content");
@@ -1015,6 +1043,7 @@ function mostrarMidia() {
 
             }
 
+            prepararImagemAnterior();
             prepararProximaImagem();
 
         }, 450);
@@ -1084,28 +1113,30 @@ modal.addEventListener('touchmove', function(e) {
 
     currentTranslate = touchX - touchStartX;
 
-    if (!elementoAtual || !elementoSeguinte) return;
+    if (!elementoAtual) return;
 
     // imagem atual segue o dedo
     elementoAtual.style.transform =
         `translate(calc(-50% + ${currentTranslate}px), -50%)`;
 
-    // imagem seguinte acompanha mais lentamente (efeito iPhone)
-
     const largura = window.innerWidth;
 
-    if (currentTranslate < 0) {
+    // Swipe para a esquerda (mostrar próxima imagem)
+    if (currentTranslate < 0 && elementoSeguinte) {
 
         const entrada = largura + currentTranslate * 0.85;
 
         elementoSeguinte.style.transform =
             `translate(calc(-50% + ${entrada}px), -50%)`;
 
-    } else {
+    }
+
+    // Swipe para a direita (mostrar imagem anterior)
+    if (currentTranslate > 0 && elementoAnterior) {
 
         const entrada = -largura + currentTranslate * 0.85;
 
-        elementoSeguinte.style.transform =
+        elementoAnterior.style.transform =
             `translate(calc(-50% + ${entrada}px), -50%)`;
 
     }
@@ -1156,6 +1187,7 @@ function handleSwipe() {
                 (indiceAtual + 1) % midiasAtuais.length;
 
             preloadImagens();
+            prepararImagemAnterior();
             prepararProximaImagem();
 
         },250);
@@ -1211,6 +1243,7 @@ function handleSwipe() {
             indiceAtual = indiceAnterior;
 
             preloadImagens();
+            prepararImagemAnterior();
             prepararProximaImagem();
         },250);
 
@@ -1249,6 +1282,7 @@ function handleSwipe() {
 
         }
 
+        prepararImagemAnterior();
         prepararProximaImagem();
 
     },300);
