@@ -1111,14 +1111,6 @@ modal.addEventListener('touchend', function(e) {
 
     isDragging = false;
 
-    const elemento = document.querySelector("#modal-content img, #modal-content video");
-
-    if (elemento) {
-
-        elemento.style.transform = "translate(-50%, -50%)";
-
-    }
-
     handleSwipe();
 
 });
@@ -1157,6 +1149,7 @@ function handleSwipe() {
                 (indiceAtual + 1) % midiasAtuais.length;
 
             preloadImagens();
+            prepararProximaImagem();
 
         },250);
 
@@ -1205,7 +1198,7 @@ function handleSwipe() {
             indiceAtual = indiceAnterior;
 
             preloadImagens();
-
+            prepararProximaImagem();
         },250);
 
         return;
