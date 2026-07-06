@@ -270,6 +270,10 @@
 
     <div id="modal-content"></div>
 
+    <button id="fullscreen-btn" class="fullscreen-btn" aria-label="Fullscreen">
+           ⛶
+    </button>
+
     <div id="modal-indicators" class="media-indicators"></div>
 
     <div class="modal-info">
@@ -809,6 +813,8 @@ let currentY = 0;
 
 let previewIndice = -1;
 
+let fullscreenTimeout = null;
+
 function preloadImagens() {
 
     const proximas = [
@@ -842,6 +848,7 @@ function abrirProjeto(nomeProjeto) {
 
     atualizarIndicadores(true);
     mostrarMidia();
+    mostrarBotaoFullscreen();
     preloadImagens();
 
     document.getElementById("modal-title").textContent = projetoAtual.info.nome;
@@ -920,6 +927,24 @@ function atualizarIndicadores(criar = false){
         barras[indiceAtual].classList.add("active");
 
     }
+
+}
+
+function mostrarBotaoFullscreen(){
+
+    const btn = document.getElementById("fullscreen-btn");
+
+    if (!btn) return;
+
+    btn.classList.add("show");
+
+    clearTimeout(fullscreenTimeout);
+
+    fullscreenTimeout = setTimeout(() => {
+
+        btn.classList.remove("show");
+
+    },2000);
 
 }
 
@@ -1596,6 +1621,26 @@ document.addEventListener("fullscreenchange", () => {
     if (!document.fullscreenElement) {
         modal.style.background = "";
     }
+});
+
+document.getElementById("modal-content").addEventListener("mousemove", () => {
+
+    mostrarBotaoFullscreen();
+
+});
+
+document.getElementById("modal-content").addEventListener("touchstart", () => {
+
+    mostrarBotaoFullscreen();
+
+});
+
+document.getElementById("fullscreen-btn").addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+    toggleFullscreen();
+
 });
 
 </script>

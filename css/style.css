@@ -944,3 +944,54 @@ footer p{
         0 0 8px rgba(0,0,0,.45);
 
 }
+
+.fullscreen-btn{
+
+    position:absolute;
+
+    top:24px;
+    right:24px;
+
+    width:42px;
+    height:42px;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(0,0,0,.35);
+    backdrop-filter:blur(10px);
+
+    color:white;
+    font-size:22px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    opacity:0;
+    pointer-events:none;
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease,
+        background .25s ease;
+
+    z-index:50;
+
+}
+
+.fullscreen-btn.show{
+
+    opacity:1;
+    pointer-events:auto;
+
+}
+
+.fullscreen-btn:hover{
+
+    background:rgba(0,0,0,.55);
+    transform:scale(1.06);
+
+}
