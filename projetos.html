@@ -997,7 +997,6 @@ function prepararProximaImagem() {
 
     const proximoIndice =
         (indiceAtual + 1) % midiasAtuais.length;
-        atualizarIndicadores();
 
     elementoSeguinte =
         criarElementoMidia(midiasAtuais[proximoIndice]);
@@ -1135,8 +1134,6 @@ function mostrarMidia() {
 
             prepararImagemAnterior();
             prepararProximaImagem();
-
-            atualizarIndicadores();
 
         }, 450);
 
@@ -1362,12 +1359,12 @@ function handleSwipe() {
 
             indiceAtual =
                 (indiceAtual + 1) % midiasAtuais.length;
-                atualizarIndicadores();
+            
+            atualizarIndicadores();
 
             preloadImagens();
             prepararImagemAnterior();
             prepararProximaImagem();
-            atualizarIndicadores();
 
         },250);
 
@@ -1403,8 +1400,9 @@ function handleSwipe() {
 
             indiceAtual =
                 (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
-                atualizarIndicadores();
-
+            
+            atualizarIndicadores();
+            
             preloadImagens();
             prepararImagemAnterior();
             prepararProximaImagem();
