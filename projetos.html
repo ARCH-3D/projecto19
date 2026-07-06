@@ -905,7 +905,7 @@ function prepararProximaImagem() {
 
     const conteudo = document.getElementById("modal-content");
 
-    if (elementoSeguinte) {
+    if (elementoSeguinte && elementoSeguinte.parentNode) {
 
         elementoSeguinte.remove();
 
