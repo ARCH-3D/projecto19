@@ -1445,7 +1445,7 @@ document.getElementById("modal-content").addEventListener("dblclick", function(e
 
 document.getElementById("modal-content").addEventListener("touchend", function(e){
 
-    if (isVerticalDrag || isDragging) return;
+    if (isVerticalDrag) return;
 
     const touch = e.changedTouches[0];
 
