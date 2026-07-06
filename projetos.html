@@ -1117,47 +1117,17 @@ document.addEventListener('keydown', function(e) {
   if (modal.style.display !== 'flex') return;
 
   if (e.key === "ArrowLeft") {
-    prepararSwipeTeclado(1); // 👈 “pré-swipe para direita”
+    trocarMidiaAnimada(1); // 👈 “pré-swipe para direita”
   }
 
   else if (e.key === "ArrowRight") {
-    prepararSwipeTeclado(-1); // 👈 “pré-swipe para esquerda”
+    trocarMidiaAnimada(-1); // 👈 “pré-swipe para esquerda”
   }
 
   else if (e.key === "Escape") {
     fecharModal();
   }
 });
-
-function prepararSwipeTeclado(direcao) {
-
-    if (!elementoAtual) return;
-
-    const largura = window.innerWidth;
-
-    const proximoElemento =
-        direcao === 1 ? elementoSeguinte : elementoAnterior;
-
-    if (!proximoElemento) return;
-
-    // estado inicial (igual ao swipe real)
-    elementoAtual.style.transition = "none";
-    proximoElemento.style.transition = "none";
-
-    elementoAtual.style.transform =
-        `translate(calc(-50% + ${direcao === 1 ? 80 : -80}px), -50%)`;
-
-    proximoElemento.style.transform =
-        direcao === 1
-            ? `translate(calc(-50% + ${largura + 80}px), -50%)`
-            : `translate(calc(-50% - ${largura + 80}px), -50%)`;
-
-    requestAnimationFrame(() => {
-
-        // chama exatamente o mesmo sistema do swipe
-        trocarMidiaAnimada(direcao);
-    });
-}
 
 /* Swipe no telemóvel */
 
@@ -1315,58 +1285,72 @@ function trocarMidiaAnimada(direcao) {
 
     if (!elementoAtual) return;
 
+    const largura = window.innerWidth;
+
     const sairParaEsquerda = direcao === 1;
 
-    const proximoElemento = sairParaEsquerda
-        ? elementoSeguinte
-        : elementoAnterior;
+    const proximoElemento =
+        sairParaEsquerda ? elementoSeguinte : elementoAnterior;
 
     if (!proximoElemento) return;
 
-    elementoAtual.style.transition =
-        "transform .25s ease-out, opacity .25s ease-out";
+    // 🔥 ESTADO INICIAL (igual ao swipe real)
+    elementoAtual.style.transition = "none";
+    proximoElemento.style.transition = "none";
 
-    proximoElemento.style.transition =
-        "transform .25s ease-out";
-
-    elementoAtual.style.transform = sairParaEsquerda
-        ? "translate(calc(-50% - 100vw), -50%)"
-        : "translate(calc(-50% + 100vw), -50%)";
-
-    elementoAtual.style.opacity = "0";
+    elementoAtual.style.transform =
+        `translate(calc(-50% + ${sairParaEsquerda ? 80 : -80}px), -50%)`;
 
     proximoElemento.style.transform =
-        "translate(-50%, -50%)";
+        sairParaEsquerda
+            ? `translate(calc(-50% + ${largura}px), -50%)`
+            : `translate(calc(-50% - ${largura}px), -50%)`;
+
+    // força reflow (IMPORTANTE)
+    elementoAtual.offsetHeight;
+
+    // 🎬 animação igual ao swipe
+    requestAnimationFrame(() => {
+
+        elementoAtual.style.transition =
+            "transform .25s ease-out, opacity .25s ease-out";
+
+        proximoElemento.style.transition =
+            "transform .25s ease-out";
+
+        elementoAtual.style.transform =
+            sairParaEsquerda
+                ? "translate(calc(-50% - 100vw), -50%)"
+                : "translate(calc(-50% + 100vw), -50%)";
+
+        elementoAtual.style.opacity = "0";
+
+        proximoElemento.style.transform =
+            "translate(-50%, -50%)";
+    });
 
     setTimeout(() => {
 
         elementoAtual.remove();
-
         elementoAtual = proximoElemento;
 
         if (sairParaEsquerda) {
 
             elementoSeguinte = null;
-
-            indiceAtual =
-                (indiceAtual + 1) % midiasAtuais.length;
+            indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
 
         } else {
 
             elementoAnterior = null;
-
             indiceAtual =
                 (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
-
         }
 
         preloadImagens();
-
         prepararImagemAnterior();
         prepararProximaImagem();
 
     }, 250);
-
 }
 
 /* FECHAR AO CLICAR FORA DA IMAGEM */
