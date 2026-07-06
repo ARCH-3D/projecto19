@@ -785,22 +785,20 @@ const projetos = {
 
 let midiasAtuais = [];
 let indiceAtual = 0;
-let direcaoSlide = 1;
+
+let elementoAtual = null;
+let elementoAnterior = null;
+let elementoSeguinte = null;
+
+let isAnimating = false;
 
 let touchStartX = 0;
 let touchEndX = 0;
-
-let ultimoToque = 0;
 let touchStartY = 0;
-
-let currentTranslate = 0;
-let isDragging = false;
-
-let elementoAnterior = null;
-let elementoAtual = null;
-let elementoSeguinte = null;
+let ultimoToque = 0;
 
 function preloadImagens() {
+    if (!midiasAtuais.length) return;
 
     const proximas = [
         (indiceAtual + 1) % midiasAtuais.length,
@@ -808,18 +806,155 @@ function preloadImagens() {
     ];
 
     proximas.forEach(i => {
-
         const media = midiasAtuais[i];
-
-        if (media.type === "image") {
-
+        if (media?.type === "image") {
             const img = new Image();
             img.src = media.src;
+        }
+    });
+}
 
+function go(direcao) {
+
+    if (isAnimating) return;
+    if (!midiasAtuais.length) return;
+
+    isAnimating = true;
+
+    const novoIndice =
+        (indiceAtual + direcao + midiasAtuais.length) %
+        midiasAtuais.length;
+
+    const conteudo = document.getElementById("modal-content");
+
+    const atual = elementoAtual;
+
+    const novo = criarElementoMidia(midiasAtuais[novoIndice]);
+
+    const largura = window.innerWidth;
+
+    // posição inicial
+    novo.style.transition = "none";
+    novo.style.opacity = "0";
+    novo.style.transform =
+        direcao === 1
+            ? `translate(calc(-50% + ${largura}px), -50%)`
+            : `translate(calc(-50% - ${largura}px), -50%)`;
+
+    conteudo.appendChild(novo);
+
+    // 🔥 FORÇA REFLOW (ESSENCIAL)
+    novo.offsetHeight;
+
+    requestAnimationFrame(() => {
+
+        // sair atual
+        if (atual) {
+            atual.style.transition = "transform .25s ease, opacity .25s ease";
+            atual.style.transform =
+                direcao === 1
+                    ? "translate(calc(-50% - 100vw), -50%)"
+                    : "translate(calc(-50% + 100vw), -50%)";
+            atual.style.opacity = "0";
         }
 
+        // entrar novo
+        novo.style.transition = "transform .25s ease, opacity .25s ease";
+        novo.style.transform = "translate(-50%, -50%)";
+        novo.style.opacity = "1";
     });
 
+    setTimeout(() => {
+
+        if (atual) atual.remove();
+
+        elementoAtual = novo;
+
+        // ❌ REMOVE ISTO (já estava duplicado antes)
+        // indiceAtual = novoIndice;
+
+        indiceAtual = novoIndice;
+
+        if (elementoAnterior) {
+            elementoAnterior.remove();
+            elementoAnterior = null;
+        }
+
+        if (elementoSeguinte) {
+            elementoSeguinte.remove();
+            elementoSeguinte = null;
+        }
+
+        prepararVizinhos();
+        preloadImagens();
+
+        isAnimating = false;
+
+    }, 250);
+}
+
+function criarElementoMidia(midia) {
+
+    const el =
+        midia.type === "image"
+            ? document.createElement("img")
+            : document.createElement("video");
+
+    el.src = midia.src;
+
+    if (midia.type === "video") {
+        el.controls = true;
+        el.autoplay = true;
+        el.muted = true;
+        el.loop = true;
+    }
+
+    el.style.position = "absolute";
+    el.style.left = "50%";
+    el.style.top = "50%";
+    el.style.transform = "translate(-50%, -50%)";
+    el.style.zIndex = "2";
+    el.style.opacity = "1";
+
+    return el;
+}
+
+function mostrarMidia() {
+
+    const conteudo = document.getElementById("modal-content");
+    conteudo.innerHTML = "";
+
+    elementoAtual = criarElementoMidia(midiasAtuais[indiceAtual]);
+
+    conteudo.appendChild(elementoAtual);
+
+    prepararVizinhos();
+}
+
+function prepararVizinhos() {
+
+    const conteudo = document.getElementById("modal-content");
+
+    const nextIndex = (indiceAtual + 1) % midiasAtuais.length;
+    const prevIndex = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+
+    if (elementoSeguinte) elementoSeguinte.remove();
+    if (elementoAnterior) elementoAnterior.remove();
+
+    elementoSeguinte = criarElementoMidia(midiasAtuais[nextIndex]);
+    elementoAnterior = criarElementoMidia(midiasAtuais[prevIndex]);
+
+    elementoSeguinte.style.zIndex = "1";
+    elementoAnterior.style.zIndex = "1";
+
+    elementoSeguinte.style.transform =
+        "translate(calc(-50% + 100vw), -50%)";
+
+    elementoAnterior.style.transform =
+        "translate(calc(-50% - 100vw), -50%)";
+
+    conteudo.appendChild(elementoSeguinte);
+    conteudo.appendChild(elementoAnterior);
 }
 
 function abrirProjeto(nomeProjeto) {
@@ -830,21 +965,17 @@ function abrirProjeto(nomeProjeto) {
     midiasAtuais = projetoAtual.media;
     indiceAtual = 0;
 
-    mostrarMidia();
-    preloadImagens();
+    const conteudo = document.getElementById("modal-content");
+    conteudo.innerHTML = "";
 
-    document.getElementById("modal-title").textContent = projetoAtual.info.nome;
-    document.getElementById("modal-year").textContent = projetoAtual.info.ano;
-    document.getElementById("modal-area").textContent = projetoAtual.info.area;
-    document.getElementById("modal-location").textContent = projetoAtual.info.local;
+    elementoAtual = criarElementoMidia(midiasAtuais[0]);
+    conteudo.appendChild(elementoAtual);
+
+    prepararVizinhos();
+    preloadImagens();
 
     document.getElementById("modal-projeto").style.display = "flex";
     document.body.classList.add("modal-open");
-
-    const widget = document.querySelector('.contact-widget');
-    if (widget) {
-        widget.style.display = 'none';
-    }
 }
 
 function fecharModal() {
@@ -893,477 +1024,59 @@ function toggleFullscreen() {
 
 }
 
-function mudarMidia(direcao) {
+document.addEventListener("keydown", (e) => {
 
-    direcaoSlide = direcao;
+    const modal = document.getElementById("modal-projeto");
+    if (modal.style.display !== "flex") return;
 
-    indiceAtual += direcao;
-
-    indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
-
-    mostrarMidia();
-    preloadImagens();
-
-}
-
-function criarElementoMidia(midia) {
-
-    let elemento;
-
-    if (midia.type === "image") {
-
-        elemento = document.createElement("img");
-        elemento.src = midia.src;
-
-    } else {
-
-        elemento = document.createElement("video");
-        elemento.src = midia.src;
-        elemento.controls = true;
-        elemento.autoplay = true;
-        elemento.muted = true;
-        elemento.loop = true;
-
+    if (e.key === "ArrowLeft") {
+        go(-1);
     }
 
-    elemento.style.position = "absolute";
-    elemento.style.left = "50%";
-    elemento.style.top = "50%";
-    elemento.style.transform = "translate(-50%, -50%)";
-    elemento.style.opacity = "1";
-    elemento.style.zIndex = "2";
-
-    return elemento;
-
-}
-
-function prepararProximaImagem() {
-
-    const conteudo = document.getElementById("modal-content");
-
-    if (elementoSeguinte && elementoSeguinte.parentNode) {
-
-        elementoSeguinte.remove();
-
+    if (e.key === "ArrowRight") {
+        go(1);
     }
 
-    const proximoIndice =
-        (indiceAtual + 1) % midiasAtuais.length;
-
-    elementoSeguinte =
-        criarElementoMidia(midiasAtuais[proximoIndice]);
-    
-    elementoSeguinte.style.zIndex = "1";
-
-    elementoSeguinte.style.transform =
-        "translate(calc(-50% + 100vw), -50%)";
-
-    elementoSeguinte.style.opacity = "1";
-
-    conteudo.appendChild(elementoSeguinte);
-
-}
-
-function prepararImagemAnterior() {
-
-    const conteudo = document.getElementById("modal-content");
-
-    if (elementoAnterior && elementoAnterior.parentNode) {
-
-        elementoAnterior.remove();
-
+    if (e.key === "Escape") {
+        fecharModal();
     }
-
-    const indiceAnterior =
-        (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
-
-    elementoAnterior =
-        criarElementoMidia(midiasAtuais[indiceAnterior]);
-
-    elementoAnterior.style.zIndex = "1";
-
-    elementoAnterior.style.transform =
-        "translate(calc(-50% - 100vw), -50%)";
-
-    elementoAnterior.style.opacity = "1";
-
-    conteudo.appendChild(elementoAnterior);
-
-}
-
-function mostrarMidia() {
-
-    const conteudo = document.getElementById("modal-content");
-    const midia = midiasAtuais[indiceAtual];
-
-    const antigo = elementoAtual;
-
-    // cria o novo elemento
-    let novo;
-
-    if (midia.type === "image") {
-
-        novo = document.createElement("img");
-        novo.src = midia.src;
-
-    } else {
-
-        novo = document.createElement("video");
-        novo.src = midia.src;
-        novo.controls = true;
-        novo.autoplay = true;
-        novo.muted = true;
-        novo.loop = true;
-
-    }
-
-    novo.style.position = "absolute";
-    novo.style.left = "50%";
-    novo.style.top = "50%";
-    novo.style.zIndex = "2";
-
-    novo.style.transform =
-        direcaoSlide === 1
-        ? "translate(calc(-50% + 50px), -50%)"
-        : "translate(calc(-50% - 50px), -50%)";
-
-    novo.style.opacity = "0";
-
-    conteudo.appendChild(novo);
-
-    const iniciarAnimacao = () => {
-
-        requestAnimationFrame(() => {
-
-            // imagem antiga sai
-            if (antigo) {
-
-                antigo.style.transform =
-                    direcaoSlide === 1
-                    ? "translate(calc(-50% - 50px), -50%)"
-                    : "translate(calc(-50% + 50px), -50%)";
-
-                antigo.style.opacity = "0";
-
-            }
-
-            // nova entra
-            novo.style.transform = "translate(-50%, -50%)";
-            novo.style.opacity = "1";
-
-        });
-
-        setTimeout(() => {
-
-            if (antigo) {
-
-                antigo.remove();
-
-            }
-
-            if (midia.type === "video") {
-
-                novo.play();
-
-            }
-
-            // guardar imagem atual
-            elementoAtual = novo;
-
-            // remover imagem seguinte anterior
-            if (elementoSeguinte) {
-
-                elementoSeguinte.remove();
-                elementoSeguinte = null;
-
-            }
-
-            if (elementoAnterior) {
-                elementoAnterior.remove();
-                elementoAnterior = null;
-            }
-
-            prepararImagemAnterior();
-            prepararProximaImagem();
-
-        }, 450);
-
-    };
-
-    if (midia.type === "image") {
-
-        if (novo.complete) {
-
-            iniciarAnimacao();
-
-        } else {
-
-            novo.onload = iniciarAnimacao;
-
-        }
-
-    } else {
-
-        novo.onloadeddata = iniciarAnimacao;
-
-    }
-
-}
-
-/* Navegação com teclado */
-document.addEventListener('keydown', function(e) {
-  const modal = document.getElementById('modal-projeto');
-
-  if (modal.style.display !== 'flex') return;
-
-  if (e.key === "ArrowLeft") {
-    irParaDirecao(-1); // 👈 “pré-swipe para direita”
-  }
-
-  else if (e.key === "ArrowRight") {
-    irParaDirecao(1); // 👈 “pré-swipe para esquerda”
-  }
-
-  else if (e.key === "Escape") {
-    fecharModal();
-  }
-});
-
-/* Swipe no telemóvel */
-
-const modal = document.getElementById('modal-projeto');
-
-modal.addEventListener('touchstart', function(e) {
-
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-
-    currentTranslate = 0;
-    isDragging = true;
-
-    if (!elementoAtual) return;
-
-    elementoAtual.style.transition = "none";
-
-    if (elementoSeguinte) {
-
-        elementoSeguinte.style.transition = "none";
-
-    }
-
-    if (elementoAnterior) {
-
-        elementoAnterior.style.transition = "none";
-
-    }
-
-});
-
-modal.addEventListener('touchmove', function(e) {
-
-    e.preventDefault();
-
-    if (!isDragging) return;
-
-    const touchX = e.touches[0].clientX;
-
-    currentTranslate = touchX - touchStartX;
-
-    if (!elementoAtual) return;
-
-    // imagem atual segue o dedo
-    elementoAtual.style.transform =
-        `translate(calc(-50% + ${currentTranslate}px), -50%)`;
-
-    const largura = window.innerWidth;
-
-    // Swipe para a esquerda (mostrar próxima imagem)
-    if (currentTranslate < 0 && elementoSeguinte) {
-
-        const entrada = largura + currentTranslate * 0.85;
-
-        elementoSeguinte.style.transform =
-            `translate(calc(-50% + ${entrada}px), -50%)`;
-
-    }
-
-    // Swipe para a direita (mostrar imagem anterior)
-    if (currentTranslate > 0 && elementoAnterior) {
-
-        const entrada = -largura + currentTranslate * 0.85;
-
-        elementoAnterior.style.transform =
-            `translate(calc(-50% + ${entrada}px), -50%)`;
-
-    }
-
-});
-
-modal.addEventListener('touchend', function(e) {
-
-    touchEndX = e.changedTouches[0].clientX;
-
-    isDragging = false;
-
-    handleSwipe();
-
 });
 
 function handleSwipe() {
 
     const distancia = touchEndX - touchStartX;
-    const limite = window.innerWidth * 0.20;
+    const limite = window.innerWidth * 0.2;
 
-    if (!elementoAtual) return;
-
-    // ---------- SWIPE ESQUERDA ----------
     if (distancia < -limite) {
-
-        trocarMidiaAnimada(1);
-
+        go(1);
         return;
     }
 
-
-    // ---------- SWIPE DIREITA ----------
     if (distancia > limite) {
-
-        trocarMidiaAnimada(-1);
-
+        go(-1);
         return;
     }
-    
 
-    // ---------- VOLTA AO CENTRO ----------
-
-    elementoAtual.style.transition =
-        "transform .30s ease";
-
-    elementoAtual.style.transform =
-        "translate(-50%, -50%)";
-
-    if (currentTranslate < 0 && elementoSeguinte) {
-
-        elementoSeguinte.style.transition =
-            "transform .30s ease";
-
-        elementoSeguinte.style.transform =
-            "translate(calc(-50% + 100vw), -50%)";
-
-    }
-
-    if (currentTranslate > 0 && elementoAnterior) {
-
-        elementoAnterior.style.transition =
-            "transform .30s ease";
-
-        elementoAnterior.style.transform =
-            "translate(calc(-50% - 100vw), -50%)";
-
-    }
-
-    setTimeout(() => {
-        if (elementoSeguinte) {
-            elementoSeguinte.remove();
-            elementoSeguinte = null;
-        }
-
-        if (elementoAnterior) {
-            elementoAnterior.remove();
-            elementoAnterior = null;
-        }
-
-        prepararImagemAnterior();
-        prepararProximaImagem();
-
-    },300);
-
-}
-
-function irParaDirecao(direcao) {
-    if (direcao === 1) {
-        trocarMidiaAnimada(1);
-    } else {
-        trocarMidiaAnimada(-1);
+    if (elementoAtual) {
+        elementoAtual.style.transition = "transform .2s ease";
+        elementoAtual.style.transform = "translate(-50%, -50%)";
     }
 }
 
-function trocarMidiaAnimada(direcao) {
 
-    if (!elementoAtual) return;
 
-    if (!elementoSeguinte || !elementoAnterior) {
-        prepararImagemAnterior();
-        prepararProximaImagem();
-    }
 
-    const largura = window.innerWidth;
 
-    const sairParaEsquerda = direcao === 1;
+/* Swipe no telemóvel */
 
-    const proximoElemento =
-        sairParaEsquerda ? elementoSeguinte : elementoAnterior;
+const modal = document.getElementById('modal-projeto');
 
-    if (!proximoElemento) return;
 
-    // 🔥 ESTADO INICIAL (igual ao swipe real)
-    elementoAtual.style.transition = "none";
-    proximoElemento.style.transition = "none";
 
-    elementoAtual.style.transform =
-        `translate(calc(-50% + ${sairParaEsquerda ? 80 : -80}px), -50%)`;
 
-    proximoElemento.style.transform =
-        sairParaEsquerda
-            ? `translate(calc(-50% + ${largura}px), -50%)`
-            : `translate(calc(-50% - ${largura}px), -50%)`;
 
-    // força reflow (IMPORTANTE)
-    elementoAtual.offsetHeight;
 
-    // 🎬 animação igual ao swipe
-    requestAnimationFrame(() => {
 
-        elementoAtual.style.transition =
-            "transform .25s ease-out, opacity .25s ease-out";
-
-        proximoElemento.style.transition =
-            "transform .25s ease-out";
-
-        elementoAtual.style.transform =
-            sairParaEsquerda
-                ? "translate(calc(-50% - 100vw), -50%)"
-                : "translate(calc(-50% + 100vw), -50%)";
-
-        elementoAtual.style.opacity = "0";
-
-        proximoElemento.style.transform =
-            "translate(-50%, -50%)";
-    });
-
-    setTimeout(() => {
-
-        elementoAtual.remove();
-        elementoAtual = proximoElemento;
-
-        if (sairParaEsquerda) {
-
-            elementoSeguinte = null;
-            indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
-
-        } else {
-
-            elementoAnterior = null;
-            indiceAtual =
-                (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
-        }
-
-        preloadImagens();
-        prepararImagemAnterior();
-        prepararProximaImagem();
-
-    }, 250);
-}
 
 /* FECHAR AO CLICAR FORA DA IMAGEM */
 
@@ -1411,6 +1124,15 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
         ultimoToque = agora;
     }
 
+});
+
+modal.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+});
+
+modal.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].clientX;
+    handleSwipe();
 });
 
 document.querySelectorAll('.project').forEach(projeto => {
