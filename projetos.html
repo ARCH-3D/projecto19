@@ -1070,18 +1070,23 @@ modal.addEventListener('touchmove', function(e) {
     elementoAtual.style.transform =
         `translate(calc(-50% + ${currentTranslate}px), -50%)`;
 
-    // imagem seguinte acompanha
+    // imagem seguinte acompanha mais lentamente (efeito iPhone)
+
+    const largura = window.innerWidth;
+
     if (currentTranslate < 0) {
 
-        // swipe para a esquerda
+        const entrada = largura + currentTranslate * 0.85;
+
         elementoSeguinte.style.transform =
-            `translate(calc(-50% + ${window.innerWidth + currentTranslate}px), -50%)`;
+            `translate(calc(-50% + ${entrada}px), -50%)`;
 
     } else {
 
-        // swipe para a direita
+        const entrada = -largura + currentTranslate * 0.85;
+
         elementoSeguinte.style.transform =
-            `translate(calc(-50% - ${window.innerWidth - currentTranslate}px), -50%)`;
+            `translate(calc(-50% + ${entrada}px), -50%)`;
 
     }
 
