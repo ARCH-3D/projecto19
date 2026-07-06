@@ -989,6 +989,7 @@ function mudarMidia(direcao) {
     atualizarIndicadores();
 
     mostrarMidia();
+    mostrarBotaoFullscreen();
     preloadImagens();
 
 }
@@ -1618,9 +1619,17 @@ document.querySelectorAll('.project').forEach(projeto => {
 });
 
 document.addEventListener("fullscreenchange", () => {
-    if (!document.fullscreenElement) {
-        modal.style.background = "";
+    
+    const btn = document.getElementById("fullscreen-btn");
+    
+    if (document.fullscreenElement){
+        
+        btn?.classList.remove("show");
+        
     }
+
+    modal.style.background = "";
+
 });
 
 document.getElementById("modal-content").addEventListener("mousemove", () => {
