@@ -917,16 +917,17 @@ footer p{
 }
 
 .media-indicators span {
-    width: 10px;
-    height: 10px;
-    background: rgba(255,255,255,0.35);
-    z-index: 1;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.25);
+
+    transition: all .3s ease;
 }
 
 .media-indicators span.active {
-    background: transparent;
-    border: 2px solid #fff;
-    transform: scale(1.45);
+    background: #fff;
+    transform: scale(1.5);
 }
 
 .fullscreen-btn{
