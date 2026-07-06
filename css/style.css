@@ -921,7 +921,8 @@ footer p{
 }
 
 .media-indicators span.active {
-    background: #fff;
+    background: transparent;
+    border: 2px solid #fff;
     transform: scale(1.45);
 }
 
