@@ -890,6 +890,15 @@ function toggleFullscreen() {
 
 }
 
+function toggleViewerMode(){
+
+    document
+        .getElementById("modal-projeto")
+        .classList
+        .toggle("viewer-mode");
+
+}
+
 function mudarMidia(direcao) {
 
     direcaoSlide = direcao;
@@ -1344,7 +1353,25 @@ document.getElementById("modal-content").addEventListener("dblclick", function(e
 
     e.stopPropagation();
 
-    toggleFullscreen();
+    toggleViewerMode();
+
+});
+
+let ultimoToque = 0;
+
+document.getElementById("modal-content").addEventListener("touchend", function(e){
+
+    const agora = Date.now();
+
+    if (agora - ultimoToque < 300){
+
+        e.preventDefault();
+
+        toggleViewerMode();
+
+    }
+
+    ultimoToque = agora;
 
 });
 
