@@ -1117,11 +1117,11 @@ document.addEventListener('keydown', function(e) {
   if (modal.style.display !== 'flex') return;
 
   if (e.key === "ArrowLeft") {
-    trocarMidiaAnimada(1); // 👈 “pré-swipe para direita”
+    irParaDirecao(-1); // 👈 “pré-swipe para direita”
   }
 
   else if (e.key === "ArrowRight") {
-    trocarMidiaAnimada(-1); // 👈 “pré-swipe para esquerda”
+    irParaDirecao(1); // 👈 “pré-swipe para esquerda”
   }
 
   else if (e.key === "Escape") {
@@ -1280,10 +1280,22 @@ function handleSwipe() {
 
 }
 
+function irParaDirecao(direcao) {
+    if (direcao === 1) {
+        trocarMidiaAnimada(1);
+    } else {
+        trocarMidiaAnimada(-1);
+    }
+}
 
 function trocarMidiaAnimada(direcao) {
 
     if (!elementoAtual) return;
+
+    if (!elementoSeguinte || !elementoAnterior) {
+        prepararImagemAnterior();
+        prepararProximaImagem();
+    }
 
     const largura = window.innerWidth;
 
