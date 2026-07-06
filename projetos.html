@@ -1314,6 +1314,8 @@ function handleSwipe() {
 
         setTimeout(() => {
 
+            if (elementoAtual) elementoAtual.remove();
+
             elementoAtual.remove();
 
             elementoAtual = elementoSeguinte;
@@ -1352,6 +1354,8 @@ function handleSwipe() {
             "translate(-50%, -50%)";
 
         setTimeout(() => {
+
+            if (elementoAtual) elementoAtual.remove();
 
             elementoAtual.remove();
 
