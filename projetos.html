@@ -1062,9 +1062,6 @@ modal.addEventListener('touchstart', function(e) {
     currentTranslate = 0;
     isDragging = true;
 
-    elementoAtual =
-        document.querySelector("#modal-content img, #modal-content video");
-
     if (!elementoAtual) return;
 
     elementoAtual.style.transition = "none";
@@ -1180,6 +1177,8 @@ function handleSwipe() {
 
         elementoSeguinte =
             criarElementoMidia(midiasAtuais[indiceAnterior]);
+        
+        elementoSeguinte.style.zIndex = "1";
 
         elementoSeguinte.style.transform =
             "translate(calc(-50% - 100vw), -50%)";
