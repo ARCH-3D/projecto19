@@ -1338,6 +1338,78 @@ function handleSwipe() {
 
 }
 
+function swipeTeclado(direcao) {
+
+  if (!elementoAtual) return;
+
+  const largura = window.innerWidth;
+
+  elementoAtual.style.transition =
+    "transform .25s ease-out, opacity .25s ease-out";
+
+  let alvo;
+
+  if (direcao === -1 && elementoSeguinte) {
+    // próxima imagem (← teclado direito)
+    alvo = elementoSeguinte;
+
+    elementoSeguinte.style.transition =
+      "transform .25s ease-out";
+
+    elementoAtual.style.transform =
+      "translate(calc(-50% - 100vw), -50%)";
+
+    elementoAtual.style.opacity = "0";
+
+    elementoSeguinte.style.transform =
+      "translate(-50%, -50%)";
+
+    setTimeout(() => {
+      elementoAtual.remove();
+
+      elementoAtual = elementoSeguinte;
+      elementoSeguinte = null;
+
+      indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
+
+      preloadImagens();
+      prepararImagemAnterior();
+      prepararProximaImagem();
+    }, 250);
+  }
+
+  else if (direcao === 1 && elementoAnterior) {
+    // imagem anterior (← teclado esquerdo)
+
+    alvo = elementoAnterior;
+
+    elementoAnterior.style.transition =
+      "transform .25s ease-out";
+
+    elementoAtual.style.transform =
+      "translate(calc(-50% + 100vw), -50%)";
+
+    elementoAtual.style.opacity = "0";
+
+    elementoAnterior.style.transform =
+      "translate(-50%, -50%)";
+
+    setTimeout(() => {
+      elementoAtual.remove();
+
+      elementoAtual = elementoAnterior;
+      elementoAnterior = null;
+
+      indiceAtual =
+        (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+
+      preloadImagens();
+      prepararImagemAnterior();
+      prepararProximaImagem();
+    }, 250);
+  }
+}
+
 /* FECHAR AO CLICAR FORA DA IMAGEM */
 
 document.getElementById("modal-projeto").addEventListener("click", function(e){
