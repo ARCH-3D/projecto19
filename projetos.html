@@ -1157,7 +1157,7 @@ function handleSwipe() {
 
     const distancia = touchEndX - touchStartX;
 
-    if (!elementoAtual || !elementoSeguinte) return;
+    if (!elementoAtual) return;
 
     // ---------- SWIPE ESQUERDA ----------
     if (distancia < -80) {
@@ -1198,6 +1198,8 @@ function handleSwipe() {
 
     // ---------- SWIPE DIREITA ----------
     if (distancia > 80) {
+        
+        if (!elementoAnterior) return;
 
         elementoAtual.style.transition =
             "transform .25s ease-out, opacity .25s ease-out";
@@ -1237,31 +1239,38 @@ function handleSwipe() {
     elementoAtual.style.transition =
         "transform .30s ease";
 
-    elementoSeguinte.style.transition =
-        "transform .30s ease";
-
     elementoAtual.style.transform =
         "translate(-50%, -50%)";
 
-    if (currentTranslate < 0) {
+    if (currentTranslate < 0 && elementoSeguinte) {
+
+        elementoSeguinte.style.transition =
+            "transform .30s ease";
 
         elementoSeguinte.style.transform =
             "translate(calc(-50% + 100vw), -50%)";
 
-    } else {
+    }
 
-        elementoSeguinte.style.transform =
+    if (currentTranslate > 0 && elementoAnterior) {
+
+        elementoAnterior.style.transition =
+            "transform .30s ease";
+
+        elementoAnterior.style.transform =
             "translate(calc(-50% - 100vw), -50%)";
 
     }
 
     setTimeout(() => {
-
         if (elementoSeguinte) {
-
             elementoSeguinte.remove();
             elementoSeguinte = null;
+        }
 
+        if (elementoAnterior) {
+            elementoAnterior.remove();
+            elementoAnterior = null;
         }
 
         prepararImagemAnterior();
