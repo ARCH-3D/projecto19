@@ -1241,7 +1241,6 @@ modal.addEventListener('touchend', function(e) {
     const dx = touchEndX - touchStartX;
     const dy = touchEndY - touchStartY;
 
-    const limiteX = window.innerWidth * 0.20;
     const limiteY = window.innerHeight * 0.20;
 
     // 🔥 PRIORIDADE: swipe vertical (fechar modal)
@@ -1294,9 +1293,11 @@ function handleSwipe() {
     // ---------- SWIPE ESQUERDA ----------
     if (distancia < -limite) {
 
+        if (!elementoAnterior) return;
+
         elementoAtual.style.transition =
             "transform .25s ease-out, opacity .25s ease-out";
-
+        
         elementoSeguinte.style.transition =
             "transform .25s ease-out";
 
@@ -1437,6 +1438,8 @@ document.getElementById("modal-content").addEventListener("dblclick", function(e
 });
 
 document.getElementById("modal-content").addEventListener("touchend", function(e){
+
+    if (isVerticalDrag || isDragging) return;
 
     const touch = e.changedTouches[0];
 
