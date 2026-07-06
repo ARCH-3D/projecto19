@@ -790,6 +790,9 @@ let direcaoSlide = 1;
 let touchStartX = 0;
 let touchEndX = 0;
 
+let ultimoToque = 0;
+let touchStartY = 0;
+
 let currentTranslate = 0;
 let isDragging = false;
 
@@ -1133,6 +1136,7 @@ const modal = document.getElementById('modal-projeto');
 modal.addEventListener('touchstart', function(e) {
 
     touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
 
     currentTranslate = 0;
     isDragging = true;
@@ -1357,21 +1361,28 @@ document.getElementById("modal-content").addEventListener("dblclick", function(e
 
 });
 
-let ultimoToque = 0;
-
 document.getElementById("modal-content").addEventListener("touchend", function(e){
 
-    const agora = Date.now();
+    const touch = e.changedTouches[0];
 
-    if (agora - ultimoToque < 300){
+    const dx = Math.abs(touch.clientX - touchStartX);
+    const dy = Math.abs(touch.clientY - touchStartY);
 
-        e.preventDefault();
+    // Só considera toque se praticamente não houve movimento
+    if (dx < 10 && dy < 10) {
 
-        toggleViewerMode();
+        const agora = Date.now();
+
+        if (agora - ultimoToque < 300) {
+
+            e.preventDefault();
+            toggleViewerMode();
+
+        }
+
+        ultimoToque = agora;
 
     }
-
-    ultimoToque = agora;
 
 });
 
