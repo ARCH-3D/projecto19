@@ -859,6 +859,14 @@ function fecharModal() {
         widget.style.display = '';
     }
 
+    // 🔥 ISTO É O IMPORTANTE
+    if (document.fullscreenElement) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    }
 }
 
 function toggleFullscreen() {
@@ -1390,6 +1398,16 @@ document.querySelectorAll('.project').forEach(projeto => {
 
 });
 
+document.body.style.pointerEvents = "auto";
+
+document.addEventListener("fullscreenchange", () => {
+    if (!document.fullscreenElement) {
+        console.log("Exited fullscreen");
+        
+        // opcional: aqui podes limpar estados se quiseres
+    }
+});
+
 </script>
 
 <footer>
@@ -1506,4 +1524,3 @@ function toggleMenu() {
 
 </body>
 </html>
-
