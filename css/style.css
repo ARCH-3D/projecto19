@@ -953,7 +953,8 @@ footer p{
     color:white;
     font-size:22px;
 
-    display:flex;
+    display:none;
+    /* display:flex; */
     align-items:center;
     justify-content:center;
 
@@ -975,7 +976,6 @@ footer p{
 
     opacity:1;
     pointer-events:auto;
-    display:none; /*esconder botão*/
 
 }
 
