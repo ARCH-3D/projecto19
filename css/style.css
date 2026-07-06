@@ -910,39 +910,37 @@ footer p{
     transform:translateX(-50%);
 
     display:flex;
-    gap:8px;
+    gap:10px;
 
     z-index:20;
 
 }
 
-.media-indicators span{
+.media-indicators span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
 
-    width:26px;
-    height:3px;
+    background: rgba(255, 255, 255, 0.35);
 
-    border-radius:999px;
-
-    background:rgba(255,255,255,.35);
-
-    box-shadow:
-        0 0 4px rgba(0,0,0,.35);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
 
     transition:
-        width .25s ease,
-        background .25s ease;
-
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-.media-indicators span.active{
+.media-indicators span.active {
+    background: #fff;
 
-    width:38px;
+    /* aumenta a bolinha */
+    transform: scale(1.6);
 
-    background:#fff;
-
+    /* anel branco + profundidade */
     box-shadow:
-        0 0 8px rgba(0,0,0,.45);
-
+        0 0 0 2px rgba(255, 255, 255, 0.9),
+        0 0 12px rgba(0, 0, 0, 0.5);
 }
 
 .fullscreen-btn{
