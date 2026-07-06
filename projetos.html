@@ -1114,21 +1114,85 @@ function mostrarMidia() {
 document.addEventListener('keydown', function(e) {
   const modal = document.getElementById('modal-projeto');
 
-  if (modal.style.display === 'flex') {
+  if (modal.style.display !== 'flex') return;
 
-    if (e.key === "ArrowLeft") {
-      trocarMidiaAnimada(-1);
-    }
+  if (e.key === "ArrowLeft") {
+    animarTransicao(-1, 80); // 👈 “pré-swipe para direita”
+  }
 
-    else if (e.key === "ArrowRight") {
-      trocarMidiaAnimada(1);
-    }
+  else if (e.key === "ArrowRight") {
+    animarTransicao(1, -80); // 👈 “pré-swipe para esquerda”
+  }
 
-    else if (e.key === "Escape") {
-      fecharModal();
-    }
+  else if (e.key === "Escape") {
+    fecharModal();
   }
 });
+
+function animarTransicao(direcao, offsetInicial = 0) {
+
+    if (!elementoAtual) return;
+
+    const largura = window.innerWidth;
+
+    const proximoElemento =
+        direcao === 1 ? elementoSeguinte : elementoAnterior;
+
+    if (!proximoElemento) return;
+
+    // remove transições para preparar estado inicial
+    elementoAtual.style.transition = "none";
+    proximoElemento.style.transition = "none";
+
+    // 👉 estado inicial (como se já estivesse a meio swipe)
+    elementoAtual.style.transform =
+        `translate(calc(-50% + ${offsetInicial}px), -50%)`;
+
+    proximoElemento.style.transform =
+        direcao === 1
+            ? `translate(calc(-50% + ${largura + offsetInicial}px), -50%)`
+            : `translate(calc(-50% - ${largura + offsetInicial}px), -50%)`;
+
+    requestAnimationFrame(() => {
+
+        elementoAtual.style.transition =
+            "transform .25s ease-out, opacity .25s ease-out";
+
+        proximoElemento.style.transition =
+            "transform .25s ease-out";
+
+        // anima para destino final
+        elementoAtual.style.transform =
+            direcao === 1
+                ? "translate(calc(-50% - 100vw), -50%)"
+                : "translate(calc(-50% + 100vw), -50%)";
+
+        elementoAtual.style.opacity = "0";
+
+        proximoElemento.style.transform =
+            "translate(-50%, -50%)";
+    });
+
+    setTimeout(() => {
+
+        elementoAtual.remove();
+        elementoAtual = proximoElemento;
+
+        if (direcao === 1) {
+            elementoSeguinte = null;
+            indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
+        } else {
+            elementoAnterior = null;
+            indiceAtual =
+                (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+        }
+
+        preloadImagens();
+        prepararImagemAnterior();
+        prepararProximaImagem();
+
+    }, 250);
+}
 
 /* Swipe no telemóvel */
 
