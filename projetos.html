@@ -857,6 +857,10 @@ function fecharModal() {
     document.getElementById('modal-projeto').style.display = 'none';
     document.getElementById('modal-content').innerHTML = '';
 
+    elementoAtual = null;
+    elementoAnterior = null;
+    elementoSeguinte = null;
+
     document.body.classList.remove("modal-open");
 
     const widget = document.querySelector('.contact-widget');
@@ -864,7 +868,6 @@ function fecharModal() {
         widget.style.display = '';
     }
 
-    // 🔥 ISTO É O IMPORTANTE
     if (document.fullscreenElement) {
         if (document.exitFullscreen) {
             document.exitFullscreen();
@@ -1169,9 +1172,9 @@ modal.addEventListener('touchstart', function(e) {
 
 modal.addEventListener('touchmove', function(e) {
 
-    e.preventDefault();
-
     if (!isDragging || !elementoAtual) return;
+
+    e.preventDefault();
 
     const touchX = e.touches[0].clientX;
     const touchY = e.touches[0].clientY;
