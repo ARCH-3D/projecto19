@@ -909,25 +909,26 @@ footer p{
     transform: translateX(-50%);
 
     display: flex;
-    gap: 10px;
+    gap: 12px;
 
-    position: relative;
+    z-index: 20;
 }
 
 .media-indicators span {
     width: 8px;
     height: 8px;
     border-radius: 50%;
+
     background: rgba(255,255,255,.22);
 
-    transition: all .3s ease;
+    transition:
+        background .25s ease,
+        transform .25s ease;
 }
 
 .media-indicators span.active {
     background: #fff;
     transform: scale(1.35);
-
-    box-shadow: 0 0 0 1.5px rgba(255,255,255,.8);
 }
 
 .fullscreen-btn{
