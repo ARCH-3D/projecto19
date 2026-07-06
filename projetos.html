@@ -809,8 +809,6 @@ let currentY = 0;
 
 let previewIndice = -1;
 
-let animacaoEmCurso = false;
-
 function preloadImagens() {
 
     const proximas = [
@@ -956,10 +954,6 @@ function toggleFullscreen() {
 }
 
 function mudarMidia(direcao) {
-
-    if (animacaoEmCurso) return;
-
-    animacaoEmCurso = true;
 
     direcaoSlide = direcao;
 
@@ -1384,10 +1378,6 @@ modal.addEventListener('touchend', function(e) {
 });
 
 function handleSwipe() {
-
-    if (animacaoEmCurso) return;
-
-    animacaoEmCurso = true;
 
     const distancia = touchEndX - touchStartX;
     const limite = window.innerWidth * 0.20;
