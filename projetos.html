@@ -790,8 +790,10 @@ let direcaoSlide = 1;
 let touchStartX = 0;
 let touchEndX = 0;
 
-let ultimoToque = 0;
 let touchStartY = 0;
+let touchEndY = 0;
+
+let ultimoToque = 0;
 
 let currentTranslate = 0;
 let isDragging = false;
@@ -799,6 +801,9 @@ let isDragging = false;
 let elementoAnterior = null;
 let elementoAtual = null;
 let elementoSeguinte = null;
+
+let isVerticalDrag = false;
+let currentY = 0;
 
 function preloadImagens() {
 
@@ -867,6 +872,8 @@ function fecharModal() {
             document.webkitExitFullscreen();
         }
     }
+
+    document.getElementById("modal-projeto").style.background = "";
 }
 
 function toggleFullscreen() {
@@ -1136,6 +1143,8 @@ modal.addEventListener('touchstart', function(e) {
 
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
+    isVerticalDrag = false;
+    currentY = 0;
 
     currentTranslate = 0;
     isDragging = true;
@@ -1162,38 +1171,62 @@ modal.addEventListener('touchmove', function(e) {
 
     e.preventDefault();
 
-    if (!isDragging) return;
+    if (!isDragging || !elementoAtual) return;
 
     const touchX = e.touches[0].clientX;
+    const touchY = e.touches[0].clientY;
 
-    currentTranslate = touchX - touchStartX;
+    const dx = touchX - touchStartX;
+    const dy = touchY - touchStartY;
 
-    if (!elementoAtual) return;
+    currentTranslate = dx;
+    currentY = dy;
 
-    // imagem atual segue o dedo
+    // Decide a direção apenas uma vez
+    if (!isVerticalDrag) {
+        isVerticalDrag = Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 10;
+    }
+
+    // ==========================
+    // SWIPE VERTICAL (fechar)
+    // ==========================
+    if (isVerticalDrag) {
+
+        elementoAtual.style.transform =
+            `translate(-50%, calc(-50% + ${currentY}px))`;
+
+        const opacity = Math.max(1 - Math.abs(currentY) / 400, 0.3);
+
+        modal.style.background = `rgba(0,0,0,${opacity})`;
+
+        return;
+    }
+
+    // ==========================
+    // SWIPE HORIZONTAL (mudar imagem)
+    // ==========================
+
     elementoAtual.style.transform =
         `translate(calc(-50% + ${currentTranslate}px), -50%)`;
 
     const largura = window.innerWidth;
 
-    // Swipe para a esquerda (mostrar próxima imagem)
+    // Próxima imagem
     if (currentTranslate < 0 && elementoSeguinte) {
 
         const entrada = largura + currentTranslate * 0.85;
 
         elementoSeguinte.style.transform =
             `translate(calc(-50% + ${entrada}px), -50%)`;
-
     }
 
-    // Swipe para a direita (mostrar imagem anterior)
+    // Imagem anterior
     if (currentTranslate > 0 && elementoAnterior) {
 
         const entrada = -largura + currentTranslate * 0.85;
 
         elementoAnterior.style.transform =
             `translate(calc(-50% + ${entrada}px), -50%)`;
-
     }
 
 });
@@ -1211,13 +1244,43 @@ modal.addEventListener('touchend', function(e) {
     const limiteX = window.innerWidth * 0.20;
     const limiteY = window.innerHeight * 0.20;
 
-    // 🔥 PRIORIDADE: swipe para baixo = fechar modal
-    if (dy > limiteY && Math.abs(dy) > Math.abs(dx)) {
-        fecharModal();
+    // 🔥 PRIORIDADE: swipe vertical (fechar modal)
+    if (isVerticalDrag) {
+
+        // se puxou o suficiente para baixo → FECHA
+        if (dy > limiteY) {
+
+            elementoAtual.style.transition =
+                "transform .25s ease, opacity .25s ease";
+
+            elementoAtual.style.transform =
+                `translate(calc(-50%), calc(-50% + 100vh))`;
+
+            elementoAtual.style.opacity = "0";
+
+            modal.style.transition = "background .25s ease";
+            modal.style.background = "rgba(0,0,0,0)";
+
+            setTimeout(() => {
+                fecharModal();
+            }, 200);
+
+        } else {
+
+        // volta ao centro
+            elementoAtual.style.transition = "transform .25s ease";
+
+            elementoAtual.style.transform =
+                "translate(-50%, -50%)";
+
+                modal.style.transition = "background .25s ease";
+                modal.style.background = "rgba(0,0,0,0.9)";
+            }
+
         return;
     }
 
-    // senão continua navegação normal horizontal
+    // 🔥 caso contrário → swipe horizontal normal
     handleSwipe();
 });
 
@@ -1411,13 +1474,9 @@ document.querySelectorAll('.project').forEach(projeto => {
 
 });
 
-document.body.style.pointerEvents = "auto";
-
 document.addEventListener("fullscreenchange", () => {
     if (!document.fullscreenElement) {
-        console.log("Exited fullscreen");
-        
-        // opcional: aqui podes limpar estados se quiseres
+        modal.style.background = "";
     }
 });
 
