@@ -1354,17 +1354,25 @@ document.getElementById("modal-content").addEventListener("dblclick", function(e
 
 document.getElementById("modal-content").addEventListener("touchend", function(e){
 
-    const agora = Date.now();
+    const touch = e.changedTouches[0];
 
-    if (agora - ultimoToque < 300){
+    const dx = Math.abs(touch.clientX - touchStartX);
+    const dy = Math.abs(touch.clientY - touchStartY);
 
-        e.preventDefault();
+    // Só considera duplo toque se praticamente não houve movimento
+    if (dx < 10 && dy < 10) {
 
-        toggleFullscreen();
+        const agora = Date.now();
 
+        if (agora - ultimoToque < 300){
+
+            e.preventDefault();
+            toggleFullscreen();
+
+        }
+
+        ultimoToque = agora;
     }
-
-    ultimoToque = agora;
 
 });
 
