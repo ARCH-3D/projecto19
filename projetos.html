@@ -900,6 +900,31 @@ function criarElementoMidia(midia) {
 
 }
 
+function prepararProximaImagem() {
+
+    const conteudo = document.getElementById("modal-content");
+
+    if (elementoSeguinte) {
+
+        elementoSeguinte.remove();
+
+    }
+
+    const proximoIndice =
+        (indiceAtual + 1) % midiasAtuais.length;
+
+    elementoSeguinte =
+        criarElementoMidia(midiasAtuais[proximoIndice]);
+
+    elementoSeguinte.style.transform =
+        "translate(calc(-50% + 100vw), -50%)";
+
+    elementoSeguinte.style.opacity = "1";
+
+    conteudo.appendChild(elementoSeguinte);
+
+}
+
 function mostrarMidia() {
 
     const conteudo = document.getElementById("modal-content");
@@ -986,19 +1011,7 @@ function mostrarMidia() {
 
             }
 
-            // preparar próxima imagem
-            const proximoIndice =
-                (indiceAtual + 1) % midiasAtuais.length;
-
-            elementoSeguinte =
-                criarElementoMidia(midiasAtuais[proximoIndice]);
-
-            elementoSeguinte.style.transform =
-                "translate(calc(-50% + 100vw), -50%)";
-
-            elementoSeguinte.style.opacity = "1";
-
-            conteudo.appendChild(elementoSeguinte);
+            prepararProximaImagem();
 
         }, 450);
 
