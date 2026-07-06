@@ -930,7 +930,7 @@ footer p{
 
 .media-indicators span.active {
     background: #fff;
-    border-color: rgba(0,0,0,.35);
+    border-color: rgba(0,0,0,.12);
     transform: scale(1.4);
 }
 
