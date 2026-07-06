@@ -1296,7 +1296,7 @@ modal.addEventListener('touchmove', function(e) {
     // Próxima imagem
     if (currentTranslate < 0 && elementoSeguinte) {
 
-        const entrada = largura + currentTranslate * 0.85;
+        const entrada = largura + currentTranslate;
 
         elementoSeguinte.style.transform =
             `translate(calc(-50% + ${entrada}px), -50%)`;
@@ -1305,7 +1305,7 @@ modal.addEventListener('touchmove', function(e) {
     // Imagem anterior
     if (currentTranslate > 0 && elementoAnterior) {
 
-        const entrada = -largura + currentTranslate * 0.85;
+        const entrada = -largura + currentTranslate;
 
         elementoAnterior.style.transform =
             `translate(calc(-50% + ${entrada}px), -50%)`;
