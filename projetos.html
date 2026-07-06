@@ -1043,6 +1043,11 @@ function mostrarMidia() {
 
             }
 
+            if (elementoAnterior) {
+                elementoAnterior.remove();
+                elementoAnterior = null;
+            }
+
             prepararImagemAnterior();
             prepararProximaImagem();
 
@@ -1098,6 +1103,12 @@ modal.addEventListener('touchstart', function(e) {
     if (elementoSeguinte) {
 
         elementoSeguinte.style.transition = "none";
+
+    }
+
+    if (elementoAnterior) {
+
+        elementoAnterior.style.transition = "none";
 
     }
 
