@@ -809,6 +809,8 @@ let currentY = 0;
 
 let previewIndice = -1;
 
+let animacaoEmCurso = false;
+
 function preloadImagens() {
 
     const proximas = [
@@ -954,6 +956,10 @@ function toggleFullscreen() {
 }
 
 function mudarMidia(direcao) {
+
+    if (animacaoEmCurso) return;
+
+    animacaoEmCurso = true;
 
     direcaoSlide = direcao;
 
@@ -1148,6 +1154,8 @@ function mostrarMidia() {
 
             prepararImagemAnterior();
             prepararProximaImagem();
+
+            animacaoEmCurso = false;
 
         }, 450);
 
@@ -1377,6 +1385,10 @@ modal.addEventListener('touchend', function(e) {
 
 function handleSwipe() {
 
+    if (animacaoEmCurso) return;
+
+    animacaoEmCurso = true;
+
     const distancia = touchEndX - touchStartX;
     const limite = window.innerWidth * 0.20;
 
@@ -1417,6 +1429,8 @@ function handleSwipe() {
             preloadImagens();
             prepararImagemAnterior();
             prepararProximaImagem();
+
+            animacaoEmCurso = false;
 
         },250);
 
@@ -1460,6 +1474,8 @@ function handleSwipe() {
             preloadImagens();
             prepararImagemAnterior();
             prepararProximaImagem();
+
+            animacaoEmCurso = false;
 
         },250);
 
