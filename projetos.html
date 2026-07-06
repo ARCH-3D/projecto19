@@ -793,6 +793,9 @@ let touchEndX = 0;
 let currentTranslate = 0;
 let isDragging = false;
 
+let elementoAtual = null;
+let elementoSeguinte = null;
+
 function preloadImagens() {
 
     const proximas = [
@@ -867,12 +870,42 @@ function mudarMidia(direcao) {
 
 }
 
+function criarElementoMidia(midia) {
+
+    let elemento;
+
+    if (midia.type === "image") {
+
+        elemento = document.createElement("img");
+        elemento.src = midia.src;
+
+    } else {
+
+        elemento = document.createElement("video");
+        elemento.src = midia.src;
+        elemento.controls = true;
+        elemento.autoplay = true;
+        elemento.muted = true;
+        elemento.loop = true;
+
+    }
+
+    elemento.style.position = "absolute";
+    elemento.style.left = "50%";
+    elemento.style.top = "50%";
+    elemento.style.transform = "translate(-50%, -50%)";
+    elemento.style.opacity = "1";
+
+    return elemento;
+
+}
+
 function mostrarMidia() {
 
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
 
-    const antigo = conteudo.firstElementChild;
+    const antigo = elementoAtual;
 
     // cria o novo elemento
     let novo;
@@ -896,6 +929,7 @@ function mostrarMidia() {
     novo.style.position = "absolute";
     novo.style.left = "50%";
     novo.style.top = "50%";
+
     novo.style.transform =
         direcaoSlide === 1
         ? "translate(calc(-50% + 50px), -50%)"
@@ -941,6 +975,31 @@ function mostrarMidia() {
 
             }
 
+            // guardar imagem atual
+            elementoAtual = novo;
+
+            // remover imagem seguinte anterior
+            if (elementoSeguinte) {
+
+                elementoSeguinte.remove();
+                elementoSeguinte = null;
+
+            }
+
+            // preparar próxima imagem
+            const proximoIndice =
+                (indiceAtual + 1) % midiasAtuais.length;
+
+            elementoSeguinte =
+                criarElementoMidia(midiasAtuais[proximoIndice]);
+
+            elementoSeguinte.style.transform =
+                "translate(calc(-50% + 100vw), -50%)";
+
+            elementoSeguinte.style.opacity = "1";
+
+            conteudo.appendChild(elementoSeguinte);
+
         }, 450);
 
     };
@@ -981,10 +1040,17 @@ const modal = document.getElementById('modal-projeto');
 
 modal.addEventListener('touchstart', function(e) {
 
-    touchStartX = e.changedTouches[0].screenX;
+    touchStartX = e.touches[0].clientX;
 
     currentTranslate = 0;
     isDragging = true;
+
+    elementoAtual =
+        document.querySelector("#modal-content img, #modal-content video");
+
+    if (!elementoAtual) return;
+
+    elementoAtual.style.transition = "none";
 
 });
 
@@ -994,22 +1060,36 @@ modal.addEventListener('touchmove', function(e) {
 
     if (!isDragging) return;
 
-    const touchX = e.changedTouches[0].screenX;
+    const touchX = e.touches[0].clientX;
 
     currentTranslate = touchX - touchStartX;
 
-    const elemento = document.querySelector("#modal-content img, #modal-content video");
+    if (!elementoAtual || !elementoSeguinte) return;
 
-    if (!elemento) return;
-
-    elemento.style.transform =
+    // imagem atual segue o dedo
+    elementoAtual.style.transform =
         `translate(calc(-50% + ${currentTranslate}px), -50%)`;
+
+    // imagem seguinte acompanha
+    if (currentTranslate < 0) {
+
+        // swipe para a esquerda
+        elementoSeguinte.style.transform =
+            `translate(calc(-50% + ${window.innerWidth + currentTranslate}px), -50%)`;
+
+    } else {
+
+        // swipe para a direita
+        elementoSeguinte.style.transform =
+            `translate(calc(-50% - ${window.innerWidth - currentTranslate}px), -50%)`;
+
+    }
 
 });
 
 modal.addEventListener('touchend', function(e) {
 
-    touchEndX = e.changedTouches[0].screenX;
+    touchEndX = e.changedTouches[0].clientX;
 
     isDragging = false;
 
@@ -1029,60 +1109,123 @@ function handleSwipe() {
 
     const distancia = touchEndX - touchStartX;
 
-    const elemento = document.querySelector("#modal-content img, #modal-content video");
+    if (!elementoAtual || !elementoSeguinte) return;
 
-    if (!elemento) return;
-
-    // Swipe para a direita
-    if (distancia > 80) {
-
-        elemento.style.transition =
-            "transform .25s ease-out, opacity .25s ease-out";
-
-        elemento.style.transform =
-            "translate(calc(-50% + 100vw), -50%)";
-
-        elemento.style.opacity = "0";
-
-        setTimeout(() => {
-
-            mudarMidia(-1);
-
-        }, 220);
-
-        return;
-
-    }
-
-    // Swipe para a esquerda
+    // ---------- SWIPE ESQUERDA ----------
     if (distancia < -80) {
 
-        elemento.style.transition =
+        elementoAtual.style.transition =
             "transform .25s ease-out, opacity .25s ease-out";
 
-        elemento.style.transform =
+        elementoSeguinte.style.transition =
+            "transform .25s ease-out";
+
+        elementoAtual.style.transform =
             "translate(calc(-50% - 100vw), -50%)";
 
-        elemento.style.opacity = "0";
+        elementoAtual.style.opacity = "0";
+
+        elementoSeguinte.style.transform =
+            "translate(-50%, -50%)";
 
         setTimeout(() => {
 
-            mudarMidia(1);
+            elementoAtual.remove();
 
-        }, 220);
+            elementoAtual = elementoSeguinte;
+            elementoSeguinte = null;
+
+            indiceAtual =
+                (indiceAtual + 1) % midiasAtuais.length;
+
+            preloadImagens();
+
+        },250);
 
         return;
+    }
+
+    // ---------- SWIPE DIREITA ----------
+    if (distancia > 80) {
+
+        const indiceAnterior =
+            (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+
+        elementoSeguinte.remove();
+
+        elementoSeguinte =
+            criarElementoMidia(midiasAtuais[indiceAnterior]);
+
+        elementoSeguinte.style.transform =
+            "translate(calc(-50% - 100vw), -50%)";
+
+        document
+            .getElementById("modal-content")
+            .appendChild(elementoSeguinte);
+
+        elementoAtual.style.transition =
+            "transform .25s ease-out, opacity .25s ease-out";
+
+        elementoSeguinte.style.transition =
+            "transform .25s ease-out";
+
+        elementoAtual.style.transform =
+            "translate(calc(-50% + 100vw), -50%)";
+
+        elementoAtual.style.opacity = "0";
+
+        elementoSeguinte.style.transform =
+            "translate(-50%, -50%)";
+
+        setTimeout(() => {
+
+            elementoAtual.remove();
+
+            elementoAtual = elementoSeguinte;
+            elementoSeguinte = null;
+
+            indiceAtual = indiceAnterior;
+
+            preloadImagens();
+
+        },250);
+
+        return;
+    }
+
+    // ---------- VOLTA AO CENTRO ----------
+
+    elementoAtual.style.transition =
+        "transform .30s ease";
+
+    elementoSeguinte.style.transition =
+        "transform .30s ease";
+
+    elementoAtual.style.transform =
+        "translate(-50%, -50%)";
+
+    if (currentTranslate < 0) {
+
+        elementoSeguinte.style.transform =
+            "translate(calc(-50% + 100vw), -50%)";
+
+    } else {
+
+        elementoSeguinte.style.transform =
+            "translate(calc(-50% - 100vw), -50%)";
 
     }
 
-    // Se não chegou ao limite, volta ao centro
-    elemento.style.transition =
-        "transform .30s ease, opacity .30s ease";
+    setTimeout(() => {
 
-    elemento.style.transform =
-        "translate(-50%, -50%)";
+        if (elementoSeguinte) {
 
-    elemento.style.opacity = "1";
+            elementoSeguinte.remove();
+            elementoSeguinte = null;
+
+        }
+
+    },300);
 
 }
 
