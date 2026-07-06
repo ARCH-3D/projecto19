@@ -901,3 +901,38 @@ footer p{
         padding:40px 20px;
     }
 }
+
+.media-indicators{
+    position:absolute;
+    left:50%;
+    bottom:150px; /* ajustamos depois */
+    transform:translateX(-50%);
+
+    display:flex;
+    gap:8px;
+
+    z-index:20;
+}
+
+.media-indicators span{
+
+    width:26px;
+    height:3px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.25);
+
+    transition:
+        background .25s ease,
+        width .25s ease;
+
+}
+
+.media-indicators span.active{
+
+    width:38px;
+
+    background:white;
+
+}
