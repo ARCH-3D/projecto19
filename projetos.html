@@ -858,6 +858,38 @@ function fecharModal() {
 
 }
 
+function toggleFullscreen() {
+
+    const modal = document.getElementById("modal-projeto");
+
+    if (!document.fullscreenElement) {
+
+        if (modal.requestFullscreen) {
+
+            modal.requestFullscreen();
+
+        } else if (modal.webkitRequestFullscreen) {
+
+            modal.webkitRequestFullscreen();
+
+        }
+
+    } else {
+
+        if (document.exitFullscreen) {
+
+            document.exitFullscreen();
+
+        } else if (document.webkitExitFullscreen) {
+
+            document.webkitExitFullscreen();
+
+        }
+
+    }
+
+}
+
 function mudarMidia(direcao) {
 
     direcaoSlide = direcao;
@@ -1306,6 +1338,14 @@ document.getElementById("modal-projeto").addEventListener("click", function(e){
 
 document.getElementById('modal-content').addEventListener('click', function(e){
     e.stopPropagation();
+});
+
+document.getElementById("modal-content").addEventListener("dblclick", function(e){
+
+    e.stopPropagation();
+
+    toggleFullscreen();
+
 });
 
 document.querySelectorAll('.project').forEach(projeto => {
