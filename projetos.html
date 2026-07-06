@@ -1059,6 +1059,19 @@ function mostrarMidia() {
     const midia = midiasAtuais[indiceAtual];
     atualizarIndicadores();
 
+    // Remove qualquer imagem/vídeo antigo que tenha ficado preso
+    conteudo.querySelectorAll("img, video").forEach(el => {
+
+        if (el !== elementoAtual &&
+            el !== elementoAnterior &&
+            el !== elementoSeguinte) {
+
+            el.remove();
+
+        }
+
+    });
+
     const antigo = elementoAtual;
 
     // cria o novo elemento
@@ -1148,8 +1161,6 @@ function mostrarMidia() {
 
             prepararImagemAnterior();
             prepararProximaImagem();
-
-            animacaoEmCurso = false;
 
         }, 450);
 
@@ -1420,8 +1431,6 @@ function handleSwipe() {
             prepararImagemAnterior();
             prepararProximaImagem();
 
-            animacaoEmCurso = false;
-
         },250);
 
         return;
@@ -1464,8 +1473,6 @@ function handleSwipe() {
             preloadImagens();
             prepararImagemAnterior();
             prepararProximaImagem();
-
-            animacaoEmCurso = false;
 
         },250);
 
