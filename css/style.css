@@ -933,9 +933,9 @@ footer p{
 
 .media-indicators span.active {
     background: #fff;
-    transform: scale(1.35);
+    transform: scale(1.15);
 
-    box-shadow: 0 0 0 2px #fff;
+    box-shadow: 0 0 0 1.5px #fff;
 }
 
 .fullscreen-btn{
