@@ -912,15 +912,6 @@ footer p{
     display:flex;
     gap:8px;
 
-    padding:8px 12px;
-
-    border-radius:999px;
-
-    background:rgba(0,0,0,.06);
-
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-
     z-index:20;
 
 }
@@ -934,6 +925,9 @@ footer p{
 
     background:rgba(255,255,255,.35);
 
+    box-shadow:
+        0 0 4px rgba(0,0,0,.35);
+
     transition:
         width .25s ease,
         background .25s ease;
@@ -944,6 +938,9 @@ footer p{
 
     width:38px;
 
-    background:white;
+    background:#fff;
+
+    box-shadow:
+        0 0 8px rgba(0,0,0,.45);
 
 }
