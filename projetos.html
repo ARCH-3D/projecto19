@@ -901,8 +901,8 @@ function mostrarMidia() {
 
     novo.style.transform =
         direcaoSlide === 1
-        ? "translate3d(50px,0,0)"
-        : "translate3d(-50px,0,0)";
+        ? "translate(-50%, -50%) translate3d(50px,0,0)"
+        : "translate(-50%, -50%) translate3d(-50px,0,0)";
 
     novo.style.opacity = "0";
 
@@ -916,14 +916,14 @@ function mostrarMidia() {
 
                 antigo.style.transform =
                     direcaoSlide === 1
-                    ? "translate3d(-50px,0,0)"
-                    : "translate3d(50px,0,0)";
+                    ? "translate(-50%, -50%) translate3d(-50px,0,0)"
+                    : "translate(-50%, -50%) translate3d(50px,0,0)";
 
                 antigo.style.opacity = "0";
 
             }
 
-            novo.style.transform = "translate3d(0,0,0)";
+            novo.style.transform = "translate(-50%, -50%) translate3d(0,0,0)";
             novo.style.opacity = "1";
 
         });
@@ -1010,7 +1010,7 @@ modal.addEventListener('touchmove', function(e) {
     animationFrame = requestAnimationFrame(() => {
 
         elementoAtual.style.transform =
-            `translate3d(${currentTranslate}px,0,0)`;
+            `translate(-50%, -50%) translate3d(${currentTranslate}px, 0, 0)`;
 
         animationFrame = null;
 
@@ -1028,7 +1028,7 @@ modal.addEventListener('touchend', function(e) {
 
     if (elemento) {
 
-        elemento.style.transform = "translate(-50%, -50%)";
+        elemento.style.transform = "translate(-50%, -50%) translate3d(0,0,0)"
 
     }
 
@@ -1051,7 +1051,7 @@ function handleSwipe() {
             "transform .25s ease-out, opacity .25s ease-out";
 
         elemento.style.transform =
-            "translate(calc(-50% + 100vw), -50%)";
+            "translate(-50%, -50%) translate3d(100vw,0,0)"
 
         elemento.style.opacity = "0";
 
@@ -1072,7 +1072,7 @@ function handleSwipe() {
             "transform .25s ease-out, opacity .25s ease-out";
 
         elemento.style.transform =
-            "translate(calc(-50% - 100vw), -50%)";
+            "translate(-50%, -50%) translate3d(-100vw,0,0)"
 
         elemento.style.opacity = "0";
 
@@ -1091,7 +1091,7 @@ function handleSwipe() {
         "transform .30s ease, opacity .30s ease";
 
     elemento.style.transform =
-        "translate(-50%, -50%)";
+        "translate(-50%, -50%) translate3d(-100vw,0,0)"
 
     elemento.style.opacity = "1";
 
