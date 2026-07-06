@@ -1267,7 +1267,9 @@ modal.addEventListener('touchend', function(e) {
 
         } else {
 
-        // volta ao centro
+            if (!elementoAtual) return;
+
+            // volta ao centro
             elementoAtual.style.transition = "transform .25s ease";
 
             elementoAtual.style.transform =
