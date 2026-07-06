@@ -1117,11 +1117,11 @@ document.addEventListener('keydown', function(e) {
   if (modal.style.display === 'flex') {
 
     if (e.key === "ArrowLeft") {
-      swipeTeclado(1); // direita → imagem anterior
+      trocarMidiaAnimada(-1);
     }
 
     else if (e.key === "ArrowRight") {
-      swipeTeclado(-1); // esquerda → próxima imagem
+      trocarMidiaAnimada(1);
     }
 
     else if (e.key === "Escape") {
@@ -1220,35 +1220,7 @@ function handleSwipe() {
     // ---------- SWIPE ESQUERDA ----------
     if (distancia < -limite) {
 
-        elementoAtual.style.transition =
-            "transform .25s ease-out, opacity .25s ease-out";
-
-        elementoSeguinte.style.transition =
-            "transform .25s ease-out";
-
-        elementoAtual.style.transform =
-            "translate(calc(-50% - 100vw), -50%)";
-
-        elementoAtual.style.opacity = "0";
-
-        elementoSeguinte.style.transform =
-            "translate(-50%, -50%)";
-
-        setTimeout(() => {
-
-            elementoAtual.remove();
-
-            elementoAtual = elementoSeguinte;
-            elementoSeguinte = null;
-
-            indiceAtual =
-                (indiceAtual + 1) % midiasAtuais.length;
-
-            preloadImagens();
-            prepararImagemAnterior();
-            prepararProximaImagem();
-
-        },250);
+        trocarMidiaAnimada(1);
 
         return;
     }
@@ -1256,41 +1228,12 @@ function handleSwipe() {
 
     // ---------- SWIPE DIREITA ----------
     if (distancia > limite) {
-        
-        if (!elementoAnterior) return;
 
-        elementoAtual.style.transition =
-            "transform .25s ease-out, opacity .25s ease-out";
-
-        elementoAnterior.style.transition =
-            "transform .25s ease-out";
-
-        elementoAtual.style.transform =
-            "translate(calc(-50% + 100vw), -50%)";
-
-        elementoAtual.style.opacity = "0";
-
-        elementoAnterior.style.transform =
-            "translate(-50%, -50%)";
-
-        setTimeout(() => {
-
-            elementoAtual.remove();
-
-            elementoAtual = elementoAnterior;
-            elementoAnterior = null;
-
-            indiceAtual =
-                (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
-
-            preloadImagens();
-            prepararImagemAnterior();
-            prepararProximaImagem();
-
-        },250);
+        trocarMidiaAnimada(-1);
 
         return;
     }
+    
 
     // ---------- VOLTA AO CENTRO ----------
 
@@ -1338,76 +1281,63 @@ function handleSwipe() {
 
 }
 
-function swipeTeclado(direcao) {
 
-  if (!elementoAtual) return;
+function trocarMidiaAnimada(direcao) {
 
-  const largura = window.innerWidth;
+    if (!elementoAtual) return;
 
-  elementoAtual.style.transition =
-    "transform .25s ease-out, opacity .25s ease-out";
+    const sairParaEsquerda = direcao === 1;
 
-  let alvo;
+    const proximoElemento = sairParaEsquerda
+        ? elementoSeguinte
+        : elementoAnterior;
 
-  if (direcao === -1 && elementoSeguinte) {
-    // próxima imagem (← teclado direito)
-    alvo = elementoSeguinte;
+    if (!proximoElemento) return;
 
-    elementoSeguinte.style.transition =
-      "transform .25s ease-out";
+    elementoAtual.style.transition =
+        "transform .25s ease-out, opacity .25s ease-out";
 
-    elementoAtual.style.transform =
-      "translate(calc(-50% - 100vw), -50%)";
+    proximoElemento.style.transition =
+        "transform .25s ease-out";
 
-    elementoAtual.style.opacity = "0";
-
-    elementoSeguinte.style.transform =
-      "translate(-50%, -50%)";
-
-    setTimeout(() => {
-      elementoAtual.remove();
-
-      elementoAtual = elementoSeguinte;
-      elementoSeguinte = null;
-
-      indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
-
-      preloadImagens();
-      prepararImagemAnterior();
-      prepararProximaImagem();
-    }, 250);
-  }
-
-  else if (direcao === 1 && elementoAnterior) {
-    // imagem anterior (← teclado esquerdo)
-
-    alvo = elementoAnterior;
-
-    elementoAnterior.style.transition =
-      "transform .25s ease-out";
-
-    elementoAtual.style.transform =
-      "translate(calc(-50% + 100vw), -50%)";
+    elementoAtual.style.transform = sairParaEsquerda
+        ? "translate(calc(-50% - 100vw), -50%)"
+        : "translate(calc(-50% + 100vw), -50%)";
 
     elementoAtual.style.opacity = "0";
 
-    elementoAnterior.style.transform =
-      "translate(-50%, -50%)";
+    proximoElemento.style.transform =
+        "translate(-50%, -50%)";
 
     setTimeout(() => {
-      elementoAtual.remove();
 
-      elementoAtual = elementoAnterior;
-      elementoAnterior = null;
+        elementoAtual.remove();
 
-      indiceAtual =
-        (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+        elementoAtual = proximoElemento;
 
-      preloadImagens();
-      prepararImagemAnterior();
-      prepararProximaImagem();
+        if (sairParaEsquerda) {
+
+            elementoSeguinte = null;
+
+            indiceAtual =
+                (indiceAtual + 1) % midiasAtuais.length;
+
+        } else {
+
+            elementoAnterior = null;
+
+            indiceAtual =
+                (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+
+        }
+
+        preloadImagens();
+
+        prepararImagemAnterior();
+        prepararProximaImagem();
+
     }, 250);
-  }
+
 }
 
 /* FECHAR AO CLICAR FORA DA IMAGEM */
