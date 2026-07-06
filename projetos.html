@@ -837,8 +837,8 @@ function abrirProjeto(nomeProjeto) {
     midiasAtuais = projetoAtual.media;
     indiceAtual = 0;
 
+    atualizarIndicadores(true);
     mostrarMidia();
-    atualizarIndicadores();
     preloadImagens();
 
     document.getElementById("modal-title").textContent = projetoAtual.info.nome;
@@ -887,27 +887,36 @@ function fecharModal() {
     document.getElementById("modal-projeto").style.background = "";
 }
 
-function atualizarIndicadores(){
+function atualizarIndicadores(criar = false){
 
     const container =
         document.getElementById("modal-indicators");
 
-    container.innerHTML = "";
+    if (criar){
 
-    midiasAtuais.forEach((_, i)=>{
+        container.innerHTML = "";
 
-        const barra =
-            document.createElement("span");
+        midiasAtuais.forEach(() => {
 
-        if(i === indiceAtual){
+            const barra = document.createElement("span");
 
-            barra.classList.add("active");
+            container.appendChild(barra);
 
-        }
+        });
 
-        container.appendChild(barra);
+    }
 
-    });
+    const barras = container.querySelectorAll("span");
+
+    barras.forEach(barra =>
+        barra.classList.remove("active")
+    );
+
+    if (barras[indiceAtual]){
+
+        barras[indiceAtual].classList.add("active");
+
+    }
 
 }
 
@@ -948,6 +957,8 @@ function mudarMidia(direcao) {
     indiceAtual += direcao;
 
     indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
+
+    atualizarIndicadores();
 
     mostrarMidia();
     preloadImagens();
@@ -1350,17 +1361,17 @@ function handleSwipe() {
         elementoSeguinte.style.transform =
             "translate(-50%, -50%)";
 
+        indiceAtual =
+            (indiceAtual + 1) % midiasAtuais.length;
+
+        atualizarIndicadores();
+
         setTimeout(() => {
 
             if (elementoAtual) elementoAtual.remove();
 
             elementoAtual = elementoSeguinte;
             elementoSeguinte = null;
-
-            indiceAtual =
-                (indiceAtual + 1) % midiasAtuais.length;
-            
-            atualizarIndicadores();
 
             preloadImagens();
             prepararImagemAnterior();
@@ -1391,6 +1402,12 @@ function handleSwipe() {
         elementoAnterior.style.transform =
             "translate(-50%, -50%)";
 
+        indiceAtual =
+            (indiceAtual - 1 + midiasAtuais.length) %
+            midiasAtuais.length;
+
+        atualizarIndicadores();
+
         setTimeout(() => {
 
             if (elementoAtual) elementoAtual.remove();
@@ -1398,11 +1415,6 @@ function handleSwipe() {
             elementoAtual = elementoAnterior;
             elementoAnterior = null;
 
-            indiceAtual =
-                (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
-            
-            atualizarIndicadores();
-            
             preloadImagens();
             prepararImagemAnterior();
             prepararProximaImagem();
