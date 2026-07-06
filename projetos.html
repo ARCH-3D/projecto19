@@ -807,6 +807,8 @@ let elementoSeguinte = null;
 let isVerticalDrag = false;
 let currentY = 0;
 
+let previewIndice = -1;
+
 function preloadImagens() {
 
     const proximas = [
@@ -836,6 +838,7 @@ function abrirProjeto(nomeProjeto) {
     projetoAtual = projetos[nomeProjeto];
     midiasAtuais = projetoAtual.media;
     indiceAtual = 0;
+    previewIndice = indiceAtual;
 
     atualizarIndicadores(true);
     mostrarMidia();
@@ -1193,6 +1196,7 @@ modal.addEventListener('touchstart', function(e) {
 
     currentTranslate = 0;
     isDragging = true;
+    previewIndice = indiceAtual;
 
     if (!elementoAtual) return;
 
@@ -1255,6 +1259,39 @@ modal.addEventListener('touchmove', function(e) {
         `translate(calc(-50% + ${currentTranslate}px), -50%)`;
 
     const largura = window.innerWidth;
+    const limitePreview = 40;
+
+    // Atualiza as barras enquanto arrasta
+
+    let novoIndice = indiceAtual;
+
+    if (currentTranslate < -limitePreview){
+
+        novoIndice =
+            (indiceAtual + 1) % midiasAtuais.length;
+
+    }
+
+    else if (currentTranslate > limitePreview){
+
+        novoIndice =
+            (indiceAtual - 1 + midiasAtuais.length) %
+            midiasAtuais.length;
+
+    }
+
+    if (novoIndice !== previewIndice){
+
+        previewIndice = novoIndice;
+
+        const barras =
+            document.querySelectorAll("#modal-indicators span");
+
+        barras.forEach(b=>b.classList.remove("active"));
+
+        barras[previewIndice]?.classList.add("active");
+
+    }
 
     // Próxima imagem
     if (currentTranslate < 0 && elementoSeguinte) {
@@ -1325,6 +1362,9 @@ modal.addEventListener('touchend', function(e) {
 
             modal.style.background = "";
 
+            previewIndice = indiceAtual;
+            atualizarIndicadores();
+
         }
 
         return;
@@ -1363,6 +1403,7 @@ function handleSwipe() {
 
         indiceAtual =
             (indiceAtual + 1) % midiasAtuais.length;
+            previewIndice = indiceAtual;
 
         atualizarIndicadores();
 
@@ -1405,6 +1446,7 @@ function handleSwipe() {
         indiceAtual =
             (indiceAtual - 1 + midiasAtuais.length) %
             midiasAtuais.length;
+            previewIndice = indiceAtual;
 
         atualizarIndicadores();
 
@@ -1465,6 +1507,9 @@ function handleSwipe() {
 
         prepararImagemAnterior();
         prepararProximaImagem();
+
+        previewIndice = indiceAtual;
+        atualizarIndicadores();
 
     },300);
 
