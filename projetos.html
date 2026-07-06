@@ -1357,32 +1357,23 @@ document.getElementById("modal-content").addEventListener("dblclick", function(e
 
     e.stopPropagation();
 
-    toggleViewerMode();
+    toggleFullscreen();
 
 });
 
 document.getElementById("modal-content").addEventListener("touchend", function(e){
 
-    const touch = e.changedTouches[0];
+    const agora = Date.now();
 
-    const dx = Math.abs(touch.clientX - touchStartX);
-    const dy = Math.abs(touch.clientY - touchStartY);
+    if (agora - ultimoToque < 300){
 
-    // Só considera toque se praticamente não houve movimento
-    if (dx < 10 && dy < 10) {
+        e.preventDefault();
 
-        const agora = Date.now();
-
-        if (agora - ultimoToque < 300) {
-
-            e.preventDefault();
-            toggleViewerMode();
-
-        }
-
-        ultimoToque = agora;
+        toggleViewerMode();
 
     }
+
+    ultimoToque = agora;
 
 });
 
