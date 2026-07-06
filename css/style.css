@@ -903,15 +903,26 @@ footer p{
 }
 
 .media-indicators{
+
     position:absolute;
     left:50%;
-    bottom:150px; /* ajustamos depois */
+    bottom:150px;
     transform:translateX(-50%);
 
     display:flex;
     gap:8px;
 
+    padding:8px 12px;
+
+    border-radius:999px;
+
+    background:rgba(0,0,0,.14);
+
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+
     z-index:20;
+
 }
 
 .media-indicators span{
@@ -921,11 +932,11 @@ footer p{
 
     border-radius:999px;
 
-    background:rgba(255,255,255,.25);
+    background:rgba(255,255,255,.35);
 
     transition:
-        background .25s ease,
-        width .25s ease;
+        width .25s ease,
+        background .25s ease;
 
 }
 
