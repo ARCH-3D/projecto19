@@ -893,15 +893,6 @@ function toggleFullscreen() {
 
 }
 
-function toggleViewerMode(){
-
-    document
-        .getElementById("modal-projeto")
-        .classList
-        .toggle("viewer-mode");
-
-}
-
 function mudarMidia(direcao) {
 
     direcaoSlide = direcao;
@@ -1369,7 +1360,7 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 
         e.preventDefault();
 
-        toggleViewerMode();
+        toggleFullscreen();
 
     }
 

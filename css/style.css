@@ -901,21 +901,3 @@ footer p{
         padding:40px 20px;
     }
 }
-
-.modal.viewer-mode .modal-info,
-.modal.viewer-mode .prev,
-.modal.viewer-mode .next,
-.modal.viewer-mode .close{
-
-    opacity:0;
-    pointer-events:none;
-
-    transition:opacity .25s;
-
-}
-
-.modal.viewer-mode{
-
-    cursor:none;
-
-}
