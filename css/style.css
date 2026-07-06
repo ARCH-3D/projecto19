@@ -936,8 +936,6 @@ footer p{
 
 .fullscreen-btn{
 
-    display:none; /*esconder botão*/
-
     position:absolute;
 
     right:24px;
@@ -977,6 +975,7 @@ footer p{
 
     opacity:1;
     pointer-events:auto;
+    display:none; /*esconder botão*/
 
 }
 
