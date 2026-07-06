@@ -861,6 +861,11 @@ function fecharModal() {
     elementoAnterior = null;
     elementoSeguinte = null;
 
+    isDragging = false;
+    isVerticalDrag = false;
+    currentTranslate = 0;
+    currentY = 0;
+
     document.body.classList.remove("modal-open");
 
     const widget = document.querySelector('.contact-widget');
@@ -880,8 +885,6 @@ function fecharModal() {
 }
 
 function toggleFullscreen() {
-
-    const modal = document.getElementById("modal-projeto");
 
     if (!document.fullscreenElement) {
 
@@ -1242,13 +1245,12 @@ modal.addEventListener('touchend', function(e) {
     isDragging = false;
 
     const dy = touchEndY - touchStartY;
-
     const limiteY = window.innerHeight * 0.20;
 
     // 🔥 PRIORIDADE: swipe vertical (fechar modal)
     if (isVerticalDrag) {
 
-        // se puxou o suficiente para baixo → FECHA
+        // Se puxou o suficiente para baixo → FECHA
         if (dy > limiteY) {
 
             if (!elementoAtual) return;
@@ -1257,7 +1259,7 @@ modal.addEventListener('touchend', function(e) {
                 "transform .25s ease, opacity .25s ease";
 
             elementoAtual.style.transform =
-                `translate(calc(-50%), calc(-50% + 100vh))`;
+                "translate(-50%, calc(-50% + 100vh))";
 
             elementoAtual.style.opacity = "0";
 
@@ -1272,21 +1274,26 @@ modal.addEventListener('touchend', function(e) {
 
             if (!elementoAtual) return;
 
-            // volta ao centro
-            elementoAtual.style.transition = "transform .25s ease";
+            // Volta ao centro
+            elementoAtual.style.transition =
+                "transform .25s ease";
 
             elementoAtual.style.transform =
                 "translate(-50%, -50%)";
 
-                modal.style.transition = "background .25s ease";
-                modal.style.background = "rgba(0,0,0,0.9)";
-            }
+            modal.style.transition =
+                "background .25s ease";
+
+            modal.style.background = "";
+
+        }
 
         return;
     }
 
-    // 🔥 caso contrário → swipe horizontal normal
+    // 🔥 Caso contrário → swipe horizontal normal
     handleSwipe();
+
 });
 
 function handleSwipe() {
