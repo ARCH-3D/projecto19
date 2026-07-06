@@ -903,7 +903,15 @@ footer p{
 }
 
 .media-indicators {
-    gap: 12px;
+    position: absolute;
+    left: 50%;
+    bottom: 150px;
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 10px;
+
+    position: relative;
 }
 
 .media-indicators span {
