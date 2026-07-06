@@ -933,14 +933,9 @@ footer p{
 
 .media-indicators span.active {
     background: #fff;
+    transform: scale(1.35);
 
-    /* aumenta a bolinha */
-    transform: scale(1.6);
-
-    /* anel branco + profundidade */
-    box-shadow:
-        0 0 0 2px rgba(255, 255, 255, 0.9),
-        0 0 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 2px #fff;
 }
 
 .fullscreen-btn{
