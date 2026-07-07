@@ -1384,8 +1384,8 @@ modal.addEventListener('touchend', function(e) {
     // 🔥 PRIORIDADE: swipe vertical (fechar modal)
     if (isVerticalDrag) {
 
-        // Se puxou o suficiente para baixo → FECHA
-        if (dy > limiteY) {
+        // Se puxou o suficiente para cima ou para baixo → FECHA
+        if (Math.abs(dy) > limiteY) {
 
             if (!elementoAtual) return;
 
