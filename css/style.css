@@ -1034,7 +1034,7 @@ footer p{
     position:fixed;
 
     left:20px;
-    bottom:calc(20px + env(safe-area-inset-bottom));
+    bottom:20px;
 
     width:52px;
     height:52px;
