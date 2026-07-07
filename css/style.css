@@ -20,6 +20,7 @@ html{
 /* ================== BODY ================== */
 
 body{
+    min-height:100vh;
     min-height:100dvh;
     display:flex;
     flex-direction:column;
@@ -456,7 +457,7 @@ footer p{
 
     background:#fff;
 
-    z-index:5000;
+    z-index:999999;
 
     justify-content:center;
     align-items:center;
