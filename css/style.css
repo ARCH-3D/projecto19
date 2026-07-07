@@ -134,7 +134,6 @@ nav a:focus-visible{
     position:relative;
 
     width:100%;
-    min-height:100svh;
     height:100svh;
 
     overflow:hidden;
