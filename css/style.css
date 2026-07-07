@@ -990,23 +990,13 @@ footer p{
 
     position:fixed;
 
-    right:28px;
-    bottom:28px;
+    left:50%;
+    bottom:55px;
 
-    width:46px;
-    height:46px;
+    transform:translateX(-50%);
 
+    background:none;
     border:none;
-    border-radius:50%;
-
-    background:rgba(0,0,0,.75);
-
-    color:white;
-    font-size:20px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
 
     cursor:pointer;
 
@@ -1015,10 +1005,7 @@ footer p{
 
     transition:
         opacity .25s ease,
-        transform .25s ease,
-        background .25s ease;
-
-    z-index:999;
+        transform .25s ease;
 
 }
 
