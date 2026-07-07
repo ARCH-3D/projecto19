@@ -1107,7 +1107,8 @@ footer p{
 /* Ajuste exclusivo para iPhone */
 @supports (-webkit-touch-callout: none) {
 
-    .contact-widget{
+    .contact-widget,
+    #back-to-top{
         bottom: max(15px, env(safe-area-inset-bottom));
     }
 
