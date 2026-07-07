@@ -985,3 +985,54 @@ footer p{
     transform:scale(1.06);
 
 }
+
+#back-to-top{
+
+    position:fixed;
+
+    right:28px;
+    bottom:28px;
+
+    width:46px;
+    height:46px;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(0,0,0,.75);
+
+    color:white;
+    font-size:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease,
+        background .25s ease;
+
+    z-index:999;
+
+}
+
+#back-to-top.show{
+
+    opacity:1;
+    visibility:visible;
+
+}
+
+#back-to-top:hover{
+
+    transform:translateY(-2px);
+
+    background:black;
+
+}
