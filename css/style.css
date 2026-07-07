@@ -626,10 +626,9 @@ footer p{
 /* ================= CONTACT WIDGET ================= */
 
 .contact-widget{
-
     display:flex;
     align-items:center;
-    line-height:0;
+    line-height:1;
 
     position:fixed;
 
@@ -637,12 +636,6 @@ footer p{
     bottom:calc(20px + env(safe-area-inset-bottom));
 
     z-index:999999;
-    
-    /*
-    transform:translate3d(0,0,0);
-    -webkit-transform:translate3d(0,0,0);
-    */
-
 }
 
 .contact-trigger{
@@ -795,9 +788,11 @@ footer p{
 
 }
 
-.contact-links a:hover{
+@media (hover:hover){
 
-    transform:translateY(-2px);
+    .contact-links a:hover{
+        transform:translateY(-2px);
+    }
 
 }
 
