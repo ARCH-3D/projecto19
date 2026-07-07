@@ -922,6 +922,15 @@ footer p{
         height:48px;
         font-size:10px;
     }
+
+    #back-to-top{
+
+        left:15px;
+        bottom:max(15px, env(safe-area-inset-bottom));
+
+        width:48px;
+        height:48px;
+    }
 }
 
 @media (max-width:390px){
