@@ -1171,3 +1171,18 @@ footer p{
     }
 
 }
+
+/* iPad horizontal */
+@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
+
+    .contact-widget{
+        right:60px;
+        bottom:60px;   /* experimenta 60px */
+    }
+
+    #back-to-top{
+        left:60px;
+        bottom:60px;
+    }
+
+}
