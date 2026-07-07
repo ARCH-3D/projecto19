@@ -1160,13 +1160,13 @@ footer p{
 
     .contact-widget{
         right:60px;
-        bottom:50px;
+        bottom:40px;
         transform:translateZ(0);
     }
 
     #back-to-top{
         left:60px;
-        bottom:50px;
+        bottom:40px;
         transform:translateZ(0);
     }
 
