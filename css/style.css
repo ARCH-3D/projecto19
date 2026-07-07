@@ -661,7 +661,7 @@ footer p{
     position:fixed;
 
     right:100px;
-    bottom:calc(20px + env(safe-area-inset-bottom));
+    bottom:max(40px, env(safe-area-inset-bottom));
 
     z-index:999999;
 }
@@ -851,7 +851,7 @@ footer p{
     position:fixed;
 
     left:100px;
-    bottom:calc(20px + env(safe-area-inset-bottom));
+    bottom:max(40px, env(safe-area-inset-bottom));
 
     width:52px;
     height:52px;
@@ -1160,12 +1160,12 @@ footer p{
 
     .contact-widget{
         right:60px;
-        bottom:40px;
+        bottom:60px;
     }
 
     #back-to-top{
         left:60px;
-        bottom:40px;
+        bottom:60px;
     }
 
 }
