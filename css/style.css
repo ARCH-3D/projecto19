@@ -1103,14 +1103,3 @@ footer p{
     height:20px;
 
 }
-
-.contact-widget{
-    position: static !important;
-}
-
-.contact-trigger{
-    position: fixed !important;
-    right: 15px;
-    bottom: max(15px, env(safe-area-inset-bottom));
-    z-index: 999999;
-}
