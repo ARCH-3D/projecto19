@@ -860,16 +860,23 @@ function abrirProjeto(nomeProjeto) {
     document.getElementById("modal-projeto").style.display = "flex";
     document.body.classList.add("modal-open");
 
-    const widget = document.querySelector('.contact-widget');
+    // Esconde o botão "Fale Connosco"
+    const widget = document.querySelector(".contact-widget");
     if (widget) {
-        widget.style.display = 'none';
+        widget.style.display = "none";
+    }
+
+    // Esconde a seta "Voltar ao topo"
+    const backToTop = document.getElementById("back-to-top");
+    if (backToTop) {
+        backToTop.classList.remove("show");
     }
 }
 
 function fecharModal() {
 
-    document.getElementById('modal-projeto').style.display = 'none';
-    document.getElementById('modal-content').innerHTML = '';
+    document.getElementById("modal-projeto").style.display = "none";
+    document.getElementById("modal-content").innerHTML = "";
 
     elementoAtual = null;
     elementoAnterior = null;
@@ -882,9 +889,20 @@ function fecharModal() {
 
     document.body.classList.remove("modal-open");
 
-    const widget = document.querySelector('.contact-widget');
+    // Volta a mostrar o botão "Fale Connosco"
+    const widget = document.querySelector(".contact-widget");
     if (widget) {
-        widget.style.display = '';
+        widget.style.display = "";
+    }
+
+    // Volta a mostrar a seta apenas se a página estiver descida
+    const backToTop = document.getElementById("back-to-top");
+    if (backToTop) {
+        if (window.scrollY > 400) {
+            backToTop.classList.add("show");
+        } else {
+            backToTop.classList.remove("show");
+        }
     }
 
     if (document.fullscreenElement) {
