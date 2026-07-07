@@ -464,7 +464,7 @@ footer p{
     flex-direction:column;
 
     overflow:hidden;
-    touch-action:pan-y;
+    touch-action:none;
 }
 
 #modal-content{
