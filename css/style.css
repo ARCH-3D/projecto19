@@ -991,7 +991,7 @@ footer p{
     position:fixed;
 
     left:50%;
-    bottom:90px;
+    bottom:calc(3rem + env(safe-area-inset-bottom));
 
     transform:translateX(-50%) translateY(10px);
 
