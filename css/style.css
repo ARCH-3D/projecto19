@@ -279,8 +279,12 @@ section p {
     min-width:42px;
 }
 
-.contact-page .service:hover{
-    opacity:.6;
+@media (hover:hover){
+
+    .contact-page .service:hover{
+        opacity:.6;
+    }
+
 }
 
 .contact-page .service:link,
@@ -381,8 +385,12 @@ section p {
     transition:.3s ease;
 }
 
-.project:hover .project-title{
-    opacity:1;
+@media (hover:hover){
+
+    .project:hover .project-title{
+        opacity:1;
+    }
+
 }
 
 /* ================= PROJECT SECTION ================= */
@@ -593,8 +601,17 @@ footer p{
     transition:.3s ease;
 }
 
-.close:hover{
-    opacity:.5;
+@media (hover:hover){
+
+    .close:hover{
+        opacity:.5;
+    }
+
+    .prev:hover,
+    .next:hover{
+        opacity:.5;
+    }
+
 }
 
 /* ================== SETAS ================== */
@@ -628,11 +645,6 @@ footer p{
 
 .next{
     right:25px;
-}
-
-.prev:hover,
-.next:hover{
-    opacity:.5;
 }
 
 /* ================= CONTACT WIDGET ================= */
