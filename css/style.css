@@ -1175,3 +1175,7 @@ footer p{
         display:none !important;
     }
 }
+
+.fullscreen-btn{
+    display: none !important;
+}
