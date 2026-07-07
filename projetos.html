@@ -1693,9 +1693,6 @@ document.getElementById("fullscreen-btn").addEventListener("click", function(e){
 
 <script>
 
-const contactWidget = document.querySelector(".contact-widget");
-const contactButton = document.querySelector(".contact-trigger");
-
 contactButton.addEventListener("click", function(e){
 
     e.stopPropagation();
@@ -1784,6 +1781,9 @@ function toggleMenu() {
 
 <script>
 
+const contactWidget = document.querySelector(".contact-widget");
+const contactButton = document.querySelector(".contact-trigger");
+
 const backToTop = document.getElementById("back-to-top");
 
 window.addEventListener("scroll", () => {
@@ -1813,4 +1813,3 @@ backToTop.addEventListener("click", () => {
 
 </body>
 </html>
-
