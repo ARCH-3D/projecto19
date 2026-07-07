@@ -135,6 +135,7 @@ nav a:focus-visible{
 
     width:100%;
     min-height:100svh;
+    height:100svh;
 
     overflow:hidden;
 }
@@ -822,8 +823,8 @@ footer p{
 
 /* ===== ZONAS DE TOQUE NO TELEMÓVEL ===== */
 
-.touch-left,
-.touch-right{
+.modal .touch-left,
+.modal .touch-right{
     position:absolute;
     top:0;
     width:18%;
@@ -840,6 +841,77 @@ footer p{
 
 .touch-right{
     right:0;
+}
+
+#back-to-top{
+
+    position:fixed;
+
+    left:20px;
+    bottom:calc(20px + env(safe-area-inset-bottom));
+
+    width:52px;
+    height:52px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(255,255,255,.95);
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.1);
+
+    color:#111;
+
+    cursor:pointer;
+
+    opacity:0;
+    visibility:hidden;
+
+    transform:translateY(10px);
+
+    transition:.3s ease;
+
+    z-index:999999;
+
+}
+
+#back-to-top.show{
+
+    opacity:1;
+    visibility:visible;
+
+    transform:translateY(0);
+
+}
+
+@media (hover:hover){
+
+    #back-to-top:hover{
+        transform:translateY(-2px);
+    }
+
+}
+
+#back-to-top svg{
+
+    width:20px;
+    height:20px;
+
+}
+
+/* Ajuste exclusivo para iPhone */
+@supports (-webkit-touch-callout: none) {
+
+    .contact-widget,
+    #back-to-top{
+        bottom:max(15px, env(safe-area-inset-bottom));
+    }
+
 }
 
 /* ================= RESPONSIVE ================= */
@@ -1068,77 +1140,6 @@ footer p{
         background:rgba(0,0,0,.55);
         transform:scale(1.06);
 
-    }
-
-}
-
-#back-to-top{
-
-    position:fixed;
-
-    left:20px;
-    bottom:calc(20px + env(safe-area-inset-bottom));
-
-    width:52px;
-    height:52px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border:none;
-    border-radius:50%;
-
-    background:rgba(255,255,255,.95);
-
-    box-shadow:
-        0 8px 30px rgba(0,0,0,.1);
-
-    color:#111;
-
-    cursor:pointer;
-
-    opacity:0;
-    visibility:hidden;
-
-    transform:translateY(10px);
-
-    transition:.3s ease;
-
-    z-index:999999;
-
-}
-
-#back-to-top.show{
-
-    opacity:1;
-    visibility:visible;
-
-    transform:translateY(0);
-
-}
-
-@media (hover:hover){
-
-    #back-to-top:hover{
-        transform:translateY(-2px);
-    }
-
-}
-
-#back-to-top svg{
-
-    width:20px;
-    height:20px;
-
-}
-
-/* Ajuste exclusivo para iPhone */
-@supports (-webkit-touch-callout: none) {
-
-    .contact-widget,
-    #back-to-top{
-        bottom:max(15px, env(safe-area-inset-bottom));
     }
 
 }
