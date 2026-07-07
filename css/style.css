@@ -1169,3 +1169,9 @@ footer p{
     }
 
 }
+
+@media (max-width:768px){
+    .fullscreen-btn{
+        display:none !important;
+    }
+}
