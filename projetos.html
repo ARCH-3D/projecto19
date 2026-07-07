@@ -1796,27 +1796,6 @@ backToTop.addEventListener("click", () => {
 
 });
 
-function updateWidgetPosition() {
-
-    const vv = window.visualViewport;
-
-    if (!vv) return;
-
-    const offset = window.innerHeight - vv.height - vv.offsetTop;
-
-    document.documentElement.style.setProperty(
-        "--widget-bottom",
-        `${40 + Math.max(offset, 0)}px`
-    );
-
-}
-
-updateWidgetPosition();
-
-window.visualViewport?.addEventListener("resize", updateWidgetPosition);
-window.visualViewport?.addEventListener("scroll", updateWidgetPosition);
-window.addEventListener("resize", updateWidgetPosition);
-
 </script>
 
 </body>
