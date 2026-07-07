@@ -661,7 +661,7 @@ footer p{
     position:fixed;
 
     right:100px;
-    bottom:calc(20px + env(safe-area-inset-bottom));
+    bottom:max(40px, env(safe-area-inset-bottom));
 
     z-index:999999;
 }
@@ -851,7 +851,7 @@ footer p{
     position:fixed;
 
     left:100px;
-    bottom:calc(20px + env(safe-area-inset-bottom));
+    bottom:max(40px, env(safe-area-inset-bottom));
 
     width:52px;
     height:52px;
@@ -1154,18 +1154,18 @@ footer p{
 /* Ajuste iPad */
 @media (min-width:768px) and (max-width:1366px){
 
+    body{
+        overscroll-behavior-y:none;
+    }
+
     .contact-widget{
         right:60px;
-        bottom:calc(30px + env(safe-area-inset-bottom));
+        bottom:40px;
     }
 
     #back-to-top{
         left:60px;
-        bottom:calc(30px + env(safe-area-inset-bottom));
-    }
-
-    body{
-            overscroll-behavior-y:none;
+        bottom:40px;
     }
 
 }
