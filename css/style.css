@@ -104,8 +104,12 @@ nav a{
     transition:.3s ease;
 }
 
-nav a:hover{
-    opacity:.6;
+@media (hover:hover){
+
+    nav a:hover{
+        opacity:.6;
+    }
+
 }
 
 .menu-toggle {
@@ -341,8 +345,16 @@ section p {
     z-index:1;
 }
 
-.project:hover::before{
-    background:rgba(0,0,0,.25);
+@media (hover:hover){
+
+    .project:hover::before{
+        background:rgba(0,0,0,.25);
+    }
+
+    .project:hover .project-title{
+        opacity:1;
+    }
+
 }
 
 /* ================== PROJECT TITLE ================== */
@@ -642,6 +654,8 @@ footer p{
 
     -webkit-appearance:none;
     appearance:none;
+
+    -webkit-font-smoothing:antialiased;
 
     display:flex;
     align-items:center;
@@ -1038,10 +1052,14 @@ footer p{
 
 }
 
-.fullscreen-btn:hover{
+@media (hover:hover){
 
-    background:rgba(0,0,0,.55);
-    transform:scale(1.06);
+    .fullscreen-btn:hover{
+
+        background:rgba(0,0,0,.55);
+        transform:scale(1.06);
+
+    }
 
 }
 
@@ -1091,9 +1109,11 @@ footer p{
 
 }
 
-#back-to-top:hover{
+@media (hover:hover){
 
-    transform:translateY(-2px);
+    #back-to-top:hover{
+        transform:translateY(-2px);
+    }
 
 }
 
