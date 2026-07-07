@@ -1156,12 +1156,12 @@ footer p{
 
     .contact-widget{
         right:40px;
-        bottom:calc(30px + env(safe-area-inset-bottom));
+        bottom:40px;
     }
 
     #back-to-top{
         left:40px;
-        bottom:calc(30px + env(safe-area-inset-bottom));
+        bottom:40px;
     }
 
 }
