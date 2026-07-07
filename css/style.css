@@ -1112,4 +1112,8 @@ footer p{
         bottom:max(15px, env(safe-area-inset-bottom));
     }
 
+    .contact-widget{
+        align-items:center;
+    }
+
 }
