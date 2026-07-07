@@ -633,9 +633,6 @@ footer p{
 
     z-index:999999;
 
-    transform:translate3d(0,0,0);
-    -webkit-transform:translate3d(0,0,0);
-
 }
 
 .contact-trigger{
@@ -681,6 +678,7 @@ footer p{
 
     transition:.3s ease;
 
+    -webkit-tap-highlight-color:transparent;
 }
 
 .contact-trigger:hover{
