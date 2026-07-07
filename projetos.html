@@ -1629,17 +1629,15 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 document.querySelectorAll(".project").forEach(projeto => {
 
     projeto.addEventListener("touchstart", function () {
+
+        // Remove o efeito dos restantes projetos
+        document.querySelectorAll(".project").forEach(p => {
+            p.classList.remove("touched");
+        });
+
+        // Ativa apenas neste
         this.classList.add("touched");
-    });
 
-    projeto.addEventListener("touchend", function () {
-        setTimeout(() => {
-            this.classList.remove("touched");
-        }, 200);
-    });
-
-    projeto.addEventListener("touchcancel", function () {
-        this.classList.remove("touched");
     });
 
 });
