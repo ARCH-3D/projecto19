@@ -990,10 +990,10 @@ footer p{
 
     position:fixed;
 
-    left:50%;
-    bottom:10px;
+    left:clamp(25px,5vw,80px);
+    bottom:100px;
 
-    transform:translateX(-50%) translateY(10px);
+    transform:translateY(10px);
 
     width:46px;
     height:46px;
@@ -1036,13 +1036,13 @@ footer p{
     opacity:1;
     visibility:visible;
 
-    transform:translateX(-50%) translateY(0);
+    transform:translateY(0);
 
 }
 
 #back-to-top:hover{
 
-    transform:translateX(-50%) translateY(-3px);
+    transform:translateY(-3px);
 
     background:rgba(255,255,255,.28);
 
