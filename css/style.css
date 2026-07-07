@@ -19,6 +19,10 @@ html{
 
 /* ================== BODY ================== */
 
+:root{
+    --widget-bottom: 40px;
+}
+
 body{
     min-height:100vh;
     min-height:100dvh;
@@ -654,15 +658,16 @@ footer p{
 /* ================= CONTACT WIDGET ================= */
 
 .contact-widget{
-    display:flex;
-    align-items:center;
-    line-height:1;
-
     position:fixed;
-
     right:100px;
-    bottom:max(40px, env(safe-area-inset-bottom));
+    bottom:var(--widget-bottom, 40px);
+    z-index:999999;
+}
 
+#back-to-top{
+    position:fixed;
+    left:100px;
+    bottom:var(--widget-bottom, 40px);
     z-index:999999;
 }
 
@@ -851,7 +856,7 @@ footer p{
     position:fixed;
 
     left:100px;
-    bottom:max(40px, env(safe-area-inset-bottom));
+    bottom:var(--widget-bottom, 40px);
 
     width:52px;
     height:52px;
@@ -1160,14 +1165,10 @@ footer p{
 
     .contact-widget{
         right:60px;
-        bottom:40px;
-        transform:translateZ(0);
     }
 
     #back-to-top{
         left:60px;
-        bottom:40px;
-        transform:translateZ(0);
     }
 
 }
@@ -1175,14 +1176,16 @@ footer p{
 /* iPad horizontal */
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
 
+    :root{
+        --widget-bottom: 70px;
+    }
+
     .contact-widget{
         right:60px;
-        bottom:60px;   /* experimenta 60px */
     }
 
     #back-to-top{
         left:60px;
-        bottom:60px;
     }
 
 }
