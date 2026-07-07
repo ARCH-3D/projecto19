@@ -1721,7 +1721,7 @@ document.getElementById("fullscreen-btn").addEventListener("click", function(e){
 
     </div>
 
-    <div class="contact-trigger" role="button" tabindex="0">
+    <button class="contact-trigger">
 
         <img
             src="img/icons/faleconnosco.svg"
@@ -1730,7 +1730,7 @@ document.getElementById("fullscreen-btn").addEventListener("click", function(e){
 
         <span>Fale Connosco</span>
 
-    </div>
+    </button>
 
 </div>
 
@@ -1744,19 +1744,6 @@ contactButton.addEventListener("click", function(e){
     e.stopPropagation();
 
     contactWidget.classList.toggle("active");
-
-});
-
-// Permite abrir também com Enter e Espaço
-contactButton.addEventListener("keydown", function(e){
-
-    if(e.key === "Enter" || e.key === " "){
-
-        e.preventDefault();
-
-        contactWidget.classList.toggle("active");
-
-    }
 
 });
 
