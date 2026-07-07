@@ -344,55 +344,31 @@ section p {
     position:absolute;
     inset:0;
 
-    background:rgba(0,0,0,.30);
+    background:rgba(0,0,0,0);
 
     transition:.3s ease;
 
     z-index:1;
 }
 
-.project-title{
-    position:absolute;
-
-    left:20px;
-    bottom:20px;
-
-    z-index:2;
-
-    color:#fff;
-
-    font-size:12px;
-    font-weight:300;
-
-    letter-spacing:1.5px;
-
-    text-transform:uppercase;
-
-    opacity:1;
-
-    transition:.3s ease;
-}
-
-/* Desktop */
 @media (hover:hover){
 
     .project:hover::before{
-        background:rgba(0,0,0,.05);
+        background:rgba(0,0,0,.25);
     }
 
     .project:hover .project-title{
-        opacity:0;
+        opacity:1;
     }
 
 }
 
-/* Telemóvel e iPad */
 .project.touched::before{
-    background:rgba(0,0,0,.05);
+    background:rgba(0,0,0,.25);
 }
 
 .project.touched .project-title{
-    opacity:0;
+    opacity:1;
 }
 
 /* ================== PROJECT TITLE ================== */
@@ -414,11 +390,9 @@ section p {
 
     text-transform:uppercase;
 
-    opacity:1;
+    opacity:0;
 
     transition:.3s ease;
-
-    pointer-events:none;
 }
 
 /* ================= PROJECT SECTION ================= */
