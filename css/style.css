@@ -344,31 +344,48 @@ section p {
     position:absolute;
     inset:0;
 
-    background:rgba(0,0,0,0);
+    /* As imagens ficam sempre um pouco escuras */
+    background:rgba(0,0,0,.30);
 
     transition:.3s ease;
 
     z-index:1;
 }
 
+/* O título fica sempre visível */
+.project-title{
+    position:absolute;
+
+    left:20px;
+    bottom:20px;
+
+    z-index:2;
+
+    color:#fff;
+
+    font-size:12px;
+    font-weight:300;
+
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+
+    opacity:1;
+
+    transition:.3s ease;
+}
+
+/* No desktop, ao passar o rato, a imagem clareia */
 @media (hover:hover){
 
     .project:hover::before{
-        background:rgba(0,0,0,.25);
-    }
-
-    .project:hover .project-title{
-        opacity:1;
+        background:rgba(0,0,0,.05);
     }
 
 }
 
+/* No telemóvel/iPad, ao tocar, também clareia */
 .project.touched::before{
-    background:rgba(0,0,0,.25);
-}
-
-.project.touched .project-title{
-    opacity:1;
+    background:rgba(0,0,0,.05);
 }
 
 /* ================== PROJECT TITLE ================== */
