@@ -1103,3 +1103,12 @@ footer p{
     height:20px;
 
 }
+
+/* Ajuste exclusivo para iPhone */
+@supports (-webkit-touch-callout: none) {
+
+    .contact-widget{
+        bottom: max(15px, env(safe-area-inset-bottom));
+    }
+
+}
