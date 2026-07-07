@@ -1779,6 +1779,12 @@ const backToTop = document.getElementById("back-to-top");
 
 window.addEventListener("scroll", () => {
 
+    // Não mostrar a seta quando o modal está aberto
+    if (document.body.classList.contains("modal-open")) {
+        backToTop.classList.remove("show");
+        return;
+    }
+
     if (window.scrollY > 400){
         backToTop.classList.add("show");
     } else {
