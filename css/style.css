@@ -644,6 +644,9 @@ footer p{
     width:170px;
     height:52px;
 
+    padding:0;
+    line-height:1;
+
     border:none;
     border-radius:50px;
 
@@ -665,6 +668,12 @@ footer p{
     cursor:pointer;
 
     transition:.3s ease;
+}
+
+.contact-trigger span{
+
+    line-height:1;
+
 }
 
 .contact-trigger:hover{
