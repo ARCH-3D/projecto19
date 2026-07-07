@@ -629,13 +629,15 @@ footer p{
     position:fixed;
 
     right:20px;
-    bottom:0;
+    bottom:20px;
 
     z-index:999999;
 
 }
 
 .contact-trigger{
+
+    outline:3px solid blue;
 
     -webkit-appearance:none;
     appearance:none;
@@ -1038,10 +1040,12 @@ footer p{
 
 #back-to-top{
 
+    outline:3px solid red;
+
     position:fixed;
 
     left:20px;
-    bottom:0;
+    bottom:20px;
 
     width:52px;
     height:52px;
