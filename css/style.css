@@ -1177,7 +1177,7 @@ footer p{
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
 
     :root{
-        --widget-bottom: 70px;
+        --widget-bottom: 100px;
     }
 
     .contact-widget{
