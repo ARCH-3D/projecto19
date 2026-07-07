@@ -628,6 +628,7 @@ footer p{
 
     display:flex;
     align-items:flex-end;
+    line-height:0;
 
     position:fixed;
 
