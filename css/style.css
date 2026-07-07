@@ -636,15 +636,19 @@ footer p{
 
 .contact-trigger{
 
+    -webkit-appearance:none;
+    appearance:none;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:6px;
 
     width:170px;
     height:52px;
 
     padding:0;
+    margin:0;
+
     line-height:1;
 
     border:none;
@@ -653,14 +657,11 @@ footer p{
     background:rgba(255,255,255,.95);
 
     box-shadow:
-    0 8px 30px rgba(0,0,0,.1);
+        0 8px 30px rgba(0,0,0,.1);
 
     font-family:'Inter',sans-serif;
-
     font-size:11px;
-
     letter-spacing:1.7px;
-
     text-transform:uppercase;
 
     color:#111;
