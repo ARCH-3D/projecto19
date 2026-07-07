@@ -637,8 +637,6 @@ footer p{
 
 .contact-trigger{
 
-    outline:3px solid blue;
-
     -webkit-appearance:none;
     appearance:none;
 
@@ -1039,8 +1037,6 @@ footer p{
 }
 
 #back-to-top{
-
-    outline:3px solid red;
 
     position:fixed;
 
