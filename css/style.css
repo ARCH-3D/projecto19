@@ -993,8 +993,8 @@ footer p{
     left:20px;
     bottom:calc(20px + env(safe-area-inset-bottom));
 
-    width:48px;
-    height:48px;
+    width:52px;
+    height:52px;
 
     display:flex;
     align-items:center;
