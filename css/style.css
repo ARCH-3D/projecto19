@@ -385,14 +385,6 @@ section p {
     transition:.3s ease;
 }
 
-@media (hover:hover){
-
-    .project:hover .project-title{
-        opacity:1;
-    }
-
-}
-
 /* ================= PROJECT SECTION ================= */
 
 .projects-section{
@@ -438,8 +430,12 @@ footer{
     flex-shrink:0;
 }
 
-.social-links a:hover{
-    opacity:.5;
+@media (hover:hover){
+
+    .social-links a:hover{
+        opacity:.5;
+    }
+
 }
 
 footer p{
