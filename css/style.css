@@ -629,7 +629,7 @@ footer p{
     position:fixed;
 
     right:20px;
-    bottom:20px;
+    bottom:0;
 
     z-index:999999;
 
@@ -1041,7 +1041,7 @@ footer p{
     position:fixed;
 
     left:20px;
-    bottom:20px;
+    bottom:0;
 
     width:52px;
     height:52px;
