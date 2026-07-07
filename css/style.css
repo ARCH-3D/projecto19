@@ -835,11 +835,11 @@ footer p{
     touch-action:manipulation;
 }
 
-.touch-left{
+.modal .touch-left{
     left:0;
 }
 
-.touch-right{
+.modal .touch-right{
     right:0;
 }
 
@@ -1122,7 +1122,7 @@ footer p{
         transform .25s ease,
         background .25s ease;
 
-    z-index:50;
+    z-index:10003;
 
 }
 
