@@ -910,9 +910,13 @@ footer p{
 /* Ajuste exclusivo para iPhone */
 @supports (-webkit-touch-callout: none) {
 
-    .contact-widget,
-    #back-to-top{
-        bottom:max(15px, env(safe-area-inset-bottom));
+    @media (max-width:767px){
+
+        .contact-widget,
+        #back-to-top{
+            bottom:max(15px, env(safe-area-inset-bottom));
+        }
+
     }
 
 }
