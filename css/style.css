@@ -922,8 +922,16 @@ footer p{
     }
 
     .contact-widget{
-    right:15px;
-    bottom:max(15px, env(safe-area-inset-bottom));
+        right:15px;
+        bottom:max(15px, env(safe-area-inset-bottom));
+    }
+
+    #back-to-top{
+        left:15px;
+        bottom:max(15px, env(safe-area-inset-bottom));
+
+        width:48px;
+        height:48px;
     }
 
     .contact-trigger{
@@ -932,14 +940,6 @@ footer p{
         font-size:10px;
     }
 
-    #back-to-top{
-
-        left:15px;
-        bottom:max(15px, env(safe-area-inset-bottom));
-
-        width:48px;
-        height:48px;
-    }
 }
 
 @media (max-width:390px){
@@ -1109,7 +1109,7 @@ footer p{
 
     .contact-widget,
     #back-to-top{
-        bottom: max(15px, env(safe-area-inset-bottom));
+        bottom:max(15px, env(safe-area-inset-bottom));
     }
 
 }
