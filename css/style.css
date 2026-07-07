@@ -993,15 +993,15 @@ footer p{
     left:20px;
     bottom:calc(20px + env(safe-area-inset-bottom));
 
-    width:104px;
-    height:104px;
+    width:48px;
+    height:48px;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
     border:none;
-    border-radius:50px;
+    border-radius:50%;
 
     background:rgba(255,255,255,.95);
 
