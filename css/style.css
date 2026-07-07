@@ -363,6 +363,14 @@ section p {
 
 }
 
+.project.touched::before{
+    background:rgba(0,0,0,.25);
+}
+
+.project.touched .project-title{
+    opacity:1;
+}
+
 /* ================== PROJECT TITLE ================== */
 
 .project-title{

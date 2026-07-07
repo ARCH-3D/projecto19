@@ -1626,16 +1626,20 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 
 });
 
-document.querySelectorAll('.project').forEach(projeto => {
+document.querySelectorAll(".project").forEach(projeto => {
 
-    projeto.addEventListener('touchend', function() {
+    projeto.addEventListener("touchstart", function () {
+        this.classList.add("touched");
+    });
 
+    projeto.addEventListener("touchend", function () {
         setTimeout(() => {
-
-            this.classList.remove('touched');
-
+            this.classList.remove("touched");
         }, 200);
+    });
 
+    projeto.addEventListener("touchcancel", function () {
+        this.classList.remove("touched");
     });
 
 });
