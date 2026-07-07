@@ -646,9 +646,6 @@ footer p{
 
 .contact-trigger{
 
-    outline:2px solid red;
-    background:red !important;
-
     -webkit-appearance:none;
     appearance:none;
 
