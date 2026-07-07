@@ -1154,14 +1154,18 @@ footer p{
 /* Ajuste iPad */
 @media (min-width:768px) and (max-width:1366px){
 
+    body{
+        overscroll-behavior-y:none;
+    }
+
     .contact-widget{
         right:60px;
-        bottom:calc(30px + env(safe-area-inset-bottom));
+        bottom:40px;
     }
 
     #back-to-top{
         left:60px;
-        bottom:calc(30px + env(safe-area-inset-bottom));
+        bottom:40px;
     }
 
 }
