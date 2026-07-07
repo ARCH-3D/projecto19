@@ -12,7 +12,8 @@
 /* ================== HTML ================== */
 
 html{
-    scrollbar-gutter: stable;
+    scrollbar-gutter:stable;
+    -webkit-text-size-adjust:100%;
 }
 
 /* ================== BODY ================== */
@@ -627,7 +628,7 @@ footer p{
 .contact-widget{
 
     display:flex;
-    align-items:flex-end;
+    align-items:center;
     line-height:0;
 
     position:fixed;
@@ -690,9 +691,13 @@ footer p{
     -webkit-tap-highlight-color:transparent;
 }
 
-.contact-trigger:hover{
+@media (hover:hover){
 
-    transform:translateY(-2px);
+    .contact-trigger:hover{
+
+        transform:translateY(-2px);
+
+    }
 
 }
 
@@ -1110,10 +1115,6 @@ footer p{
     .contact-widget,
     #back-to-top{
         bottom:max(15px, env(safe-area-inset-bottom));
-    }
-
-    .contact-widget{
-        align-items:center;
     }
 
 }
