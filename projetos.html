@@ -1692,30 +1692,6 @@ document.getElementById("fullscreen-btn").addEventListener("click", function(e){
 </footer>
 
 <script>
-
-contactButton.addEventListener("click", function(e){
-
-    e.stopPropagation();
-
-    contactWidget.classList.toggle("active");
-
-});
-
-document.addEventListener("click", function(){
-
-    contactWidget.classList.remove("active");
-
-});
-
-contactWidget.addEventListener("click", function(e){
-
-    e.stopPropagation();
-
-});
-
-</script>
-
-<script>
 function toggleMenu() {
     document.getElementById("menu").classList.toggle("active");
 }
@@ -1784,18 +1760,29 @@ function toggleMenu() {
 const contactWidget = document.querySelector(".contact-widget");
 const contactButton = document.querySelector(".contact-trigger");
 
+// Código do Fale Connosco
+contactButton.addEventListener("click", function(e){
+    e.stopPropagation();
+    contactWidget.classList.toggle("active");
+});
+
+document.addEventListener("click", function(){
+    contactWidget.classList.remove("active");
+});
+
+contactWidget.addEventListener("click", function(e){
+    e.stopPropagation();
+});
+
+// Código da seta
 const backToTop = document.getElementById("back-to-top");
 
 window.addEventListener("scroll", () => {
 
     if (window.scrollY > 400){
-
         backToTop.classList.add("show");
-
     } else {
-
         backToTop.classList.remove("show");
-
     }
 
 });
@@ -1803,13 +1790,13 @@ window.addEventListener("scroll", () => {
 backToTop.addEventListener("click", () => {
 
     window.scrollTo({
-
         top:0,
         behavior:"smooth"
-
     });
 
-});</script>
+});
+
+</script>
 
 </body>
 </html>
