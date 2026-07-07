@@ -629,7 +629,7 @@ footer p{
     position:fixed;
 
     right:20px;
-    bottom:0;
+    bottom:calc(20px + env(safe-area-inset-bottom));
 
     z-index:999999;
     
@@ -1046,7 +1046,7 @@ footer p{
     position:fixed;
 
     left:20px;
-    bottom:20px;
+    bottom:calc(20px + env(safe-area-inset-bottom));
 
     width:52px;
     height:52px;

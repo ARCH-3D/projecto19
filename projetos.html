@@ -1691,6 +1691,39 @@ document.getElementById("fullscreen-btn").addEventListener("click", function(e){
 
 </footer>
 
+<script>
+
+const contactWidget = document.querySelector(".contact-widget");
+const contactButton = document.querySelector(".contact-trigger");
+
+contactButton.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+    contactWidget.classList.toggle("active");
+
+});
+
+document.addEventListener("click", function(){
+
+    contactWidget.classList.remove("active");
+
+});
+
+contactWidget.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+});
+
+</script>
+
+<script>
+function toggleMenu() {
+    document.getElementById("menu").classList.toggle("active");
+}
+</script>
+
 <div class="contact-widget">
 
     <div class="contact-links">
@@ -1733,39 +1766,6 @@ document.getElementById("fullscreen-btn").addEventListener("click", function(e){
     </button>
 
 </div>
-
-<script>
-
-const contactWidget = document.querySelector(".contact-widget");
-const contactButton = document.querySelector(".contact-trigger");
-
-contactButton.addEventListener("click", function(e){
-
-    e.stopPropagation();
-
-    contactWidget.classList.toggle("active");
-
-});
-
-document.addEventListener("click", function(){
-
-    contactWidget.classList.remove("active");
-
-});
-
-contactWidget.addEventListener("click", function(e){
-
-    e.stopPropagation();
-
-});
-
-</script>
-
-<script>
-function toggleMenu() {
-    document.getElementById("menu").classList.toggle("active");
-}
-</script>
 
 <button id="back-to-top" aria-label="Voltar ao topo">
 
