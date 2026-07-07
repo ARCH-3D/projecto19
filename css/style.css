@@ -661,25 +661,9 @@ footer p{
     position:fixed;
 
     right:100px;
-    bottom:40px;
+    bottom:calc(20px + env(safe-area-inset-bottom));
 
     z-index:999999;
-}
-
-@media (min-width:768px) and (max-width:1366px){
-
-    .contact-widget{
-        right:60px;
-        bottom:50px;
-        transform:translateZ(0);
-    }
-
-    #back-to-top{
-        left:60px;
-        bottom:50px;
-        transform:translateZ(0);
-    }
-
 }
 
 .contact-trigger{
@@ -1178,11 +1162,6 @@ footer p{
     #back-to-top{
         left:60px;
         bottom:calc(30px + env(safe-area-inset-bottom));
-    }
-
-    html,
-    body{
-        overscroll-behavior:none;
     }
 
 }
