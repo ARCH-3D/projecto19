@@ -626,6 +626,9 @@ footer p{
 
 .contact-widget{
 
+    display:flex;
+    align-items:flex-end;
+
     position:fixed;
 
     right:20px;
