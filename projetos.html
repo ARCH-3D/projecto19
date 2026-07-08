@@ -1216,6 +1216,8 @@ function mostrarMidia() {
     if (midia.type === "image") {
 
         novo = document.createElement("img");
+        novo.onload = iniciarAnimacao;
+
         novo.src = midia.src;
 
     } else {
