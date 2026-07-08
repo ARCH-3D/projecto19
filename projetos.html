@@ -1307,13 +1307,20 @@ function mostrarMidia() {
 
         novo.onload = iniciarAnimacao;
 
-        if (novo.complete) {
+
+        // Safari / iPad
+        // garante que a imagem existe antes de iniciar
+
+        if (novo.complete && novo.naturalWidth > 0) {
 
             setTimeout(() => {
+
                 iniciarAnimacao();
-            }, 0);
+
+            }, 50);
 
         }
+
 
     } else {
 
