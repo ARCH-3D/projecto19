@@ -1282,6 +1282,8 @@ modal.addEventListener('touchstart', function(e) {
 
 modal.addEventListener('touchmove', function(e) {
 
+    if (zoomAtivo) return;
+
     if (!isDragging || !elementoAtual) return;
 
     e.preventDefault();
@@ -1378,6 +1380,8 @@ modal.addEventListener('touchmove', function(e) {
 });
 
 modal.addEventListener('touchend', function(e) {
+
+    if (zoomAtivo) return;
 
     touchEndX = e.changedTouches[0].clientX;
     touchEndY = e.changedTouches[0].clientY;
