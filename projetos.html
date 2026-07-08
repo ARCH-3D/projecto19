@@ -1304,13 +1304,13 @@ function mostrarMidia() {
 
     if (midia.type === "image") {
 
-        novo.onload = iniciarAnimacao;
-
-        // Safari/iPad: se já estiver carregada,
-        // garante que a animação arranca.
         if (novo.complete) {
 
             requestAnimationFrame(iniciarAnimacao);
+
+        } else {
+
+            novo.onload = iniciarAnimacao;
 
         }
 
