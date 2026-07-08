@@ -1360,6 +1360,17 @@ modal.addEventListener('touchstart', function(e) {
 
         escalaInicialPinch = escalaZoom;
 
+        // Centro dos dois dedos
+        pinchCentroX =
+            (e.touches[0].clientX + e.touches[1].clientX) / 2;
+
+        pinchCentroY =
+            (e.touches[0].clientY + e.touches[1].clientY) / 2;
+
+        // Guarda a posição atual da imagem
+        pinchImagemX = zoomTargetX;
+        pinchImagemY = zoomTargetY;
+
         return;
     }
 
