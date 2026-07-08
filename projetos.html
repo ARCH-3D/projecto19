@@ -1272,6 +1272,8 @@ modal.addEventListener('touchstart', function(e) {
         zoomStartX = e.touches[0].clientX - zoomX;
         zoomStartY = e.touches[0].clientY - zoomY;
 
+        elementoAtual.style.transition = "none";
+
         return;
     }
 
