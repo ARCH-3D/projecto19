@@ -1339,9 +1339,6 @@ modal.addEventListener('touchmove', function(e) {
             rafZoom = requestAnimationFrame(atualizarZoom);
         }
 
-        elementoAtual.style.transform =
-            `translate(calc(-50% + ${zoomX}px), calc(-50% + ${zoomY}px)) scale(${escalaZoom})`;
-
         return;
     }
 
