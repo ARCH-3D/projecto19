@@ -839,6 +839,13 @@ let limiteZoomY = 0;
 let distanciaInicialPinch = 0;
 let escalaInicialPinch = 1;
 
+let pinchCentroX = 0;
+let pinchCentroY = 0;
+
+let zoomAntesPinch = 1;
+let offsetAntesPinchX = 0;
+let offsetAntesPinchY = 0;
+
 const zoomMin = 1;
 const zoomMax = 4;
 
@@ -1355,10 +1362,38 @@ modal.addEventListener('touchstart', function(e) {
         moverImagem = false;
         isDragging = false;
 
+
         distanciaInicialPinch =
-            distanciaToques(e.touches[0], e.touches[1]);
+            distanciaToques(
+                e.touches[0],
+                e.touches[1]
+            );
+
 
         escalaInicialPinch = escalaZoom;
+
+
+        // ponto médio dos dois dedos
+
+        pinchCentroX =
+            (
+                e.touches[0].clientX +
+                e.touches[1].clientX
+            ) / 2;
+
+
+        pinchCentroY =
+            (
+                e.touches[0].clientY +
+                e.touches[1].clientY
+            ) / 2;
+
+
+        zoomAntesPinch = escalaZoom;
+
+        offsetAntesPinchX = zoomX;
+        offsetAntesPinchY = zoomY;
+
 
         return;
     }
