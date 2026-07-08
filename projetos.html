@@ -1302,11 +1302,26 @@ modal.addEventListener('touchstart', function(e) {
 
 modal.addEventListener('touchmove', function(e) {
 
-    if (zoomAtivo) return;
+    // ==========================
+    // ARRASTAR IMAGEM COM ZOOM
+    // ==========================
+
+    if (zoomAtivo && moverImagem && elementoAtual) {
+
+        e.preventDefault();
+
+        zoomX = e.touches[0].clientX - zoomStartX;
+        zoomY = e.touches[0].clientY - zoomStartY;
+
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${zoomX}px), calc(-50% + ${zoomY}px)) scale(${escalaZoom})`;
+
+        return;
+    }
 
     if (!isDragging || !elementoAtual) return;
 
-    e.preventDefault();
+    e.preventDefault();  
 
     const touchX = e.touches[0].clientX;
     const touchY = e.touches[0].clientY;
