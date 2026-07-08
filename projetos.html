@@ -846,6 +846,8 @@ let pinchImagemX = 0;
 let pinchImagemY = 0;
 let pinchEscalaAnterior = 1;
 
+let animacaoEmCurso = false;
+
 const zoomMin = 1;
 const zoomMax = 4;
 
@@ -1095,17 +1097,37 @@ function toggleFullscreen() {
 
 function mudarMidia(direcao) {
 
+    if (animacaoEmCurso || !elementoAtual) return;
+
+    animacaoEmCurso = true;
+
     direcaoSlide = direcao;
 
-    indiceAtual += direcao;
+    elementoAtual.style.transition =
+        "transform .35s ease, opacity .35s ease";
 
-    indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
+    elementoAtual.style.transform =
+        direcao === 1
+            ? "translate(calc(-50% - 80px), -50%)"
+            : "translate(calc(-50% + 80px), -50%)";
 
-    atualizarIndicadores();
+    elementoAtual.style.opacity = "0";
 
-    mostrarMidia();
-    mostrarBotaoFullscreen();
-    preloadImagens();
+    setTimeout(() => {
+
+        indiceAtual =
+            (indiceAtual + direcao + midiasAtuais.length) %
+            midiasAtuais.length;
+
+        atualizarIndicadores();
+
+        mostrarMidia();
+        mostrarBotaoFullscreen();
+        preloadImagens();
+
+        animacaoEmCurso = false;
+
+    }, 350);
 
 }
 
