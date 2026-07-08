@@ -1432,14 +1432,29 @@ modal.addEventListener('touchmove', function(e) {
         const distanciaAtual =
             distanciaToques(e.touches[0], e.touches[1]);
 
-        escalaZoom =
-            escalaInicialPinch *
-            (distanciaAtual / distanciaInicialPinch);
-
-        escalaZoom = Math.max(
+        const novaEscala = Math.max(
             zoomMin,
-            Math.min(zoomMax, escalaZoom)
+            Math.min(
+                zoomMax,
+                escalaInicialPinch *
+                (distanciaAtual / distanciaInicialPinch)
+            )
         );
+
+        // Quanto aumentou/diminuiu relativamente ao início do pinch
+        const fator = novaEscala / escalaInicialPinch;
+
+        // Ajusta a posição da imagem para que o zoom
+        // aconteça no centro dos dedos
+        zoomTargetX =
+            pinchImagemX +
+            (pinchCentroX - window.innerWidth / 2) * (1 - fator);
+
+        zoomTargetY =
+            pinchImagemY +
+            (pinchCentroY - window.innerHeight / 2) * (1 - fator);
+
+        escalaZoom = novaEscala;
 
         zoomAtivo = escalaZoom > 1.02;
 
@@ -1447,6 +1462,9 @@ modal.addEventListener('touchmove', function(e) {
 
             zoomX = 0;
             zoomY = 0;
+
+            zoomTargetX = 0;
+            zoomTargetY = 0;
 
         }
 
@@ -1457,7 +1475,7 @@ modal.addEventListener('touchmove', function(e) {
         }
 
         return;
-
+        
     }
     
     // ==========================
