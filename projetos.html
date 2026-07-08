@@ -1306,13 +1306,13 @@ function mostrarMidia() {
 
     if (midia.type === "image") {
 
+        novo.onload = iniciarAnimacao;
+
         if (novo.complete) {
 
-            requestAnimationFrame(iniciarAnimacao);
-
-        } else {
-
-            novo.onload = iniciarAnimacao;
+            setTimeout(() => {
+                iniciarAnimacao();
+            }, 0);
 
         }
 
