@@ -833,6 +833,9 @@ let rafZoom = null;
 let zoomTargetX = 0;
 let zoomTargetY = 0;
 
+let limiteZoomX = 0;
+let limiteZoomY = 0;
+
 function preloadImagens() {
 
     const proximas = [
@@ -861,10 +864,35 @@ function atualizarZoom(){
 
     if (!elementoAtual) return;
 
+    atualizarLimitesZoom();
+
+    zoomTargetX = Math.max(
+        -limiteZoomX,
+        Math.min(limiteZoomX, zoomTargetX)
+    );
+
+    zoomTargetY = Math.max(
+        -limiteZoomY,
+        Math.min(limiteZoomY, zoomTargetY)
+    );
+
     elementoAtual.style.transform =
-        `translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0)
-         translate(-50%, -50%)
+        `translate(-50%, -50%)
+         translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0)
          scale(${escalaZoom})`;
+
+}
+
+function atualizarLimitesZoom(){
+
+    if(!elementoAtual) return;
+
+    const larguraImagem = elementoAtual.clientWidth * escalaZoom;
+    const alturaImagem = elementoAtual.clientHeight * escalaZoom;
+
+    limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
+
+    limiteZoomY = Math.max(0, (alturaImagem - window.innerHeight) / 2);
 
 }
 
