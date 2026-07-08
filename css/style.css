@@ -517,6 +517,10 @@ footer p{
 
     user-select:none;
     -webkit-user-drag:none;
+
+    transform-origin:center center;
+    transform-style:preserve-3d;
+    
 }
 
 #modal-content video{
