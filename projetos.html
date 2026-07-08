@@ -1635,24 +1635,28 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 
                 zoomAtivo = !zoomAtivo;
 
-                elementoAtual.style.transition =
-                    "transform .25s ease";
+                requestAnimationFrame(() => {
 
-                if (zoomAtivo){
+                    elementoAtual.style.transition =
+                        "transform .25s ease";
 
-                    console.log("ZOOM ON");
+                    if (zoomAtivo){
 
-                    elementoAtual.style.transform =
-                        `translate(-50%, -50%) scale(${escalaZoom})`;
+                        console.log("ZOOM ON");
 
-                }else{
+                        elementoAtual.style.transform =
+                            "translate(-50%, -50%) scale(2)";
 
-                    console.log("ZOOM OFF");
+                    }else{
 
-                    elementoAtual.style.transform =
-                        "translate(-50%, -50%)";
+                        console.log("ZOOM OFF");
 
-                }
+                        elementoAtual.style.transform =
+                            "translate(-50%, -50%)";
+
+                    }
+
+                });
 
             }
 
