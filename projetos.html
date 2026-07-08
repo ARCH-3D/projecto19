@@ -828,6 +828,11 @@ let zoomStartY = 0;
 
 let moverImagem = false;
 
+let rafZoom = null;
+
+let zoomTargetX = 0;
+let zoomTargetY = 0;
+
 function preloadImagens() {
 
     const proximas = [
@@ -847,6 +852,18 @@ function preloadImagens() {
         }
 
     });
+
+}
+
+function atualizarZoom(){
+
+    rafZoom = null;
+
+    if (!elementoAtual) return;
+
+    elementoAtual.style.transform =
+        `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px))
+         scale(${escalaZoom})`;
 
 }
 
@@ -1312,11 +1329,18 @@ modal.addEventListener('touchmove', function(e) {
 
         e.preventDefault();
 
+
         zoomX = e.touches[0].clientX - zoomStartX;
         zoomY = e.touches[0].clientY - zoomStartY;
 
-        elementoAtual.style.transform =
-            `translate(calc(-50% + ${zoomX}px), calc(-50% + ${zoomY}px)) scale(${escalaZoom})`;
+        zoomTargetX = zoomX;
+        zoomTargetY = zoomY;
+
+        if (!rafZoom){
+
+            rafZoom = requestAnimationFrame(atualizarZoom);
+
+        }
 
         return;
     }
