@@ -816,41 +816,6 @@ let previewIndice = -1;
 
 let fullscreenTimeout = null;
 
-// ZOOM
-let zoomAtivo = false;
-let escalaZoom = 2;
-
-let zoomX = 0;
-let zoomY = 0;
-
-let zoomStartX = 0;
-let zoomStartY = 0;
-
-let moverImagem = false;
-
-let rafZoom = null;
-
-let zoomTargetX = 0;
-let zoomTargetY = 0;
-
-let limiteZoomX = 0;
-let limiteZoomY = 0;
-
-let distanciaInicialPinch = 0;
-let escalaInicialPinch = 1;
-
-let pinchCentroX = 0;
-let pinchCentroY = 0;
-
-let pinchImagemX = 0;
-let pinchImagemY = 0;
-let pinchEscalaAnterior = 1;
-
-let animacaoEmCurso = false;
-
-const zoomMin = 1;
-const zoomMax = 4;
-
 function preloadImagens() {
 
     const proximas = [
@@ -873,77 +838,14 @@ function preloadImagens() {
 
 }
 
-function atualizarZoom(){
-
-    rafZoom = null;
-
-    if (!elementoAtual) return;
-
-    atualizarLimitesZoom();
-
-    zoomTargetX = Math.max(
-        -limiteZoomX,
-        Math.min(limiteZoomX, zoomTargetX)
-    );
-
-    zoomTargetY = Math.max(
-        -limiteZoomY,
-        Math.min(limiteZoomY, zoomTargetY)
-    );
-
-    elementoAtual.style.transform =
-        `translate(-50%, -50%)
-         translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0)
-         scale(${escalaZoom})`;
-
-}
-
-function atualizarLimitesZoom(){
-
-    if(!elementoAtual) return;
-
-    const larguraImagem = elementoAtual.clientWidth * escalaZoom;
-    const alturaImagem = elementoAtual.clientHeight * escalaZoom;
-
-    limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
-
-    limiteZoomY = Math.max(0, (alturaImagem - window.innerHeight) / 2);
-
-}
-
-function distanciaToques(t1, t2){
-
-    const dx = t1.clientX - t2.clientX;
-    const dy = t1.clientY - t2.clientY;
-
-    return Math.hypot(dx, dy);
-
-}
-
 function abrirProjeto(nomeProjeto) {
 
     if (!projetos[nomeProjeto]) return;
 
     projetoAtual = projetos[nomeProjeto];
     midiasAtuais = projetoAtual.media;
-
     indiceAtual = 0;
     previewIndice = indiceAtual;
-
-    // ==========================
-    // RESET DO ZOOM
-    // ==========================
-
-    zoomAtivo = false;
-    escalaZoom = 2;
-
-    zoomX = 0;
-    zoomY = 0;
-
-    zoomTargetX = 0;
-    zoomTargetY = 0;
-
-    moverImagem = false;
 
     atualizarIndicadores(true);
     mostrarMidia();
@@ -1097,37 +999,17 @@ function toggleFullscreen() {
 
 function mudarMidia(direcao) {
 
-    if (animacaoEmCurso || !elementoAtual) return;
-
-    animacaoEmCurso = true;
-
     direcaoSlide = direcao;
 
-    elementoAtual.style.transition =
-        "transform .35s ease, opacity .35s ease";
+    indiceAtual += direcao;
 
-    elementoAtual.style.transform =
-        direcao === 1
-            ? "translate(calc(-50% - 80px), -50%)"
-            : "translate(calc(-50% + 80px), -50%)";
+    indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
 
-    elementoAtual.style.opacity = "0";
+    atualizarIndicadores();
 
-    setTimeout(() => {
-
-        indiceAtual =
-            (indiceAtual + direcao + midiasAtuais.length) %
-            midiasAtuais.length;
-
-        atualizarIndicadores();
-
-        mostrarMidia();
-        mostrarBotaoFullscreen();
-        preloadImagens();
-
-        animacaoEmCurso = false;
-
-    }, 350);
+    mostrarMidia();
+    mostrarBotaoFullscreen();
+    preloadImagens();
 
 }
 
@@ -1218,8 +1100,6 @@ function prepararImagemAnterior() {
 
 function mostrarMidia() {
 
-    zoomAtivo = false;
-
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
     atualizarIndicadores();
@@ -1245,7 +1125,6 @@ function mostrarMidia() {
     if (midia.type === "image") {
 
         novo = document.createElement("img");
-
         novo.src = midia.src;
 
     } else {
@@ -1334,22 +1213,15 @@ function mostrarMidia() {
 
     if (midia.type === "image") {
 
-        novo.onload = iniciarAnimacao;
+        if (novo.complete) {
 
+            iniciarAnimacao();
 
-        // Safari / iPad
-        // garante que a imagem existe antes de iniciar
+        } else {
 
-        if (novo.complete && novo.naturalWidth > 0) {
-
-            setTimeout(() => {
-
-                iniciarAnimacao();
-
-            }, 50);
+            novo.onload = iniciarAnimacao;
 
         }
-
 
     } else {
 
@@ -1375,88 +1247,8 @@ const modal = document.getElementById('modal-projeto');
 
 modal.addEventListener('touchstart', function(e) {
 
-    // ==========================
-    // PINCH (2 DEDOS)
-    // ==========================
-
-    if (e.touches.length === 2){
-
-        moverImagem = false;
-        isDragging = false;
-
-
-        distanciaInicialPinch =
-            distanciaToques(
-                e.touches[0],
-                e.touches[1]
-            );
-
-
-            escalaInicialPinch = escalaZoom;
-
-
-        // ponto médio inicial dos dedos
-
-        pinchCentroX =
-            (
-                e.touches[0].clientX +
-                e.touches[1].clientX
-            ) / 2;
-
-
-        pinchCentroY =
-            (
-                e.touches[0].clientY +
-                e.touches[1].clientY
-            ) / 2;
-
-
-
-        // ponto da imagem onde os dedos estão
-
-        pinchImagemX =
-            (
-                pinchCentroX -
-                window.innerWidth / 2 -
-                zoomX
-            ) / escalaZoom;
-
-
-        pinchImagemY =
-            (
-                pinchCentroY -
-                window.innerHeight / 2 -
-                zoomY
-            ) / escalaZoom;
-
-
-        pinchEscalaAnterior = escalaZoom;
-
-
-        return;
-
-    }
-
-    // ==========================
-    // TOQUE NORMAL
-    // ==========================
-
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
-
-    // Se a imagem estiver ampliada, começa o movimento da imagem
-    if (zoomAtivo) {
-
-        moverImagem = true;
-
-        zoomStartX = e.touches[0].clientX - zoomX;
-        zoomStartY = e.touches[0].clientY - zoomY;
-
-        elementoAtual.style.transition = "none";
-
-        return;
-    }
-
     isVerticalDrag = false;
     currentY = 0;
 
@@ -1484,119 +1276,9 @@ modal.addEventListener('touchstart', function(e) {
 
 modal.addEventListener('touchmove', function(e) {
 
-    // ==========================
-    // PINCH (2 DEDOS)
-    // ==========================
-
-    if (e.touches.length === 2 && elementoAtual){
-
-        e.preventDefault();
-
-
-        const distanciaAtual =
-            distanciaToques(
-                e.touches[0],
-                e.touches[1]
-            );
-
-
-        escalaZoom =
-            escalaInicialPinch *
-            (distanciaAtual / distanciaInicialPinch);
-
-
-        escalaZoom = Math.max(
-            zoomMin,
-            Math.min(zoomMax, escalaZoom)
-        );
-
-
-        zoomAtivo = escalaZoom > 1.02;
-
-
-        // ==========================
-        // MANTER O PONTO DOS DEDOS
-        // ==========================
-
-        const centroAtualX =
-            (
-                e.touches[0].clientX +
-                e.touches[1].clientX
-            ) / 2;
-
-
-        const centroAtualY =
-            (
-                e.touches[0].clientY +
-                e.touches[1].clientY
-            ) / 2;
-
-
-        zoomX =
-            centroAtualX -
-            window.innerWidth / 2 -
-            (pinchImagemX * escalaZoom);
-
-
-        zoomY =
-            centroAtualY -
-            window.innerHeight / 2 -
-            (pinchImagemY * escalaZoom);
-
-
-        zoomTargetX = zoomX;
-        zoomTargetY = zoomY;
-
-
-        if (!zoomAtivo){
-
-            zoomX = 0;
-            zoomY = 0;
-
-            zoomTargetX = 0;
-            zoomTargetY = 0;
-
-        }
-
-
-        if (!rafZoom){
-
-            rafZoom = requestAnimationFrame(atualizarZoom);
-
-        }
-
-
-        return;
-
-    }
-    
-    // ==========================
-    // ARRASTAR IMAGEM COM ZOOM
-    // ==========================
-
-    if (zoomAtivo && moverImagem && elementoAtual) {
-
-        e.preventDefault();
-
-
-        zoomX = e.touches[0].clientX - zoomStartX;
-        zoomY = e.touches[0].clientY - zoomStartY;
-
-        zoomTargetX = zoomX;
-        zoomTargetY = zoomY;
-
-        if (!rafZoom){
-
-            rafZoom = requestAnimationFrame(atualizarZoom);
-
-        }
-
-        return;
-    }
-
     if (!isDragging || !elementoAtual) return;
 
-    e.preventDefault();  
+    e.preventDefault();
 
     const touchX = e.touches[0].clientX;
     const touchY = e.touches[0].clientY;
@@ -1690,8 +1372,6 @@ modal.addEventListener('touchmove', function(e) {
 });
 
 modal.addEventListener('touchend', function(e) {
-
-    if (zoomAtivo) return;
 
     touchEndX = e.changedTouches[0].clientX;
     touchEndY = e.changedTouches[0].clientY;
@@ -1929,60 +1609,15 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
     const dx = Math.abs(touch.clientX - touchStartX);
     const dy = Math.abs(touch.clientY - touchStartY);
 
-    if (dx < 10 && dy < 10){
+    // Só considera duplo toque se praticamente não houve movimento
+    if (dx < 10 && dy < 10) {
 
         const agora = Date.now();
 
         if (agora - ultimoToque < 300){
 
-            console.log("DUPLO TOQUE");
-
             e.preventDefault();
-
-            // ==========================
-            // TELEMÓVEL -> ZOOM
-            // ==========================
-
-            if (window.matchMedia("(max-width:768px)").matches){
-
-                if (!elementoAtual) return;
-
-                zoomAtivo = !zoomAtivo;
-
-                requestAnimationFrame(() => {
-
-                    elementoAtual.style.transition =
-                        "transform .25s ease";
-
-                    if (zoomAtivo){
-
-                        console.log("ZOOM ON");
-
-                        elementoAtual.style.transform =
-                            "translate(-50%, -50%) scale(2)";
-
-                    }else{
-
-                        console.log("ZOOM OFF");
-
-                        elementoAtual.style.transform =
-                            "translate(-50%, -50%)";
-
-                    }
-
-                });
-
-            }
-
-            // ==========================
-            // DESKTOP -> FULLSCREEN
-            // ==========================
-
-            else{
-
-                toggleFullscreen();
-
-            }
+            toggleFullscreen();
 
         }
 
