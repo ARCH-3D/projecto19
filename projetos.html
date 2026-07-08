@@ -1621,6 +1621,8 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 
         if (agora - ultimoToque < 300){
 
+            console.log("DUPLO TOQUE");
+
             e.preventDefault();
 
             // ==========================
@@ -1633,24 +1635,28 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 
                 zoomAtivo = !zoomAtivo;
 
-                elementoAtual.style.transition =
-                    "transform .25s ease";
+                requestAnimationFrame(() => {
 
-                if (zoomAtivo){
+                    elementoAtual.style.transition =
+                        "transform .25s ease";
 
-                    elementoAtual.style.transform =
-                        "translate(-50%, -50%) scale(2)";
+                    if (zoomAtivo){
 
+                        console.log("ZOOM ON");
 
-                }else{
+                        elementoAtual.style.transform =
+                            "translate(-50%, -50%) scale(2)";
 
-                    elementoAtual.style.transform =
-                        "translate(-50%, -50%)";
-                    
-                        console.log(elementoAtual);
-                    console.log(elementoAtual.style.transform);
+                    }else{
 
-                }
+                        console.log("ZOOM OFF");
+
+                        elementoAtual.style.transform =
+                            "translate(-50%, -50%)";
+
+                    }
+
+                });
 
             }
 
