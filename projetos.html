@@ -1453,32 +1453,85 @@ modal.addEventListener('touchmove', function(e) {
 
         e.preventDefault();
 
+
         const distanciaAtual =
-            distanciaToques(e.touches[0], e.touches[1]);
+            distanciaToques(
+                e.touches[0],
+                e.touches[1]
+            );
+
 
         escalaZoom =
             escalaInicialPinch *
             (distanciaAtual / distanciaInicialPinch);
+
 
         escalaZoom = Math.max(
             zoomMin,
             Math.min(zoomMax, escalaZoom)
         );
 
+
         zoomAtivo = escalaZoom > 1.02;
+
+
+        // ==========================
+        // MANTER O PONTO DOS DEDOS
+        // ==========================
+
+        const centroAtualX =
+            (
+                e.touches[0].clientX +
+                e.touches[1].clientX
+            ) / 2;
+
+
+        const centroAtualY =
+            (
+                e.touches[0].clientY +
+                e.touches[1].clientY
+            ) / 2;
+
+
+        const diferencaX =
+            centroAtualX - pinchCentroX;
+
+
+        const diferencaY =
+            centroAtualY - pinchCentroY;
+
+
+        zoomX =
+            offsetAntesPinchX +
+            diferencaX;
+
+
+        zoomY =
+            offsetAntesPinchY +
+            diferencaY;
+
+
+        zoomTargetX = zoomX;
+        zoomTargetY = zoomY;
+
 
         if (!zoomAtivo){
 
             zoomX = 0;
             zoomY = 0;
 
+            zoomTargetX = 0;
+            zoomTargetY = 0;
+
         }
+
 
         if (!rafZoom){
 
             rafZoom = requestAnimationFrame(atualizarZoom);
 
         }
+
 
         return;
 
