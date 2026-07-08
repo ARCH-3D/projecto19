@@ -1617,7 +1617,13 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
         if (agora - ultimoToque < 300){
 
             e.preventDefault();
-            toggleFullscreen();
+
+            // Apenas no computador tenta fullscreen
+            if (!window.matchMedia("(max-width:768px)").matches){
+
+                toggleFullscreen();
+
+            }
 
         }
 
