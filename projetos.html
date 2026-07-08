@@ -836,6 +836,12 @@ let zoomTargetY = 0;
 let limiteZoomX = 0;
 let limiteZoomY = 0;
 
+let distanciaInicialPinch = 0;
+let escalaInicialPinch = 1;
+
+const zoomMin = 1;
+const zoomMax = 4;
+
 function preloadImagens() {
 
     const proximas = [
@@ -893,6 +899,15 @@ function atualizarLimitesZoom(){
     limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
 
     limiteZoomY = Math.max(0, (alturaImagem - window.innerHeight) / 2);
+
+}
+
+function distanciaToques(t1, t2){
+
+    const dx = t1.clientX - t2.clientX;
+    const dy = t1.clientY - t2.clientY;
+
+    return Math.hypot(dx, dy);
 
 }
 
