@@ -917,8 +917,24 @@ function abrirProjeto(nomeProjeto) {
 
     projetoAtual = projetos[nomeProjeto];
     midiasAtuais = projetoAtual.media;
+
     indiceAtual = 0;
     previewIndice = indiceAtual;
+
+    // ==========================
+    // RESET DO ZOOM
+    // ==========================
+
+    zoomAtivo = false;
+    escalaZoom = 2;
+
+    zoomX = 0;
+    zoomY = 0;
+
+    zoomTargetX = 0;
+    zoomTargetY = 0;
+
+    moverImagem = false;
 
     atualizarIndicadores(true);
     mostrarMidia();
