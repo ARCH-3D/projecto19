@@ -1387,6 +1387,38 @@ modal.addEventListener('touchstart', function(e) {
 modal.addEventListener('touchmove', function(e) {
 
     // ==========================
+    // PINCH (2 DEDOS)
+    // ==========================
+
+    if (e.touches.length === 2 && elementoAtual){
+
+        e.preventDefault();
+
+        const distanciaAtual =
+            distanciaToques(e.touches[0], e.touches[1]);
+
+        escalaZoom =
+            escalaInicialPinch *
+            (distanciaAtual / distanciaInicialPinch);
+
+        escalaZoom = Math.max(
+            zoomMin,
+            Math.min(zoomMax, escalaZoom)
+        );
+
+        zoomAtivo = escalaZoom > 1.02;
+
+        if (!rafZoom){
+
+            rafZoom = requestAnimationFrame(atualizarZoom);
+
+        }
+
+        return;
+
+    }
+    
+    // ==========================
     // ARRASTAR IMAGEM COM ZOOM
     // ==========================
 
