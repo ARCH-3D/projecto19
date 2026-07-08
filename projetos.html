@@ -820,6 +820,14 @@ let fullscreenTimeout = null;
 let zoomAtivo = false;
 let escalaZoom = 2;
 
+let zoomX = 0;
+let zoomY = 0;
+
+let zoomStartX = 0;
+let zoomStartY = 0;
+
+let moverImagem = false;
+
 function preloadImagens() {
 
     const proximas = [
@@ -1255,6 +1263,18 @@ modal.addEventListener('touchstart', function(e) {
 
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
+
+    // Se a imagem estiver ampliada, começa o movimento da imagem
+    if (zoomAtivo) {
+
+        moverImagem = true;
+
+        zoomStartX = e.touches[0].clientX - zoomX;
+        zoomStartY = e.touches[0].clientY - zoomY;
+
+        return;
+    }
+
     isVerticalDrag = false;
     currentY = 0;
 
