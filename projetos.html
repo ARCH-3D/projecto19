@@ -1374,28 +1374,10 @@ modal.addEventListener('touchstart', function(e) {
             );
 
 
-        escalaInicialPinch = escalaZoom;
+            escalaInicialPinch = escalaZoom;
 
 
-        // posição do ponto dos dedos relativamente ao centro da imagem
-
-        pinchImagemX =
-            (pinchCentroX - window.innerWidth / 2 - zoomX)
-            / escalaZoom;
-
-
-        pinchImagemY =
-            (pinchCentroY - window.innerHeight / 2 - zoomY)
-            / escalaZoom;
-
-
-        pinchEscalaAnterior = escalaZoom;
-
-
-        return;
-
-
-        // ponto médio dos dois dedos
+        // ponto médio inicial dos dedos
 
         pinchCentroX =
             (
@@ -1411,13 +1393,30 @@ modal.addEventListener('touchstart', function(e) {
             ) / 2;
 
 
-        zoomAntesPinch = escalaZoom;
 
-        offsetAntesPinchX = zoomX;
-        offsetAntesPinchY = zoomY;
+        // ponto da imagem onde os dedos estão
+
+        pinchImagemX =
+            (
+                pinchCentroX -
+                window.innerWidth / 2 -
+                zoomX
+            ) / escalaZoom;
+
+
+        pinchImagemY =
+            (
+                pinchCentroY -
+                window.innerHeight / 2 -
+                zoomY
+            ) / escalaZoom;
+
+
+        pinchEscalaAnterior = escalaZoom;
 
 
         return;
+
     }
 
     // ==========================
