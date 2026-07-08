@@ -948,6 +948,16 @@ function abrirProjeto(nomeProjeto) {
 
 function fecharModal() {
 
+    zoomAtivo = false;
+
+    escalaZoom = 1;
+
+    zoomX = 0;
+    zoomY = 0;
+
+    zoomTargetX = 0;
+    zoomTargetY = 0;
+
     document.getElementById("modal-projeto").style.display = "none";
     document.getElementById("modal-content").innerHTML = "";
 
@@ -1174,6 +1184,14 @@ function prepararImagemAnterior() {
 function mostrarMidia() {
 
     zoomAtivo = false;
+
+    escalaZoom = 1;
+
+    zoomX = 0;
+    zoomY = 0;
+
+    zoomTargetX = 0;
+    zoomTargetY = 0;
 
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
@@ -1810,15 +1828,25 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 
                         console.log("ZOOM ON");
 
-                        elementoAtual.style.transform =
-                            "translate(-50%, -50%) scale(2)";
+                        escalaZoom = 2;
 
                     }else{
 
                         console.log("ZOOM OFF");
 
-                        elementoAtual.style.transform =
-                            "translate(-50%, -50%)";
+                        escalaZoom = 1;
+
+                        zoomX = 0;
+                        zoomY = 0;
+
+                        zoomTargetX = 0;
+                        zoomTargetY = 0;
+
+                    }
+
+                    if (!rafZoom){
+
+                        rafZoom = requestAnimationFrame(atualizarZoom);
 
                     }
 
