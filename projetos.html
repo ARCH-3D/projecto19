@@ -862,8 +862,8 @@ function atualizarZoom(){
     if (!elementoAtual) return;
 
     elementoAtual.style.transform =
-        `translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0)
-         translate(-50%, -50%)
+        `translate(-50%, -50%)
+         translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0)
          scale(${escalaZoom})`;
 
 }
