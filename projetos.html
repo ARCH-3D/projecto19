@@ -816,6 +816,10 @@ let previewIndice = -1;
 
 let fullscreenTimeout = null;
 
+// ZOOM
+let zoomAtivo = false;
+let escalaZoom = 2;
+
 function preloadImagens() {
 
     const proximas = [
@@ -1099,6 +1103,8 @@ function prepararImagemAnterior() {
 }
 
 function mostrarMidia() {
+
+    zoomAtivo = false;
 
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
@@ -1609,8 +1615,7 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
     const dx = Math.abs(touch.clientX - touchStartX);
     const dy = Math.abs(touch.clientY - touchStartY);
 
-    // Só considera duplo toque se praticamente não houve movimento
-    if (dx < 10 && dy < 10) {
+    if (dx < 10 && dy < 10){
 
         const agora = Date.now();
 
@@ -1618,8 +1623,38 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 
             e.preventDefault();
 
-            // Apenas no computador tenta fullscreen
-            if (!window.matchMedia("(max-width:768px)").matches){
+            // ==========================
+            // TELEMÓVEL -> ZOOM
+            // ==========================
+
+            if (window.matchMedia("(max-width:768px)").matches){
+
+                if (!elementoAtual) return;
+
+                zoomAtivo = !zoomAtivo;
+
+                elementoAtual.style.transition =
+                    "transform .25s ease";
+
+                if (zoomAtivo){
+
+                    elementoAtual.style.transform =
+                        `translate(-50%, -50%) scale(${escalaZoom})`;
+
+                }else{
+
+                    elementoAtual.style.transform =
+                        "translate(-50%, -50%)";
+
+                }
+
+            }
+
+            // ==========================
+            // DESKTOP -> FULLSCREEN
+            // ==========================
+
+            else{
 
                 toggleFullscreen();
 
