@@ -1640,10 +1640,14 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 
                 if (zoomAtivo){
 
+                    console.log("ZOOM ON");
+
                     elementoAtual.style.transform =
                         `translate(-50%, -50%) scale(${escalaZoom})`;
 
                 }else{
+
+                    console.log("ZOOM OFF");
 
                     elementoAtual.style.transform =
                         "translate(-50%, -50%)";
