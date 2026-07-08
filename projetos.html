@@ -1639,12 +1639,16 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
                 if (zoomAtivo){
 
                     elementoAtual.style.transform =
-                        `translate(-50%, -50%) scale(${escalaZoom})`;
+                        "translate(-50%, -50%) scale(2)";
+
 
                 }else{
 
                     elementoAtual.style.transform =
                         "translate(-50%, -50%)";
+                    
+                        console.log(elementoAtual);
+                    console.log(elementoAtual.style.transform);
 
                 }
 
