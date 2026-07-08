@@ -1322,6 +1322,27 @@ const modal = document.getElementById('modal-projeto');
 
 modal.addEventListener('touchstart', function(e) {
 
+    // ==========================
+    // PINCH (2 DEDOS)
+    // ==========================
+
+    if (e.touches.length === 2){
+
+        moverImagem = false;
+        isDragging = false;
+
+        distanciaInicialPinch =
+            distanciaToques(e.touches[0], e.touches[1]);
+
+        escalaInicialPinch = escalaZoom;
+
+        return;
+    }
+
+    // ==========================
+    // TOQUE NORMAL
+    // ==========================
+
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
 
