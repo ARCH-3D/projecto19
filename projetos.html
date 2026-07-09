@@ -889,9 +889,9 @@ const modal = document.getElementById("modal-projeto");
 
 const modalContent = document.getElementById("modal-content");
 
-const modalIndicators = modalIndicators;
+const modalIndicators = document.getElementById("modal-indicators");
 
-const fullscreenBtn = fullscreenBtn;
+const fullscreenBtn = document.getElementById("fullscreen-btn");
 
 const contactWidget = document.querySelector(".contact-widget");
 
@@ -899,7 +899,7 @@ const contactButton = document.querySelector(".contact-trigger");
 
 const backToTop = document.getElementById("back-to-top");
 
-const menu = menu;
+const menu = document.getElementById("menu");
 
 
 // ======================================
@@ -1488,8 +1488,8 @@ function mostrarMidia() {
 
     novo.style.transform =
         direcaoSlide === 1
-        ? "translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)"
-        : "translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)";
+        ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)`
+        : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
 
     novo.style.opacity = "0";
 
@@ -1504,8 +1504,8 @@ function mostrarMidia() {
 
                 antigo.style.transform =
                     direcaoSlide === 1
-                    ? "translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)"
-                    : "translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)";
+                    ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)`
+                    : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
 
                 antigo.style.opacity = "0";
 
