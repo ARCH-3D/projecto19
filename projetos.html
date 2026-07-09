@@ -818,11 +818,7 @@ let fullscreenTimeout = null;
 let zoomAtivo = false;
 let escalaZoom = 2;
 
-let zoomX = 0;
-let zoomY = 0;
-
-let zoomStartX = 0;
-let zoomStartY = 0;
+resetPosicaoZoom();
 
 let moverImagem = false;
 
@@ -903,6 +899,11 @@ const backToTop = document.getElementById("back-to-top");
 
 const menu = document.getElementById("menu");
 
+function $(id){
+
+    return document.getElementById(id);
+
+}
 
 // ======================================
 // ZOOM
@@ -913,6 +914,12 @@ function resetZoom(){
     zoomAtivo = false;
 
     escalaZoom = ZOOM_MIN;
+
+    resetPosicaoZoom();
+
+}
+
+function resetPosicaoZoom(){
 
     zoomX = 0;
     zoomY = 0;
@@ -987,7 +994,7 @@ function abrirProjeto(nomeProjeto) {
     mostrarBotaoFullscreen();
     preloadImagens();
 
-    document.getElementById("modal-title").textContent = projetoAtual.info.nome;
+    $("modal-title").textContent = projetoAtual.info.nome;
     document.getElementById("modal-year").textContent = projetoAtual.info.ano;
     document.getElementById("modal-area").textContent = projetoAtual.info.area;
     document.getElementById("modal-location").textContent = projetoAtual.info.local;
