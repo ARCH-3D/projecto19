@@ -266,12 +266,10 @@
 
     <span class="close" onclick="fecharModal()">&times;</span>
 
-    <div class="touch-left"></div>
-
     <div id="modal-content"></div>
 
     <button id="fullscreen-btn" class="fullscreen-btn" aria-label="Fullscreen">
-           ⛶
+    ⛶
     </button>
 
     <div id="modal-indicators" class="media-indicators"></div>
@@ -301,7 +299,7 @@
 
     </div>
 
-    <div class="touch-right"></div>
+    <div class="touch-right" onclick="mudarMidia(1)"></div>
 
     <span class="prev" onclick="mudarMidia(-1)">‹</span>
     <span class="next" onclick="mudarMidia(1)">›</span>
@@ -2104,16 +2102,6 @@ backToTop.addEventListener("click", () => {
     });
 
 });
-
-const touchLeft = document.querySelector(".touch-left");
-const touchRight = document.querySelector(".touch-right");
-
-if (!window.matchMedia("(hover:none), (pointer:coarse)").matches){
-
-    touchLeft.addEventListener("click", () => mudarMidia(-1));
-    touchRight.addEventListener("click", () => mudarMidia(1));
-
-}
 
 </script>
 
