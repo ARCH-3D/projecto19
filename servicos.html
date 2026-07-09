@@ -200,9 +200,27 @@
 </div>
 
 <script>
+
+const contactWidget = document.querySelector(".contact-widget");
+const contactButton = document.querySelector(".contact-trigger");
+
+contactButton.addEventListener("click", function(e){
+    e.stopPropagation();
+    contactWidget.classList.toggle("active");
+});
+
+document.addEventListener("click", function(){
+    contactWidget.classList.remove("active");
+});
+
+contactWidget.addEventListener("click", function(e){
+    e.stopPropagation();
+});
+
 function toggleMenu() {
     document.getElementById("menu").classList.toggle("active");
 }
+
 </script>
 
 <footer>
