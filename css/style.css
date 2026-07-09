@@ -839,14 +839,7 @@ footer p{
 
 .modal .touch-left,
 .modal .touch-right{
-    position:absolute;
-    top:0;
-    width:18%;
-    height:100%;
-    pointer-events:auto;
-
-    background:transparent;
-    touch-action:manipulation;
+    display:none;
 }
 
 .modal .touch-left{
