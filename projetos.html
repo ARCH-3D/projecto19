@@ -844,6 +844,24 @@ let pinchImagemY = 0;
 const zoomMin = 1;
 const zoomMax = 4;
 
+function resetZoom(){
+
+    zoomAtivo = false;
+
+    escalaZoom = 1;
+
+    zoomX = 0;
+    zoomY = 0;
+
+    zoomTargetX = 0;
+    zoomTargetY = 0;
+
+}
+
+
+
+
+
 function preloadImagens() {
 
     const proximas = [
@@ -950,15 +968,7 @@ function abrirProjeto(nomeProjeto) {
 
 function fecharModal() {
 
-    zoomAtivo = false;
-
-    escalaZoom = 1;
-
-    zoomX = 0;
-    zoomY = 0;
-
-    zoomTargetX = 0;
-    zoomTargetY = 0;
+    resetZoom();
 
     document.getElementById("modal-projeto").style.display = "none";
     document.getElementById("modal-content").innerHTML = "";
@@ -1185,15 +1195,7 @@ function prepararImagemAnterior() {
 
 function mostrarMidia() {
 
-    zoomAtivo = false;
-
-    escalaZoom = 1;
-
-    zoomX = 0;
-    zoomY = 0;
-
-    zoomTargetX = 0;
-    zoomTargetY = 0;
+    resetZoom();
 
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
