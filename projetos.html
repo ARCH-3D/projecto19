@@ -303,8 +303,8 @@
 
     <div class="touch-right" onclick="mudarMidia(1)"></div>
 
-    <span class="prev">‹</span>
-    <span class="next">›</span>
+    <span class="prev" onclick="mudarMidia(-1)">‹</span>
+    <span class="next" onclick="mudarMidia(1)">›</span>
 
 </div>
 
@@ -1344,33 +1344,7 @@ document.addEventListener('keydown', function(e) {
 
 const modal = document.getElementById('modal-projeto');
 
-const btnPrev = document.querySelector(".prev");
-const btnNext = document.querySelector(".next");
-
-btnPrev.addEventListener("click", function(e){
-
-    e.stopPropagation();
-
-    mudarMidia(-1);
-
-});
-
-btnNext.addEventListener("click", function(e){
-
-    e.stopPropagation();
-
-    mudarMidia(1);
-
-});
-
 modal.addEventListener('touchstart', function(e) {
-
-    if (
-        e.target.closest(".prev") ||
-        e.target.closest(".next")
-    ){
-        return;
-    }
 
     // ==========================
     // PINCH (2 DEDOS)
@@ -1446,13 +1420,6 @@ modal.addEventListener('touchstart', function(e) {
 });
 
 modal.addEventListener('touchmove', function(e) {
-
-    if (
-        e.target.closest(".prev") ||
-        e.target.closest(".next")
-    ){
-        return;
-    }
 
     // ==========================
     // PINCH (2 DEDOS)
@@ -1628,13 +1595,6 @@ modal.addEventListener('touchmove', function(e) {
 });
 
 modal.addEventListener('touchend', function(e) {
-
-    if (
-        e.target.closest(".prev") ||
-        e.target.closest(".next")
-    ){
-        return;
-    }
 
     if (zoomAtivo) return;
 
