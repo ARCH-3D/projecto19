@@ -1320,7 +1320,7 @@ function mostrarMidia() {
             prepararImagemAnterior();
             prepararProximaImagem();
 
-        }, 450);
+        }, MEDIA_TRANSITION_TIME);
 
     };
 
@@ -1554,7 +1554,7 @@ modal.addEventListener('touchmove', function(e) {
         `translate(calc(-50% + ${currentTranslate}px), -50%)`;
 
     const largura = window.innerWidth;
-    const limitePreview = 40;
+    const limitePreview = PREVIEW_THRESHOLD;
 
     // Atualiza as barras enquanto arrasta
 
@@ -1618,7 +1618,7 @@ modal.addEventListener('touchend', function(e) {
     isDragging = false;
 
     const dy = touchEndY - touchStartY;
-    const limiteY = window.innerHeight * 0.20;
+    const limiteY = window.innerHeight * VERTICAL_CLOSE_THRESHOLD;
 
     // 🔥 PRIORIDADE: swipe vertical (fechar modal)
     if (isVerticalDrag) {
@@ -1678,7 +1678,7 @@ modal.addEventListener('touchend', function(e) {
 function handleSwipe() {
 
     const distancia = touchEndX - touchStartX;
-    const limite = window.innerWidth * 0.20;
+    const limite = window.innerWidth * SWIPE_THRESHOLD;
 
     if (!elementoAtual) return;
 
@@ -1718,7 +1718,7 @@ function handleSwipe() {
             prepararImagemAnterior();
             prepararProximaImagem();
 
-        },250);
+        },SLIDE_ANIMATION_TIME);
 
         return;
     }
@@ -1761,7 +1761,7 @@ function handleSwipe() {
             prepararImagemAnterior();
             prepararProximaImagem();
 
-        },250);
+        },SLIDE_ANIMATION_TIME);
 
         return;
     }
@@ -1811,7 +1811,7 @@ function handleSwipe() {
         previewIndice = indiceAtual;
         atualizarIndicadores();
 
-    },300);
+    },RESET_ANIMATION_TIME);
 
 }
 
@@ -1852,7 +1852,7 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 
         const agora = Date.now();
 
-        if (agora - ultimoToque < 300){
+        if (agora - ultimoToque < DOUBLE_TAP_DELAY){
 
             console.log("DUPLO TOQUE");
 
@@ -1862,7 +1862,7 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
             // TELEMÓVEL -> ZOOM
             // ==========================
 
-            if (window.matchMedia("(max-width:768px)").matches){
+            if (window.matchMedia(`(max-width:${MOBILE_BREAKPOINT}px)`).matches) {
 
                 if (!elementoAtual) return;
 
