@@ -1346,6 +1346,15 @@ const modal = document.getElementById('modal-projeto');
 
 modal.addEventListener('touchstart', function(e) {
 
+    // Não iniciar gestos quando o toque é nas setas ou no botão fechar
+    if (
+        e.target.closest(".prev") ||
+        e.target.closest(".next") ||
+        e.target.closest(".close")
+    ){
+        return;
+    }
+
     // ==========================
     // PINCH (2 DEDOS)
     // ==========================
