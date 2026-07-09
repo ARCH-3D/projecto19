@@ -1183,3 +1183,21 @@ footer p{
 .fullscreen-btn{
     display: none !important;
 }
+
+@media (orientation: landscape){
+
+    .prev,
+    .next{
+
+        z-index: 9999999 !important;
+        pointer-events: auto !important;
+
+        background: red !important;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+
+    }
+
+}
