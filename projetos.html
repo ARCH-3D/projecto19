@@ -844,6 +844,26 @@ let pinchImagemY = 0;
 const zoomMin = 1;
 const zoomMax = 4;
 
+// Configuração
+
+const SWIPE_THRESHOLD = 0.20;
+
+const PREVIEW_THRESHOLD = 40;
+
+const VERTICAL_CLOSE_THRESHOLD = 0.20;
+
+const DOUBLE_TAP_DELAY = 300;
+
+const SLIDE_ANIMATION_TIME = 250;
+
+const RESET_ANIMATION_TIME = 300;
+
+const MEDIA_TRANSITION_TIME = 450;
+
+const FULLSCREEN_BUTTON_TIMEOUT = 2000;
+
+const MOBILE_BREAKPOINT = 768;
+
 function resetZoom(){
 
     zoomAtivo = false;
@@ -857,10 +877,6 @@ function resetZoom(){
     zoomTargetY = 0;
 
 }
-
-
-
-
 
 function preloadImagens() {
 
@@ -1058,7 +1074,7 @@ function mostrarBotaoFullscreen(){
 
         btn.classList.remove("show");
 
-    },2000);
+    },FULLSCREEN_BUTTON_TIMEOUT);
 
 }
 
