@@ -655,11 +655,11 @@ footer p{
 }
 
 .prev{
-    left:max(25px, env(safe-area-inset-left));
+    left:calc(env(safe-area-inset-left) + 25px);
 }
 
 .next{
-    right:max(25px, env(safe-area-inset-right));
+    right:calc(env(safe-area-inset-right) + 25px);
 }
 
 /* ================= CONTACT WIDGET ================= */
