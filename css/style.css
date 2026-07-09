@@ -633,15 +633,23 @@ footer p{
 
 .prev,
 .next{
+
     position:absolute;
 
     top:50%;
 
     transform:translateY(-50%);
 
+    width:72px;
+    height:72px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
     color:#111;
 
-    font-size:50px;
+    font-size:52px;
 
     cursor:pointer;
 
@@ -649,7 +657,7 @@ footer p{
 
     touch-action:manipulation;
 
-    z-index:10000;
+    z-index:10000000;
 
     transition:.3s ease;
 }
