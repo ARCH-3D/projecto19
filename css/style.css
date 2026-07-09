@@ -1191,3 +1191,15 @@ footer p{
 .fullscreen-btn{
     display: none !important;
 }
+
+.prev{
+
+    background:rgba(255,0,0,.25);
+
+}
+
+.next{
+
+    background:rgba(0,255,0,.25);
+
+}
