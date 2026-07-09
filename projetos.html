@@ -878,6 +878,18 @@ function resetZoom(){
 
 }
 
+function centrarElemento(elemento) {
+
+    if (!elemento) return;
+
+    elemento.style.transition =
+        "transform .25s ease";
+
+    elemento.style.transform =
+        "translate(-50%, -50%)";
+
+}
+
 function preloadImagens() {
 
     const proximas = [
@@ -897,6 +909,22 @@ function preloadImagens() {
         }
 
     });
+
+}
+
+function atualizarPreview() {
+
+    previewIndice = indiceAtual;
+
+    atualizarIndicadores();
+
+}
+
+function atualizarLaterais() {
+
+    prepararImagemAnterior();
+
+    prepararProximaImagem();
 
 }
 
@@ -1317,8 +1345,7 @@ function mostrarMidia() {
                 elementoAnterior = null;
             }
 
-            prepararImagemAnterior();
-            prepararProximaImagem();
+            atualizarLaterais();
 
         }, MEDIA_TRANSITION_TIME);
 
@@ -1651,19 +1678,14 @@ modal.addEventListener('touchend', function(e) {
             if (!elementoAtual) return;
 
             // Volta ao centro
-            elementoAtual.style.transition =
-                "transform .25s ease";
-
-            elementoAtual.style.transform =
-                "translate(-50%, -50%)";
+            centrarElemento(elementoAtual);
 
             modal.style.transition =
                 "background .25s ease";
 
             modal.style.background = "";
 
-            previewIndice = indiceAtual;
-            atualizarIndicadores();
+            atualizarPreview();
 
         }
 
@@ -1703,9 +1725,8 @@ function handleSwipe() {
 
         indiceAtual =
             (indiceAtual + 1) % midiasAtuais.length;
-            previewIndice = indiceAtual;
 
-        atualizarIndicadores();
+        atualizarPreview();
 
         setTimeout(() => {
 
@@ -1715,8 +1736,7 @@ function handleSwipe() {
             elementoSeguinte = null;
 
             preloadImagens();
-            prepararImagemAnterior();
-            prepararProximaImagem();
+            atualizarLaterais();
 
         },SLIDE_ANIMATION_TIME);
 
@@ -1746,9 +1766,8 @@ function handleSwipe() {
         indiceAtual =
             (indiceAtual - 1 + midiasAtuais.length) %
             midiasAtuais.length;
-            previewIndice = indiceAtual;
 
-        atualizarIndicadores();
+        atualizarPreview();
 
         setTimeout(() => {
 
@@ -1758,8 +1777,7 @@ function handleSwipe() {
             elementoAnterior = null;
 
             preloadImagens();
-            prepararImagemAnterior();
-            prepararProximaImagem();
+            atualizarLaterais();
 
         },SLIDE_ANIMATION_TIME);
 
@@ -1805,11 +1823,9 @@ function handleSwipe() {
             elementoAnterior = null;
         }
 
-        prepararImagemAnterior();
-        prepararProximaImagem();
+        atualizarLaterais();
 
-        previewIndice = indiceAtual;
-        atualizarIndicadores();
+        atualizarPreview();
 
     },RESET_ANIMATION_TIME);
 
@@ -1854,8 +1870,6 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 
         if (agora - ultimoToque < DOUBLE_TAP_DELAY){
 
-            console.log("DUPLO TOQUE");
-
             e.preventDefault();
 
             // ==========================
@@ -1875,13 +1889,9 @@ document.getElementById("modal-content").addEventListener("touchend", function(e
 
                     if (zoomAtivo){
 
-                        console.log("ZOOM ON");
-
                         escalaZoom = 2;
 
                     }else{
-
-                        console.log("ZOOM OFF");
 
                         escalaZoom = 1;
 
