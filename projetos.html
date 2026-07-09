@@ -786,6 +786,8 @@ const projetos = {
   },
 };
 
+let projetoAtual = null;
+
 let midiasAtuais = [];
 let indiceAtual = 0;
 let direcaoSlide = 1;
@@ -1589,7 +1591,6 @@ function toggleMenu() {
 
 /* Navegação com teclado */
 document.addEventListener('keydown', function(e) {
-  const modal = document.getElementById('modal-projeto');
   if (modal.style.display === 'flex') {
     if (e.key === "ArrowLeft") mudarMidia(-1);
     else if (e.key === "ArrowRight") mudarMidia(1);
