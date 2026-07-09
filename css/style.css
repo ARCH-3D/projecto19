@@ -965,7 +965,8 @@ footer p{
 
     .prev,
     .next{
-        display:none;
+        display:none !important;
+        pointer-events:none !important;
     }
 
     .service-icon{
@@ -1189,4 +1190,14 @@ footer p{
 
 .fullscreen-btn{
     display: none !important;
+}
+
+@media (hover:none), (pointer:coarse){
+
+    .prev,
+    .next{
+        display:none !important;
+        pointer-events:none !important;
+    }
+
 }
