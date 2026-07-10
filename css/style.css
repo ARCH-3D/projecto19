@@ -377,52 +377,51 @@ section p {
 
     position:absolute;
 
-    left:0;
-    right:0;
-    bottom:0;
+    left:20px;
+    right:20px;
+    bottom:20px;
 
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
+    z-index:2;
 
-    padding:18px 22px;
+    color:#fff;
 
-    min-height:72px;
+    opacity:0;
 
-    background:linear-gradient(
-        transparent,
-        rgba(0,0,0,.65)
-    );
+    transition:.3s ease;
 
 }
 
 .project-name{
 
-    font-family:"Inter", sans-serif;
+    display:block;
 
-    font-size:1.15rem;
+    font-size:16px;
 
-    font-weight:600;
+    font-weight:500;
 
-    color:white;
+    letter-spacing:1.6px;
 
     line-height:1.2;
+
+    text-transform:uppercase;
 
 }
 
 .project-location{
 
+    display:block;
+
     margin-top:5px;
 
-    font-family:"Inter", sans-serif;
+    font-size:11px;
 
-    font-size:.90rem;
+    font-weight:300;
 
-    font-weight:400;
+    letter-spacing:1.8px;
 
-    color:rgba(255,255,255,.80);
+    text-transform:uppercase;
 
-    line-height:1.2;
+    opacity:.85;
 
 }
 
