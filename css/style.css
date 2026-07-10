@@ -1039,8 +1039,8 @@ footer p{
 
     #modal-content img,
     #modal-content video{
-        max-width:100vw;
-        max-height:100dvh;
+        max-width:95vw;
+        max-height:calc(100dvh - 120px);
     }
 
     .hero-text{
