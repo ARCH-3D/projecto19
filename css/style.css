@@ -337,7 +337,7 @@ section p {
 }
 
 .grayscale{
-    filter: grayscale(50%);
+    filter: grayscale(100%) brightness(1) contrast(1);
 }
 
 /* ================== OVERLAY ================== */
