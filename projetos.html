@@ -720,9 +720,9 @@ const projetos = {
     },
 
     media: [
-        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_1.webp" },
-        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_2.webp" },
-        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_3.webp" },
+        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_1.webp", grayscale: true }, 
+        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_2.webp", grayscale: true },
+        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_3.webp", grayscale: true },
         { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_4.webp" },
         { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_5.webp" }
     ]
@@ -1762,6 +1762,10 @@ function mostrarMidia() {
 
         novo.onloadeddata = iniciarAnimacao;
 
+    }
+
+    if (midia.grayscale) {
+        img.classList.add("grayscale");
     }
 
 }

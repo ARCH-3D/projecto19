@@ -336,6 +336,10 @@ section p {
     display:block;
 }
 
+.grayscale{
+    filter: grayscale(100%);
+}
+
 /* ================== OVERLAY ================== */
 
 .project::before{
