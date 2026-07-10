@@ -1036,6 +1036,7 @@ let pinchImagemX = 0;
 let pinchImagemY = 0;
 
 let isPinching = false;
+let ultimoPinch = 0;
 
 const ZOOM_MIN = 1;
 const ZOOM_MAX = 4;
@@ -2060,16 +2061,19 @@ modal.addEventListener('touchmove', function(e) {
 
 modal.addEventListener('touchend', function(e) {
 
-    if (isPinching){
+    if (isPinching) {
 
-        if (e.touches.length < 2){
+        if (e.touches.length < 2) {
+
             isPinching = false;
+            ultimoPinch = Date.now();
         }
 
-        if (zoomAtivo){
-            return;
-        }
+        return;
+    }
 
+    if (Date.now() - ultimoPinch < 300) {
+        return;
     }
 
     if (zoomAtivo) return;
