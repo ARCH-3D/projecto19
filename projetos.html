@@ -1035,6 +1035,8 @@ let pinchCentroY = 0;
 let pinchImagemX = 0;
 let pinchImagemY = 0;
 
+let isPinching = false;
+
 const ZOOM_MIN = 1;
 const ZOOM_MAX = 4;
 const DEFAULT_ZOOM = 2;
@@ -1810,6 +1812,8 @@ modal.addEventListener('touchstart', function(e) {
 
     if (e.touches.length === 2){
 
+        isPinching = true;
+
         moverImagem = false;
         isDragging = false;
 
@@ -1884,6 +1888,8 @@ modal.addEventListener('touchmove', function(e) {
     // ==========================
 
     if (e.touches.length === 2 && elementoAtual){
+
+        isPinching = true;
 
         e.preventDefault();
 
@@ -2053,6 +2059,17 @@ modal.addEventListener('touchmove', function(e) {
 });
 
 modal.addEventListener('touchend', function(e) {
+
+    if (isPinching){
+
+        if (e.touches.length === 0){
+
+            isPinching = false;
+
+        }
+
+        return;
+    }
 
     if (zoomAtivo) return;
 
