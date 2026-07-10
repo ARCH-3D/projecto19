@@ -376,23 +376,51 @@ section p {
 .project-title{
     position:absolute;
 
-    left:20px;
-    bottom:20px;
+    left:24px;
+    right:24px;
+    bottom:24px;
 
     z-index:2;
 
     color:#fff;
 
-    font-size:12px;
-    font-weight:300;
-
-    letter-spacing:1.5px;
-
-    text-transform:uppercase;
-
     opacity:0;
 
     transition:.3s ease;
+}
+
+.project-name{
+
+    display:block;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    letter-spacing:.5px;
+
+    text-transform:none;
+
+    line-height:1.2;
+
+    margin-bottom:5px;
+
+}
+
+.project-location{
+
+    display:block;
+
+    font-size:13px;
+
+    font-weight:300;
+
+    letter-spacing:1px;
+
+    opacity:.9;
+
+    text-transform:uppercase;
+
 }
 
 /* ================= PROJECT SECTION ================= */
