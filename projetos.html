@@ -1536,6 +1536,11 @@ function criarElementoMidia(midia) {
 
     configurarElementoMidia(elemento);
 
+    // Aplicar grayscale se necessário
+    if (midia.grayscale) {
+        elemento.classList.add("grayscale");
+    }
+
     elemento.style.transform = "translate(-50%, -50%)";
     elemento.style.opacity = "1";
     elemento.style.zIndex = "2";
