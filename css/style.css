@@ -579,7 +579,7 @@ footer p{
 @media (max-width:768px) and (orientation:landscape){
 
     .media-indicators{
-        bottom:25px;
+        bottom:20px !important;
     }
 
 }
