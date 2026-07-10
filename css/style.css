@@ -337,7 +337,7 @@ section p {
 }
 
 .grayscale{
-    filter: grayscale(100%);
+    filter: grayscale(50%);
 }
 
 /* ================== OVERLAY ================== */
