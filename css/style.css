@@ -976,17 +976,13 @@ footer p{
     }
 
     .service-icon{
-    width:40px;
-    min-width:40px;
+    width:100px;
+    min-width:100px;
     }
 
     .service-icon img{
-    background:blue;
-    }
-
-    .service-icon img{
-    width:40px;
-    height:40px;
+    width:100px;
+    height:100px;
     }
 
     /* Apenas para a página de contactos */
