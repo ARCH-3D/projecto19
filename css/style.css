@@ -576,14 +576,6 @@ footer p{
 
 }
 
-@media (max-width:768px) and (orientation:landscape){
-
-    .media-indicators{
-        bottom:60px;
-    }
-
-}
-
 /* ================= PROJECT INFO ================= */
 
 .modal-info{
@@ -1218,4 +1210,12 @@ footer p{
 
 .fullscreen-btn{
     display: none !important;
+}
+
+@media (max-width:768px) and (orientation:landscape){
+
+    .media-indicators{
+        bottom:60px;
+    }
+
 }
