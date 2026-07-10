@@ -976,14 +976,19 @@ footer p{
     }
 
     .service-icon{
-    width:100px;
-    min-width:100px;
+    width:52px;
+    min-width:52px;
     }
 
     .service-icon img{
-    width:100px;
-    height:100px;
+    width:48px;
+    height:48px;
     }
+
+    .service{
+    gap:16px;
+    margin-bottom:28px;
+}
 
     /* Apenas para a página de contactos */
 
