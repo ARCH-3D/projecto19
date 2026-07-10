@@ -2060,15 +2060,20 @@ modal.addEventListener('touchmove', function(e) {
 
 modal.addEventListener('touchend', function(e) {
 
+    // Se terminou um gesto de pinch
     if (isPinching){
 
-        if (e.touches.length === 0){
-
+        // Quando já não existem dois dedos no ecrã,
+        // deixa de estar em pinch
+        if (e.touches.length < 2){
             isPinching = false;
-
         }
 
-        return;
+        // Se ainda está ampliado, continua sem swipe
+        if (zoomAtivo){
+            return;
+        }
+
     }
 
     if (zoomAtivo) return;
