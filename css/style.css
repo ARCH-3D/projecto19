@@ -976,13 +976,13 @@ footer p{
     }
 
     .service-icon{
-    width:80px;
-    min-width:80px;
+    width:64px;
+    min-width:64px;
     }
 
     .service-icon img{
-    width:80px;
-    height:80px;
+    width:64px;
+    height:64px;
     }
 
     .service{
