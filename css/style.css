@@ -948,6 +948,10 @@ footer p{
 
 @media (max-width:768px){
 
+    .service{
+        background:red !important;
+    }  
+
     .menu-toggle{
         display:block;
         background:none;
