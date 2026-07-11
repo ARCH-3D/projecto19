@@ -1191,6 +1191,8 @@ function abrirProjeto(nomeProjeto) {
     mostrarBotaoFullscreen();
     preloadImagens();
 
+    atualizarOrientacao();
+
     document.getElementById("modal-title").textContent = projetoAtual.info.nome;
     document.getElementById("modal-year").textContent = projetoAtual.info.ano;
     document.getElementById("modal-area").textContent = projetoAtual.info.area;
@@ -1255,6 +1257,8 @@ function fecharModal() {
     }
 
     document.getElementById("modal-projeto").style.background = "";
+
+    modalIndicators.style.bottom = "";
 }
 
 function mostrarBotaoFullscreen(){
@@ -1300,6 +1304,28 @@ function toggleFullscreen() {
             document.webkitExitFullscreen();
 
         }
+
+    }
+
+}
+
+function atualizarOrientacao(){
+
+    if (!modalIndicators) return;
+
+    const landscape =
+        window.innerWidth > window.innerHeight;
+
+    const mobile =
+        window.innerWidth <= MOBILE_BREAKPOINT;
+
+    if (mobile && landscape){
+
+        modalIndicators.style.bottom = "60px";
+
+    }else{
+
+        modalIndicators.style.bottom = "150px";
 
     }
 
@@ -2333,6 +2359,14 @@ backToTop.addEventListener("click", () => {
         top:0,
         behavior:"smooth"
     });
+
+});
+
+window.addEventListener("resize", atualizarOrientacao);
+
+window.addEventListener("orientationchange", function(){
+
+    setTimeout(atualizarOrientacao,150);
 
 });
 
