@@ -1097,7 +1097,7 @@ footer p{
 }
 
 .media-indicators {
-    position: fixed;
+    position: absolute;
     left: 50%;
     bottom: 150px;
     transform: translateX(-50%);
@@ -1105,7 +1105,7 @@ footer p{
     display: flex;
     gap: 8px;
 
-    z-index: 10020;
+    z-index: 20;
 }
 
 .media-indicators span {
@@ -1215,7 +1215,7 @@ footer p{
 @media (max-width:768px) and (orientation:landscape){
 
     .media-indicators{
-        bottom:55px;
+        bottom:60px;
     }
 
 }
