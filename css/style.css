@@ -1214,12 +1214,12 @@ footer p{
 
 @media (max-width:768px) and (orientation:landscape){
 
-    .media-indicators{
-        bottom:60px;
+    .modal{
+        background:red !important;
     }
 
-    body{
-        background:red !important;
+    .media-indicators{
+        bottom:60px;
     }
 
 }
