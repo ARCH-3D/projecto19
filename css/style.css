@@ -1218,4 +1218,8 @@ footer p{
         bottom:60px;
     }
 
+    body{
+        background:red !important;
+    }
+
 }
