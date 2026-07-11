@@ -15,7 +15,6 @@
 html{
     scrollbar-gutter:stable;
     -webkit-text-size-adjust:100%;
-    background:#fff;
 }
 
 /* ================== BODY ================== */
@@ -516,14 +515,12 @@ footer p{
     align-items:center;
 
     width:100%;
-    height:100vh;
+    height:100dvh;
 
     overflow:hidden;
     position:relative;
 
-    background:#fff;
-
-    /*contain:layout paint;*/
+    contain:layout paint;
 }
 
 #modal-content img,
