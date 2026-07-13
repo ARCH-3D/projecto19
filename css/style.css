@@ -1219,3 +1219,16 @@ footer p{
     }
 
 }
+
+/* Telemóvel em landscape */
+@media (max-width:767px) and (orientation:landscape){
+
+    .modal-info{
+        bottom:12px;
+    }
+
+    .media-indicators{
+        bottom:42px;   /* imediatamente acima dos dados */
+    }
+
+}
