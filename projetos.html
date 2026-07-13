@@ -1518,7 +1518,19 @@ function handleSwipe() {
 
 function configurarElementoMidia(elemento){
 
-    elemento.style.position = "relative";
+    if(window.innerWidth <= 768){
+
+        elemento.style.position = "relative";
+        elemento.style.left = "auto";
+        elemento.style.top = "auto";
+
+    }else{
+
+        elemento.style.position = "absolute";
+        elemento.style.left = "50%";
+        elemento.style.top = "50%";
+
+    }
 
 }
 
@@ -2292,33 +2304,6 @@ document.querySelectorAll(".project").forEach(projeto => {
     });
 
 });
-
-function atualizarLayoutModal(){
-
-    if (modal.style.display !== "flex") return;
-
-    modal.style.display = "none";
-
-    requestAnimationFrame(() => {
-
-        modal.style.display = "flex";
-
-        mostrarMidia();
-
-    });
-
-}
-
-window.addEventListener("resize", () => {
-
-    clearTimeout(window.rotateTimeout);
-
-    window.rotateTimeout = setTimeout(atualizarLayoutModal, 250);
-
-});
-
-window.addEventListener("orientationchange", atualizarAposRotacao);
-window.addEventListener("resize", atualizarAposRotacao);
 
 // Código do Fale Connosco
 contactButton.addEventListener("click", function(e){
