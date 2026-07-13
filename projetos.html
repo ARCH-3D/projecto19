@@ -1181,6 +1181,8 @@ function abrirProjeto(nomeProjeto) {
 
     if (!projetos[nomeProjeto]) return;
 
+    atualizarAlturaViewport();
+
     projetoAtual = projetos[nomeProjeto];
     midiasAtuais = projetoAtual.media;
     indiceAtual = 0;
@@ -1799,6 +1801,21 @@ function toggleMenu() {
     menu.classList.toggle("active");
 
 }
+
+function atualizarAlturaViewport(){
+
+    document.documentElement.style.setProperty(
+        "--vh",
+        `${window.innerHeight}px`
+    );
+
+}
+
+window.addEventListener("resize", atualizarAlturaViewport);
+
+window.addEventListener("orientationchange", atualizarAlturaViewport);
+
+atualizarAlturaViewport();
 
 // ======================================
 // EVENT LISTENERS
