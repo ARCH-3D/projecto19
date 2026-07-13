@@ -1096,16 +1096,16 @@ footer p{
     }
 }
 
-.media-indicators{
-    position:absolute;
-    left:50%;
-    bottom:150px;
-    transform:translateX(-50%);
+.media-indicators {
+    position: absolute;
+    left: 50%;
+    bottom: 150px;
+    transform: translateX(-50%);
 
-    display:flex;
-    gap:8px;
+    display: flex;
+    gap: 8px;
 
-    z-index:20;
+    z-index: 20;
 }
 
 .media-indicators span {
@@ -1212,23 +1212,10 @@ footer p{
     display: none !important;
 }
 
-/* Apenas telemóvel em landscape */
-@media (max-width:767px) and (orientation:landscape){
-
-    .modal-info{
-        bottom:12px;
-    }
+@media (max-width:768px) and (orientation:landscape){
 
     .media-indicators{
-        position:relative;
-        left:auto;
-        bottom:auto;
-        transform:none;
-
-        display:flex;
-        justify-content:center;
-
-        margin:0 0 4px;
+        bottom:60px;
     }
 
 }
