@@ -1096,16 +1096,13 @@ footer p{
     }
 }
 
-.media-indicators {
-    position: absolute;
-    left: 50%;
-    bottom: 150px;
-    transform: translateX(-50%);
+.media-indicators{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
 
-    display: flex;
-    gap: 8px;
-
-    z-index: 20;
+    margin-bottom:14px;
 }
 
 .media-indicators span {
@@ -1212,23 +1209,33 @@ footer p{
     display: none !important;
 }
 
-@media (max-width:768px) and (orientation:landscape){
-
-    .media-indicators{
-        bottom:60px;
-    }
-
-}
-
-/* Telemóvel em landscape */
-@media (max-width:767px) and (orientation:landscape){
+@media screen and (max-width:768px) and (orientation:landscape){
 
     .modal-info{
         bottom:12px;
     }
 
     .media-indicators{
-        bottom:calc(12px + 28px); /* 12px da info + altura aproximada dos dados */
+        position:relative;
+        left:auto;
+        top:auto;
+        bottom:auto;
+        inset:auto;
+
+        transform:none;
+
+        display:flex;
+        justify-content:center;
+
+        margin:0 0 8px 0;
+    }
+
+}
+
+@media (max-width:767px) and (orientation:landscape){
+
+    .media-indicators{
+        margin-bottom:2px;
     }
 
 }
