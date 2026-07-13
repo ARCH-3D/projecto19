@@ -1217,3 +1217,16 @@ footer p{
     display: none !important;
 }
 
+@media (max-width:768px) and (orientation:landscape){
+
+    .media-indicators{
+        position:absolute;
+        left:50%;
+        bottom:90px;   /* ajusta este valor */
+        transform:translateX(-50%);
+
+        margin-bottom:0;
+        z-index:10002;
+    }
+
+}
