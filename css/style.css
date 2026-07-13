@@ -510,24 +510,28 @@ footer p{
 }
 
 #modal-content{
-
     display:flex;
     justify-content:center;
     align-items:center;
 
     width:100%;
-    height:100%;
+    height:100dvh;
 
     overflow:hidden;
-
     position:relative;
 
+    contain:layout paint;
 }
 
 #modal-content img,
 #modal-content video{
 
     position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%, -50%);
 
     max-width:90vw;
     max-height:calc(100dvh - 100px);

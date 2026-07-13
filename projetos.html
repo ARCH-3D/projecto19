@@ -1518,19 +1518,11 @@ function handleSwipe() {
 
 function configurarElementoMidia(elemento){
 
-    if(window.innerWidth <= 768){
+    elemento.style.position = "absolute";
 
-        elemento.style.position = "relative";
-        elemento.style.left = "auto";
-        elemento.style.top = "auto";
+    elemento.style.left = "50%";
 
-    }else{
-
-        elemento.style.position = "absolute";
-        elemento.style.left = "50%";
-        elemento.style.top = "50%";
-
-    }
+    elemento.style.top = "50%";
 
 }
 
