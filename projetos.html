@@ -1186,40 +1186,30 @@ function abrirProjeto(nomeProjeto) {
     indiceAtual = 0;
     previewIndice = indiceAtual;
 
+    atualizarIndicadores(true);
+    mostrarMidia();
+    mostrarBotaoFullscreen();
+    preloadImagens();
+
+    document.getElementById("modal-title").textContent = projetoAtual.info.nome;
+    document.getElementById("modal-year").textContent = projetoAtual.info.ano;
+    document.getElementById("modal-area").textContent = projetoAtual.info.area;
+    document.getElementById("modal-location").textContent = projetoAtual.info.local;
+
     document.getElementById("modal-projeto").style.display = "flex";
     document.body.classList.add("modal-open");
 
-    // Espera que o browser atualize o layout e a viewport
-    requestAnimationFrame(() => {
+    // Esconde o botão "Fale Connosco"
+    const widget = document.querySelector(".contact-widget");
+    if (widget) {
+        widget.style.display = "none";
+    }
 
-        requestAnimationFrame(() => {
-
-            atualizarIndicadores(true);
-            mostrarMidia();
-            mostrarBotaoFullscreen();
-            preloadImagens();
-
-            document.getElementById("modal-title").textContent = projetoAtual.info.nome;
-            document.getElementById("modal-year").textContent = projetoAtual.info.ano;
-            document.getElementById("modal-area").textContent = projetoAtual.info.area;
-            document.getElementById("modal-location").textContent = projetoAtual.info.local;
-
-            // Esconde o botão "Fale Connosco"
-            const widget = document.querySelector(".contact-widget");
-            if (widget) {
-                widget.style.display = "none";
-            }
-
-            // Esconde a seta "Voltar ao topo"
-            const backToTop = document.getElementById("back-to-top");
-            if (backToTop) {
-                backToTop.classList.remove("show");
-            }
-
-        });
-
-    });
-
+    // Esconde a seta "Voltar ao topo"
+    const backToTop = document.getElementById("back-to-top");
+    if (backToTop) {
+        backToTop.classList.remove("show");
+    }
 }
 
 function fecharModal() {
