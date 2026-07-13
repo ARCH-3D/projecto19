@@ -1186,6 +1186,9 @@ function abrirProjeto(nomeProjeto) {
     indiceAtual = 0;
     previewIndice = indiceAtual;
 
+    document.getElementById("modal-projeto").style.display = "flex";
+    document.body.classList.add("modal-open");
+
     atualizarIndicadores(true);
     mostrarMidia();
     mostrarBotaoFullscreen();
@@ -1195,9 +1198,6 @@ function abrirProjeto(nomeProjeto) {
     document.getElementById("modal-year").textContent = projetoAtual.info.ano;
     document.getElementById("modal-area").textContent = projetoAtual.info.area;
     document.getElementById("modal-location").textContent = projetoAtual.info.local;
-
-    document.getElementById("modal-projeto").style.display = "flex";
-    document.body.classList.add("modal-open");
 
     // Esconde o botão "Fale Connosco"
     const widget = document.querySelector(".contact-widget");
