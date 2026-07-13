@@ -1024,6 +1024,15 @@ footer p{
     .modal-item{
         font-size:11px;
     }
+
+    #modal-content img{
+
+        width:100vw;
+        height:100dvh;
+
+        object-fit:cover;
+
+    }
 }
 
 @media (hover: none), (pointer: coarse){
