@@ -2299,31 +2299,29 @@ document.querySelectorAll(".project").forEach(projeto => {
 
 window.addEventListener("orientationchange", () => {
 
-    setTimeout(() => {
+    clearTimeout(window.rotateTimeout);
 
-        if (elementoAtual){
+    window.rotateTimeout = setTimeout(() => {
 
-            atualizarLimitesZoom();
-            atualizarZoom();
+        if (modal.style.display !== "flex") return;
 
-        }
+        mostrarMidia();
 
-    }, 200);
+    }, 250);
 
 });
 
 window.addEventListener("resize", () => {
 
-    setTimeout(() => {
+    clearTimeout(window.rotateTimeout);
 
-        if (elementoAtual){
+    window.rotateTimeout = setTimeout(() => {
 
-            atualizarLimitesZoom();
-            atualizarZoom();
+        if (modal.style.display !== "flex") return;
 
-        }
+        mostrarMidia();
 
-    }, 200);
+    }, 250);
 
 });
 
