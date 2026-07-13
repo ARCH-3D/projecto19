@@ -579,7 +579,6 @@ footer p{
 /* ================= PROJECT INFO ================= */
 
 .modal-info{
-
     position:absolute;
     left:50%;
     bottom:25px;
@@ -587,17 +586,10 @@ footer p{
 
     width:100%;
     max-width:700px;
-
     padding:0 25px;
 
     z-index:10002;
-
     pointer-events:none;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-
 }
 
 .modal-info h2{
@@ -1104,13 +1096,16 @@ footer p{
     }
 }
 
-.media-indicators{
-    display:flex;
-    justify-content:center;
-    align-items:center;
+.media-indicators {
+    position: absolute;
+    left: 50%;
+    bottom: 150px;
+    transform: translateX(-50%);
 
-    gap:8px;
-    margin-bottom:18px;
+    display: flex;
+    gap: 8px;
+
+    z-index: 20;
 }
 
 .media-indicators span {
@@ -1217,17 +1212,10 @@ footer p{
     display: none !important;
 }
 
-/* Apenas telemóveis em landscape */
-@media (max-width:767px) and (orientation:landscape){
+@media (max-width:768px) and (orientation:landscape){
 
     .media-indicators{
-        position:absolute;
-        left:50%;
-        bottom:90px; /* ajusta este valor */
-        transform:translateX(-50%);
-
-        margin-bottom:0;
-        z-index:10002;
+        bottom:60px;
     }
 
 }
