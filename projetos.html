@@ -2297,6 +2297,36 @@ document.querySelectorAll(".project").forEach(projeto => {
 
 });
 
+window.addEventListener("orientationchange", () => {
+
+    setTimeout(() => {
+
+        if (elementoAtual){
+
+            atualizarLimitesZoom();
+            atualizarZoom();
+
+        }
+
+    }, 200);
+
+});
+
+window.addEventListener("resize", () => {
+
+    setTimeout(() => {
+
+        if (elementoAtual){
+
+            atualizarLimitesZoom();
+            atualizarZoom();
+
+        }
+
+    }, 200);
+
+});
+
 // Código do Fale Connosco
 contactButton.addEventListener("click", function(e){
     e.stopPropagation();
