@@ -1189,30 +1189,34 @@ function abrirProjeto(nomeProjeto) {
     document.getElementById("modal-projeto").style.display = "flex";
     document.body.classList.add("modal-open");
 
-    // Espera um frame para o browser calcular o layout
+    // Espera que o browser atualize o layout e a viewport
     requestAnimationFrame(() => {
 
-        atualizarIndicadores(true);
-        mostrarMidia();
-        mostrarBotaoFullscreen();
-        preloadImagens();
+        requestAnimationFrame(() => {
 
-        document.getElementById("modal-title").textContent = projetoAtual.info.nome;
-        document.getElementById("modal-year").textContent = projetoAtual.info.ano;
-        document.getElementById("modal-area").textContent = projetoAtual.info.area;
-        document.getElementById("modal-location").textContent = projetoAtual.info.local;
+            atualizarIndicadores(true);
+            mostrarMidia();
+            mostrarBotaoFullscreen();
+            preloadImagens();
 
-        // Esconde o botão "Fale Connosco"
-        const widget = document.querySelector(".contact-widget");
-        if (widget) {
-            widget.style.display = "none";
-        }
+            document.getElementById("modal-title").textContent = projetoAtual.info.nome;
+            document.getElementById("modal-year").textContent = projetoAtual.info.ano;
+            document.getElementById("modal-area").textContent = projetoAtual.info.area;
+            document.getElementById("modal-location").textContent = projetoAtual.info.local;
 
-        // Esconde a seta "Voltar ao topo"
-        const backToTop = document.getElementById("back-to-top");
-        if (backToTop) {
-            backToTop.classList.remove("show");
-        }
+            // Esconde o botão "Fale Connosco"
+            const widget = document.querySelector(".contact-widget");
+            if (widget) {
+                widget.style.display = "none";
+            }
+
+            // Esconde a seta "Voltar ao topo"
+            const backToTop = document.getElementById("back-to-top");
+            if (backToTop) {
+                backToTop.classList.remove("show");
+            }
+
+        });
 
     });
 
