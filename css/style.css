@@ -21,7 +21,7 @@ html{
 
 body{
     min-height:100vh;
-    min-height:var(--vh);
+    min-height:100dvh;
     display:flex;
     flex-direction:column;
 
@@ -515,7 +515,7 @@ footer p{
     align-items:center;
 
     width:100%;
-    height:var(--vh);
+    height:100dvh;
 
     overflow:hidden;
     position:relative;
@@ -534,7 +534,7 @@ footer p{
     transform:translate(-50%, -50%);
 
     max-width:90vw;
-    max-height:calc(var(--vh) - 100px);
+    max-height:calc(100dvh - 100px);
 
     object-fit:contain;
 
@@ -563,7 +563,7 @@ footer p{
 @media (min-width:1600px){
     #modal-content img,
     #modal-content video{
-        max-height:calc(var(--vh) - 130px);
+        max-height:calc(100dvh - 130px);
     }
 }
 /* iPad e tablets na horizontal */
@@ -571,7 +571,7 @@ footer p{
 
     #modal-content img,
     #modal-content video{
-        max-height:calc(var(--vh) - 170px);
+        max-height:calc(100dvh - 170px);
     }
 
 }
@@ -988,7 +988,7 @@ footer p{
     .service{
     gap:16px;
     margin-bottom:28px;
-    }
+}
 
     /* Apenas para a página de contactos */
 
@@ -1024,16 +1024,6 @@ footer p{
     .modal-item{
         font-size:11px;
     }
-
-    #modal-content img{
-
-        width:100vw; 
-        aspect-ratio:4/3;
-
-        object-fit:cover;
-        
-
-    }
 }
 
 @media (hover: none), (pointer: coarse){
@@ -1050,7 +1040,7 @@ footer p{
     #modal-content img,
     #modal-content video{
         max-width:95vw;
-        max-height:calc(var(--vh) - 120px);
+        max-height:calc(100dvh - 120px);
     }
 
     .hero-text{
