@@ -1214,8 +1214,18 @@ footer p{
 
 @media (max-width:768px) and (orientation:landscape){
 
-    .media-indicators{
-        bottom:60px;
-    }
+.modal-info{
+    position:absolute;
+    left:50%;
+    bottom:15px;
+    transform:translateX(-50%);
+}
+
+.media-indicators{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:calc(15px + 55px);
+}
 
 }
