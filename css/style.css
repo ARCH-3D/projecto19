@@ -507,6 +507,8 @@ footer p{
 
     overflow:hidden;
     touch-action:none;
+
+    height:100dvh;
 }
 
 #modal-content{
