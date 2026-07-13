@@ -1027,14 +1027,11 @@ footer p{
 
     #modal-content img{
 
-        width:100vw !important;
-        height:500dvh !important;
-
-        max-width:none !important;
-        max-height:none !important;
+        width:95vw; 
+        aspect-ratio:3/4;
 
         object-fit:cover;
-        object-position:center center;
+        
 
     }
 }
