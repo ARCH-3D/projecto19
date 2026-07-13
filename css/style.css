@@ -1214,18 +1214,50 @@ footer p{
 
 @media (max-width:768px) and (orientation:landscape){
 
-.modal-info{
-    position:absolute;
-    left:50%;
-    bottom:15px;
-    transform:translateX(-50%);
+.media-indicators{
+
+    position:relative;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    gap:8px;
+
+    margin-bottom:18px;
+
+    left:auto;
+    bottom:auto;
+
+    transform:none;
+
+    z-index:20;
+
 }
 
-.media-indicators{
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
-    bottom:calc(15px + 55px);
+.media-indicators span{
+
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.22);
+
+    box-shadow:0 0 0 1px rgba(0,0,0,.05);
+
+    transition:
+        background .25s ease,
+        transform .25s ease;
+
+}
+
+.media-indicators span.active{
+
+    background:#fff;
+
+    transform:scale(1.4);
+
 }
 
 }
