@@ -2297,19 +2297,29 @@ document.querySelectorAll(".project").forEach(projeto => {
 
 });
 
-function atualizarAposRotacao(){
+function atualizarLayoutModal(){
 
     if (modal.style.display !== "flex") return;
 
-    clearTimeout(window.rotateTimeout);
+    modal.style.display = "none";
 
-    window.rotateTimeout = setTimeout(() => {
+    requestAnimationFrame(() => {
+
+        modal.style.display = "flex";
 
         mostrarMidia();
 
-    }, 250);
+    });
 
 }
+
+window.addEventListener("resize", () => {
+
+    clearTimeout(window.rotateTimeout);
+
+    window.rotateTimeout = setTimeout(atualizarLayoutModal, 250);
+
+});
 
 window.addEventListener("orientationchange", atualizarAposRotacao);
 window.addEventListener("resize", atualizarAposRotacao);
