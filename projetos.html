@@ -2297,33 +2297,22 @@ document.querySelectorAll(".project").forEach(projeto => {
 
 });
 
-window.addEventListener("orientationchange", () => {
+function atualizarAposRotacao(){
+
+    if (modal.style.display !== "flex") return;
 
     clearTimeout(window.rotateTimeout);
 
     window.rotateTimeout = setTimeout(() => {
 
-        if (modal.style.display !== "flex") return;
-
         mostrarMidia();
 
     }, 250);
 
-});
+}
 
-window.addEventListener("resize", () => {
-
-    clearTimeout(window.rotateTimeout);
-
-    window.rotateTimeout = setTimeout(() => {
-
-        if (modal.style.display !== "flex") return;
-
-        mostrarMidia();
-
-    }, 250);
-
-});
+window.addEventListener("orientationchange", atualizarAposRotacao);
+window.addEventListener("resize", atualizarAposRotacao);
 
 // Código do Fale Connosco
 contactButton.addEventListener("click", function(e){
