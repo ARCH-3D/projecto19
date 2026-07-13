@@ -1228,7 +1228,7 @@ footer p{
     }
 
     .media-indicators{
-        bottom:42px;   /* imediatamente acima dos dados */
+        bottom:calc(12px + 28px); /* 12px da info + altura aproximada dos dados */
     }
 
 }
