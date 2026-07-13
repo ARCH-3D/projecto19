@@ -1218,4 +1218,17 @@ footer p{
         bottom:60px;
     }
 
+    #modal-content img,
+    #modal-content video{
+
+        height:92vh;
+        width:auto;
+
+        max-width:none;
+        max-height:none;
+
+        object-fit:contain;
+
+    }
+
 }
