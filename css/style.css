@@ -1244,21 +1244,21 @@ footer p{
     background:#fff !important;
 }
 
-/* Esconde toda a barra superior */
+/* Esconde barra superior */
 .pswp__top-bar,
 .pswp__counter,
 .pswp__preloader{
     display:none !important;
 }
 
-/* Botões que não queremos */
+/* Botões que não usamos */
 .pswp__button--zoom,
 .pswp__button--download,
 .pswp__button--share{
     display:none !important;
 }
 
-/* Apenas o botão fechar */
+/* Botão fechar */
 .pswp__button--close{
 
     display:flex !important;
@@ -1273,9 +1273,9 @@ footer p{
 
     color:#111 !important;
 
-    opacity:1;
-
     background:none !important;
+
+    opacity:1;
 
 }
 
@@ -1292,9 +1292,19 @@ footer p{
     position:fixed;
 
     left:50%;
-    bottom:25px;
+    bottom:24px;
 
     transform:translateX(-50%);
+
+    width:100%;
+
+    pointer-events:none;
+
+    z-index:10000;
+
+}
+
+.pswp-project-details{
 
     display:flex;
 
@@ -1303,8 +1313,22 @@ footer p{
 
     gap:60px;
 
+    flex-wrap:nowrap;
+
+}
+
+.pswp-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
     font-family:'Inter',sans-serif;
+
     font-size:12px;
+
     font-weight:300;
 
     color:#555;
@@ -1313,9 +1337,15 @@ footer p{
 
     white-space:nowrap;
 
-    pointer-events:none;
+}
 
-    z-index:10000;
+.pswp-item img{
+
+    width:18px;
+
+    height:18px;
+
+    object-fit:contain;
 
 }
 
@@ -1325,17 +1355,23 @@ footer p{
 
     .pswp-project-info{
 
-        gap:20px;
-
-        font-size:11px;
-
-        flex-wrap:wrap;
-
-        width:100%;
+        bottom:14px;
 
         padding:0 16px;
 
-        bottom:14px;
+    }
+
+    .pswp-project-details{
+
+        gap:22px;
+
+        flex-wrap:wrap;
+
+    }
+
+    .pswp-item{
+
+        font-size:11px;
 
     }
 
@@ -1346,87 +1382,6 @@ footer p{
 
         width:44px;
         height:44px;
-
-    }
-
-}
-
-.pswp-project-info{
-
-    position:absolute;
-
-    left:50%;
-    bottom:24px;
-
-    transform:translateX(-50%);
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-
-    gap:14px;
-
-    width:100%;
-
-    pointer-events:none;
-
-    z-index:10000;
-
-}
-
-.pswp-project-title{
-
-    font-family:'Inter',sans-serif;
-
-    font-size:18px;
-
-    font-weight:500;
-
-    color:#111;
-
-    letter-spacing:1px;
-
-    text-transform:uppercase;
-
-}
-
-.pswp-project-details{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:60px;
-
-    flex-wrap:nowrap;
-
-    font-family:'Inter',sans-serif;
-
-    font-size:12px;
-
-    font-weight:300;
-
-    color:#555;
-
-    letter-spacing:.5px;
-
-}
-
-@media(max-width:767px){
-
-    .pswp-project-title{
-
-        font-size:16px;
-
-    }
-
-    .pswp-project-details{
-
-        gap:22px;
-
-        font-size:11px;
-
-        flex-wrap:wrap;
 
     }
 

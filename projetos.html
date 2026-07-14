@@ -1886,23 +1886,28 @@ async function abrirPhotoSwipe(nomeProjeto){
             appendTo: "root",
 
             html: `
-                <div class="pswp-project-info">
+            <div class="pswp-project-info">
 
-                    <div class="pswp-project-title">
-                        ${projeto.info.nome}
+                <div class="pswp-project-details">
+
+                    <div class="pswp-item">
+                        <img src="img/icons/ano.svg" alt="">
+                        <span>${projeto.info.ano}</span>
                     </div>
 
-                    <div class="pswp-project-details">
+                    <div class="pswp-item">
+                        <img src="img/icons/area.svg" alt="">
+                        <span>${projeto.info.area}</span>
+                    </div>
 
-                        <div>${projeto.info.ano}</div>
-
-                        <div>${projeto.info.area}</div>
-
-                        <div>${projeto.info.local}</div>
-
+                    <div class="pswp-item">
+                        <img src="img/icons/local.svg" alt="">
+                        <span>${projeto.info.local}</span>
                     </div>
 
                 </div>
+
+            </div>
             `
 
         });
