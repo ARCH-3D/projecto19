@@ -12,6 +12,10 @@
           rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- PhotoSwipe -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.css">
 </head>
 <body>
 
@@ -1155,10 +1159,8 @@ function atualizarLimitesZoom(){
 
     if(!elementoAtual) return;
 
-    const rect = elementoAtual.getBoundingClientRect();
-
-    const larguraImagem = rect.width * escalaZoom;
-    const alturaImagem = rect.height * escalaZoom;
+    const larguraImagem = elementoAtual.clientWidth * escalaZoom;
+    const alturaImagem = elementoAtual.clientHeight * escalaZoom;
 
     limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
 
@@ -2189,8 +2191,6 @@ modalContent.addEventListener("touchend", function(e){
 
         if (agora - ultimoToque < DOUBLE_TAP_DELAY){
 
-            alert("DOUBLE TAP");
-
             e.preventDefault();
 
             // ==========================
@@ -2211,12 +2211,6 @@ modalContent.addEventListener("touchend", function(e){
                     if (zoomAtivo){
 
                         escalaZoom = DEFAULT_ZOOM;
-
-                        zoomX = 0;
-                        zoomY = 0;
-
-                        zoomTargetX = 0;
-                        zoomTargetX = 0;
 
                     }else{
 
@@ -2346,6 +2340,19 @@ backToTop.addEventListener("click", () => {
 
 });
 
+</script>
+
+<script type="module">
+import PhotoSwipeLightbox from 'https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+window.pswpLightbox = new PhotoSwipeLightbox({
+    gallery: '#pswp-gallery',
+    children: 'a',
+    pswpModule: () =>
+        import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.js')
+});
+
+window.pswpLightbox.init();
 </script>
 
 </body>
