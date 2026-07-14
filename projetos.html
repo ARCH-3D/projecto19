@@ -1146,7 +1146,7 @@ function atualizarZoom(){
 
     elementoAtual.style.transform =
         `translate(-50%, -50%)
-         translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0)
+         translate(${zoomTargetX}px, ${zoomTargetY}px, 0)
          scale(${escalaZoom})`;
 
 }
@@ -2209,6 +2209,12 @@ modalContent.addEventListener("touchend", function(e){
                     if (zoomAtivo){
 
                         escalaZoom = DEFAULT_ZOOM;
+
+                        zoomX = 0;
+                        zoomY = 0;
+
+                        zoomTargetX = 0;
+                        zoomTargetX = 0;
 
                     }else{
 
