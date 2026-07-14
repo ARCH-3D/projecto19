@@ -1244,6 +1244,13 @@ footer p{
 
 }
 
+.pswp__img--placeholder,
+.pswp__img--with-bg{
+
+    background:#fff !important;
+
+}
+
 .pswp__bg{
     background:#fff !important;
 }
