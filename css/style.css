@@ -1369,6 +1369,12 @@ footer p{
 
 }
 
+.pswp__item{
+
+    will-change: transform;
+
+}
+
 /* Mobile */
 
 @media (max-width:767px){
@@ -1404,11 +1410,5 @@ footer p{
         height:44px;
 
     }
-
-}
-
-.pswp__item{
-
-    will-change: transform;
 
 }
