@@ -1407,3 +1407,8 @@ footer p{
 
 }
 
+.pswp__item{
+
+    will-change: transform;
+
+}

@@ -1889,39 +1889,73 @@ async function abrirPhotoSwipe(nomeProjeto){
             appendTo: "root",
 
             html: `
-            <div class="pswp-project-info">
+                <div class="pswp-project-info">
 
-                <div class="pswp-project-details">
+                    <div class="pswp-project-details">
 
-                    <div class="pswp-item">
-                        <img src="img/icons/ano.svg" alt="">
-                        <span>${projeto.info.ano}</span>
-                    </div>
+                        <div class="pswp-item">
+                            <img src="img/icons/ano.svg" alt="">
+                            <span>${projeto.info.ano}</span>
+                        </div>
 
-                    <div class="pswp-item">
-                        <img src="img/icons/area.svg" alt="">
-                        <span>${projeto.info.area}</span>
-                    </div>
+                        <div class="pswp-item">
+                            <img src="img/icons/area.svg" alt="">
+                            <span>${projeto.info.area}</span>
+                        </div>
 
-                    <div class="pswp-item">
-                        <img src="img/icons/local.svg" alt="">
-                        <span>${projeto.info.local}</span>
+                        <div class="pswp-item">
+                            <img src="img/icons/local.svg" alt="">
+                            <span>${projeto.info.local}</span>
+                        </div>
+
                     </div>
 
                 </div>
-
-            </div>
             `
 
         });
 
     });
 
-    gallery.on('verticalDrag', (e) => {
+    // Fade do fundo + ligeira redução da imagem durante o swipe
+    gallery.on("verticalDrag", (e) => {
 
-        const opacity = Math.max(0, 1 - Math.abs(e.panY) / window.innerHeight);
+        const progress = Math.min(
+            Math.abs(e.panY) / window.innerHeight,
+            1
+        );
 
-        gallery.bg.style.opacity = opacity;
+        gallery.bg.style.opacity = 1 - progress;
+
+        const holder = gallery.currSlide?.holderElement;
+
+        if(holder){
+
+            holder.style.transform =
+                `translateY(${e.panY}px)
+                 scale(${1 - progress * 0.04})`;
+
+        }
+
+    });
+
+    // Reposição suave caso o utilizador cancele o swipe
+    gallery.on("pointerUp", () => {
+
+        const holder = gallery.currSlide?.holderElement;
+
+        if(holder){
+
+            holder.style.transition = "transform .25s ease";
+            holder.style.transform = "";
+
+            setTimeout(() => {
+                holder.style.transition = "";
+            },250);
+
+        }
+
+        gallery.bg.style.opacity = "";
 
     });
 
@@ -1931,10 +1965,8 @@ async function abrirPhotoSwipe(nomeProjeto){
 
         document.body.classList.remove("modal-open");
 
-        // Volta a mostrar o botão Fale Connosco
         if (widget) widget.style.display = "";
 
-        // Volta a mostrar a seta apenas quando necessário
         if (backToTop) {
 
             if (window.scrollY > 400) {
