@@ -12,6 +12,10 @@
           rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- PhotoSwipe -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.css">
 </head>
 <body>
 
@@ -1199,17 +1203,6 @@ function abrirProjeto(nomeProjeto) {
     document.getElementById("modal-projeto").style.display = "flex";
     document.body.classList.add("modal-open");
 
-    // Entrar automaticamente em fullscreen no telemóvel
-    const modal = document.getElementById("modal-projeto");
-
-    if (
-        window.innerWidth < 768 &&
-        document.fullscreenEnabled &&
-        modal.requestFullscreen
-    ) {
-        modal.requestFullscreen().catch(() => {});
-    }   
-
     // Esconde o botão "Fale Connosco"
     const widget = document.querySelector(".contact-widget");
     if (widget) {
@@ -2346,6 +2339,21 @@ backToTop.addEventListener("click", () => {
     });
 
 });
+
+</script>
+
+<script type="module">
+
+import PhotoSwipeLightbox from 'https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe-lightbox.esm.min.js';
+
+window.pswpLightbox = new PhotoSwipeLightbox({
+    gallery: '#pswp-gallery',
+    children: 'a',
+    pswpModule: () =>
+        import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js')
+});
+
+window.pswpLightbox.init();
 
 </script>
 
