@@ -1565,6 +1565,48 @@ function criarElementoMidia(midia) {
 
 }
 
+function atualizarElementoMidia(elemento, midia) {
+
+    if (!elemento || !midia) return;
+
+    // muda de img <-> video se necessário
+    if (
+        (midia.type === "image" && elemento.tagName !== "IMG") ||
+        (midia.type === "video" && elemento.tagName !== "VIDEO")
+    ) {
+
+        const novo = criarElementoMidia(midia);
+
+        elemento.replaceWith(novo);
+
+        if (elemento === elementoAtual)
+            elementoAtual = novo;
+
+        if (elemento === elementoAnterior)
+            elementoAnterior = novo;
+
+        if (elemento === elementoSeguinte)
+            elementoSeguinte = novo;
+
+        elemento = novo;
+
+    }
+
+    elemento.src = midia.src;
+
+    if (midia.type === "video") {
+
+        elemento.controls = true;
+        elemento.autoplay = true;
+        elemento.loop = true;
+        elemento.muted = true;
+
+    }
+
+    elemento.classList.toggle("grayscale", !!midia.grayscale);
+
+}
+
 function centrarElemento(elemento) {
 
     if (!elemento) return;
