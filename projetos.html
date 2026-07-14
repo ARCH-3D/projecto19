@@ -1914,6 +1914,24 @@ async function abrirPhotoSwipe(nomeProjeto){
 
     });
 
+    gallery.ui.registerElement({
+
+        name: "custom-close",
+
+        order: 20,
+
+        isButton: true,
+
+        appendTo: "root",
+
+        html: "&times;",
+
+        className: "pswp-custom-close",
+
+        onClick: () => gallery.close()
+
+    });
+
     document.body.classList.add("modal-open");
 
     gallery.on("close", () => {

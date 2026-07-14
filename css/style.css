@@ -1318,6 +1318,8 @@ footer p{
 
     transition:opacity .25s ease;
 
+    display:none !important;
+
 }
 
 .pswp__button--close:hover{
@@ -1391,6 +1393,40 @@ footer p{
     height:18px;
 
     object-fit:contain;
+
+}
+
+.pswp-custom-close{
+
+    position:fixed;
+
+    top:22px;
+    right:28px;
+
+    width:auto;
+    height:auto;
+
+    font-family:'Inter',sans-serif;
+
+    font-size:38px;
+
+    font-weight:300;
+
+    color:#111;
+
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:opacity .25s ease;
+
+    user-select:none;
+
+}
+
+.pswp-custom-close:hover{
+
+    opacity:.5;
 
 }
 
