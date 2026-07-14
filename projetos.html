@@ -1808,7 +1808,7 @@ async function abrirPhotoSwipe(nomeProjeto){
 
     const projeto = projetos[nomeProjeto];
 
-    if(!projeto) return;
+    if (!projeto) return;
 
     const items = await Promise.all(
 
@@ -1825,14 +1825,13 @@ async function abrirPhotoSwipe(nomeProjeto){
                         src: item.src,
 
                         width: img.naturalWidth,
-
                         height: img.naturalHeight
 
                     });
 
                 };
 
-             img.src = item.src;
+                img.src = item.src;
 
             })
 
@@ -1841,45 +1840,45 @@ async function abrirPhotoSwipe(nomeProjeto){
     );
 
     const { default: PhotoSwipe } =
-        await import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js');
+        await import("https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js");
 
     const gallery = new PhotoSwipe({
 
         dataSource: items,
 
-        index:0,
+        index: 0,
 
-        bgOpacity:1,
+        bgOpacity: 1,
 
-        showHideAnimationType:'zoom',
+        showHideAnimationType: "fade",
 
-        loop:true,
+        loop: true,
 
-        pinchToClose:true,
+        pinchToClose: true,
 
-        closeOnVerticalDrag:true,
+        closeOnVerticalDrag: true,
 
-        wheelToZoom:false,
+        wheelToZoom: false,
 
-        escKey:true,
+        escKey: true,
 
-        arrowKeys:true,
+        arrowKeys: true,
 
-        spacing:0.08
+        spacing: 0.08
 
     });
 
-    gallery.on('uiRegister', () => {
+    gallery.on("uiRegister", () => {
 
         gallery.ui.registerElement({
 
-            name: 'project-info',
+            name: "project-info",
 
             order: 9,
 
             isButton: false,
 
-            appendTo: 'root',
+            appendTo: "root",
 
             html: `
                 <div class="pswp-project-info">
@@ -1897,11 +1896,22 @@ async function abrirPhotoSwipe(nomeProjeto){
 
     });
 
+    // Esconde os botões do site
+    const widget = document.querySelector(".contact-widget");
+    if (widget) widget.style.display = "none";
+
+    const backToTop = document.getElementById("back-to-top");
+    if (backToTop) backToTop.style.display = "none";
+
     document.body.classList.add("modal-open");
 
     gallery.on("close", () => {
 
         document.body.classList.remove("modal-open");
+
+        if (widget) widget.style.display = "";
+
+        if (backToTop) backToTop.style.display = "";
 
     });
 
