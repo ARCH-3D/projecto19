@@ -1810,15 +1810,35 @@ async function abrirPhotoSwipe(nomeProjeto){
 
     if(!projeto) return;
 
-    const items = projeto.media.map(item => ({
+    const items = await Promise.all(
 
-        src: item.src,
+        projeto.media.map(item =>
 
-        width: 2000,
+            new Promise(resolve => {
 
-        height: 1400
+                const img = new Image();
 
-    }));
+                img.onload = () => {
+
+                    resolve({
+
+                        src: item.src,
+
+                        width: img.naturalWidth,
+
+                        height: img.naturalHeight
+
+                    });
+
+                };
+
+             img.src = item.src;
+
+            })
+
+        )
+
+    );
 
     const { default: PhotoSwipe } =
         await import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js');
@@ -1846,6 +1866,34 @@ async function abrirPhotoSwipe(nomeProjeto){
         arrowKeys:true,
 
         spacing:0.08
+
+    });
+
+    gallery.on('uiRegister', () => {
+
+        gallery.ui.registerElement({
+
+            name: 'project-info',
+
+            order: 9,
+
+            isButton: false,
+
+            appendTo: 'root',
+
+            html: `
+                <div class="pswp-project-info">
+
+                    <div>${projeto.info.ano}</div>
+
+                    <div>${projeto.info.area}</div>
+
+                    <div>${projeto.info.local}</div>
+
+                </div>
+            `
+
+        });
 
     });
 
