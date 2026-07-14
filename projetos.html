@@ -1936,6 +1936,20 @@ async function abrirPhotoSwipe(nomeProjeto){
 
     });
 
+    gallery.on('firstUpdate', () => {
+
+        const closeBtn = document.querySelector('.pswp__button--close');
+
+        if(closeBtn){
+
+            closeBtn.innerHTML = '&times;';
+
+            closeBtn.setAttribute('aria-label','Fechar');
+
+        }
+
+    });    
+
     gallery.init();
 
 }

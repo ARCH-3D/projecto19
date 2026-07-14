@@ -1259,6 +1259,19 @@ footer p{
 
 .pswp__img{
     will-change:transform;
+    cursor:grab !important;
+}
+
+.pswp__zoom-wrap{
+
+    cursor:default !important;
+
+}
+
+.pswp__container{
+
+    cursor:default !important;
+
 }
 
 /* Esconde barra superior */
@@ -1281,15 +1294,20 @@ footer p{
 /* Botão fechar */
 .pswp__button--close{
 
-    display:flex !important;
+    width:52px;
+    height:52px;
 
-    position:fixed;
+    top:20px;
+    right:24px;
 
-    top:18px;
-    right:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    width:48px;
-    height:48px;
+    font-family:'Inter',sans-serif;
+
+    font-size:42px;
+    font-weight:300;
 
     color:#111 !important;
 
@@ -1299,9 +1317,15 @@ footer p{
 
 }
 
+.pswp__button--close svg{
+
+    display:none;
+
+}
+
 .pswp__button--close:hover{
 
-    opacity:.6;
+    opacity:.5;
 
 }
 
