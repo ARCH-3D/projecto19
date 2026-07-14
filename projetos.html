@@ -1886,49 +1886,55 @@ async function abrirPhotoSwipe(nomeProjeto){
             appendTo: "root",
 
             html: `
-            <div class="pswp-project-info">
+                <div class="pswp-project-info">
 
-                <div class="pswp-project-details">
+                    <div class="pswp-project-details">
 
-                    <div class="pswp-item">
-                        <img src="img/icons/ano.svg" alt="">
-                        <span>${projeto.info.ano}</span>
-                    </div>
+                        <div class="pswp-item">
+                            <img src="img/icons/ano.svg" alt="">
+                            <span>${projeto.info.ano}</span>
+                        </div>
 
-                    <div class="pswp-item">
-                        <img src="img/icons/area.svg" alt="">
-                        <span>${projeto.info.area}</span>
-                    </div>
+                        <div class="pswp-item">
+                            <img src="img/icons/area.svg" alt="">
+                            <span>${projeto.info.area}</span>
+                        </div>
 
-                    <div class="pswp-item">
-                        <img src="img/icons/local.svg" alt="">
-                        <span>${projeto.info.local}</span>
+                        <div class="pswp-item">
+                            <img src="img/icons/local.svg" alt="">
+                            <span>${projeto.info.local}</span>
+                        </div>
+
                     </div>
 
                 </div>
-
-            </div>
             `
 
         });
 
-    });
+        gallery.ui.registerElement({
 
-    gallery.ui.registerElement({
+            name: "custom-close",
 
-        name: "custom-close",
+            order: 20,
 
-        order: 20,
+            isButton: false,
 
-        isButton: true,
+            appendTo: "root",
 
-        appendTo: "root",
+            html: `<div class="pswp-custom-close">&times;</div>`,
 
-        html: "&times;",
+            onInit: (el, pswp) => {
 
-        className: "pswp-custom-close",
+                el.addEventListener("click", () => {
 
-        onClick: () => gallery.close()
+                    pswp.close();
+
+                });
+
+            }
+
+        });
 
     });
 
@@ -1953,20 +1959,6 @@ async function abrirPhotoSwipe(nomeProjeto){
         }
 
     });
-
-    gallery.on('firstUpdate', () => {
-
-        const closeBtn = document.querySelector('.pswp__button--close');
-
-        if(closeBtn){
-
-            closeBtn.innerHTML = '&times;';
-
-            closeBtn.setAttribute('aria-label','Fechar');
-
-        }
-
-    });    
 
     gallery.init();
 
