@@ -12,10 +12,6 @@
           rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
-
-    <!-- PhotoSwipe -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.css">
 </head>
 <body>
 
@@ -2339,21 +2335,6 @@ backToTop.addEventListener("click", () => {
     });
 
 });
-
-</script>
-
-<script type="module">
-
-import PhotoSwipeLightbox from 'https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe-lightbox.esm.min.js';
-
-window.pswpLightbox = new PhotoSwipeLightbox({
-    gallery: '#pswp-gallery',
-    children: 'a',
-    pswpModule: () =>
-        import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js')
-});
-
-window.pswpLightbox.init();
 
 </script>
 
