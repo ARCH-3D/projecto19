@@ -1297,29 +1297,7 @@ footer p{
 /* Botão fechar */
 
 .pswp__button--close{
-
-    position:fixed;
-
-    top:18px;
-    right:18px;
-
-    width:52px;
-    height:52px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:none !important;
-
-    color:#111 !important;
-
-    opacity:1;
-
-    transition:opacity .25s ease;
-
     display:none !important;
-
 }
 
 .pswp__button--close:hover{
@@ -1453,16 +1431,6 @@ footer p{
     .pswp-item{
 
         font-size:11px;
-
-    }
-
-    .pswp__button--close{
-
-        top:10px;
-        right:10px;
-
-        width:44px;
-        height:44px;
 
     }
 
