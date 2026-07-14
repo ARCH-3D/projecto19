@@ -1191,6 +1191,14 @@ function abrirProjeto(nomeProjeto) {
     previewIndice = indiceAtual;
 
     atualizarIndicadores(true);
+    
+    const conteudo = document.getElementById("modal-content");
+
+    conteudo.innerHTML = "";
+
+    elementoAtual = criarElementoMidia(midiasAtuais[indiceAtual]);
+    conteudo.appendChild(elementoAtual);
+
     mostrarMidia();
     mostrarBotaoFullscreen();
     preloadImagens();
@@ -1727,44 +1735,21 @@ function mostrarMidia() {
 
     const antigo = elementoAtual;
 
-    let novo;
+    atualizarElementoMidia(
+        elementoAtual,
+        midiasAtuais[indiceAtual]
+    );
 
-    if (midia.type === "image") {
-
-        novo = document.createElement("img");
-        novo.src = midia.src;
-
-    } else {
-
-        novo = document.createElement("video");
-        novo.src = midia.src;
-        novo.controls = true;
-        novo.autoplay = true;
-        novo.muted = true;
-        novo.loop = true;
-
-    }
-
-    configurarElementoMidia(novo);
-
-    // ---------- CORREÇÃO SAFARI ----------
-    novo.style.willChange = "transform, opacity";
-    novo.style.backfaceVisibility = "hidden";
-    novo.style.webkitBackfaceVisibility = "hidden";
-    novo.style.transformStyle = "preserve-3d";
-    novo.style.webkitTransform = "translate3d(-50%, -50%, 0)";
-    // -------------------------------------
+    const novo = elementoAtual;
 
     novo.style.zIndex = "2";
 
-    novo.style.transform =
-        direcaoSlide === 1
-            ? `translate3d(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%, 0)`
-            : `translate3d(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%, 0)`;
-
     novo.style.opacity = "0";
 
-    conteudo.appendChild(novo);
+    novo.style.transform =
+        direcaoSlide === 1
+            ? `translate3d(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%,0)`
+            : `translate3d(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%,0)`;
 
     const iniciarAnimacao = () => {
 
