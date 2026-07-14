@@ -1573,36 +1573,26 @@ function criarElementoMidia(midia) {
 
 }
 
-function atualizarElementoMidia(elemento, midia) {
+function atualizarElementoMidia(elemento, midia){
 
-    if (!elemento || !midia) return;
+    if (!elemento || !midia) return elemento;
 
-    // muda de img <-> video se necessário
-    if (
+    const precisaTrocar =
         (midia.type === "image" && elemento.tagName !== "IMG") ||
-        (midia.type === "video" && elemento.tagName !== "VIDEO")
-    ) {
+        (midia.type === "video" && elemento.tagName !== "VIDEO");
+
+    if (precisaTrocar){
 
         const novo = criarElementoMidia(midia);
 
         elemento.replaceWith(novo);
 
-        if (elemento === elementoAtual)
-            elementoAtual = novo;
-
-        if (elemento === elementoAnterior)
-            elementoAnterior = novo;
-
-        if (elemento === elementoSeguinte)
-            elementoSeguinte = novo;
-
         elemento = novo;
-
     }
 
     elemento.src = midia.src;
 
-    if (midia.type === "video") {
+    if (midia.type === "video"){
 
         elemento.controls = true;
         elemento.autoplay = true;
@@ -1612,6 +1602,8 @@ function atualizarElementoMidia(elemento, midia) {
     }
 
     elemento.classList.toggle("grayscale", !!midia.grayscale);
+
+    return elemento;
 
 }
 
@@ -1735,12 +1727,12 @@ function mostrarMidia() {
 
     const antigo = elementoAtual;
 
-    atualizarElementoMidia(
+    elementoAtual = atualizarElementoMidia(
         elementoAtual,
         midiasAtuais[indiceAtual]
     );
 
-    const novo = elementoAtual;
+const novo = elementoAtual;
 
     novo.style.zIndex = "2";
 
