@@ -1659,26 +1659,24 @@ function mostrarMidia() {
 
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
+
     atualizarIndicadores();
 
-    // Remove qualquer imagem/vídeo antigo que tenha ficado preso
+    // Remove qualquer imagem/vídeo antigo preso
     conteudo.querySelectorAll("img, video").forEach(el => {
 
-        if (el !== elementoAtual &&
+        if (
+            el !== elementoAtual &&
             el !== elementoAnterior &&
-            el !== elementoSeguinte) {
-
+            el !== elementoSeguinte
+        ) {
             el.remove();
-
         }
 
     });
 
     const antigo = elementoAtual;
 
-
-
-    // cria o novo elemento
     let novo;
 
     if (midia.type === "image") {
@@ -1699,12 +1697,20 @@ function mostrarMidia() {
 
     configurarElementoMidia(novo);
 
+    // ---------- CORREÇÃO SAFARI ----------
+    novo.style.willChange = "transform, opacity";
+    novo.style.backfaceVisibility = "hidden";
+    novo.style.webkitBackfaceVisibility = "hidden";
+    novo.style.transformStyle = "preserve-3d";
+    novo.style.webkitTransform = "translate3d(-50%, -50%, 0)";
+    // -------------------------------------
+
     novo.style.zIndex = "2";
 
     novo.style.transform =
         direcaoSlide === 1
-        ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)`
-        : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
+            ? `translate3d(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%, 0)`
+            : `translate3d(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%, 0)`;
 
     novo.style.opacity = "0";
 
@@ -1714,20 +1720,20 @@ function mostrarMidia() {
 
         requestAnimationFrame(() => {
 
-            // imagem antiga sai
             if (antigo) {
 
                 antigo.style.transform =
                     direcaoSlide === 1
-                    ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)`
-                    : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
+                        ? `translate3d(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%, 0)`
+                        : `translate3d(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%, 0)`;
 
                 antigo.style.opacity = "0";
 
             }
 
-            // nova entra
-            novo.style.transform = "translate(-50%, -50%)";
+            novo.style.transform =
+                "translate3d(-50%, -50%, 0)";
+
             novo.style.opacity = "1";
 
         });
@@ -1735,26 +1741,18 @@ function mostrarMidia() {
         setTimeout(() => {
 
             if (antigo) {
-
                 antigo.remove();
-
             }
 
             if (midia.type === "video") {
-
                 novo.play();
-
             }
 
-            // guardar imagem atual
             elementoAtual = novo;
 
-            // remover imagem seguinte anterior
             if (elementoSeguinte) {
-
                 elementoSeguinte.remove();
                 elementoSeguinte = null;
-
             }
 
             if (elementoAnterior) {
@@ -1771,13 +1769,9 @@ function mostrarMidia() {
     if (midia.type === "image") {
 
         if (novo.complete) {
-
             iniciarAnimacao();
-
         } else {
-
             novo.onload = iniciarAnimacao;
-
         }
 
     } else {
