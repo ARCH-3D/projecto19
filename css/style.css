@@ -534,7 +534,6 @@ footer p{
     overflow:hidden;
     position:relative;
 
-    contain:layout paint;
 }
 
 #modal-content img,
@@ -558,7 +557,7 @@ footer p{
         transform .45s cubic-bezier(.22,.61,.36,1),
         opacity .45s ease;
 
-    will-change:transform,opacity;
+    will-change:auto;
 
     transform-origin:center center;
     transform-style:preserve-3d;
