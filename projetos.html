@@ -1804,6 +1804,48 @@ function toggleMenu() {
 
 }
 
+async function abrirPhotoSwipe(nomeProjeto){
+
+    const projeto = projetos[nomeProjeto];
+
+    if(!projeto) return;
+
+    const items = projeto.media.map(item => ({
+
+        src: item.src,
+
+        width: 2000,
+
+        height: 1400
+
+    }));
+
+    const { default: PhotoSwipe } =
+        await import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js');
+
+    const gallery = new PhotoSwipe({
+
+        dataSource: items,
+
+        index:0,
+
+        bgOpacity:1,
+
+        showHideAnimationType:'zoom',
+
+        loop:true,
+
+        pinchToClose:true,
+
+        closeOnVerticalDrag:true
+
+    });
+
+    gallery.init();
+
+}
+
+
 // ======================================
 // EVENT LISTENERS
 // ======================================
@@ -2354,6 +2396,10 @@ window.pswpLightbox = new PhotoSwipeLightbox({
 
 window.pswpLightbox.init();
 </script>
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe-lightbox.esm.min.js"></script>
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js"></script>
 
 </body>
 </html>
