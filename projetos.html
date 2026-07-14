@@ -1146,7 +1146,7 @@ function atualizarZoom(){
 
     elementoAtual.style.transform =
         `translate(-50%, -50%)
-         translate(${zoomTargetX}px, ${zoomTargetY}px, 0)
+         translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0)
          scale(${escalaZoom})`;
 
 }
@@ -1155,8 +1155,10 @@ function atualizarLimitesZoom(){
 
     if(!elementoAtual) return;
 
-    const larguraImagem = elementoAtual.clientWidth * escalaZoom;
-    const alturaImagem = elementoAtual.clientHeight * escalaZoom;
+    const rect = elementoAtual.getBoundingClientRect();
+
+    const larguraImagem = rect.width * escalaZoom;
+    const alturaImagem = rect.height * escalaZoom;
 
     limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
 
