@@ -1384,21 +1384,26 @@ footer p{
     width:auto;
     height:auto;
 
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
     font-family:'Inter',sans-serif;
 
     font-size:38px;
-
     font-weight:300;
-
-    color:#111;
 
     line-height:1;
 
+    color:#111;
+
     cursor:pointer;
 
-    transition:opacity .25s ease;
-
     user-select:none;
+
+    -webkit-tap-highlight-color:transparent;
+
+    transition:opacity .25s ease;
 
 }
 
