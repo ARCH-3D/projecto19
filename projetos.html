@@ -1897,6 +1897,14 @@ async function abrirPhotoSwipe(nomeProjeto){
 
     });
 
+    document.body.classList.add("modal-open");
+
+    gallery.on("close", () => {
+
+        document.body.classList.remove("modal-open");
+
+    });
+
     gallery.init();
 
 }

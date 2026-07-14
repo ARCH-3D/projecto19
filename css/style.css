@@ -37,7 +37,21 @@ body{
 
 /* Bloquear scroll quando o modal está aberto */
 body.modal-open{
+
     overflow:hidden;
+
+}
+
+body.modal-open .contact-widget{
+
+    display:none !important;
+
+}
+
+body.modal-open #back-to-top{
+
+    display:none !important;
+
 }
 
 /* ================== HEADER ================== */
