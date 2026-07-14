@@ -1861,7 +1861,7 @@ async function abrirPhotoSwipe(nomeProjeto){
 
         pinchToClose: true,
 
-        closeOnVerticalDrag: true,
+        closeOnVerticalDrag: false,
 
         wheelToZoom: false,
 
@@ -1869,10 +1869,7 @@ async function abrirPhotoSwipe(nomeProjeto){
 
         arrowKeys: true,
 
-        spacing: 0.08,
-
-        hideAnimationDuration: 250,
-        showAnimationDuration: 250
+        spacing: 0.08
 
     });
 
@@ -1917,14 +1914,6 @@ async function abrirPhotoSwipe(nomeProjeto){
 
     });
 
-    gallery.on('verticalDrag', (e) => {
-
-        const opacity = Math.max(0, 1 - Math.abs(e.panY) / window.innerHeight);
-
-        gallery.bg.style.opacity = opacity;
-
-    });
-
     document.body.classList.add("modal-open");
 
     gallery.on("close", () => {
@@ -1948,6 +1937,91 @@ async function abrirPhotoSwipe(nomeProjeto){
     });
 
     gallery.init();
+
+    let startY = 0;
+    let currentY = 0;
+    let dragging = false;
+
+    gallery.element.addEventListener("touchstart", (e) => {
+
+        if (e.touches.length !== 1) return;
+
+        startY = e.touches[0].clientY;
+        currentY = 0;
+        dragging = true;
+
+    }, { passive: true });
+
+    gallery.element.addEventListener("touchmove", (e) => {
+
+        if (!dragging) return;
+
+        urrentY = e.touches[0].clientY - startY;
+
+        const holder = gallery.currSlide?.holderElement;
+
+        if (!holder) return;
+
+        holder.style.transition = "none";
+
+        holder.style.transform =
+            `translate3d(0, ${currentY}px, 0)`;
+
+        gallery.bg.style.opacity =
+            Math.max(
+                1 - Math.abs(currentY) / 500,
+                0.2
+            );
+
+    }, { passive: true });
+
+    gallery.element.addEventListener("touchend", () => {
+
+        if (!dragging) return;
+
+        dragging = false;
+
+        const holder = gallery.currSlide?.holderElement;
+
+        if (!holder) return;
+
+        if (Math.abs(currentY) > 120){
+
+            holder.style.transition =
+                "transform .25s ease";
+
+            holder.style.transform =
+                `translate3d(0,
+                ${currentY > 0 ? window.innerHeight : -window.innerHeight}px,
+                0)`;
+
+            gallery.bg.style.transition =
+                "opacity .25s ease";
+
+            gallery.bg.style.opacity = "0";
+
+            setTimeout(() => {
+
+                gallery.close();
+
+            },220);
+
+        }else{
+
+            holder.style.transition =
+                "transform .25s ease";
+
+            holder.style.transform =
+                "translate3d(0,0,0)";
+
+            gallery.bg.style.transition =
+                "opacity .25s ease";
+
+            gallery.bg.style.opacity = "1";
+
+        }
+
+    });
 
 }
 
