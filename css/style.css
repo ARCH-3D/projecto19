@@ -1239,8 +1239,13 @@ footer p{
 .pswp{
 
     --pswp-bg:#fff;
-
     --pswp-placeholder-bg:#fff;
+
+}
+
+.pswp__bg{
+
+    background:#fff !important;
 
 }
 
@@ -1251,79 +1256,78 @@ footer p{
 
 }
 
-.pswp__bg{
-    background:#fff !important;
+/* Esconde interface do PhotoSwipe */
 
-    transition:opacity .25s ease !important;
-}
-
-.pswp__img{
-    will-change:transform;
-    cursor:pointer !important;
-}
-
-.pswp--zoomed-in .pswp__img{
-    cursor:grab !important;
-}
-
-.pswp--zoomed-in .pswp__img:active{
-    cursor:grabbing !important;
-}
-
-.pswp__zoom-wrap{
-
-    cursor:default !important;
-
-}
-
-.pswp__container{
-
-    cursor:default !important;
-
-}
-
-/* Esconde barra superior */
 .pswp__counter,
-.pswp__preloader{
-    display:none !important;
-}
-
-.pswp__top-bar{
-    background:none !important;
-}
-
-/* Botões que não usamos */
+.pswp__preloader,
 .pswp__button--zoom,
 .pswp__button--download,
 .pswp__button--share{
+
     display:none !important;
+
+}
+
+.pswp__top-bar{
+
+    background:none !important;
+
+}
+
+/* Cursor minimalista */
+
+.pswp__container,
+.pswp__zoom-wrap,
+.pswp__img{
+
+    cursor:default !important;
+
+}
+
+/* Remove qualquer cursor de zoom/grab */
+
+.pswp--click-to-zoom .pswp__img,
+.pswp--zoomed-in .pswp__img,
+.pswp--zoomed-in .pswp__img:active{
+
+    cursor:default !important;
+
 }
 
 /* Botão fechar */
+
 .pswp__button--close{
+
+    position:fixed;
+
+    top:18px;
+    right:18px;
 
     width:52px;
     height:52px;
-
-    top:20px;
-    right:24px;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    font-family:'Inter',sans-serif;
-
-    font-size:42px;
-    font-weight:300;
+    background:none !important;
 
     color:#111 !important;
 
-    background:none !important;
-
     opacity:1;
 
+    transition:opacity .25s ease;
+
 }
+
+.pswp__button--close:hover{
+
+    opacity:.55;
+
+}
+
+/* Remove o X SVG original.
+   Vamos colocar o nosso depois. */
 
 .pswp__button--close svg{
 
@@ -1331,13 +1335,7 @@ footer p{
 
 }
 
-.pswp__button--close:hover{
-
-    opacity:.5;
-
-}
-
-/* Informação do projeto */
+/* Informação inferior */
 
 .pswp-project-info{
 
@@ -1365,14 +1363,11 @@ footer p{
 
     gap:60px;
 
-    flex-wrap:nowrap;
-
 }
 
 .pswp-item{
 
     display:flex;
-
     align-items:center;
 
     gap:8px;
@@ -1380,12 +1375,11 @@ footer p{
     font-family:'Inter',sans-serif;
 
     font-size:12px;
-
     font-weight:300;
 
-    color:#555;
-
     letter-spacing:.5px;
+
+    color:#555;
 
     white-space:nowrap;
 
@@ -1394,16 +1388,9 @@ footer p{
 .pswp-item img{
 
     width:18px;
-
     height:18px;
 
     object-fit:contain;
-
-}
-
-.pswp__item{
-
-    will-change: transform;
 
 }
 
@@ -1413,7 +1400,7 @@ footer p{
 
     .pswp-project-info{
 
-        bottom:14px;
+        bottom:16px;
 
         padding:0 16px;
 
@@ -1421,7 +1408,7 @@ footer p{
 
     .pswp-project-details{
 
-        gap:22px;
+        gap:20px;
 
         flex-wrap:wrap;
 
