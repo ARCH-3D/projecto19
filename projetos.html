@@ -1887,9 +1887,21 @@ async function abrirPhotoSwipe(nomeProjeto){
 
             html: `
                 <div class="pswp-project-info">
-                    <div>${projeto.info.ano}</div>
-                    <div>${projeto.info.area}</div>
-                    <div>${projeto.info.local}</div>
+
+                    <div class="pswp-project-title">
+                        ${projeto.info.nome}
+                    </div>
+
+                    <div class="pswp-project-details">
+
+                        <div>${projeto.info.ano}</div>
+
+                        <div>${projeto.info.area}</div>
+
+                        <div>${projeto.info.local}</div>
+
+                    </div>
+
                 </div>
             `
 
