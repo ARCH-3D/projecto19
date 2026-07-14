@@ -1259,7 +1259,7 @@ footer p{
 
 .pswp__img{
     will-change:transform;
-    cursor:grab !important;
+    cursor:default !important;
 }
 
 .pswp__zoom-wrap{
