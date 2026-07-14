@@ -1237,7 +1237,11 @@ footer p{
 /* ================= PHOTO SWIPE ================= */
 
 .pswp{
+
     --pswp-bg:#fff;
+
+    --pswp-placeholder-bg:#fff;
+
 }
 
 .pswp__bg{
