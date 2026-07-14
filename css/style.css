@@ -1249,10 +1249,13 @@ footer p{
 }
 
 /* Esconde barra superior */
-.pswp__top-bar,
 .pswp__counter,
 .pswp__preloader{
     display:none !important;
+}
+
+.pswp__top-bar{
+    background:none !important;
 }
 
 /* Botões que não usamos */
