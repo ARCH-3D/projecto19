@@ -1262,6 +1262,10 @@ footer p{
     cursor:pointer !important;
 }
 
+.pswp--zoomed-in .pswp__img{
+    cursor:grab !important;
+}
+
 .pswp--zoomed-in .pswp__img:active{
     cursor:grabbing !important;
 }
