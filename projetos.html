@@ -1926,9 +1926,18 @@ async function abrirPhotoSwipe(nomeProjeto){
 
             onInit: (el, pswp) => {
 
-                el.addEventListener("click", () => {
+                const close = () => {
 
                     pswp.close();
+
+                };
+
+                el.addEventListener("pointerdown", close);
+
+                el.addEventListener("click", e => {
+
+                    e.preventDefault();
+                    e.stopPropagation();
 
                 });
 
@@ -1937,6 +1946,7 @@ async function abrirPhotoSwipe(nomeProjeto){
         });
 
     });
+
 
     document.body.classList.add("modal-open");
 
