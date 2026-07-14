@@ -1268,11 +1268,6 @@ footer p{
 
 }
 
-.pswp__top-bar{
-
-    background:none !important;
-
-}
 
 /* Cursor minimalista */
 
@@ -1411,6 +1406,24 @@ footer p{
 
     opacity:.5;
 
+}
+
+.pswp__top-bar{
+    display:none !important;
+
+    background:none !important;
+}
+
+.pswp__button{
+    display:none !important;
+}
+
+.pswp__counter{
+    display:none !important;
+}
+
+.pswp__preloader{
+    display:none !important;
 }
 
 /* Mobile */
