@@ -1869,7 +1869,10 @@ async function abrirPhotoSwipe(nomeProjeto){
 
         arrowKeys: true,
 
-        spacing: 0.08
+        spacing: 0.08,
+
+        hideAnimationDuration: 250,
+        showAnimationDuration: 250
 
     });
 
@@ -1911,6 +1914,14 @@ async function abrirPhotoSwipe(nomeProjeto){
             `
 
         });
+
+    });
+
+    gallery.on('verticalDrag', (e) => {
+
+        const opacity = Math.max(0, 1 - Math.abs(e.panY) / window.innerHeight);
+
+        gallery.bg.style.opacity = opacity;
 
     });
 

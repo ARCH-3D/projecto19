@@ -1253,6 +1253,12 @@ footer p{
 
 .pswp__bg{
     background:#fff !important;
+
+    transition:opacity .25s ease !important;
+}
+
+.pswp__img{
+    will-change:transform;
 }
 
 /* Esconde barra superior */
@@ -1400,3 +1406,4 @@ footer p{
     }
 
 }
+
