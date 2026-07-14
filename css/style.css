@@ -1219,3 +1219,60 @@ footer p{
     }
 
 }
+
+/* ================= PHOTO SWIPE ================= */
+
+.pswp{
+    --pswp-bg:#fff;
+}
+
+.pswp__bg{
+    background:#fff !important;
+}
+
+.pswp__button{
+    color:#111 !important;
+}
+
+.pswp__button:hover{
+    opacity:.6;
+}
+
+.pswp__counter{
+    display:none !important;
+}
+
+.pswp__button--zoom{
+    display:none !important;
+}
+
+.pswp__button--download{
+    display:none !important;
+}
+
+.pswp__button--share{
+    display:none !important;
+}
+
+.pswp__top-bar{
+
+    background:none !important;
+
+}
+
+.pswp__button--close{
+
+    width:60px;
+    height:60px;
+
+    color:#111;
+
+    opacity:1;
+
+}
+
+.pswp__button--close:hover{
+
+    opacity:.5;
+
+}
