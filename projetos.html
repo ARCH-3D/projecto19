@@ -1807,8 +1807,14 @@ function toggleMenu() {
 async function abrirPhotoSwipe(nomeProjeto){
 
     const projeto = projetos[nomeProjeto];
-
     if (!projeto) return;
+
+    // Esconde elementos do site
+    const widget = document.querySelector(".contact-widget");
+    if (widget) widget.style.display = "none";
+
+    const backToTop = document.getElementById("back-to-top");
+    if (backToTop) backToTop.classList.remove("show");
 
     const items = await Promise.all(
 
@@ -1823,7 +1829,6 @@ async function abrirPhotoSwipe(nomeProjeto){
                     resolve({
 
                         src: item.src,
-
                         width: img.naturalWidth,
                         height: img.naturalHeight
 
@@ -1882,13 +1887,9 @@ async function abrirPhotoSwipe(nomeProjeto){
 
             html: `
                 <div class="pswp-project-info">
-
                     <div>${projeto.info.ano}</div>
-
                     <div>${projeto.info.area}</div>
-
                     <div>${projeto.info.local}</div>
-
                 </div>
             `
 
@@ -1896,22 +1897,25 @@ async function abrirPhotoSwipe(nomeProjeto){
 
     });
 
-    // Esconde os botões do site
-    const widget = document.querySelector(".contact-widget");
-    if (widget) widget.style.display = "none";
-
-    const backToTop = document.getElementById("back-to-top");
-    if (backToTop) backToTop.style.display = "none";
-
     document.body.classList.add("modal-open");
 
     gallery.on("close", () => {
 
         document.body.classList.remove("modal-open");
 
+        // Volta a mostrar o botão Fale Connosco
         if (widget) widget.style.display = "";
 
-        if (backToTop) backToTop.style.display = "";
+        // Volta a mostrar a seta apenas quando necessário
+        if (backToTop) {
+
+            if (window.scrollY > 400) {
+                backToTop.classList.add("show");
+            } else {
+                backToTop.classList.remove("show");
+            }
+
+        }
 
     });
 

@@ -1244,123 +1244,109 @@ footer p{
     background:#fff !important;
 }
 
-.pswp__button{
-    color:#111 !important;
-}
-
-.pswp__button:hover{
-    opacity:.6;
-}
-
-.pswp__counter{
+/* Esconde toda a barra superior */
+.pswp__top-bar,
+.pswp__counter,
+.pswp__preloader{
     display:none !important;
 }
 
-.pswp__button--zoom{
-    display:none !important;
-}
-
-.pswp__button--download{
-    display:none !important;
-}
-
+/* Botões que não queremos */
+.pswp__button--zoom,
+.pswp__button--download,
 .pswp__button--share{
     display:none !important;
 }
 
-.pswp__top-bar{
-
-    background:none !important;
-
-}
-
+/* Apenas o botão fechar */
 .pswp__button--close{
 
-    width:60px;
-    height:60px;
+    display:flex !important;
 
-    color:#111;
+    position:fixed;
+
+    top:18px;
+    right:18px;
+
+    width:48px;
+    height:48px;
+
+    color:#111 !important;
 
     opacity:1;
+
+    background:none !important;
 
 }
 
 .pswp__button--close:hover{
 
-    opacity:.5;
-
-}
-
-/* ================= PHOTO SWIPE ================= */
-
-.pswp{
-    --pswp-bg:#fff;
-}
-
-.pswp__bg{
-    background:#fff !important;
-}
-
-.pswp__top-bar{
-    background:none !important;
-}
-
-.pswp__counter{
-    display:none !important;
-}
-
-.pswp__button--zoom{
-    display:none !important;
-}
-
-.pswp__button--download{
-    display:none !important;
-}
-
-.pswp__button--share{
-    display:none !important;
-}
-
-.pswp__button{
-    color:#111 !important;
-}
-
-.pswp__button--close{
-    width:60px;
-    height:60px;
-}
-
-.pswp__button:hover{
     opacity:.6;
+
 }
+
+/* Informação do projeto */
 
 .pswp-project-info{
 
-    position:absolute;
+    position:fixed;
 
     left:50%;
-    bottom:22px;
+    bottom:25px;
 
     transform:translateX(-50%);
 
     display:flex;
 
-    gap:60px;
-
+    justify-content:center;
     align-items:center;
 
+    gap:60px;
+
     font-family:'Inter',sans-serif;
-
     font-size:12px;
-
     font-weight:300;
-
-    letter-spacing:.5px;
 
     color:#555;
 
-    z-index:10000;
+    letter-spacing:.5px;
+
+    white-space:nowrap;
 
     pointer-events:none;
+
+    z-index:10000;
+
+}
+
+/* Mobile */
+
+@media (max-width:767px){
+
+    .pswp-project-info{
+
+        gap:20px;
+
+        font-size:11px;
+
+        flex-wrap:wrap;
+
+        width:100%;
+
+        padding:0 16px;
+
+        bottom:14px;
+
+    }
+
+    .pswp__button--close{
+
+        top:10px;
+        right:10px;
+
+        width:44px;
+        height:44px;
+
+    }
 
 }
