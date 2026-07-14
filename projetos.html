@@ -1645,17 +1645,23 @@ function prepararImagemAnterior() {
 
     const conteudo = document.getElementById("modal-content");
 
-    if (elementoAnterior && elementoAnterior.parentNode) {
-
-        elementoAnterior.remove();
-
-    }
-
     const indiceAnterior =
         (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
 
-    elementoAnterior =
-        criarElementoMidia(midiasAtuais[indiceAnterior]);
+    if (!elementoAnterior) {
+
+        elementoAnterior = criarElementoMidia(midiasAtuais[indiceAnterior]);
+
+        conteudo.appendChild(elementoAnterior);
+
+    } else {
+
+        atualizarElementoMidia(
+            elementoAnterior,
+            midiasAtuais[indiceAnterior]
+        );
+
+    }
 
     elementoAnterior.style.zIndex = "1";
 
@@ -1664,34 +1670,36 @@ function prepararImagemAnterior() {
 
     elementoAnterior.style.opacity = "1";
 
-    conteudo.appendChild(elementoAnterior);
-
 }
 
 function prepararProximaImagem() {
 
     const conteudo = document.getElementById("modal-content");
 
-    if (elementoSeguinte && elementoSeguinte.parentNode) {
-
-        elementoSeguinte.remove();
-
-    }
-
     const proximoIndice =
         (indiceAtual + 1) % midiasAtuais.length;
 
-    elementoSeguinte =
-        criarElementoMidia(midiasAtuais[proximoIndice]);
-    
+    if (!elementoSeguinte) {
+
+        elementoSeguinte = criarElementoMidia(midiasAtuais[proximoIndice]);
+
+        conteudo.appendChild(elementoSeguinte);
+
+    } else {
+
+        atualizarElementoMidia(
+            elementoSeguinte,
+            midiasAtuais[proximoIndice]
+        );
+
+    }
+
     elementoSeguinte.style.zIndex = "1";
 
     elementoSeguinte.style.transform =
         "translate(calc(-50% + 100vw), -50%)";
 
     elementoSeguinte.style.opacity = "1";
-
-    conteudo.appendChild(elementoSeguinte);
 
 }
 
