@@ -37,21 +37,7 @@ body{
 
 /* Bloquear scroll quando o modal está aberto */
 body.modal-open{
-
     overflow:hidden;
-
-}
-
-body.modal-open .contact-widget{
-
-    display:none !important;
-
-}
-
-body.modal-open #back-to-top{
-
-    display:none !important;
-
 }
 
 /* ================== HEADER ================== */
@@ -534,6 +520,7 @@ footer p{
     overflow:hidden;
     position:relative;
 
+    contain:layout paint;
 }
 
 #modal-content img,
@@ -557,7 +544,7 @@ footer p{
         transform .45s cubic-bezier(.22,.61,.36,1),
         opacity .45s ease;
 
-    will-change:auto;
+    will-change:transform,opacity;
 
     transform-origin:center center;
     transform-style:preserve-3d;
@@ -1229,226 +1216,6 @@ footer p{
 
     .media-indicators{
         bottom:60px;
-    }
-
-}
-
-/* ================= PHOTO SWIPE ================= */
-
-.pswp{
-
-    --pswp-bg:#fff;
-    --pswp-placeholder-bg:#fff;
-
-}
-
-.pswp__bg{
-
-    background:#fff !important;
-
-}
-
-.pswp__img--placeholder,
-.pswp__img--with-bg{
-
-    background:#fff !important;
-
-}
-
-/* Esconde interface do PhotoSwipe */
-
-.pswp__counter,
-.pswp__preloader,
-.pswp__button--zoom,
-.pswp__button--download,
-.pswp__button--share{
-
-    display:none !important;
-
-}
-
-
-/* Cursor minimalista */
-
-.pswp__container,
-.pswp__zoom-wrap,
-.pswp__img{
-
-    cursor:default !important;
-
-}
-
-/* Remove qualquer cursor de zoom/grab */
-
-.pswp--click-to-zoom .pswp__img,
-.pswp--zoomed-in .pswp__img,
-.pswp--zoomed-in .pswp__img:active{
-
-    cursor:default !important;
-
-}
-
-/* Botão fechar */
-
-.pswp__button--close{
-    display:none !important;
-}
-
-.pswp__button--close:hover{
-
-    opacity:.55;
-
-}
-
-/* Remove o X SVG original.
-   Vamos colocar o nosso depois. */
-
-.pswp__button--close svg{
-
-    display:none;
-
-}
-
-/* Informação inferior */
-
-.pswp-project-info{
-
-    position:fixed;
-
-    left:50%;
-    bottom:24px;
-
-    transform:translateX(-50%);
-
-    width:100%;
-
-    pointer-events:none;
-
-    z-index:10000;
-
-}
-
-.pswp-project-details{
-
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    gap:60px;
-
-}
-
-.pswp-item{
-
-    display:flex;
-    align-items:center;
-
-    gap:8px;
-
-    font-family:'Inter',sans-serif;
-
-    font-size:12px;
-    font-weight:300;
-
-    letter-spacing:.5px;
-
-    color:#555;
-
-    white-space:nowrap;
-
-}
-
-.pswp-item img{
-
-    width:18px;
-    height:18px;
-
-    object-fit:contain;
-
-}
-
-.pswp-custom-close{
-
-    position:fixed;
-
-    top:22px;
-    right:28px;
-
-    width:auto;
-    height:auto;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-family:'Inter',sans-serif;
-
-    font-size:38px;
-    font-weight:300;
-
-    line-height:1;
-
-    color:#111;
-
-    cursor:pointer;
-
-    user-select:none;
-
-    -webkit-tap-highlight-color:transparent;
-
-    transition:opacity .25s ease;
-
-}
-
-.pswp-custom-close:hover{
-
-    opacity:.5;
-
-}
-
-.pswp__top-bar{
-    display:none !important;
-
-    background:none !important;
-}
-
-.pswp__button{
-    display:none !important;
-}
-
-.pswp__counter{
-    display:none !important;
-}
-
-.pswp__preloader{
-    display:none !important;
-}
-
-/* Mobile */
-
-@media (max-width:767px){
-
-    .pswp-project-info{
-
-        bottom:16px;
-
-        padding:0 16px;
-
-    }
-
-    .pswp-project-details{
-
-        gap:20px;
-
-        flex-wrap:wrap;
-
-    }
-
-    .pswp-item{
-
-        font-size:11px;
-
     }
 
 }
