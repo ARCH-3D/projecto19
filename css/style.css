@@ -988,7 +988,7 @@ footer p{
     .service{
     gap:16px;
     margin-bottom:28px;
-}
+    }
 
     /* Apenas para a página de contactos */
 
@@ -1024,6 +1024,11 @@ footer p{
     .modal-item{
         font-size:11px;
     }
+
+        footer{
+        transform:translateY(-60px);
+    }
+    
 }
 
 @media (hover: none), (pointer: coarse){
