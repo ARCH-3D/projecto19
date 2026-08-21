@@ -1024,6 +1024,15 @@ footer p{
     .modal-item{
         font-size:11px;
     }
+
+    footer{
+        transform:translateY(-80px);
+    }
+
+    footer{
+        background:red !important;
+    }
+
 }
 
 @media (hover: none), (pointer: coarse){
