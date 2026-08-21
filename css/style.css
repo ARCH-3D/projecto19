@@ -1024,6 +1024,12 @@ footer p{
     .modal-item{
         font-size:11px;
     }
+
+    footer{
+    padding-top:20px;
+    padding-bottom:100px;
+    }
+    
 }
 
 @media (hover: none), (pointer: coarse){
@@ -1092,7 +1098,7 @@ footer p{
     }
 
     footer{
-        padding:00px 20px;
+        padding:40px 20px;
     }
 }
 
@@ -1219,3 +1225,4 @@ footer p{
     }
 
 }
+
