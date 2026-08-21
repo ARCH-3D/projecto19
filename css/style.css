@@ -1026,13 +1026,13 @@ footer p{
     }
 
     .social-links{
-        transform:translateY(-35px);
+        transform:translateY(-25px);
     }
 
     footer p{
         transform:translateY(-35px);
     }
-    
+
 }
 
 @media (hover: none), (pointer: coarse){
