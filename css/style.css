@@ -1025,14 +1025,14 @@ footer p{
         font-size:11px;
     }
 
-    footer{
-        transform:translateY(-80px);
+    .social-links{
+        transform:translateY(-35px);
     }
 
-    footer{
-        background:red !important;
+    footer p{
+        transform:translateY(-35px);
     }
-
+    
 }
 
 @media (hover: none), (pointer: coarse){
