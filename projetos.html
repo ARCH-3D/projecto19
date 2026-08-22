@@ -1192,6 +1192,12 @@ function abrirProjeto(nomeProjeto) {
 
     if (!projetos[nomeProjeto]) return;
 
+    gtag('event', 'projeto_aberto', {
+        projeto: nomeProjeto,
+        nome_projeto: projetos[nomeProjeto].info.nome,
+        local: projetos[nomeProjeto].info.local
+    });
+
     projetoAtual = projetos[nomeProjeto];
     midiasAtuais = projetoAtual.media;
     indiceAtual = 0;
