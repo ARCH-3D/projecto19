@@ -1298,13 +1298,19 @@ footer p{
 
     @media (max-width:767px){
 
-        /* O fullscreen desaparece no iPhone.
-           O + ocupa a posição onde estava o fullscreen. */
-
+        /* iPhone em portrait */
         .zoom-btn{
             right:78px;
         }
 
-    }
+        /* iPhone em landscape */
+        @media (orientation: landscape){
 
+            .zoom-btn{
+                right:78px;
+            }
+
+        }
+
+    }
 }
