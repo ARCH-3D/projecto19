@@ -1366,16 +1366,18 @@ function mostrarBotaoFullscreen(){
     }, FULLSCREEN_BUTTON_TIMEOUT);
 }
 
+
 function toggleFullscreen() {
 
-    const isIPhone =
-        /iPhone|iPod/i.test(navigator.userAgent);
+    const isMobileApple =
+        /iPhone|iPod|iPad/i.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
     // =====================================
-    // iPHONE — PSEUDO FULLSCREEN
+    // iPHONE / IPAD — PSEUDO FULLSCREEN
     // =====================================
 
-    if (isIPhone) {
+    if (isMobileApple) {
 
         modal.classList.toggle("iphone-fullscreen");
 
