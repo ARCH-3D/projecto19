@@ -2335,7 +2335,41 @@ modalContent.addEventListener("dblclick", function(e){
 
     e.stopPropagation();
 
-    toggleFullscreen();
+    if (!elementoAtual) return;
+
+    zoomAtivo = !zoomAtivo;
+
+    if (zoomAtivo){
+
+        escalaZoom = DEFAULT_ZOOM;
+
+        zoomX = 0;
+        zoomY = 0;
+
+        zoomTargetX = 0;
+        zoomTargetY = 0;
+
+        zoomBtn.textContent = "−";
+
+    } else {
+
+        escalaZoom = ZOOM_MIN;
+
+        zoomX = 0;
+        zoomY = 0;
+
+        zoomTargetX = 0;
+        zoomTargetY = 0;
+
+        zoomBtn.textContent = "+";
+
+    }
+
+    elementoAtual.style.transition = TRANSITION_FAST;
+
+    if (!rafZoom){
+        rafZoom = requestAnimationFrame(atualizarZoom);
+    }
 
 });
 
