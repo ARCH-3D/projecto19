@@ -1397,11 +1397,13 @@ function mudarMidia(direcao) {
             prepararProximaImagem();
         }
 
+        // Imagem atual
         elementoAtual.style.transition =
-            "transform .25s ease-out, opacity .25s ease-out";
+            "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
 
+        // Imagem seguinte
         elementoSeguinte.style.transition =
-            "transform .25s ease-out";
+            "transform .35s cubic-bezier(.22,.61,.36,1)";
 
         // Imagem atual sai para a esquerda
         elementoAtual.style.transform =
@@ -1409,10 +1411,11 @@ function mudarMidia(direcao) {
 
         elementoAtual.style.opacity = "0";
 
-        // Próxima imagem entra pela direita
+        // Imagem seguinte entra pela direita
         elementoSeguinte.style.transform =
             "translate(-50%, -50%)";
 
+        // Atualizar índice
         indiceAtual =
             (indiceAtual + 1) % midiasAtuais.length;
 
@@ -1431,7 +1434,7 @@ function mudarMidia(direcao) {
             preloadImagens();
             mostrarBotaoFullscreen();
 
-        }, SLIDE_ANIMATION_TIME);
+        }, 350);
 
         return;
     }
@@ -1447,11 +1450,13 @@ function mudarMidia(direcao) {
             prepararImagemAnterior();
         }
 
+        // Imagem atual
         elementoAtual.style.transition =
-            "transform .25s ease-out, opacity .25s ease-out";
+            "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
 
+        // Imagem anterior
         elementoAnterior.style.transition =
-            "transform .25s ease-out";
+            "transform .35s cubic-bezier(.22,.61,.36,1)";
 
         // Imagem atual sai para a direita
         elementoAtual.style.transform =
@@ -1463,6 +1468,7 @@ function mudarMidia(direcao) {
         elementoAnterior.style.transform =
             "translate(-50%, -50%)";
 
+        // Atualizar índice
         indiceAtual =
             (indiceAtual - 1 + midiasAtuais.length) %
             midiasAtuais.length;
@@ -1482,7 +1488,7 @@ function mudarMidia(direcao) {
             preloadImagens();
             mostrarBotaoFullscreen();
 
-        }, SLIDE_ANIMATION_TIME);
+        }, 350);
 
     }
 
