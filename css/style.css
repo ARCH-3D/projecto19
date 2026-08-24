@@ -1279,10 +1279,3 @@ footer p{
     }
 
 }
-
-@media (pointer: coarse){
-
-    .zoom-btn{
-        right:78px;
-    }
-}
