@@ -1140,17 +1140,12 @@ footer p{
 /* ================== FULLSCREEN ================== */
 
 .fullscreen-btn{
-
     position:absolute;
-
-    /* Mesma altura do X */
     top:25px;
+    right:68px;
 
-    /* À esquerda e próximo do X */
-    right:78px;
-
-    width:auto;
-    height:auto;
+    width:32px;
+    height:38px;
 
     padding:0;
     margin:0;
@@ -1161,12 +1156,13 @@ footer p{
     color:#111;
 
     font-family:Arial, sans-serif;
-    font-size:32px;
+    font-size:30px;
     font-weight:300;
-    line-height:1;
+
+    line-height:38px;
+    text-align:center;
 
     display:none;
-
     align-items:center;
     justify-content:center;
 
@@ -1177,43 +1173,33 @@ footer p{
 
     z-index:10003;
 
-    transition:
-        opacity .25s ease,
-        transform .25s ease;
+    transition:opacity .25s ease;
 }
-
 
 /* Mostrar fullscreen */
+
 .fullscreen-btn.show{
-
     display:flex;
-
     opacity:1;
-
     pointer-events:auto;
-
 }
 
-
 /* Efeito ao passar o rato */
+
 @media (hover:hover){
 
     .fullscreen-btn:hover{
-
         opacity:.5;
-
     }
 
 }
 
-
 /* Esconder no telemóvel */
+
 @media (max-width:768px){
 
     .fullscreen-btn{
-
         display:none !important;
-
     }
 
 }
