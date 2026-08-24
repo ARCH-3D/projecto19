@@ -1153,6 +1153,8 @@ footer p{
 
     padding:0;
 
+    margin:0;
+
     border:none;
 
     background:transparent;
@@ -1163,13 +1165,11 @@ footer p{
 
     font-weight:300;
 
-    line-height:1;
+    line-height:38px;
 
-    display:flex;
+    text-align:center;
 
-    align-items:center;
-
-    justify-content:center;
+    display:block;
 
     cursor:pointer;
 
