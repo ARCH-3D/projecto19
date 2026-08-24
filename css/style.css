@@ -1323,7 +1323,9 @@ footer p{
     #modal-content.iphone-safari-edge-landscape video{
 
         max-width:98vw;
-        max-height:calc(100dvh - 20px);
+        max-height:98dvh;
+        height:98dvh;
+        width:auto;
 
     }
 

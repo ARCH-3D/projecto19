@@ -1260,6 +1260,8 @@ function abrirProjeto(nomeProjeto) {
 
     document.getElementById("modal-projeto").style.display = "flex";
     document.body.classList.add("modal-open");
+    
+    ajustarBolinhasIPhone();
 
     // Esconde o botão "Fale Connosco"
     const widget = document.querySelector(".contact-widget");
