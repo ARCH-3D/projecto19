@@ -1347,6 +1347,51 @@ function isIPhoneSafariOrEdge(){
 
 }
 
+function ajustarFullscreenAndroid(){
+
+    const emAndroid =
+        /Android/i.test(navigator.userAgent);
+
+    const landscape =
+        window.matchMedia("(orientation: landscape)").matches;
+
+    const fullscreen =
+        !!document.fullscreenElement;
+
+    const modalContent =
+        document.getElementById("modal-content");
+
+    const indicadores =
+        document.querySelector(".media-indicators");
+
+    if (!emAndroid || !landscape || !fullscreen){
+
+        if (modalContent){
+            modalContent.classList.remove(
+                "android-fullscreen-landscape"
+            );
+        }
+
+        return;
+
+    }
+
+    if (modalContent){
+
+        modalContent.classList.add(
+            "android-fullscreen-landscape"
+        );
+
+    }
+
+    if (indicadores){
+
+        indicadores.style.bottom = "60px";
+
+    }
+
+}
+
 function ajustarBolinhasIPhone(){
 
     const indicadores = document.querySelector(".media-indicators");
