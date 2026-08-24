@@ -662,11 +662,35 @@ footer p{
     opacity:0;
     pointer-events:none;
     transition:opacity .5s ease;
+    outline:none;
+    -webkit-tap-highlight-color:transparent;
 }
 
 .close.show-controls{
     opacity:1;
     pointer-events:auto;
+}
+
+.close:focus,
+.close:active{
+
+    outline:none;
+    box-shadow:none;
+}
+
+@media (pointer: coarse){
+
+    .close:focus,
+    .close:active{
+        opacity:1;
+    }
+
+}
+
+.close:focus-visible{
+
+    outline:2px solid #111;
+    outline-offset:4px;
 }
 
 @media (hover:hover){
@@ -1176,91 +1200,181 @@ footer p{
 /* ================== FULLSCREEN ================== */
 
 .fullscreen-btn{
+
     position:absolute;
     top:25px;
     right:78px;
+
     width:38px;
     height:38px;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     padding:0;
     margin:0;
+
     border:none;
+    outline:none;
     background:none;
+
     color:#111;
+
     cursor:pointer;
+
     z-index:10003;
+
     opacity:0;
     pointer-events:none;
+
     transition:opacity .5s ease;
+
+    -webkit-tap-highlight-color:transparent;
 }
 
-/* PC — aparece quando o JavaScript adiciona .show */
 .fullscreen-btn.show{
+
     opacity:1;
     pointer-events:auto;
 }
 
 /* Ícone */
+
 .fullscreen-btn svg{
+
     width:24px;
     height:24px;
+
     display:block;
+
     fill:none;
     stroke:currentColor;
+
     stroke-width:1.8;
+
     stroke-linecap:square;
     stroke-linejoin:miter;
+
     transform:translateY(3px);
+
+    pointer-events:none;
 }
 
+/* Hover apenas no computador */
+
 @media (hover:hover){
+
     .fullscreen-btn:hover{
         opacity:.5;
     }
 }
 
+/* Não deixar o botão ficar "selecionado" após toque */
+
+.fullscreen-btn:focus,
+.fullscreen-btn:active{
+
+    outline:none;
+    box-shadow:none;
+}
+
+@media (pointer: coarse){
+
+    .fullscreen-btn:focus,
+    .fullscreen-btn:active{
+        opacity:1;
+    }
+
+}
+
+.fullscreen-btn:focus-visible{
+
+    outline:2px solid #111;
+    outline-offset:4px;
+}
 
 /* ================== ZOOM ================== */
 
 .zoom-btn{
+
     position:absolute;
     top:25px;
     right:126px;
+
     width:38px;
     height:38px;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     padding:0;
     margin:0;
+
     border:none;
+    outline:none;
     background:none;
+
     color:#111;
+
     font-family:'Inter',sans-serif;
     font-size:38px;
     font-weight:300;
     line-height:1;
+
     cursor:pointer;
+
     z-index:10003;
+
     opacity:0;
     pointer-events:none;
+
     appearance:none;
     -webkit-appearance:none;
+
     -webkit-tap-highlight-color:transparent;
+
     transition:opacity .5s ease;
 }
 
 .zoom-btn.show{
+
     opacity:1;
     pointer-events:auto;
 }
 
+/* Hover apenas no computador */
+
 @media (hover:hover){
+
     .zoom-btn:hover{
         opacity:.5;
     }
+}
+
+/* Não deixar o + ficar "preso" mais claro após toque */
+
+.zoom-btn:focus,
+.zoom-btn:active{
+
+    outline:none;
+    box-shadow:none;
+}
+
+@media (pointer: coarse){
+
+    .zoom-btn:focus,
+    .zoom-btn:active{
+        opacity:1;
+    }
+
+}
+
+.zoom-btn:focus-visible{
+
+    outline:2px solid #111;
+    outline-offset:4px;
 }
 
 
@@ -1359,3 +1473,4 @@ footer p{
     }
 
 }
+
