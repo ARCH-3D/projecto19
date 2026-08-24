@@ -1157,12 +1157,9 @@ footer p{
 
     color: #111;
 
-    font-family: Arial, sans-serif;
-    font-size: 24px;
-    font-weight: 300;
-
-    line-height: 42px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     cursor: pointer;
 
@@ -1172,11 +1169,36 @@ footer p{
     transition: opacity .25s ease;
 
     z-index: 10003;
+
+}
+
+.fullscreen-btn svg {
+
+    width: 22px;
+    height: 22px;
+
+    display: block;
+
+}
+
+.fullscreen-btn svg path {
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 1.5;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+
 }
 
 .fullscreen-btn.show {
 
     opacity: 1;
+
     pointer-events: auto;
 
 }
