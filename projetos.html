@@ -1260,6 +1260,15 @@ function abrirProjeto(nomeProjeto) {
 
     document.getElementById("modal-projeto").style.display = "flex";
     document.body.classList.add("modal-open");
+
+    const modalProjeto =
+    document.getElementById("modal-projeto");
+
+    if (isIPhoneSafariOrEdge()) {
+        modalProjeto.classList.add("iphone-device");
+    } else {
+        modalProjeto.classList.remove("iphone-device");
+    }
     
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
