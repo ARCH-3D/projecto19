@@ -1365,19 +1365,14 @@ function mostrarBotaoFullscreen(){
 
 function toggleFullscreen() {
 
-    if (!document.fullscreenElement) {
+    // ==============================
+    // SAIR DO FULLSCREEN
+    // ==============================
 
-        if (modal.requestFullscreen) {
-
-            modal.requestFullscreen();
-
-        } else if (modal.webkitRequestFullscreen) {
-
-            modal.webkitRequestFullscreen();
-
-        }
-
-    } else {
+    if (
+        document.fullscreenElement ||
+        document.webkitFullscreenElement
+    ) {
 
         if (document.exitFullscreen) {
 
@@ -1389,7 +1384,49 @@ function toggleFullscreen() {
 
         }
 
+        return;
     }
+
+
+    // ==============================
+    // ENTRAR EM FULLSCREEN
+    // ==============================
+
+    if (modal.requestFullscreen) {
+
+        modal.requestFullscreen().catch(() => {
+
+            // O dispositivo não permitiu fullscreen
+            console.log("Fullscreen não suportado neste dispositivo.");
+
+        });
+
+        return;
+    }
+
+
+    // Safari / iOS antigo
+    if (modal.webkitRequestFullscreen) {
+
+        try {
+
+            modal.webkitRequestFullscreen();
+
+        } catch (erro) {
+
+            console.log("Fullscreen não suportado neste dispositivo.");
+
+        }
+
+        return;
+    }
+
+
+    // ==============================
+    // FULLSCREEN NÃO DISPONÍVEL
+    // ==============================
+
+    console.log("Fullscreen não disponível neste dispositivo.");
 
 }
 
