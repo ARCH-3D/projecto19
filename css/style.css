@@ -1347,3 +1347,23 @@ footer p{
     }
 
 }
+
+/* ================================
+   IPHONE / TELEMÓVEL EM PAISAGEM
+   ================================ */
+
+@media (pointer: coarse) and (orientation: landscape) {
+
+    /* Esconde fullscreen */
+    .fullscreen-btn {
+        display: none !important;
+    }
+
+    /* Mostra o botão + / - */
+    .zoom-btn {
+        display: flex !important;
+        top: 25px;
+        right: 78px;
+    }
+
+}

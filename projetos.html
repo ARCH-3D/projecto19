@@ -1162,6 +1162,10 @@ function resetZoom(){
     zoomTargetX = 0;
     zoomTargetY = 0;
 
+    if (zoomBtn){
+        zoomBtn.textContent = "+";
+    }
+
 }
 
 function atualizarZoom(){
@@ -1233,6 +1237,7 @@ function abrirProjeto(nomeProjeto) {
     atualizarIndicadores(true);
     mostrarMidia();
     mostrarBotaoFullscreen();
+    if (zoomBtn) zoomBtn.textContent = "+";
     preloadImagens();
 
     document.getElementById("modal-title").textContent = projetoAtual.info.nome;
@@ -1305,29 +1310,54 @@ function mostrarBotaoFullscreen(){
 
     const btn = fullscreenBtn;
     const close = closeBtn;
+    const zoom = zoomBtn;
 
     if (!btn) return;
 
-    // Telemóvel/tablet: fullscreen escondido
-    // Funciona também em modo paisagem
-    if (
-        window.innerWidth <= MOBILE_BREAKPOINT ||
-        window.matchMedia("(pointer: coarse)").matches
-    ) {
+    // ======================================
+    // TELEMÓVEL / TABLET
+    // ======================================
 
+    const ecrãPequeno =
+        window.matchMedia("(max-width: 768px)").matches;
+
+    const toque =
+        window.matchMedia("(pointer: coarse)").matches;
+
+    const dispositivoMovel =
+        ecrãPequeno || toque;
+
+    if (dispositivoMovel){
+
+        // Fullscreen nunca aparece em dispositivos touch
         btn.classList.remove("show");
 
-        if (close) {
+        // X aparece
+        if (close){
             close.classList.add("show-controls");
+        }
+
+        // + / − aparece
+        if (zoom){
+            zoom.style.display = "flex";
         }
 
         return;
     }
 
-    // Desktop: fullscreen + X aparecem temporariamente
+    // ======================================
+    // DESKTOP
+    // ======================================
+
+    // Esconde o botão de zoom
+    if (zoom){
+        zoom.style.display = "none";
+    }
+
+    // Mostra fullscreen + X temporariamente
     btn.classList.add("show");
 
-    if (close) {
+    if (close){
         close.classList.add("show-controls");
     }
 
@@ -1337,7 +1367,7 @@ function mostrarBotaoFullscreen(){
 
         btn.classList.remove("show");
 
-        if (close) {
+        if (close){
             close.classList.remove("show-controls");
         }
 
