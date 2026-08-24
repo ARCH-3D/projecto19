@@ -1331,8 +1331,9 @@ footer p{
 @media (pointer: coarse) and (orientation: landscape) {
 
     .zoom-btn {
-        display: flex !important;
-        top: 25px;
-        right: 78px;
+        display:flex !important;
+        top:25px;
+        right:126px;
     }
+
 }
