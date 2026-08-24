@@ -2119,6 +2119,11 @@ modal.addEventListener('touchmove', function(e) {
 
         zoomAtivo = escalaZoom > 1.02;
 
+        // Atualizar o símbolo do botão conforme o zoom
+        if (zoomBtn) {
+            zoomBtn.textContent = zoomAtivo ? "−" : "+";
+        }
+
         if (!zoomAtivo){
 
             zoomX = 0;
