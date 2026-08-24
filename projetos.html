@@ -2597,6 +2597,9 @@ fullscreenBtn.addEventListener("click", function(e){
 
     e.stopPropagation();
 
+    // No iPhone/iPad não executar fullscreen
+    if (isAppleMobile()) return;
+
     toggleFullscreen();
 
 });
