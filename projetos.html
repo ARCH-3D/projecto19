@@ -512,6 +512,7 @@
 </footer>
 
 <script>
+
 const projetos = {
   projeto187: {
 
@@ -1316,6 +1317,12 @@ function fecharModal() {
     }
 
     document.getElementById("modal-projeto").style.background = "";
+}
+
+function isAppleMobile(){
+
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
 }
 
 function mostrarBotaoFullscreen(){
