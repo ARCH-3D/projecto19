@@ -1383,15 +1383,13 @@ function mudarMidia(direcao) {
 
     if (!elementoAtual) return;
 
-    // Evita iniciar outro slide enquanto o anterior ainda está a decorrer
-    if (elementoSeguinte && direcao === 1) return;
-    if (elementoAnterior && direcao === -1) return;
-
     const largura = window.innerWidth;
 
-    // ==============================
-    // IR PARA A DIREITA
-    // ==============================
+    direcaoSlide = direcao;
+
+    // ==================================
+    // PRÓXIMA IMAGEM →
+    // ==================================
 
     if (direcao === 1) {
 
@@ -1405,11 +1403,13 @@ function mudarMidia(direcao) {
         elementoSeguinte.style.transition =
             "transform .25s ease-out";
 
+        // Imagem atual sai para a esquerda
         elementoAtual.style.transform =
             `translate(calc(-50% - ${largura}px), -50%)`;
 
         elementoAtual.style.opacity = "0";
 
+        // Próxima imagem entra pela direita
         elementoSeguinte.style.transform =
             "translate(-50%, -50%)";
 
@@ -1433,13 +1433,15 @@ function mudarMidia(direcao) {
 
         }, SLIDE_ANIMATION_TIME);
 
+        return;
     }
 
-    // ==============================
-    // IR PARA A ESQUERDA
-    // ==============================
 
-    else {
+    // ==================================
+    // IMAGEM ANTERIOR ←
+    // ==================================
+
+    if (direcao === -1) {
 
         if (!elementoAnterior) {
             prepararImagemAnterior();
@@ -1451,11 +1453,13 @@ function mudarMidia(direcao) {
         elementoAnterior.style.transition =
             "transform .25s ease-out";
 
+        // Imagem atual sai para a direita
         elementoAtual.style.transform =
             `translate(calc(-50% + ${largura}px), -50%)`;
 
         elementoAtual.style.opacity = "0";
 
+        // Imagem anterior entra pela esquerda
         elementoAnterior.style.transform =
             "translate(-50%, -50%)";
 
