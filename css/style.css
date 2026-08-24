@@ -1215,7 +1215,7 @@ footer p{
 .zoom-btn{
     position:absolute;
     top:25px;
-    right:78px;
+    right:126px;
     width:38px;
     height:38px;
     display:flex;
@@ -1270,6 +1270,18 @@ footer p{
 
     .media-indicators{
         bottom:60px;
+    }
+
+}
+
+@media (pointer: coarse){
+    
+    .fullscreen-btn{
+        display:none !important;
+    }
+
+    .zoom-btn{
+        right:78px;
     }
 
 }
