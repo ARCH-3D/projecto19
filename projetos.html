@@ -1368,9 +1368,6 @@ function ajustarFullscreenAndroid(){
         const altura =
             window.innerHeight;
 
-        const largura =
-            window.innerWidth;
-
         const aplicarImagem = (elemento) => {
 
             if (!elemento) return;
@@ -1387,10 +1384,6 @@ function ajustarFullscreenAndroid(){
                 "important"
             );
 
-            /*
-             * Em landscape queremos que a imagem
-             * ocupe toda a altura disponível.
-             */
             elemento.style.setProperty(
                 "height",
                 altura + "px",
@@ -1403,14 +1396,11 @@ function ajustarFullscreenAndroid(){
                 "important"
             );
 
-            /*
-             * Garantir que continua centrada.
-             */
             elemento.style.left = "50%";
             elemento.style.top = "50%";
-
         };
 
+        // Aplicar a TODAS as imagens existentes
         aplicarImagem(elementoAtual);
         aplicarImagem(elementoAnterior);
         aplicarImagem(elementoSeguinte);
@@ -1429,7 +1419,7 @@ function ajustarFullscreenAndroid(){
 
             indicadores.style.left = "50%";
 
-            indicadores.style.bottom = "25px";
+            indicadores.style.bottom = "20px";
 
             indicadores.style.transform =
                 "translateX(-50%)";
@@ -1440,10 +1430,6 @@ function ajustarFullscreenAndroid(){
 
     }
 
-    /*
-     * O Android precisa de algum tempo para
-     * terminar a entrada em fullscreen.
-     */
     requestAnimationFrame(() => {
 
         aplicar();
@@ -2047,7 +2033,8 @@ function preloadImagens() {
 
 function prepararImagemAnterior() {
 
-    const conteudo = document.getElementById("modal-content");
+    const conteudo =
+        document.getElementById("modal-content");
 
     if (elementoAnterior && elementoAnterior.parentNode) {
 
@@ -2056,10 +2043,49 @@ function prepararImagemAnterior() {
     }
 
     const indiceAnterior =
-        (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+        (indiceAtual - 1 + midiasAtuais.length) %
+        midiasAtuais.length;
 
     elementoAnterior =
-        criarElementoMidia(midiasAtuais[indiceAnterior]);
+        criarElementoMidia(
+            midiasAtuais[indiceAnterior]
+        );
+
+    // ==================================
+    // ANDROID — FULLSCREEN LANDSCAPE
+    // ==================================
+
+    if (
+        /Android/i.test(navigator.userAgent) &&
+        window.matchMedia("(orientation: landscape)").matches &&
+        document.fullscreenElement
+    ) {
+
+        elementoAnterior.style.setProperty(
+            "max-width",
+            "none",
+            "important"
+        );
+
+        elementoAnterior.style.setProperty(
+            "max-height",
+            "none",
+            "important"
+        );
+
+        elementoAnterior.style.setProperty(
+            "height",
+            window.innerHeight + "px",
+            "important"
+        );
+
+        elementoAnterior.style.setProperty(
+            "width",
+            "auto",
+            "important"
+        );
+
+    }
 
     elementoAnterior.style.zIndex = "1";
 
@@ -2074,7 +2100,8 @@ function prepararImagemAnterior() {
 
 function prepararProximaImagem() {
 
-    const conteudo = document.getElementById("modal-content");
+    const conteudo =
+        document.getElementById("modal-content");
 
     if (elementoSeguinte && elementoSeguinte.parentNode) {
 
@@ -2086,8 +2113,46 @@ function prepararProximaImagem() {
         (indiceAtual + 1) % midiasAtuais.length;
 
     elementoSeguinte =
-        criarElementoMidia(midiasAtuais[proximoIndice]);
-    
+        criarElementoMidia(
+            midiasAtuais[proximoIndice]
+        );
+
+    // ==================================
+    // ANDROID — FULLSCREEN LANDSCAPE
+    // ==================================
+
+    if (
+        /Android/i.test(navigator.userAgent) &&
+        window.matchMedia("(orientation: landscape)").matches &&
+        document.fullscreenElement
+    ) {
+
+        elementoSeguinte.style.setProperty(
+            "max-width",
+            "none",
+            "important"
+        );
+
+        elementoSeguinte.style.setProperty(
+            "max-height",
+            "none",
+            "important"
+        );
+
+        elementoSeguinte.style.setProperty(
+            "height",
+            window.innerHeight + "px",
+            "important"
+        );
+
+        elementoSeguinte.style.setProperty(
+            "width",
+            "auto",
+            "important"
+        );
+
+    }
+
     elementoSeguinte.style.zIndex = "1";
 
     elementoSeguinte.style.transform =
