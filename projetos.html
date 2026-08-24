@@ -2361,6 +2361,10 @@ function mostrarMidia() {
             // guardar imagem atual
             elementoAtual = novo;
 
+            // Corrigir imediatamente o tamanho no iPhone
+            ajustarBolinhasIPhone();
+
+            // Corrigir Android fullscreen, se aplicável
             ajustarFullscreenAndroid();
 
             // remover imagem seguinte anterior
