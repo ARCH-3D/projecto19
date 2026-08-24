@@ -1742,6 +1742,7 @@ function mudarMidia(direcao) {
             atualizarLaterais();
             preloadImagens();
             mostrarBotaoFullscreen();
+            ajustarFullscreenAndroid();
 
         }, 350);
 
@@ -1828,8 +1829,10 @@ function handleSwipe() {
             elementoAtual = elementoAnterior;
             elementoAnterior = null;
 
+            atualizarLaterais();
             preloadImagens();
             atualizarLaterais();
+            ajustarFullscreenAndroid();
 
         },SLIDE_ANIMATION_TIME);
 
