@@ -1375,109 +1375,51 @@ function atualizarLaterais() {
 
 }
 
+// ======================================
+// NAVEGAÇÃO
+// ======================================
+
 function mudarMidia(direcao) {
+
+    if (!elementoAtual) return;
+
+    const largura = window.innerWidth;
 
     direcaoSlide = direcao;
 
     // ==================================
-    // COMPUTADOR
+    // PRÓXIMA IMAGEM →
     // ==================================
 
-    if (window.innerWidth > MOBILE_BREAKPOINT) {
+    if (direcao === 1) {
 
-        if (!elementoAtual) return;
-
-        let novoElemento;
-
-        // ------------------------------
-        // PRÓXIMA IMAGEM
-        // ------------------------------
-
-        if (direcao === 1) {
-
-            if (!elementoSeguinte) {
-                prepararProximaImagem();
-            }
-
-            novoElemento = elementoSeguinte;
-
-            if (!novoElemento) return;
-
-            novoElemento.style.transition = "none";
-
-            novoElemento.style.transform =
-                "translate(calc(-50% + 100vw), -50%)";
-
+        if (!elementoSeguinte) {
+            prepararProximaImagem();
         }
 
-        // ------------------------------
-        // IMAGEM ANTERIOR
-        // ------------------------------
-
-        else {
-
-            if (!elementoAnterior) {
-                prepararImagemAnterior();
-            }
-
-            novoElemento = elementoAnterior;
-
-            if (!novoElemento) return;
-
-            novoElemento.style.transition = "none";
-
-            novoElemento.style.transform =
-                "translate(calc(-50% - 100vw), -50%)";
-
-        }
-
-        // ------------------------------
-        // FORÇAR POSIÇÃO INICIAL
-        // ------------------------------
-
-        void novoElemento.offsetWidth;
-
-        // ------------------------------
-        // ANIMAÇÃO
-        // ------------------------------
-
+        // Imagem atual
         elementoAtual.style.transition =
             "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
 
-        novoElemento.style.transition =
+        // Imagem seguinte
+        elementoSeguinte.style.transition =
             "transform .35s cubic-bezier(.22,.61,.36,1)";
 
-        if (direcao === 1) {
+        // Imagem atual sai para a esquerda
+        elementoAtual.style.transform =
+            `translate(calc(-50% - ${largura}px), -50%)`;
 
-            // Atual sai para a esquerda
-            elementoAtual.style.transform =
-                "translate(calc(-50% - 100vw), -50%)";
+        elementoAtual.style.opacity = "0";
 
-        } else {
-
-            // Atual sai para a direita
-            elementoAtual.style.transform =
-                "translate(calc(-50% + 100vw), -50%)";
-
-        }
-
-        // Nova imagem vai para o centro
-        novoElemento.style.transform =
+        // Imagem seguinte entra pela direita
+        elementoSeguinte.style.transform =
             "translate(-50%, -50%)";
 
-        // ------------------------------
-        // ATUALIZAR ÍNDICE
-        // ------------------------------
-
+        // Atualizar índice
         indiceAtual =
-            (indiceAtual + direcao + midiasAtuais.length) %
-            midiasAtuais.length;
+            (indiceAtual + 1) % midiasAtuais.length;
 
         atualizarPreview();
-
-        // ------------------------------
-        // FINAL DA ANIMAÇÃO
-        // ------------------------------
 
         setTimeout(() => {
 
@@ -1485,47 +1427,70 @@ function mudarMidia(direcao) {
                 elementoAtual.remove();
             }
 
-            elementoAtual = novoElemento;
-
-            elementoAnterior = null;
+            elementoAtual = elementoSeguinte;
             elementoSeguinte = null;
 
-            preloadImagens();
             atualizarLaterais();
-
-            if (
-                elementoAtual &&
-                elementoAtual.tagName === "VIDEO"
-            ) {
-                elementoAtual.play();
-            }
+            preloadImagens();
+            mostrarBotaoFullscreen();
 
         }, 350);
-
-        mostrarBotaoFullscreen();
 
         return;
     }
 
 
     // ==================================
-    // TELEMÓVEL
+    // IMAGEM ANTERIOR ←
     // ==================================
 
-    // Mantém o comportamento original
-    // do telemóvel.
+    if (direcao === -1) {
 
-    indiceAtual += direcao;
+        if (!elementoAnterior) {
+            prepararImagemAnterior();
+        }
 
-    indiceAtual =
-        (indiceAtual + midiasAtuais.length) %
-        midiasAtuais.length;
+        // Imagem atual
+        elementoAtual.style.transition =
+            "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
 
-    atualizarIndicadores();
+        // Imagem anterior
+        elementoAnterior.style.transition =
+            "transform .35s cubic-bezier(.22,.61,.36,1)";
 
-    mostrarMidia();
-    mostrarBotaoFullscreen();
-    preloadImagens();
+        // Imagem atual sai para a direita
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${largura}px), -50%)`;
+
+        elementoAtual.style.opacity = "0";
+
+        // Imagem anterior entra pela esquerda
+        elementoAnterior.style.transform =
+            "translate(-50%, -50%)";
+
+        // Atualizar índice
+        indiceAtual =
+            (indiceAtual - 1 + midiasAtuais.length) %
+            midiasAtuais.length;
+
+        atualizarPreview();
+
+        setTimeout(() => {
+
+            if (elementoAtual) {
+                elementoAtual.remove();
+            }
+
+            elementoAtual = elementoAnterior;
+            elementoAnterior = null;
+
+            atualizarLaterais();
+            preloadImagens();
+            mostrarBotaoFullscreen();
+
+        }, 350);
+
+    }
 
 }
 
