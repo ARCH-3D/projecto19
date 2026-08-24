@@ -1297,13 +1297,18 @@ footer p{
 .modal.iphone-fullscreen {
 
     position: fixed;
+
     inset: 0;
 
-    width: 100%;
+    width: 100vw;
+
+    height: 100vh;
     height: 100dvh;
+
+    min-height: 100vh;
     min-height: 100dvh;
 
-    z-index: 999999;
+    z-index: 2147483647;
 
     display: flex;
 
@@ -1311,12 +1316,35 @@ footer p{
 
     overflow: hidden;
 
+    padding:
+        env(safe-area-inset-top)
+        env(safe-area-inset-right)
+        env(safe-area-inset-bottom)
+        env(safe-area-inset-left);
+
 }
 
 .modal.iphone-fullscreen #modal-content {
 
     width: 100%;
-    height: 100dvh;
-    min-height: 100dvh;
+
+    height: 100%;
+
+    min-height: 0;
+
+}
+
+
+/* Quando o fullscreen está ativo */
+
+body.iphone-fullscreen-active {
+
+    overflow: hidden;
+
+    width: 100%;
+
+    height: 100%;
+
+    overscroll-behavior: none;
 
 }

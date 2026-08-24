@@ -1374,17 +1374,17 @@ function toggleFullscreen() {
         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
     // =====================================
-    // iPHONE / IPAD — PSEUDO FULLSCREEN
+    // iPHONE / IPAD
     // =====================================
 
     if (isMobileApple) {
 
-        const ativado =
+        const ativo =
             modal.classList.toggle("iphone-fullscreen");
 
         document.body.classList.toggle(
             "iphone-fullscreen-active",
-            ativado
+            ativo
         );
 
         return;
