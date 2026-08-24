@@ -1291,3 +1291,20 @@ footer p{
     }
 
 }
+
+/* ================== IPHONE — POSIÇÃO DO ZOOM ================== */
+
+@supports (-webkit-touch-callout: none) {
+
+    @media (max-width:767px){
+
+        /* O fullscreen desaparece no iPhone.
+           O + ocupa a posição onde estava o fullscreen. */
+
+        .zoom-btn{
+            right:78px;
+        }
+
+    }
+
+}
