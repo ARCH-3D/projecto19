@@ -1339,10 +1339,16 @@ function mostrarBotaoFullscreen(){
 
     // No iPhone/iPad o fullscreen não funciona,
     // por isso escondemos completamente o botão.
+    
     if (isAppleMobile()) {
 
         btn.classList.remove("show");
         btn.style.display = "none";
+
+        // No iPhone, o + ocupa diretamente a posição do fullscreen
+        if (zoom) {
+            zoom.style.right = "78px";
+        }
 
     } else {
 
@@ -1350,6 +1356,11 @@ function mostrarBotaoFullscreen(){
 
         // Mostrar o botão fullscreen
         btn.classList.add("show");
+
+        // Posição normal do +
+        if (zoom) {
+            zoom.style.right = "126px";
+        }
 
     }
 
