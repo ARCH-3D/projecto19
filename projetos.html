@@ -2415,13 +2415,34 @@ modalContent.addEventListener("touchstart", () => {
 });
 
 document.addEventListener("fullscreenchange", () => {
-    
+
     const btn = fullscreenBtn;
-    
-    if (document.fullscreenElement){
-        
+    const close = closeBtn;
+
+    if (document.fullscreenElement) {
+
+        // Entrou em fullscreen
         btn?.classList.remove("show");
-        
+
+        // No iPad, esconder também o X criado por nós
+        if (
+            window.innerWidth >= 768 &&
+            window.innerWidth <= 1366
+        ) {
+            close?.classList.remove("show-controls");
+        }
+
+    } else {
+
+        // Saiu do fullscreen
+        if (
+            window.innerWidth >= 768 &&
+            window.innerWidth <= 1366
+        ) {
+            // No iPad, voltar a mostrar o X
+            close?.classList.add("show-controls");
+        }
+
     }
 
     modal.style.background = "";

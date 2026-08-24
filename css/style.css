@@ -1261,17 +1261,6 @@ footer p{
 
 }
 
-/* Esconder o X próprio durante fullscreen no iPad */
-@media (min-width:768px) and (max-width:1366px) {
-    :fullscreen .close {
-        display:none !important;
-    }
-
-    :-webkit-full-screen .close {
-        display:none !important;
-    }
-}
-
 /* Ajuste iPad */
 
 @media (min-width:768px) and (max-width:1366px){
