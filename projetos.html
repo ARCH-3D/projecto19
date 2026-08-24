@@ -1381,116 +1381,153 @@ function atualizarLaterais() {
 
 function mudarMidia(direcao) {
 
-    if (!elementoAtual) return;
-
-    const largura = window.innerWidth;
-
     direcaoSlide = direcao;
 
     // ==================================
-    // PRÓXIMA IMAGEM →
+    // COMPUTADOR
     // ==================================
 
-    if (direcao === 1) {
+    // No computador usamos a mesma lógica
+    // de slide, mas com uma animação um
+    // pouco mais lenta e suave.
 
-        if (!elementoSeguinte) {
-            prepararProximaImagem();
+    if (window.innerWidth > MOBILE_BREAKPOINT) {
+
+        if (!elementoAtual) return;
+
+        const proximoIndice =
+            (indiceAtual + direcao + midiasAtuais.length) %
+            midiasAtuais.length;
+
+        let novoElemento;
+
+        if (direcao === 1) {
+
+            // Próxima imagem
+            if (!elementoSeguinte) {
+                prepararProximaImagem();
+            }
+
+            novoElemento = elementoSeguinte;
+
+        } else {
+
+            // Imagem anterior
+            if (!elementoAnterior) {
+                prepararImagemAnterior();
+            }
+
+            novoElemento = elementoAnterior;
+
         }
 
-        // Imagem atual
+        if (!novoElemento) return;
+
+        // Garantir que não há transições antigas
+        elementoAtual.style.transition = "none";
+        novoElemento.style.transition = "none";
+
+        // Posição inicial
+        if (direcao === 1) {
+
+            novoElemento.style.transform =
+                "translate(calc(-50% + 100vw), -50%)";
+
+        } else {
+
+            novoElemento.style.transform =
+                "translate(calc(-50% - 100vw), -50%)";
+
+        }
+
+        novoElemento.style.opacity = "1";
+
+        // Força o browser a aplicar a posição inicial
+        void novoElemento.offsetWidth;
+
+        // Animação
         elementoAtual.style.transition =
             "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
 
-        // Imagem seguinte
-        elementoSeguinte.style.transition =
+        novoElemento.style.transition =
             "transform .35s cubic-bezier(.22,.61,.36,1)";
 
-        // Imagem atual sai para a esquerda
-        elementoAtual.style.transform =
-            `translate(calc(-50% - ${largura}px), -50%)`;
+        if (direcao === 1) {
 
-        elementoAtual.style.opacity = "0";
+            // Imagem atual sai para a esquerda
+            elementoAtual.style.transform =
+                "translate(calc(-50% - 100vw), -50%)";
 
-        // Imagem seguinte entra pela direita
-        elementoSeguinte.style.transform =
-            "translate(-50%, -50%)";
+            // Nova imagem entra pela direita
+            novoElemento.style.transform =
+                "translate(-50%, -50%)";
+
+        } else {
+
+            // Imagem atual sai para a direita
+            elementoAtual.style.transform =
+                "translate(calc(-50% + 100vw), -50%)";
+
+            // Nova imagem entra pela esquerda
+            novoElemento.style.transform =
+                "translate(-50%, -50%)";
+
+        }
 
         // Atualizar índice
-        indiceAtual =
-            (indiceAtual + 1) % midiasAtuais.length;
+        indiceAtual = proximoIndice;
 
         atualizarPreview();
 
+        // Esperar a animação terminar
         setTimeout(() => {
 
             if (elementoAtual) {
                 elementoAtual.remove();
             }
 
-            elementoAtual = elementoSeguinte;
+            elementoAtual = novoElemento;
+
+            elementoAnterior = null;
             elementoSeguinte = null;
 
-            atualizarLaterais();
             preloadImagens();
-            mostrarBotaoFullscreen();
+            atualizarLaterais();
+
+            // Vídeo
+            if (
+                elementoAtual &&
+                elementoAtual.tagName === "VIDEO"
+            ) {
+                elementoAtual.play();
+            }
 
         }, 350);
+
+        mostrarBotaoFullscreen();
 
         return;
     }
 
 
     // ==================================
-    // IMAGEM ANTERIOR ←
+    // TELEMÓVEL
     // ==================================
+    
+    // Mantém exatamente o comportamento
+    // que já tens no telemóvel.
 
-    if (direcao === -1) {
+    indiceAtual += direcao;
 
-        if (!elementoAnterior) {
-            prepararImagemAnterior();
-        }
+    indiceAtual =
+        (indiceAtual + midiasAtuais.length) %
+        midiasAtuais.length;
 
-        // Imagem atual
-        elementoAtual.style.transition =
-            "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
+    atualizarIndicadores();
 
-        // Imagem anterior
-        elementoAnterior.style.transition =
-            "transform .35s cubic-bezier(.22,.61,.36,1)";
-
-        // Imagem atual sai para a direita
-        elementoAtual.style.transform =
-            `translate(calc(-50% + ${largura}px), -50%)`;
-
-        elementoAtual.style.opacity = "0";
-
-        // Imagem anterior entra pela esquerda
-        elementoAnterior.style.transform =
-            "translate(-50%, -50%)";
-
-        // Atualizar índice
-        indiceAtual =
-            (indiceAtual - 1 + midiasAtuais.length) %
-            midiasAtuais.length;
-
-        atualizarPreview();
-
-        setTimeout(() => {
-
-            if (elementoAtual) {
-                elementoAtual.remove();
-            }
-
-            elementoAtual = elementoAnterior;
-            elementoAnterior = null;
-
-            atualizarLaterais();
-            preloadImagens();
-            mostrarBotaoFullscreen();
-
-        }, 350);
-
-    }
+    mostrarMidia();
+    mostrarBotaoFullscreen();
+    preloadImagens();
 
 }
 
