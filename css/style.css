@@ -1251,14 +1251,11 @@ footer p{
 
 /* Esconder no telemóvel */
 
-@media (max-width:768px){
+@media (max-width:768px), (pointer:coarse){
 
     .fullscreen-btn{
-
         display:none !important;
-
     }
-
 }
 
 /* ================== ZOOM ================== */
