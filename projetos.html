@@ -1375,10 +1375,6 @@ function atualizarLaterais() {
 
 }
 
-// ======================================
-// NAVEGAÇÃO
-// ======================================
-
 function mudarMidia(direcao) {
 
     direcaoSlide = direcao;
@@ -1387,65 +1383,64 @@ function mudarMidia(direcao) {
     // COMPUTADOR
     // ==================================
 
-    // No computador usamos a mesma lógica
-    // de slide, mas com uma animação um
-    // pouco mais lenta e suave.
-
     if (window.innerWidth > MOBILE_BREAKPOINT) {
 
         if (!elementoAtual) return;
 
-        const proximoIndice =
-            (indiceAtual + direcao + midiasAtuais.length) %
-            midiasAtuais.length;
-
         let novoElemento;
+
+        // ------------------------------
+        // PRÓXIMA IMAGEM
+        // ------------------------------
 
         if (direcao === 1) {
 
-            // Próxima imagem
             if (!elementoSeguinte) {
                 prepararProximaImagem();
             }
 
             novoElemento = elementoSeguinte;
 
-        } else {
+            if (!novoElemento) return;
 
-            // Imagem anterior
+            novoElemento.style.transition = "none";
+
+            novoElemento.style.transform =
+                "translate(calc(-50% + 100vw), -50%)";
+
+        }
+
+        // ------------------------------
+        // IMAGEM ANTERIOR
+        // ------------------------------
+
+        else {
+
             if (!elementoAnterior) {
                 prepararImagemAnterior();
             }
 
             novoElemento = elementoAnterior;
 
-        }
+            if (!novoElemento) return;
 
-        if (!novoElemento) return;
-
-        // Garantir que não há transições antigas
-        elementoAtual.style.transition = "none";
-        novoElemento.style.transition = "none";
-
-        // Posição inicial
-        if (direcao === 1) {
-
-            novoElemento.style.transform =
-                "translate(calc(-50% + 100vw), -50%)";
-
-        } else {
+            novoElemento.style.transition = "none";
 
             novoElemento.style.transform =
                 "translate(calc(-50% - 100vw), -50%)";
 
         }
 
-        novoElemento.style.opacity = "1";
+        // ------------------------------
+        // FORÇAR POSIÇÃO INICIAL
+        // ------------------------------
 
-        // Força o browser a aplicar a posição inicial
         void novoElemento.offsetWidth;
 
-        // Animação
+        // ------------------------------
+        // ANIMAÇÃO
+        // ------------------------------
+
         elementoAtual.style.transition =
             "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
 
@@ -1454,32 +1449,36 @@ function mudarMidia(direcao) {
 
         if (direcao === 1) {
 
-            // Imagem atual sai para a esquerda
+            // Atual sai para a esquerda
             elementoAtual.style.transform =
                 "translate(calc(-50% - 100vw), -50%)";
 
-            // Nova imagem entra pela direita
-            novoElemento.style.transform =
-                "translate(-50%, -50%)";
-
         } else {
 
-            // Imagem atual sai para a direita
+            // Atual sai para a direita
             elementoAtual.style.transform =
                 "translate(calc(-50% + 100vw), -50%)";
 
-            // Nova imagem entra pela esquerda
-            novoElemento.style.transform =
-                "translate(-50%, -50%)";
-
         }
 
-        // Atualizar índice
-        indiceAtual = proximoIndice;
+        // Nova imagem vai para o centro
+        novoElemento.style.transform =
+            "translate(-50%, -50%)";
+
+        // ------------------------------
+        // ATUALIZAR ÍNDICE
+        // ------------------------------
+
+        indiceAtual =
+            (indiceAtual + direcao + midiasAtuais.length) %
+            midiasAtuais.length;
 
         atualizarPreview();
 
-        // Esperar a animação terminar
+        // ------------------------------
+        // FINAL DA ANIMAÇÃO
+        // ------------------------------
+
         setTimeout(() => {
 
             if (elementoAtual) {
@@ -1494,7 +1493,6 @@ function mudarMidia(direcao) {
             preloadImagens();
             atualizarLaterais();
 
-            // Vídeo
             if (
                 elementoAtual &&
                 elementoAtual.tagName === "VIDEO"
@@ -1513,9 +1511,9 @@ function mudarMidia(direcao) {
     // ==================================
     // TELEMÓVEL
     // ==================================
-    
-    // Mantém exatamente o comportamento
-    // que já tens no telemóvel.
+
+    // Mantém o comportamento original
+    // do telemóvel.
 
     indiceAtual += direcao;
 
