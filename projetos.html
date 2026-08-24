@@ -1379,7 +1379,13 @@ function toggleFullscreen() {
 
     if (isMobileApple) {
 
-        modal.classList.toggle("iphone-fullscreen");
+        const ativado =
+            modal.classList.toggle("iphone-fullscreen");
+
+        document.body.classList.toggle(
+            "iphone-fullscreen-active",
+            ativado
+        );
 
         return;
     }
