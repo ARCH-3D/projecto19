@@ -1133,6 +1133,8 @@ const modalIndicators = document.getElementById("modal-indicators");
 
 const fullscreenBtn = document.getElementById("fullscreen-btn");
 
+const zoomBtn = document.getElementById("zoom-btn");
+
 const closeBtn = document.querySelector(".close");
 
 const contactWidget = document.querySelector(".contact-widget");
@@ -2443,6 +2445,42 @@ fullscreenBtn.addEventListener("click", function(e){
     e.stopPropagation();
 
     toggleFullscreen();
+
+});
+
+zoomBtn.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+    if (!elementoAtual) return;
+
+    zoomAtivo = !zoomAtivo;
+
+    zoomBtn.textContent = zoomAtivo ? "−" : "+";
+
+    elementoAtual.style.transition = TRANSITION_FAST;
+
+    if (zoomAtivo){
+
+        escalaZoom = DEFAULT_ZOOM;
+
+    } else {
+
+        escalaZoom = ZOOM_MIN;
+
+        zoomX = 0;
+        zoomY = 0;
+
+        zoomTargetX = 0;
+        zoomTargetY = 0;
+
+    }
+
+    if (!rafZoom){
+
+        rafZoom = requestAnimationFrame(atualizarZoom);
+
+    }
 
 });
 
