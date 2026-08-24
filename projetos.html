@@ -2393,9 +2393,7 @@ modalContent.addEventListener("touchend", function(e){
             // ==========================
 
             if (
-                window.matchMedia(
-                    `(max-width:${MOBILE_BREAKPOINT}px)`
-                ).matches
+                window.matchMedia("(pointer: coarse)").matches
             ){
 
                 if (!elementoAtual) return;
