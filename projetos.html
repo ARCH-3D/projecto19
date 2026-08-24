@@ -1061,6 +1061,12 @@ let zoomStartY = 0;
 
 let moverImagem = false;
 
+let mouseZoomAtivo = false;
+let mouseZoomStartX = 0;
+let mouseZoomStartY = 0;
+let mouseZoomInicioX = 0;
+let mouseZoomInicioY = 0;
+
 let rafZoom = null;
 
 let zoomTargetX = 0;
@@ -2312,6 +2318,69 @@ modal.addEventListener('touchend', function(e) {
 
     // 🔥 Caso contrário → swipe horizontal normal
     handleSwipe();
+
+});
+
+// ======================================
+// ARRASTAR IMAGEM COM O RATO NO ZOOM
+// ======================================
+
+modalContent.addEventListener("mousedown", function(e){
+
+    // Só funciona com botão esquerdo
+    if (e.button !== 0) return;
+
+    // Só permite arrastar quando está ampliado
+    if (!zoomAtivo || !elementoAtual) return;
+
+    e.preventDefault();
+
+    mouseZoomAtivo = true;
+
+    mouseZoomStartX = e.clientX;
+    mouseZoomStartY = e.clientY;
+
+    mouseZoomInicioX = zoomTargetX;
+    mouseZoomInicioY = zoomTargetY;
+
+    elementoAtual.style.transition = "none";
+
+    modalContent.style.cursor = "grabbing";
+
+});
+
+
+document.addEventListener("mousemove", function(e){
+
+    if (!mouseZoomAtivo || !elementoAtual) return;
+
+    e.preventDefault();
+
+    zoomTargetX =
+        mouseZoomInicioX +
+        (e.clientX - mouseZoomStartX);
+
+    zoomTargetY =
+        mouseZoomInicioY +
+        (e.clientY - mouseZoomStartY);
+
+    if (!rafZoom){
+
+        rafZoom =
+            requestAnimationFrame(atualizarZoom);
+
+    }
+
+});
+
+
+document.addEventListener("mouseup", function(){
+
+    if (!mouseZoomAtivo) return;
+
+    mouseZoomAtivo = false;
+
+    modalContent.style.cursor = "";
 
 });
 
