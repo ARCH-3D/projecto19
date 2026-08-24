@@ -2343,10 +2343,10 @@ modalContent.addEventListener("touchend", function(e){
     const dx = Math.abs(touch.clientX - touchStartX);
     const dy = Math.abs(touch.clientY - touchStartY);
 
-        if (
-            dx < DRAG_START_THRESHOLD &&
-            dy < DRAG_START_THRESHOLD
-        ){
+    if (
+        dx < DRAG_START_THRESHOLD &&
+        dy < DRAG_START_THRESHOLD
+    ){
 
         const agora = Date.now();
 
@@ -2358,10 +2358,15 @@ modalContent.addEventListener("touchend", function(e){
             // TELEMÓVEL -> ZOOM
             // ==========================
 
-            if (window.matchMedia(`(max-width:${MOBILE_BREAKPOINT}px)`).matches) {
+            if (
+                window.matchMedia(
+                    `(max-width:${MOBILE_BREAKPOINT}px)`
+                ).matches
+            ){
 
                 if (!elementoAtual) return;
 
+                // Alternar zoom
                 zoomAtivo = !zoomAtivo;
 
                 requestAnimationFrame(() => {
@@ -2371,10 +2376,15 @@ modalContent.addEventListener("touchend", function(e){
 
                     if (zoomAtivo){
 
+                        // Ativar zoom
                         escalaZoom = DEFAULT_ZOOM;
+
+                        // Mudar botão de + para −
+                        zoomBtn.textContent = "−";
 
                     }else{
 
+                        // Desativar zoom
                         escalaZoom = ZOOM_MIN;
 
                         zoomX = 0;
@@ -2383,11 +2393,15 @@ modalContent.addEventListener("touchend", function(e){
                         zoomTargetX = 0;
                         zoomTargetY = 0;
 
+                        // Mudar botão de − para +
+                        zoomBtn.textContent = "+";
+
                     }
 
                     if (!rafZoom){
 
-                        rafZoom = requestAnimationFrame(atualizarZoom);
+                        rafZoom =
+                            requestAnimationFrame(atualizarZoom);
 
                     }
 
@@ -2408,6 +2422,7 @@ modalContent.addEventListener("touchend", function(e){
         }
 
         ultimoToque = agora;
+
     }
 
 });
