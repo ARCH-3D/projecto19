@@ -1315,21 +1315,31 @@ function mostrarBotaoFullscreen(){
     if (!btn) return;
 
     // ======================================
-    // TELEMÓVEL / TABLET
+    // IPHONE
     // ======================================
 
     const ecrãPequeno =
-        window.matchMedia("(max-width: 768px)").matches;
+        window.matchMedia("(max-width: 767px)").matches;
 
     const toque =
         window.matchMedia("(pointer: coarse)").matches;
 
-    const dispositivoMovel =
-        ecrãPequeno || toque;
+    const tablet =
+        window.matchMedia("(min-width: 768px) and (max-width: 1366px)").matches;
 
-    if (dispositivoMovel){
+    const iphone =
+        ecrãPequeno && toque;
 
-        // Fullscreen nunca aparece em dispositivos touch
+    const ipad =
+        tablet && toque;
+
+    // ======================================
+    // IPHONE
+    // ======================================
+
+    if (iphone){
+
+        // Fullscreen escondido
         btn.classList.remove("show");
 
         // X aparece
@@ -1337,7 +1347,7 @@ function mostrarBotaoFullscreen(){
             close.classList.add("show-controls");
         }
 
-        // + / − aparece
+        // Zoom aparece
         if (zoom){
             zoom.style.display = "flex";
         }
@@ -1346,17 +1356,18 @@ function mostrarBotaoFullscreen(){
     }
 
     // ======================================
-    // DESKTOP
+    // IPAD + DESKTOP
     // ======================================
 
-    // Esconde o botão de zoom
+    // Zoom aparece apenas no iPad
     if (zoom){
-        zoom.style.display = "none";
+        zoom.style.display = ipad ? "flex" : "none";
     }
 
-    // Mostra fullscreen + X temporariamente
+    // Fullscreen aparece
     btn.classList.add("show");
 
+    // X aparece
     if (close){
         close.classList.add("show-controls");
     }
