@@ -1326,21 +1326,18 @@ function mostrarBotaoFullscreen(){
 
     if (!btn) return;
 
-    // Fullscreen aparece no PC e no iPad
-    btn.style.display = "flex";
+    // Mostrar os três controlos
     btn.classList.add("show");
 
-    // X aparece
     if (close){
         close.classList.add("show-controls");
     }
 
-    // Zoom aparece
     if (zoom){
-        zoom.style.display = "flex";
+        zoom.classList.add("show");
     }
 
-    // Reinicia o temporizador
+    // Reiniciar temporizador
     clearTimeout(fullscreenTimeout);
 
     fullscreenTimeout = setTimeout(() => {
@@ -1352,7 +1349,7 @@ function mostrarBotaoFullscreen(){
         }
 
         if (zoom){
-            zoom.style.display = "none";
+            zoom.classList.remove("show");
         }
 
     }, FULLSCREEN_BUTTON_TIMEOUT);
@@ -2521,15 +2518,6 @@ modalContent.addEventListener("touchend", function(e){
 
             }
 
-            // ==========================
-            // DESKTOP -> FULLSCREEN
-            // ==========================
-
-            else{
-
-                toggleFullscreen();
-
-            }
 
         }
 
