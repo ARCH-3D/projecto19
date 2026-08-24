@@ -1251,8 +1251,7 @@ footer p{
 
 /* Esconder no telemóvel */
 
-@media (max-width:768px), (pointer:coarse){
-
+@media (max-width:767px){
     .fullscreen-btn{
         display:none !important;
     }
@@ -1312,12 +1311,10 @@ footer p{
 
 /* Mostrar apenas no telemóvel */
 
-@media (min-width:769px){
-
-    .zoom-btn {
-        display: none;
+@media (min-width:769px) and (pointer:fine){
+    .zoom-btn{
+        display:none;
     }
-
 }
 
 /* Ajuste iPad */
@@ -1348,22 +1345,11 @@ footer p{
 
 }
 
-/* ================================
-   IPHONE / TELEMÓVEL EM PAISAGEM
-   ================================ */
-
 @media (pointer: coarse) and (orientation: landscape) {
 
-    /* Esconde fullscreen */
-    .fullscreen-btn {
-        display: none !important;
-    }
-
-    /* Mostra o botão + / - */
     .zoom-btn {
         display: flex !important;
         top: 25px;
         right: 78px;
     }
-
 }
