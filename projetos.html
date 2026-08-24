@@ -1561,6 +1561,109 @@ function mostrarBotaoFullscreen(){
     if (!btn) return;
 
     // ==================================
+    // DETETAR DISPOSITIVOS
+    // ==================================
+
+    const isAndroid =
+        /Android/i.test(navigator.userAgent);
+
+    const isApple =
+        isAppleMobile();
+
+    // ==================================
+    // iPHONE / iPAD / ANDROID
+    // ESCONDER FULLSCREEN
+    // ==================================
+
+    if (isApple || isAndroid) {
+
+        btn.classList.remove("show");
+        btn.style.display = "none";
+
+        // O + fica diretamente na posição
+        // onde estaria o fullscreen
+        if (zoom) {
+            zoom.style.right = "78px";
+        }
+
+    } else {
+
+        // ==================================
+        // PC
+        // MOSTRAR FULLSCREEN
+        // ==================================
+
+        btn.style.display = "";
+        btn.classList.add("show");
+
+        // Posição normal do +
+        if (zoom) {
+            zoom.style.right = "126px";
+        }
+
+    }
+
+    // ==================================
+    // MOSTRAR O X
+    // ==================================
+
+    if (close){
+        close.classList.add("show-controls");
+    }
+
+    // ==================================
+    // MOSTRAR O ZOOM
+    // ==================================
+
+    if (zoom){
+        zoom.classList.add("show");
+    }
+
+    // ==================================
+    // DISPOSITIVOS COM TOUCH
+    // ==================================
+
+    // Android e iPhone já foram tratados acima.
+    // No PC com touchscreen, mantém os controlos visíveis.
+    if (window.matchMedia("(pointer: coarse)").matches) {
+
+        clearTimeout(fullscreenTimeout);
+
+        return;
+    }
+
+    // ==================================
+    // PC
+    // ESCONDER CONTROLOS APÓS 1 SEGUNDO
+    // ==================================
+
+    clearTimeout(fullscreenTimeout);
+
+    fullscreenTimeout = setTimeout(() => {
+
+        btn.classList.remove("show");
+
+        if (close){
+            close.classList.remove("show-controls");
+        }
+
+        if (zoom){
+            zoom.classList.remove("show");
+        }
+
+    }, FULLSCREEN_BUTTON_TIMEOUT);
+
+}
+
+/*function mostrarBotaoFullscreen(){
+
+    const btn = fullscreenBtn;
+    const close = closeBtn;
+    const zoom = zoomBtn;
+
+    if (!btn) return;
+
+    // ==================================
     // iPhone / iPad
     // ==================================
 
@@ -1634,7 +1737,7 @@ function mostrarBotaoFullscreen(){
 
     }, FULLSCREEN_BUTTON_TIMEOUT);
 
-}
+}*/
 
 function toggleFullscreen() {
 
