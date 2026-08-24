@@ -1322,10 +1322,11 @@ footer p{
     #modal-content.iphone-safari-edge-landscape img,
     #modal-content.iphone-safari-edge-landscape video{
 
-        max-width:98vw;
-        max-height:98dvh;
-        height:98dvh;
-        width:auto;
+        max-width:none !important;
+        max-height:none !important;
+
+        width:auto !important;
+        height:98dvh !important;
 
     }
 
