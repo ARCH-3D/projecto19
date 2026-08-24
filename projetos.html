@@ -2415,13 +2415,15 @@ modalContent.addEventListener("touchstart", () => {
 });
 
 document.addEventListener("fullscreenchange", () => {
-    
+
     const btn = fullscreenBtn;
-    
-    if (document.fullscreenElement){
-        
+    const close = closeBtn;
+
+    if (document.fullscreenElement) {
+
         btn?.classList.remove("show");
-        
+        close?.classList.remove("show-controls");
+
     }
 
     modal.style.background = "";
