@@ -1281,13 +1281,8 @@ footer p{
 }
 
 @media (pointer: coarse){
-    
-    .fullscreen-btn{
-        display:none !important;
-    }
 
     .zoom-btn{
         right:78px;
     }
-
 }
