@@ -1274,6 +1274,9 @@ footer p{
 
     background: transparent;
     border: none;
+    outline: none;
+
+    color: white;
 
     display: flex;
     align-items: center;
@@ -1281,10 +1284,11 @@ footer p{
 
     cursor: pointer;
 
-    opacity: 0;
-    pointer-events: none;
+    appearance: none;
+    -webkit-appearance: none;
 
-    transition: opacity .2s ease;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .zoom-btn svg {
@@ -1296,11 +1300,6 @@ footer p{
     stroke-width: 1.5;
 
     display: block;
-}
-
-.zoom-btn.show {
-    opacity: 1;
-    pointer-events: auto;
 }
 
 @media (max-width: 768px) {
