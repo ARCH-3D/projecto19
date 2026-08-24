@@ -1141,28 +1141,36 @@ footer p{
 
     position:absolute;
 
-    right:24px;
-    bottom:24px;
+    top:24px;
+
+    right:85px;
 
     width:42px;
+
     height:42px;
 
     border:none;
+
     border-radius:50%;
 
     background:rgba(0,0,0,.35);
+
     backdrop-filter:blur(10px);
 
     color:white;
+
     font-size:22px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 
     cursor:pointer;
 
     opacity:0;
+
     pointer-events:none;
 
     transition:
@@ -1217,9 +1225,9 @@ footer p{
     }
 }
 
-.fullscreen-btn{
+/*.fullscreen-btn{
     display: none !important;
-}
+}*/
 
 @media (max-width:768px) and (orientation:landscape){
 
