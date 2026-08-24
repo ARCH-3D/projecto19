@@ -1168,6 +1168,12 @@ function resetZoom(){
     zoomTargetX = 0;
     zoomTargetY = 0;
 
+    mouseZoomAtivo = false;
+
+    if (modalContent){
+        modalContent.style.cursor = "";
+    }
+
     if (zoomBtn){
         zoomBtn.textContent = "+";
     }
