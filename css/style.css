@@ -1140,17 +1140,16 @@ footer p{
 /* ================== FULLSCREEN ================== */
 
 .fullscreen-btn{
-
     position:absolute;
 
-    /* Mesma altura do X */
+    /* Mesma referência vertical do X */
     top:25px;
 
-    /* À esquerda e próximo do X */
-    right:78px;
+    /* Muito próximo do X */
+    right:72px;
 
-    width:auto;
-    height:auto;
+    width:38px;
+    height:38px;
 
     padding:0;
     margin:0;
@@ -1158,15 +1157,7 @@ footer p{
     border:none;
     background:none;
 
-    color:#111;
-
-    font-family:Arial, sans-serif;
-    font-size:32px;
-    font-weight:300;
-    line-height:1;
-
     display:none;
-
     align-items:center;
     justify-content:center;
 
@@ -1177,43 +1168,91 @@ footer p{
 
     z-index:10003;
 
-    transition:
-        opacity .25s ease,
-        transform .25s ease;
+    transition:opacity .25s ease;
 }
 
+/* Mostrar botão */
 
-/* Mostrar fullscreen */
 .fullscreen-btn.show{
-
     display:flex;
-
     opacity:1;
-
     pointer-events:auto;
-
 }
 
+/* ================== ÍCONE FULLSCREEN ================== */
 
-/* Efeito ao passar o rato */
+.fullscreen-icon{
+
+    position:relative;
+
+    display:block;
+
+    width:22px;
+    height:22px;
+}
+
+/* Cantos do fullscreen */
+
+.fullscreen-icon::before,
+.fullscreen-icon::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    border-color:#111;
+    border-style:solid;
+}
+
+/* Cantos superior esquerdo + inferior direito */
+
+.fullscreen-icon::before{
+
+    left:0;
+    top:0;
+
+    border-width:1.5px 0 0 1.5px;
+}
+
+/* Cantos superior direito + inferior esquerdo */
+
+.fullscreen-icon::after{
+
+    right:0;
+    bottom:0;
+
+    border-width:0 1.5px 1.5px 0;
+}
+
+/* Os outros dois cantos */
+
+.fullscreen-icon{
+    background:
+        linear-gradient(#111,#111) left top / 7px 1.5px no-repeat,
+        linear-gradient(#111,#111) right top / 7px 1.5px no-repeat,
+        linear-gradient(#111,#111) left bottom / 7px 1.5px no-repeat,
+        linear-gradient(#111,#111) right bottom / 7px 1.5px no-repeat;
+}
+
+/* Hover */
+
 @media (hover:hover){
 
     .fullscreen-btn:hover{
-
         opacity:.5;
-
     }
 
 }
 
-
 /* Esconder no telemóvel */
+
 @media (max-width:768px){
 
     .fullscreen-btn{
-
         display:none !important;
-
     }
 
 }
