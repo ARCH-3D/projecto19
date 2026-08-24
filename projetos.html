@@ -1993,6 +1993,42 @@ function mostrarMidia() {
 
     configurarElementoMidia(novo);
 
+    // ================================
+    // IPHONE SAFARI / EDGE — LANDSCAPE
+    // Aumentar imagem
+    // ================================
+
+    if (
+        isIPhoneSafariOrEdge() &&
+        window.matchMedia("(orientation: landscape)").matches
+    ) {
+
+        novo.style.setProperty(
+            "max-width",
+            "none",
+            "important"
+        );
+
+        novo.style.setProperty(
+            "max-height",
+            "none",
+            "important"
+        );
+
+        novo.style.setProperty(
+            "height",
+            "calc(100dvh - 20px)",
+            "important"
+        );
+
+        novo.style.setProperty(
+            "width",
+            "auto",
+            "important"
+        );
+
+    }
+
     novo.style.zIndex = "2";
 
     novo.style.transform =
