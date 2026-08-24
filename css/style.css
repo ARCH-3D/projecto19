@@ -1346,3 +1346,22 @@ footer p{
     }
 
 }
+
+/* ==========================================
+   ANDROID — FULLSCREEN LANDSCAPE
+========================================== */
+
+@media (max-width:767px) and (orientation:landscape){
+
+    #modal-content.android-fullscreen-landscape img,
+    #modal-content.android-fullscreen-landscape video{
+
+        max-width:none !important;
+        max-height:none !important;
+
+        width:auto !important;
+        height:calc(100dvh - 20px) !important;
+
+    }
+
+}
