@@ -1846,6 +1846,43 @@ function criarElementoMidia(midia) {
 
     configurarElementoMidia(elemento);
 
+    configurarElementoMidia(elemento);
+
+    // ================================
+    // IPHONE SAFARI / EDGE — LANDSCAPE
+    // ================================
+
+    if (
+        isIPhoneSafariOrEdge() &&
+        window.matchMedia("(orientation: landscape)").matches
+    ) {
+
+        elemento.style.setProperty(
+            "max-width",
+            "none",
+            "important"
+        );
+
+        elemento.style.setProperty(
+            "max-height",
+            "none",
+            "important"
+        );
+
+        elemento.style.setProperty(
+            "height",
+            "calc(100dvh - 20px)",
+            "important"
+        );
+
+        elemento.style.setProperty(
+            "width",
+            "auto",
+            "important"
+        );
+
+    }
+
     // Aplicar grayscale se necessário
     if (midia.grayscale) {
         elemento.classList.add("grayscale");
