@@ -1308,8 +1308,12 @@ function mostrarBotaoFullscreen(){
 
     if (!btn) return;
 
-    // No telemóvel: o X fica sempre visível
-    if (window.innerWidth <= MOBILE_BREAKPOINT) {
+    // Telemóvel/tablet: fullscreen escondido
+    // Funciona também em modo paisagem
+    if (
+        window.innerWidth <= MOBILE_BREAKPOINT ||
+        window.matchMedia("(pointer: coarse)").matches
+    ) {
 
         btn.classList.remove("show");
 
