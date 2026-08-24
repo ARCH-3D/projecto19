@@ -1328,17 +1328,18 @@ function mostrarBotaoFullscreen(){
 
     if (toque){
 
-        // No telemóvel não mostramos Fullscreen
+        // Fullscreen não aparece
         btn.classList.remove("show");
         btn.style.display = "none";
 
-        // X sempre visível
+        // X aparece
         if (close){
             close.classList.add("show-controls");
         }
 
-        // Zoom sempre visível
+        // + aparece
         if (zoom){
+            zoom.classList.add("show");
             zoom.style.display = "flex";
         }
 
@@ -1352,13 +1353,15 @@ function mostrarBotaoFullscreen(){
     // PC / DESKTOP
     // ======================================
 
-    // Zoom aparece
+    // Fullscreen aparece
+    btn.style.display = "flex";
+    btn.classList.add("show");
+
+    // + aparece
     if (zoom){
         zoom.style.display = "flex";
+        zoom.classList.add("show");
     }
-
-    // Fullscreen aparece
-    btn.classList.add("show");
 
     // X aparece
     if (close){
@@ -1370,15 +1373,17 @@ function mostrarBotaoFullscreen(){
 
     fullscreenTimeout = setTimeout(() => {
 
+        // Fullscreen desaparece
         btn.classList.remove("show");
 
+        // X desaparece
         if (close){
             close.classList.remove("show-controls");
         }
 
-        // Zoom também desaparece no PC
+        // + desaparece
         if (zoom){
-            zoom.style.display = "none";
+            zoom.classList.remove("show");
         }
 
     }, FULLSCREEN_BUTTON_TIMEOUT);
