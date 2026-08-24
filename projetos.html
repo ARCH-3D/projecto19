@@ -1345,23 +1345,24 @@ function isIPhoneSafariOrEdge(){
 
 }
 
-function isIPhoneSafariOrEdge(){
+function ajustarBolinhasIPhone(){
 
-    const ua = navigator.userAgent;
+    const indicadores = document.querySelector(".media-indicators");
 
-    const isIPhone =
-        /iPhone/i.test(ua);
+    if (!indicadores) return;
 
-    const isEdge =
-        /EdgiOS/i.test(ua);
+    if (
+        isIPhoneSafariOrEdge() &&
+        window.matchMedia("(orientation: landscape)").matches
+    ){
 
-    const isSafari =
-        /Safari/i.test(ua) &&
-        !/CriOS/i.test(ua) &&
-        !/FxiOS/i.test(ua) &&
-        !/EdgiOS/i.test(ua);
+        indicadores.style.bottom = "30px";
 
-    return isIPhone && (isSafari || isEdge);
+    } else {
+
+        indicadores.style.bottom = "";
+
+    }
 
 }
 
