@@ -1232,11 +1232,17 @@ footer p{
     line-height:1;
     cursor:pointer;
     z-index:10003;
-    opacity:1;
+    opacity:0;
+    pointer-events:none;
     appearance:none;
     -webkit-appearance:none;
     -webkit-tap-highlight-color:transparent;
     transition:opacity .5s ease;
+}
+
+.zoom-btn.show{
+    opacity:1;
+    pointer-events:auto;
 }
 
 @media (hover:hover){
