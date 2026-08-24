@@ -1328,8 +1328,9 @@ function mostrarBotaoFullscreen(){
 
     if (toque){
 
-        // Fullscreen sempre visível
-        btn.classList.add("show");
+        // No telemóvel não mostramos Fullscreen
+        btn.classList.remove("show");
+        btn.style.display = "none";
 
         // X sempre visível
         if (close){
@@ -1341,8 +1342,6 @@ function mostrarBotaoFullscreen(){
             zoom.style.display = "flex";
         }
 
-        // IMPORTANTE:
-        // Não existe temporizador em dispositivos touch
         clearTimeout(fullscreenTimeout);
 
         return;
@@ -2483,23 +2482,6 @@ modalContent.addEventListener("touchstart", () => {
 });
 
 document.addEventListener("fullscreenchange", () => {
-
-    const toque =
-        window.matchMedia("(pointer: coarse)").matches;
-
-    if (toque){
-
-        // iPhone / iPad
-        // Mantém os 3 botões sempre visíveis
-
-        fullscreenBtn?.classList.add("show");
-        closeBtn?.classList.add("show-controls");
-
-        if (zoomBtn){
-            zoomBtn.style.display = "flex";
-        }
-
-    }
 
     modal.style.background = "";
 
