@@ -1337,7 +1337,15 @@ function mostrarBotaoFullscreen(){
         zoom.classList.add("show");
     }
 
-    // Reiniciar temporizador
+    // No iPhone/iPad os controlos ficam SEMPRE visíveis
+    if (window.matchMedia("(pointer: coarse)").matches) {
+
+        clearTimeout(fullscreenTimeout);
+
+        return;
+    }
+
+    // No PC continuam a desaparecer após 1 segundo
     clearTimeout(fullscreenTimeout);
 
     fullscreenTimeout = setTimeout(() => {
