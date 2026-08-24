@@ -1165,7 +1165,7 @@ footer p{
     width:38px;
     height:38px;
 
-    display:none;
+    display:flex;
 
     align-items:center;
     justify-content:center;
