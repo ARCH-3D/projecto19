@@ -1325,6 +1325,26 @@ function isAppleMobile(){
 
 }
 
+function isIPhoneSafariOrEdge(){
+
+    const ua = navigator.userAgent;
+
+    const isIPhone =
+        /iPhone/i.test(ua);
+
+    const isEdge =
+        /EdgiOS/i.test(ua);
+
+    const isSafari =
+        /Safari/i.test(ua) &&
+        !/CriOS/i.test(ua) &&
+        !/FxiOS/i.test(ua) &&
+        !/EdgiOS/i.test(ua);
+
+    return isIPhone && (isSafari || isEdge);
+
+}
+
 function mostrarBotaoFullscreen(){
 
     const btn = fullscreenBtn;
