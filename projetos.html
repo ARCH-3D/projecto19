@@ -1125,6 +1125,8 @@ const modalIndicators = document.getElementById("modal-indicators");
 
 const fullscreenBtn = document.getElementById("fullscreen-btn");
 
+const closeBtn = document.querySelector(".close");
+
 const contactWidget = document.querySelector(".contact-widget");
 
 const contactButton = document.querySelector(".contact-trigger");
@@ -1292,10 +1294,15 @@ function fecharModal() {
 function mostrarBotaoFullscreen(){
 
     const btn = fullscreenBtn;
+    const close = closeBtn;
 
     if (!btn) return;
 
     btn.classList.add("show");
+
+    if (close) {
+        close.classList.add("show-controls");
+    }
 
     clearTimeout(fullscreenTimeout);
 
@@ -1303,7 +1310,11 @@ function mostrarBotaoFullscreen(){
 
         btn.classList.remove("show");
 
-    },FULLSCREEN_BUTTON_TIMEOUT);
+        if (close) {
+            close.classList.remove("show-controls");
+        }
+
+    }, FULLSCREEN_BUTTON_TIMEOUT);
 
 }
 

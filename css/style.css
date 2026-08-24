@@ -662,8 +662,17 @@ footer p{
 
     z-index:10001;
 
-    transition:.3s ease;
+    opacity:0;
 
+    pointer-events:none;
+    
+    transition:opacity .5s ease;
+
+}
+
+.close.show-controls{
+    opacity:1;
+    pointer-events:auto;
 }
 
 @media (hover:hover){
