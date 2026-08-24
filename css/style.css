@@ -1139,63 +1139,53 @@ footer p{
 
 /* ================== FULLSCREEN ================== */
 
-.fullscreen-btn{
+.fullscreen-btn {
 
-    position:absolute;
+    position: absolute;
 
-    top:25px;
+    top: 25px;
+    right: 68px;
 
-    right:82px;
+    width: 32px;
+    height: 42px;
 
-    width:38px;
+    padding: 0;
+    margin: 0;
 
-    height:38px;
+    border: none;
+    background: transparent;
 
-    padding:0;
+    color: #111;
 
-    margin:0;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 300;
 
-    border:none;
+    line-height: 42px;
+    text-align: center;
 
-    background:transparent;
+    cursor: pointer;
 
-    color:#111;
+    opacity: 0;
+    pointer-events: none;
 
-    font-size:28px;
+    transition: opacity .25s ease;
 
-    font-weight:300;
+    z-index: 10003;
+}
 
-    line-height:38px;
+.fullscreen-btn.show {
 
-    text-align:center;
-
-    display:block;
-
-    cursor:pointer;
-
-    opacity:0;
-
-    pointer-events:none;
-
-    transition:opacity .25s ease;
-
-    z-index:10003;
+    opacity: 1;
+    pointer-events: auto;
 
 }
 
-.fullscreen-btn.show{
+@media (hover:hover) {
 
-    opacity:1;
+    .fullscreen-btn:hover {
 
-    pointer-events:auto;
-
-}
-
-@media (hover:hover){
-
-    .fullscreen-btn:hover{
-
-        opacity:.5;
+        opacity: .5;
 
     }
 
