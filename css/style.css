@@ -681,13 +681,6 @@ footer p{
 }
 
 @media (pointer:coarse){
-    .close{
-        opacity:1;
-        pointer-events:auto;
-    }
-}
-
-@media (pointer:coarse){
 
     .close{
         opacity:1;
