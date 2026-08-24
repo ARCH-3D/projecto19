@@ -1351,10 +1351,11 @@ function ajustarBolinhasIPhone(){
 
     if (!indicadores) return;
 
-    if (
+    const safariEdgeLandscape =
         isIPhoneSafariOrEdge() &&
-        window.matchMedia("(orientation: landscape)").matches
-    ){
+        window.matchMedia("(orientation: landscape)").matches;
+
+    if (safariEdgeLandscape){
 
         indicadores.style.bottom = "60px";
 
@@ -1364,20 +1365,22 @@ function ajustarBolinhasIPhone(){
 
     }
 
-    const modalContent = document.getElementById("modal-content");
+    const modalContent =
+        document.getElementById("modal-content");
 
     if (modalContent){
 
-        if (
-            isIPhoneSafariOrEdge() &&
-            window.matchMedia("(orientation: landscape)").matches
-        ){
+        if (safariEdgeLandscape){
 
-            modalContent.classList.add("iphone-safari-edge-landscape");
+            modalContent.classList.add(
+                "iphone-safari-edge-landscape"
+            );
 
         } else {
 
-            modalContent.classList.remove("iphone-safari-edge-landscape");
+            modalContent.classList.remove(
+                "iphone-safari-edge-landscape"
+            );
 
         }
 
