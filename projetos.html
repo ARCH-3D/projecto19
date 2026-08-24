@@ -1318,94 +1318,50 @@ function mostrarBotaoFullscreen(){
     // DETEÇÃO DO DISPOSITIVO
     // ======================================
 
-    const ecrãPequeno =
-        window.matchMedia("(max-width: 767px)").matches;
-
     const toque =
         window.matchMedia("(pointer: coarse)").matches;
 
-    const tablet =
-        window.matchMedia("(min-width: 768px) and (max-width: 1366px)").matches;
-
-    const iphone =
-        ecrãPequeno && toque;
-
-    const ipad =
-        tablet && toque;
-
 
     // ======================================
-    // IPHONE
+    // TELEMÓVEL / IPAD
     // ======================================
 
-    if (iphone){
+    if (toque){
 
-        // Fullscreen escondido no iPhone
-        btn.classList.remove("show");
-
-        // X aparece
-        if (close){
-            close.classList.add("show-controls");
-        }
-
-        // Zoom aparece
-        if (zoom){
-            zoom.style.display = "flex";
-        }
-
-        return;
-    }
-
-
-    // ======================================
-    // IPAD
-    // ======================================
-
-    if (ipad){
-
-        // Zoom aparece no iPad
-        if (zoom){
-            zoom.style.display = "flex";
-        }
-
-        // Fullscreen aparece
+        // Fullscreen sempre visível
         btn.classList.add("show");
 
-        // X aparece
+        // X sempre visível
         if (close){
             close.classList.add("show-controls");
         }
 
-        // Reinicia o temporizador
+        // Zoom sempre visível
+        if (zoom){
+            zoom.style.display = "flex";
+        }
+
+        // IMPORTANTE:
+        // Não existe temporizador em dispositivos touch
         clearTimeout(fullscreenTimeout);
-
-        fullscreenTimeout = setTimeout(() => {
-
-            btn.classList.remove("show");
-
-            if (close){
-                close.classList.remove("show-controls");
-            }
-
-        }, FULLSCREEN_BUTTON_TIMEOUT);
 
         return;
     }
 
 
     // ======================================
-    // DESKTOP
+    // PC / DESKTOP
     // ======================================
 
-    // Esconde o botão de zoom
+    // Zoom aparece
     if (zoom){
-        zoom.style.display = "none";
+        zoom.style.display = "flex";
     }
 
-    // Mostra fullscreen
+    // Fullscreen aparece
     btn.classList.add("show");
 
-    // Mostra X
+    // X aparece
     if (close){
         close.classList.add("show-controls");
     }
@@ -1419,6 +1375,11 @@ function mostrarBotaoFullscreen(){
 
         if (close){
             close.classList.remove("show-controls");
+        }
+
+        // Zoom também desaparece no PC
+        if (zoom){
+            zoom.style.display = "none";
         }
 
     }, FULLSCREEN_BUTTON_TIMEOUT);
@@ -2523,13 +2484,20 @@ modalContent.addEventListener("touchstart", () => {
 
 document.addEventListener("fullscreenchange", () => {
 
-    const btn = fullscreenBtn;
-    const close = closeBtn;
+    const toque =
+        window.matchMedia("(pointer: coarse)").matches;
 
-    if (document.fullscreenElement) {
+    if (toque){
 
-        btn?.classList.remove("show");
-        close?.classList.remove("show-controls");
+        // iPhone / iPad
+        // Mantém os 3 botões sempre visíveis
+
+        fullscreenBtn?.classList.add("show");
+        closeBtn?.classList.add("show-controls");
+
+        if (zoomBtn){
+            zoomBtn.style.display = "flex";
+        }
 
     }
 
