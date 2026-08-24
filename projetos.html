@@ -1358,31 +1358,58 @@ function ajustarFullscreenAndroid(){
     const fullscreen =
         !!document.fullscreenElement;
 
-    const modalContent =
-        document.getElementById("modal-content");
+    if (!emAndroid || !landscape || !fullscreen){
+        return;
+    }
+
+    // ================================
+    // IMAGEM
+    // ================================
+
+    const alturaDisponivel =
+        window.innerHeight - 20;
+
+    const aplicarTamanho = (elemento) => {
+
+        if (!elemento) return;
+
+        elemento.style.setProperty(
+            "max-width",
+            "none",
+            "important"
+        );
+
+        elemento.style.setProperty(
+            "max-height",
+            "none",
+            "important"
+        );
+
+        elemento.style.setProperty(
+            "height",
+            alturaDisponivel + "px",
+            "important"
+        );
+
+        elemento.style.setProperty(
+            "width",
+            "auto",
+            "important"
+        );
+
+    };
+
+    aplicarTamanho(elementoAtual);
+    aplicarTamanho(elementoAnterior);
+    aplicarTamanho(elementoSeguinte);
+
+
+    // ================================
+    // BOLINHAS
+    // ================================
 
     const indicadores =
         document.querySelector(".media-indicators");
-
-    if (!emAndroid || !landscape || !fullscreen){
-
-        if (modalContent){
-            modalContent.classList.remove(
-                "android-fullscreen-landscape"
-            );
-        }
-
-        return;
-
-    }
-
-    if (modalContent){
-
-        modalContent.classList.add(
-            "android-fullscreen-landscape"
-        );
-
-    }
 
     if (indicadores){
 
