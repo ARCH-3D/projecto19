@@ -1277,9 +1277,6 @@ function fecharModal() {
 
     resetZoom();
 
-    // Sair do pseudo-fullscreen do iPhone
-    modal.classList.remove("iphone-fullscreen");
-
     document.getElementById("modal-projeto").style.display = "none";
     document.getElementById("modal-content").innerHTML = "";
 
@@ -1366,39 +1363,21 @@ function mostrarBotaoFullscreen(){
     }, FULLSCREEN_BUTTON_TIMEOUT);
 }
 
-
 function toggleFullscreen() {
 
-    const isMobileApple =
-        /iPhone|iPod|iPad/i.test(navigator.userAgent) ||
-        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    if (!document.fullscreenElement) {
 
-    // =====================================
-    // iPHONE / IPAD
-    // =====================================
+        if (modal.requestFullscreen) {
 
-    if (isMobileApple) {
+            modal.requestFullscreen();
 
-        const ativo =
-            modal.classList.toggle("iphone-fullscreen");
+        } else if (modal.webkitRequestFullscreen) {
 
-        document.body.classList.toggle(
-            "iphone-fullscreen-active",
-            ativo
-        );
+            modal.webkitRequestFullscreen();
 
-        return;
-    }
+        }
 
-
-    // =====================================
-    // FULLSCREEN NORMAL — PC / iPAD
-    // =====================================
-
-    if (
-        document.fullscreenElement ||
-        document.webkitFullscreenElement
-    ) {
+    } else {
 
         if (document.exitFullscreen) {
 
@@ -1407,34 +1386,6 @@ function toggleFullscreen() {
         } else if (document.webkitExitFullscreen) {
 
             document.webkitExitFullscreen();
-
-        }
-
-        return;
-    }
-
-
-    if (modal.requestFullscreen) {
-
-        modal.requestFullscreen().catch(() => {
-
-            console.log("Fullscreen não disponível.");
-
-        });
-
-        return;
-    }
-
-
-    if (modal.webkitRequestFullscreen) {
-
-        try {
-
-            modal.webkitRequestFullscreen();
-
-        } catch (erro) {
-
-            console.log("Fullscreen não disponível.");
 
         }
 
