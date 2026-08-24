@@ -1298,6 +1298,19 @@ function mostrarBotaoFullscreen(){
 
     if (!btn) return;
 
+    // No telemóvel: o X fica sempre visível
+    if (window.innerWidth <= MOBILE_BREAKPOINT) {
+
+        btn.classList.remove("show");
+
+        if (close) {
+            close.classList.add("show-controls");
+        }
+
+        return;
+    }
+
+    // Desktop: fullscreen + X aparecem temporariamente
     btn.classList.add("show");
 
     if (close) {
