@@ -1315,7 +1315,7 @@ function mostrarBotaoFullscreen(){
     if (!btn) return;
 
     // ======================================
-    // IPHONE
+    // DETEÇÃO DO DISPOSITIVO
     // ======================================
 
     const ecrãPequeno =
@@ -1333,13 +1333,14 @@ function mostrarBotaoFullscreen(){
     const ipad =
         tablet && toque;
 
+
     // ======================================
     // IPHONE
     // ======================================
 
     if (iphone){
 
-        // Fullscreen escondido
+        // Fullscreen escondido no iPhone
         btn.classList.remove("show");
 
         // X aparece
@@ -1355,23 +1356,61 @@ function mostrarBotaoFullscreen(){
         return;
     }
 
+
     // ======================================
-    // IPAD + DESKTOP
+    // IPAD
     // ======================================
 
-    // Zoom aparece apenas no iPad
-    if (zoom){
-        zoom.style.display = ipad ? "flex" : "none";
+    if (ipad){
+
+        // Zoom aparece no iPad
+        if (zoom){
+            zoom.style.display = "flex";
+        }
+
+        // Fullscreen aparece
+        btn.classList.add("show");
+
+        // X aparece
+        if (close){
+            close.classList.add("show-controls");
+        }
+
+        // Reinicia o temporizador
+        clearTimeout(fullscreenTimeout);
+
+        fullscreenTimeout = setTimeout(() => {
+
+            btn.classList.remove("show");
+
+            if (close){
+                close.classList.remove("show-controls");
+            }
+
+        }, FULLSCREEN_BUTTON_TIMEOUT);
+
+        return;
     }
 
-    // Fullscreen aparece
+
+    // ======================================
+    // DESKTOP
+    // ======================================
+
+    // Esconde o botão de zoom
+    if (zoom){
+        zoom.style.display = "none";
+    }
+
+    // Mostra fullscreen
     btn.classList.add("show");
 
-    // X aparece
+    // Mostra X
     if (close){
         close.classList.add("show-controls");
     }
 
+    // Reinicia o temporizador
     clearTimeout(fullscreenTimeout);
 
     fullscreenTimeout = setTimeout(() => {
