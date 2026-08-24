@@ -1299,13 +1299,6 @@ footer p{
 
 }
 
-/* Mostrar apenas no telemóvel */
-
-@media (min-width:769px) and (pointer:fine){
-    .zoom-btn{
-        display:none;
-    }
-}
 
 /* Ajuste iPad */
 
