@@ -1022,6 +1022,14 @@ const projetos = {
   },
 };
 
+// ======================================
+// FULLSCREEN EM TELEMÓVEIS
+// ======================================
+
+// true  = mostrar botão fullscreen
+// false = esconder botão fullscreen
+const FULLSCREEN_TELEMOVEL = false;
+
 let projetoAtual = null;
 
 let midiasAtuais = [];
@@ -1572,10 +1580,13 @@ function mostrarBotaoFullscreen(){
 
     // ==================================
     // iPHONE / iPAD / ANDROID
-    // ESCONDER FULLSCREEN
+    // FULLSCREEN CONTROLADO PELA VARIÁVEL
     // ==================================
 
-    if (isApple || isAndroid) {
+    if (
+        (isApple || isAndroid) &&
+        !FULLSCREEN_TELEMOVEL
+    ) {
 
         btn.classList.remove("show");
         btn.style.display = "none";
@@ -1589,8 +1600,7 @@ function mostrarBotaoFullscreen(){
     } else {
 
         // ==================================
-        // PC
-        // MOSTRAR FULLSCREEN
+        // PC OU FULLSCREEN ATIVADO NO TELEMÓVEL
         // ==================================
 
         btn.style.display = "";
@@ -1623,8 +1633,7 @@ function mostrarBotaoFullscreen(){
     // DISPOSITIVOS COM TOUCH
     // ==================================
 
-    // Android e iPhone já foram tratados acima.
-    // No PC com touchscreen, mantém os controlos visíveis.
+    // No telemóvel os controlos ficam sempre visíveis
     if (window.matchMedia("(pointer: coarse)").matches) {
 
         clearTimeout(fullscreenTimeout);
