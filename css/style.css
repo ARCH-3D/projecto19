@@ -1315,3 +1315,20 @@ footer p{
     }
 }
 
+/* ================== IPHONE SAFARI / EDGE — LANDSCAPE ================== */
+
+@supports (-webkit-touch-callout: none) {
+
+    @media (max-width:767px) and (orientation:landscape){
+
+        #modal-content img,
+        #modal-content video{
+
+            max-width:98vw;
+            max-height:calc(100dvh - 20px);
+
+        }
+
+    }
+
+}
