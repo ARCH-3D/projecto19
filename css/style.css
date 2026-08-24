@@ -633,21 +633,37 @@ footer p{
 /* ================== FECHAR ================== */
 
 .close{
+
     position:absolute;
 
     top:25px;
+
     right:30px;
+
+    width:38px;
+    height:38px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+    margin:0;
 
     color:#111;
 
     font-size:38px;
+
     font-weight:300;
+
+    line-height:1;
 
     cursor:pointer;
 
     z-index:10001;
 
     transition:.3s ease;
+
 }
 
 @media (hover:hover){
@@ -1143,16 +1159,16 @@ footer p{
 
     position:absolute;
 
-    /* Mesma referência vertical do X */
     top:25px;
+    right:78px;
 
-    /* X está a 30px da direita.
-       Fullscreen fica imediatamente à esquerda */
-    right:68px;
-
-    /* Mesma dimensão de referência do X */
     width:38px;
     height:38px;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
 
     padding:0;
     margin:0;
@@ -1162,43 +1178,19 @@ footer p{
 
     color:#111;
 
-    display:none;
-    align-items:center;
-    justify-content:center;
-
     cursor:pointer;
+
+    z-index:10003;
 
     opacity:0;
     pointer-events:none;
 
-    z-index:10003;
-
     transition:opacity .25s ease;
-}
-
-
-/* ================== ÍCONE SVG ================== */
-
-.fullscreen-btn svg{
-
-    display:block;
-
-    width:30px;
-    height:30px;
-
-    fill:none;
-
-    stroke:#111;
-
-    stroke-width:1.4;
-
-    stroke-linecap:butt;
-    stroke-linejoin:miter;
 
 }
 
 
-/* ================== MOSTRAR ================== */
+/* Mostrar fullscreen */
 
 .fullscreen-btn.show{
 
@@ -1207,10 +1199,33 @@ footer p{
     opacity:1;
 
     pointer-events:auto;
+
 }
 
 
-/* ================== HOVER ================== */
+/* Ícone fullscreen */
+
+.fullscreen-btn svg{
+
+    width:24px;
+    height:24px;
+
+    display:block;
+
+    fill:none;
+
+    stroke:currentColor;
+
+    stroke-width:1.8;
+
+    stroke-linecap:square;
+
+    stroke-linejoin:miter;
+
+}
+
+
+/* Efeito ao passar o rato */
 
 @media (hover:hover){
 
@@ -1223,7 +1238,7 @@ footer p{
 }
 
 
-/* ================== ESCONDER NO TELEMÓVEL ================== */
+/* Esconder no telemóvel */
 
 @media (max-width:768px){
 
