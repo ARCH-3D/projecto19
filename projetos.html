@@ -3087,8 +3087,6 @@ window.addEventListener("scroll", () => {
 
 window.addEventListener("orientationchange", ajustarBolinhasIPhone);
 
-window.addEventListener("resize", ajustarBolinhasIPhone);
-
 window.addEventListener(
     "orientationchange",
     ajustarFullscreenAndroid
@@ -3099,11 +3097,15 @@ window.addEventListener(
     ajustarFullscreenAndroid
 );
 
-window.addEventListener("resize", function(){
+window.addEventListener(
+    "orientationchange",
+    ajustarBolinhasIPhone
+);
 
-    ajustarBolinhasIPhone();
-
-});
+window.addEventListener(
+    "resize",
+    ajustarBolinhasIPhone
+);
 
 backToTop.addEventListener("click", () => {
 
