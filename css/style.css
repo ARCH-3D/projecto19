@@ -1222,6 +1222,8 @@ footer p{
 
     stroke-linejoin:miter;
 
+    transform:translateY(2px);
+
 }
 
 
