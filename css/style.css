@@ -1264,9 +1264,12 @@ footer p{
 /* ================== ZOOM ================== */
 
 .zoom-btn {
+
     position: absolute;
+
     top: 25px;
     right: 78px;
+
     width: 38px;
     height: 38px;
 
@@ -1288,6 +1291,7 @@ footer p{
     line-height: 1;
 
     cursor: pointer;
+
     z-index: 10003;
 
     opacity: 1;
@@ -1300,6 +1304,7 @@ footer p{
 }
 
 /* Efeito ao passar o rato */
+
 @media (hover:hover){
 
     .zoom-btn:hover {
@@ -1309,6 +1314,7 @@ footer p{
 }
 
 /* Mostrar apenas no telemóvel */
+
 @media (min-width:769px){
 
     .zoom-btn {
