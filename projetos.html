@@ -1381,17 +1381,106 @@ function atualizarLaterais() {
 
 function mudarMidia(direcao) {
 
-    direcaoSlide = direcao;
+    if (!elementoAtual) return;
 
-    indiceAtual += direcao;
+    // Evita iniciar outro slide enquanto o anterior ainda está a decorrer
+    if (elementoSeguinte && direcao === 1) return;
+    if (elementoAnterior && direcao === -1) return;
 
-    indiceAtual = (indiceAtual + midiasAtuais.length) % midiasAtuais.length;
+    const largura = window.innerWidth;
 
-    atualizarIndicadores();
+    // ==============================
+    // IR PARA A DIREITA
+    // ==============================
 
-    mostrarMidia();
-    mostrarBotaoFullscreen();
-    preloadImagens();
+    if (direcao === 1) {
+
+        if (!elementoSeguinte) {
+            prepararProximaImagem();
+        }
+
+        elementoAtual.style.transition =
+            "transform .25s ease-out, opacity .25s ease-out";
+
+        elementoSeguinte.style.transition =
+            "transform .25s ease-out";
+
+        elementoAtual.style.transform =
+            `translate(calc(-50% - ${largura}px), -50%)`;
+
+        elementoAtual.style.opacity = "0";
+
+        elementoSeguinte.style.transform =
+            "translate(-50%, -50%)";
+
+        indiceAtual =
+            (indiceAtual + 1) % midiasAtuais.length;
+
+        atualizarPreview();
+
+        setTimeout(() => {
+
+            if (elementoAtual) {
+                elementoAtual.remove();
+            }
+
+            elementoAtual = elementoSeguinte;
+            elementoSeguinte = null;
+
+            atualizarLaterais();
+            preloadImagens();
+            mostrarBotaoFullscreen();
+
+        }, SLIDE_ANIMATION_TIME);
+
+    }
+
+    // ==============================
+    // IR PARA A ESQUERDA
+    // ==============================
+
+    else {
+
+        if (!elementoAnterior) {
+            prepararImagemAnterior();
+        }
+
+        elementoAtual.style.transition =
+            "transform .25s ease-out, opacity .25s ease-out";
+
+        elementoAnterior.style.transition =
+            "transform .25s ease-out";
+
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${largura}px), -50%)`;
+
+        elementoAtual.style.opacity = "0";
+
+        elementoAnterior.style.transform =
+            "translate(-50%, -50%)";
+
+        indiceAtual =
+            (indiceAtual - 1 + midiasAtuais.length) %
+            midiasAtuais.length;
+
+        atualizarPreview();
+
+        setTimeout(() => {
+
+            if (elementoAtual) {
+                elementoAtual.remove();
+            }
+
+            elementoAtual = elementoAnterior;
+            elementoAnterior = null;
+
+            atualizarLaterais();
+            preloadImagens();
+            mostrarBotaoFullscreen();
+
+        }, SLIDE_ANIMATION_TIME);
+
+    }
 
 }
 
