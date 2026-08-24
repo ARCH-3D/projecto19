@@ -1455,23 +1455,37 @@ function ajustarFullscreenAndroid(){
 
 function ajustarBolinhasIPhone(){
 
-    const indicadores = document.querySelector(".media-indicators");
+    const indicadores =
+        document.querySelector(".media-indicators");
 
-    if (!indicadores) return;
+    const landscape =
+        window.matchMedia("(orientation: landscape)").matches;
 
     const safariEdgeLandscape =
         isIPhoneSafariOrEdge() &&
-        window.matchMedia("(orientation: landscape)").matches;
+        landscape;
 
-    if (safariEdgeLandscape){
+    // ==================================
+    // BOLINHAS
+    // ==================================
 
-        indicadores.style.bottom = "60px";
+    if (indicadores){
 
-    } else {
+        if (safariEdgeLandscape){
 
-        indicadores.style.bottom = "";
+            indicadores.style.bottom = "60px";
+
+        } else {
+
+            indicadores.style.bottom = "";
+
+        }
 
     }
+
+    // ==================================
+    // MODAL CONTENT
+    // ==================================
 
     const modalContent =
         document.getElementById("modal-content");
@@ -1491,6 +1505,48 @@ function ajustarBolinhasIPhone(){
             );
 
         }
+
+    }
+
+    // ==================================
+    // CORRIGIR TODAS AS IMAGENS
+    // ==================================
+
+    if (safariEdgeLandscape){
+
+        const aplicarTamanho = (elemento) => {
+
+            if (!elemento) return;
+
+            elemento.style.setProperty(
+                "max-width",
+                "none",
+                "important"
+            );
+
+            elemento.style.setProperty(
+                "max-height",
+                "none",
+                "important"
+            );
+
+            elemento.style.setProperty(
+                "height",
+                "calc(100dvh - 20px)",
+                "important"
+            );
+
+            elemento.style.setProperty(
+                "width",
+                "auto",
+                "important"
+            );
+
+        };
+
+        aplicarTamanho(elementoAtual);
+        aplicarTamanho(elementoAnterior);
+        aplicarTamanho(elementoSeguinte);
 
     }
 
