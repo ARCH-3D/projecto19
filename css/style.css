@@ -1348,14 +1348,14 @@ footer p{
 }
 
 /* ==========================================
-   TELEMÓVEL — LANDSCAPE
+   iPHONE — LANDSCAPE
    ESCONDER INFORMAÇÕES DO PROJETO
 ========================================== */
 
-@media screen and (max-width:767px) and (orientation:landscape){
+@media screen and (orientation:landscape){
 
-    #modal-projeto .modal-info{
+    #modal-projeto.iphone-device .modal-info{
         display:none !important;
     }
 
-}/*
+}
