@@ -2766,6 +2766,12 @@ window.addEventListener("orientationchange", ajustarBolinhasIPhone);
 
 window.addEventListener("resize", ajustarBolinhasIPhone);
 
+window.addEventListener("resize", function(){
+
+    ajustarBolinhasIPhone();
+
+});
+
 backToTop.addEventListener("click", () => {
 
     window.scrollTo({
