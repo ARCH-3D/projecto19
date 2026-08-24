@@ -687,6 +687,25 @@ footer p{
     }
 }
 
+@media (pointer:coarse){
+
+    .close{
+        opacity:1;
+        pointer-events:auto;
+    }
+
+    .fullscreen-btn{
+        opacity:1;
+        pointer-events:auto;
+    }
+
+    .zoom-btn{
+        opacity:1;
+        pointer-events:auto;
+    }
+
+}
+
 /* ================== SETAS ================== */
 
 .prev,
