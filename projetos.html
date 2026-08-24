@@ -1364,6 +1364,25 @@ function ajustarBolinhasIPhone(){
 
     }
 
+    const modalContent = document.getElementById("modal-content");
+
+    if (modalContent){
+
+        if (
+            isIPhoneSafariOrEdge() &&
+            window.matchMedia("(orientation: landscape)").matches
+        ){
+
+            modalContent.classList.add("iphone-safari-edge-landscape");
+
+        } else {
+
+            modalContent.classList.remove("iphone-safari-edge-landscape");
+
+        }
+
+    }
+
 }
 
 function mostrarBotaoFullscreen(){
