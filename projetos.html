@@ -1277,6 +1277,9 @@ function fecharModal() {
 
     resetZoom();
 
+    // Sair do pseudo-fullscreen do iPhone
+    modal.classList.remove("iphone-fullscreen");
+
     document.getElementById("modal-projeto").style.display = "none";
     document.getElementById("modal-content").innerHTML = "";
 
@@ -1365,9 +1368,24 @@ function mostrarBotaoFullscreen(){
 
 function toggleFullscreen() {
 
-    // ==============================
-    // SAIR DO FULLSCREEN
-    // ==============================
+    const isIPhone =
+        /iPhone|iPod/i.test(navigator.userAgent);
+
+    // =====================================
+    // iPHONE — PSEUDO FULLSCREEN
+    // =====================================
+
+    if (isIPhone) {
+
+        modal.classList.toggle("iphone-fullscreen");
+
+        return;
+    }
+
+
+    // =====================================
+    // FULLSCREEN NORMAL — PC / iPAD
+    // =====================================
 
     if (
         document.fullscreenElement ||
@@ -1388,16 +1406,11 @@ function toggleFullscreen() {
     }
 
 
-    // ==============================
-    // ENTRAR EM FULLSCREEN
-    // ==============================
-
     if (modal.requestFullscreen) {
 
         modal.requestFullscreen().catch(() => {
 
-            // O dispositivo não permitiu fullscreen
-            console.log("Fullscreen não suportado neste dispositivo.");
+            console.log("Fullscreen não disponível.");
 
         });
 
@@ -1405,7 +1418,6 @@ function toggleFullscreen() {
     }
 
 
-    // Safari / iOS antigo
     if (modal.webkitRequestFullscreen) {
 
         try {
@@ -1414,19 +1426,11 @@ function toggleFullscreen() {
 
         } catch (erro) {
 
-            console.log("Fullscreen não suportado neste dispositivo.");
+            console.log("Fullscreen não disponível.");
 
         }
 
-        return;
     }
-
-
-    // ==============================
-    // FULLSCREEN NÃO DISPONÍVEL
-    // ==============================
-
-    console.log("Fullscreen não disponível neste dispositivo.");
 
 }
 
