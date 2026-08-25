@@ -1,3 +1,7 @@
+/* ================== IMPORT FONTS ================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap');
+
 /* ================== RESET ================== */
 
 *{
@@ -675,6 +679,13 @@ footer p{
 
 /* Quando os controlos estão visíveis */
 .close.show-controls{
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* IMPORTANTE:
+   o X aparece sempre quando recebe foco pelo TAB */
+.close:focus-visible{
     opacity:1;
     pointer-events:auto;
 }
@@ -1464,6 +1475,11 @@ footer p{
     }
 
 }
+
+/* ==========================================
+   iPHONE — LANDSCAPE
+   ESCONDER INFORMAÇÕES DO PROJETO
+========================================== */
 
 @media screen and (orientation:landscape){
 
