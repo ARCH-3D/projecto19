@@ -3149,6 +3149,33 @@ backToTop.addEventListener("click", () => {
 
 });
 
+const botoesModal = document.querySelector('.modal-controls'); // ou o contentor dos botões
+let timerInatividade;
+
+function resetTimer() {
+    // Mostra os botões e ativa os cliques
+    botoesModal.classList.remove('hidden');
+    
+    clearTimeout(timerInatividade);
+    timerInatividade = setTimeout(() => {
+        botoesModal.classList.add('hidden');
+    }, 3000); // Esconde após 3 segundos de inatividade
+}
+
+// 1. Deteta movimento no modal
+document.querySelector('#modal-projeto').addEventListener('mousemove', resetTimer);
+
+// 2. PAUSA o timer quando o rato entra nos botões
+botoesModal.addEventListener('mouseenter', () => {
+    clearTimeout(timerInatividade);
+    botoesModal.classList.remove('hidden');
+});
+
+// 3. RETOMA o timer quando o rato sai dos botões
+botoesModal.addEventListener('mouseleave', () => {
+    resetTimer();
+});
+
 </script>
 
 </body>
