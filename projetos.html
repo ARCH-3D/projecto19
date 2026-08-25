@@ -2804,6 +2804,57 @@ modal.addEventListener('touchend', function(e) {
 });
 
 // ======================================
+// ORDEM DE FOCO DOS CONTROLOS DO MODAL
+// ======================================
+
+let modalFoiClicado = false;
+
+modal.addEventListener("mousedown", function(e) {
+
+    // Se o clique for num dos controlos,
+    // deixamos o browser gerir o foco normalmente.
+    if (
+        e.target === closeBtn ||
+        e.target === fullscreenBtn ||
+        e.target === zoomBtn
+    ) {
+        return;
+    }
+
+    // Clique dentro do modal mas fora dos controlos.
+    modalFoiClicado = true;
+
+});
+
+modal.addEventListener("keydown", function(e) {
+
+    if (e.key !== "Tab") return;
+
+    // Se o foco já está num dos controlos,
+    // não interferimos.
+    if (
+        document.activeElement === closeBtn ||
+        document.activeElement === fullscreenBtn ||
+        document.activeElement === zoomBtn
+    ) {
+        return;
+    }
+
+    // Se o modal foi clicado, queremos que o próximo
+    // Tab entre pelo X.
+    if (modalFoiClicado && !e.shiftKey) {
+
+        e.preventDefault();
+
+        modalFoiClicado = false;
+
+        closeBtn.focus();
+
+    }
+
+});
+
+// ======================================
 // ARRASTAR IMAGEM COM O RATO NO ZOOM
 // ======================================
 
