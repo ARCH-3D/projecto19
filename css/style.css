@@ -1489,3 +1489,20 @@ footer p{
 
 }
 
+/* ======================================
+   EFEITO DE CLIQUE NOS CONTROLOS DO MODAL
+   EM ECRÃS TÁTEIS
+   ====================================== */
+
+@media (pointer: coarse) {
+
+    #modal-projeto .close:active,
+    #modal-projeto .fullscreen-btn:active,
+    #modal-projeto .zoom-btn:active {
+
+        transform: scale(0.90);
+        opacity: 0.6;
+
+    }
+
+}
