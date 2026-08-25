@@ -3038,38 +3038,6 @@ fullscreenBtn.addEventListener("click", function(e){
 
 });
 
-// ======================================
-// FEEDBACK DE TOQUE DOS CONTROLOS DO MODAL
-// ======================================
-
-const modalControls = document.querySelectorAll(
-    "#modal-projeto .close, #modal-projeto .fullscreen-btn, #modal-projeto .zoom-btn"
-);
-
-modalControls.forEach(button => {
-
-    button.addEventListener("touchstart", function() {
-
-        this.classList.add("touch-feedback");
-
-    }, { passive: true });
-
-    button.addEventListener("touchend", function() {
-
-        setTimeout(() => {
-            this.classList.remove("touch-feedback");
-        }, 300);
-
-    }, { passive: true });
-
-    button.addEventListener("touchcancel", function() {
-
-        this.classList.remove("touch-feedback");
-
-    }, { passive: true });
-
-});
-
 zoomBtn.addEventListener("click", function(e){
 
     e.stopPropagation();
