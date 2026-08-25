@@ -1490,33 +1490,45 @@ footer p{
 }
 
 /* ======================================
-   FEEDBACK DE TOUCH — CONTROLOS DO MODAL
+   FEEDBACK DOS BOTÕES DO MODAL
    ====================================== */
 
-@media (pointer: coarse) {
+.close::after,
+.fullscreen-btn::after,
+.zoom-btn::after{
 
-    #modal-projeto .close::after,
-    #modal-projeto .fullscreen-btn::after,
-    #modal-projeto .zoom-btn::after {
+    content:"";
 
-        content:"";
+    position:absolute;
+    inset:0;
 
-        position:absolute;
-        inset:0;
+    background:rgba(0,0,0,0);
+
+    transition:.3s ease;
+
+    z-index:-1;
+}
+
+
+/* ================== HOVER ================== */
+
+@media (hover:hover){
+
+    .close:hover::after,
+    .fullscreen-btn:hover::after,
+    .zoom-btn:hover::after{
 
         background:rgba(0,0,0,.25);
-
-        opacity:0;
-
-        pointer-events:none;
-
-        transition:opacity .3s ease;
     }
 
-    #modal-projeto .close.touch-feedback::after,
-    #modal-projeto .fullscreen-btn.touch-feedback::after,
-    #modal-projeto .zoom-btn.touch-feedback::after {
+}
 
-        opacity:1;
-    }
+
+/* ================== TOUCH ================== */
+
+.close.touched::after,
+.fullscreen-btn.touched::after,
+.zoom-btn.touched::after{
+
+    background:rgba(0,0,0,.25);
 }
