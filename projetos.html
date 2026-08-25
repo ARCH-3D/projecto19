@@ -2457,50 +2457,6 @@ function toggleMenu() {
 // EVENT LISTENERS
 // ======================================
 
-// ======================================
-// CONTROLO DE FOCO DO MODAL
-// ======================================
-
-let modalCliqueInterno = false;
-
-modal.addEventListener("click", function(e) {
-
-    if (
-        e.target === closeBtn ||
-        e.target === fullscreenBtn ||
-        e.target === zoomBtn
-    ) {
-        return;
-    }
-
-    modalCliqueInterno = true;
-
-});
-
-modal.addEventListener("keydown", function(e) {
-
-    if (e.key !== "Tab") return;
-
-    if (
-        document.activeElement === closeBtn ||
-        document.activeElement === fullscreenBtn ||
-        document.activeElement === zoomBtn
-    ) {
-        return;
-    }
-
-    if (modalCliqueInterno && !e.shiftKey) {
-
-        e.preventDefault();
-
-        modalCliqueInterno = false;
-
-        closeBtn.focus();
-
-    }
-
-});
-
 /* Navegação com teclado */
 document.addEventListener('keydown', function(e) {
   if (modal.style.display === 'flex') {
