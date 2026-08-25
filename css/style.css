@@ -1508,27 +1508,3 @@ footer p{
 
     z-index:-1;
 }
-
-
-/* ================== HOVER ================== */
-
-@media (hover:hover){
-
-    .close:hover::after,
-    .fullscreen-btn:hover::after,
-    .zoom-btn:hover::after{
-
-        background:rgba(0,0,0,.25);
-    }
-
-}
-
-
-/* ================== TOUCH ================== */
-
-.close.touched::after,
-.fullscreen-btn.touched::after,
-.zoom-btn.touched::after{
-
-    background:rgba(0,0,0,.25);
-}
