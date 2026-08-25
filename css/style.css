@@ -1476,35 +1476,15 @@ footer p{
 
 }
 
+/* ==========================================
+   iPHONE — LANDSCAPE
+   ESCONDER INFORMAÇÕES DO PROJETO
+========================================== */
+
 @media screen and (orientation:landscape){
 
     #modal-projeto.iphone-device .modal-info{
         display:none !important;
     }
 
-}
-
-/* Restauro do estilo de button para o card */
-button.project {
-    border: none;
-    background: none;
-    padding: 0;
-    text-align: left;
-    font-family: inherit;
-}
-
-/* Estado de foco visível para navegação por teclado */
-.project:focus-visible {
-    outline: 3px solid #111;
-    outline-offset: -3px; /* Mantém o contorno dentro do card para não ser cortado pelo overflow */
-    z-index: 5;
-}
-
-/* Mostra o overlay e o título quando o card recebe foco */
-.project:focus-visible::before {
-    background: rgba(0, 0, 0, 0.25);
-}
-
-.project:focus-visible .project-title {
-    opacity: 1;
 }
