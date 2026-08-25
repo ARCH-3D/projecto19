@@ -253,14 +253,19 @@ document.querySelectorAll("#menu a").forEach(link => {
 
 </footer>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
+<!-- GOOGLE TAG MANAGER (Otimizado) -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  window.addEventListener('load', function() {
+    var script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R';
+    script.async = true;
+    document.head.appendChild(script);
 
-  gtag('config', 'G-JXJP0D464R');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JXJP0D464R');
+  });
 </script>
 
 </body>
