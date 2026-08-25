@@ -674,7 +674,7 @@ footer p{
     transition:opacity .5s ease;
 
     outline:none;
-    -webkit-tap-highlight-color:transparent;
+    -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
 
 /* Quando os controlos estão visíveis */
@@ -828,7 +828,7 @@ footer p{
 
     transition:.3s ease;
 
-    -webkit-tap-highlight-color:transparent;
+    -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
 
 @media (hover:hover){
@@ -1244,7 +1244,7 @@ footer p{
 
     transition:opacity .5s ease;
 
-    -webkit-tap-highlight-color:transparent;
+    -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
 
 .fullscreen-btn.show{
@@ -1348,7 +1348,7 @@ footer p{
     appearance:none;
     -webkit-appearance:none;
 
-    -webkit-tap-highlight-color:transparent;
+    -webkit-tap-highlight-color:rgba(0,0,0,.2);
 
     transition:opacity .5s ease;
 }
@@ -1487,21 +1487,4 @@ footer p{
         display:none !important;
     }
 
-}
-
-.close,
-.fullscreen-btn,
-.zoom-btn {
-    /* Garante que o navegador trata o elemento como clicável */
-    cursor: pointer;
-    
-    /* Define explicitamente a cor cinzenta translúcida nativa */
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.2) !important;
-}
-
-/* Se houver ícones SVG/imagens dentro do botão, impede que eles bloqueiem o toque */
-.close *,
-.fullscreen-btn *,
-.zoom-btn * {
-    pointer-events: none;
 }
