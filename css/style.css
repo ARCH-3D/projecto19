@@ -1489,3 +1489,19 @@ footer p{
 
 }
 
+.close,
+.fullscreen-btn,
+.zoom-btn {
+    /* Garante que o navegador trata o elemento como clicável */
+    cursor: pointer;
+    
+    /* Define explicitamente a cor cinzenta translúcida nativa */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Se houver ícones SVG/imagens dentro do botão, impede que eles bloqueiem o toque */
+.close *,
+.fullscreen-btn *,
+.zoom-btn * {
+    pointer-events: none;
+}
