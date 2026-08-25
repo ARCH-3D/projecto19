@@ -1517,7 +1517,7 @@ footer p{
 
         pointer-events:none;
 
-        transition:opacity .15s ease;
+        transition:opacity .3s ease;
     }
 
     #modal-projeto .close.touch-feedback::after,
