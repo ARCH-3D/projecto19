@@ -688,9 +688,10 @@ footer p{
 }
 
 .close:focus-visible{
-
     outline:2px solid #111;
     outline-offset:4px;
+    opacity:1;
+    pointer-events:auto;
 }
 
 @media (hover:hover){
@@ -1289,9 +1290,10 @@ footer p{
 }
 
 .fullscreen-btn:focus-visible{
-
     outline:2px solid #111;
     outline-offset:4px;
+    opacity:1;
+    pointer-events:auto;
 }
 
 /* ================== ZOOM ================== */
@@ -1372,11 +1374,11 @@ footer p{
 }
 
 .zoom-btn:focus-visible{
-
     outline:2px solid #111;
     outline-offset:4px;
+    opacity:1;
+    pointer-events:auto;
 }
-
 
 /* Ajuste iPad */
 
