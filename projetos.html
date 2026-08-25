@@ -1165,58 +1165,6 @@ const backToTop = document.getElementById("back-to-top");
 
 const menu = document.getElementById("menu");
 
-// ======================================
-// NAVEGAÇÃO POR TAB DENTRO DO MODAL
-// ======================================
-
-modal.addEventListener("keydown", function(e) {
-
-    if (e.key !== "Tab") return;
-
-    const controlos = [
-        closeBtn,
-        fullscreenBtn,
-        zoomBtn
-    ].filter(el => {
-
-        if (!el) return false;
-
-        const style = window.getComputedStyle(el);
-
-        return (
-            style.display !== "none" &&
-            style.visibility !== "hidden" &&
-            !el.disabled
-        );
-
-    });
-
-    if (!controlos.length) return;
-
-    e.preventDefault();
-
-    const atual = document.activeElement;
-
-    let indice = controlos.indexOf(atual);
-
-    if (indice === -1) {
-        indice = 0;
-    } else {
-        indice += e.shiftKey ? -1 : 1;
-    }
-
-    if (indice < 0) {
-        indice = controlos.length - 1;
-    }
-
-    if (indice >= controlos.length) {
-        indice = 0;
-    }
-
-    controlos[indice].focus();
-
-});
-
 
 // ======================================
 // ZOOM
