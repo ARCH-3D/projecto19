@@ -1488,16 +1488,3 @@ footer p{
     }
 
 }
-
-/* ======================================
-   FEEDBACK DE TOQUE DOS CONTROLOS DO MODAL
-   ====================================== */
-
-@media (pointer: coarse){
-
-    .close.touch-feedback,
-    .fullscreen-btn.touch-feedback,
-    .zoom-btn.touch-feedback{
-        opacity:.5;
-    }
-}
