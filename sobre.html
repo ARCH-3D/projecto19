@@ -2,37 +2,37 @@
 <html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Sobre a Projecto 19 — Conheça a equipa e a visão do nosso atelier de arquitetura.">
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    <title>Sobre — Projecto 19</title>
 
-    gtag('config', 'G-JXJP0D464R');
-    </script>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Sobre</title>
-
+    <!-- 1. Pré-conexão aos servidores de fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200&display=swap"
-          rel="stylesheet">
+    <!-- 2. Carregamento das fontes com display=swap -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
 
+    <!-- 3. Ficheiro CSS principal -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- Google tag (gtag.js) otimizado com defer -->
+    <script async defer src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-JXJP0D464R');
+    </script>
 </head>
 <body>
 
 <header>
-
   <div class="header-left">
     <a href="index.html" class="logo-link">
-      <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo">
+      <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo" width="42" height="42" decoding="async">
       <h1>Projecto 19</h1>
     </a>
   </div>
@@ -48,11 +48,9 @@
       <a href="servicos.html">Serviços</a>
       <a href="contactos.html">Contactos</a>
   </nav>
-
 </header>
 
 <section>
-
   <h3><strong>Sobre nós</strong></h3>
   <p>
     PROJECTO19 nasce em 2019 da crença de que a arquitetura deve ser uma síntese entre lugar, pessoas e tempo.
@@ -105,50 +103,25 @@
   <p>
     O seu trabalho reflete uma abordagem assente na clareza e na precisão, onde a racionalidade do projeto e a eficiência das soluções assumem um papel central, respondendo de forma direta e funcional às exigências de cada contexto.
   </p>
-
 </section>
 
 <div class="contact-widget">
-
     <div class="contact-links">
-
         <a href="mailto:info.projecto19@gmail.com">
-
-            <img
-                src="img/icons/e-mail.svg"
-                alt=""
-                class="contact-link-icon">
-
+            <img src="img/icons/e-mail.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>Email</span>
-
         </a>
 
-        <a href="https://wa.me/351934185719"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/whatsapp.svg"
-                alt=""
-                class="contact-link-icon">
-
+        <a href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer">
+            <img src="img/icons/whatsapp.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>WhatsApp</span>
-
         </a>
-
     </div>
 
     <button class="contact-trigger">
-
-        <img
-            src="img/icons/faleconnosco.svg"
-            alt=""
-            class="contact-icon">
-
+        <img src="img/icons/faleconnosco.svg" alt="" class="contact-icon" width="24" height="24">
         <span>Fale Connosco</span>
-
     </button>
-
 </div>
 
 <button id="back-to-top" aria-label="Voltar ao topo">
@@ -159,7 +132,6 @@
 </button>
 
 <script>
-
 const contactWidget = document.querySelector(".contact-widget");
 const contactButton = document.querySelector(".contact-trigger");
 
@@ -183,64 +155,35 @@ function toggleMenu() {
 const backToTop = document.getElementById("back-to-top");
 
 window.addEventListener("scroll", () => {
-
     if (window.scrollY > 300) {
-
         backToTop.classList.add("show");
-
     } else {
-
         backToTop.classList.remove("show");
-
     }
-
 });
 
 backToTop.addEventListener("click", () => {
-
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
-
 });
-
 </script>
 
 <footer>
-
     <div class="social-links">
-
-        <a href="https://www.instagram.com/projecto_19/"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/instagram.svg"
-                alt=""
-                class="social-icon">
-
+        <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
+            <img src="img/icons/instagram.svg" alt="" class="social-icon" width="24" height="24">
             <span>Instagram</span>
-
         </a>
 
-        <a href="https://www.facebook.com/projecto19"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/facebook.svg"
-                alt=""
-                class="social-icon">
-
+        <a href="https://www.facebook.com/projecto19" target="_blank" rel="noopener noreferrer">
+            <img src="img/icons/facebook.svg" alt="" class="social-icon" width="24" height="24">
             <span>Facebook</span>
-
         </a>
-
     </div>
 
     <p>© PROJETO 19</p>
-
 </footer>
 
 </body>
