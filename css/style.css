@@ -683,13 +683,6 @@ footer p{
     pointer-events:auto;
 }
 
-/* IMPORTANTE:
-   o X aparece sempre quando recebe foco pelo TAB */
-.close:focus-visible{
-    opacity:1;
-    pointer-events:auto;
-}
-
 /* Não criar outline ao clicar */
 .close:focus,
 .close:active{
@@ -1475,11 +1468,6 @@ footer p{
     }
 
 }
-
-/* ==========================================
-   iPHONE — LANDSCAPE
-   ESCONDER INFORMAÇÕES DO PROJETO
-========================================== */
 
 @media screen and (orientation:landscape){
 
