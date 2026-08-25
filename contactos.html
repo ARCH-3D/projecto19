@@ -2,148 +2,127 @@
 <html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-JXJP0D464R');
-    </script>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Contactos</title>
+    <title>Contactos - Projecto 19</title>
 
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200&display=swap"
-          rel="stylesheet">
-
+    <!-- Estilos CSS -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- Google Tag Manager (Analytics) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-JXJP0D464R');
+    </script>
 </head>
 <body class="contact-page">
 
 <header>
+    <div class="header-left">
+        <a href="index.html" class="logo-link">
+            <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo" decoding="async">
+            <h1>Projecto 19</h1>
+        </a>
+    </div>
 
-  <div class="header-left">
-    <a href="index.html" class="logo-link">
-      <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo">
-      <h1>Projecto 19</h1>
-    </a>
-  </div>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">
+        ☰
+    </button>
 
-  <button class="menu-toggle" onclick="toggleMenu()">
-      ☰
-  </button>
-
-  <nav id="menu">
-      <a href="index.html">Home</a>
-      <a href="projetos.html">Projetos</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="servicos.html">Serviços</a>
-      <a href="contactos.html">Contactos</a>
-  </nav>
-
+    <nav id="menu">
+        <a href="index.html">Home</a>
+        <a href="projetos.html">Projetos</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="contactos.html">Contactos</a>
+    </nav>
 </header>
 
-<section>
-
-    <h3 class="section-title"><strong>Contactos</strong></h3>
+<section class="contact-section">
+    <h3 class="section-title">Contactos</h3>
 
     <!-- EMAIL -->
     <a class="service" href="mailto:info.projecto19@gmail.com" aria-label="Enviar email">
         <div class="service-icon">
-            <img src="img/icons/e-mail.svg" alt="Email" class="contact-service-icon">
+            <img src="img/icons/e-mail.svg" alt="Email" class="contact-service-icon" decoding="async">
         </div>
-
         <div class="service-content">
             <p>info.projecto19@gmail.com</p>
         </div>
     </a>
 
     <!-- TELEFONE / WHATSAPP -->
-    <a class="service"
-       href="https://wa.me/351934185719"
-       target="_blank"
-       rel="noopener noreferrer"
-       aria-label="Abrir WhatsApp">
-
+    <a class="service" href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp">
         <div class="service-icon">
-            <img src="img/icons/telefone.svg" alt="Telefone" class="contact-service-icon">
+            <img src="img/icons/telefone.svg" alt="Telefone" class="contact-service-icon" decoding="async">
         </div>
-
         <div class="service-content">
             <p>+351 934 185 719</p>
         </div>
     </a>
 
     <!-- LOCALIZAÇÃO -->
-    <a class="service"
-       href="https://www.google.com/maps/search/?api=1&query=Braga+Portugal"
-       target="_blank"
-       rel="noopener noreferrer"
-       aria-label="Ver localização no Google Maps">
-
+    <a class="service" href="https://www.google.com/maps/search/?api=1&query=Braga+Portugal" target="_blank" rel="noopener noreferrer" aria-label="Ver localização no Google Maps">
         <div class="service-icon">
-            <img src="img/icons/local.svg" alt="Localização" class="contact-service-icon">
+            <img src="img/icons/local.svg" alt="Localização" class="contact-service-icon" decoding="async">
         </div>
-
         <div class="service-content">
             <p>Braga, Portugal</p>
         </div>
-
     </a>
-
 </section>
 
+<!-- CONTACT WIDGET -->
 <div class="contact-widget">
-
     <div class="contact-links">
-
         <a href="mailto:info.projecto19@gmail.com">
-
-            <img
-                src="img/icons/e-mail.svg"
-                alt=""
-                class="contact-link-icon">
-
+            <img src="img/icons/e-mail.svg" alt="" class="contact-link-icon">
             <span>Email</span>
-
         </a>
-
-        <a href="https://wa.me/351934185719"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/whatsapp.svg"
-                alt=""
-                class="contact-link-icon">
-
+        <a href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer">
+            <img src="img/icons/whatsapp.svg" alt="" class="contact-link-icon">
             <span>WhatsApp</span>
-
         </a>
-
     </div>
 
-    <button class="contact-trigger">
-
-        <img
-            src="img/icons/faleconnosco.svg"
-            alt=""
-            class="contact-icon">
-
+    <button class="contact-trigger" aria-label="Abrir contactos">
+        <img src="img/icons/faleconnosco.svg" alt="" class="contact-icon">
         <span>Fale Connosco</span>
-
     </button>
-
 </div>
 
-<script>
+<!-- BACK TO TOP -->
+<button id="back-to-top" aria-label="Voltar ao topo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+</button>
 
+<!-- FOOTER -->
+<footer>
+    <div class="social-links">
+        <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
+            <img src="img/icons/instagram.svg" alt="" class="social-icon">
+            <span>Instagram</span>
+        </a>
+        <a href="https://www.facebook.com/projecto19" target="_blank" rel="noopener noreferrer">
+            <img src="img/icons/facebook.svg" alt="" class="social-icon">
+            <span>Facebook</span>
+        </a>
+    </div>
+    <p>© PROJETO 19</p>
+</footer>
+
+<!-- JAVASCRIPT -->
+<script>
 const contactWidget = document.querySelector(".contact-widget");
 const contactButton = document.querySelector(".contact-trigger");
 
@@ -164,43 +143,29 @@ function toggleMenu() {
     document.getElementById("menu").classList.toggle("active");
 }
 
+document.querySelectorAll("#menu a").forEach(link => {
+    link.addEventListener("click", () => {
+        document.getElementById("menu").classList.remove("active");
+    });
+});
+
+const backToTop = document.getElementById("back-to-top");
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+        backToTop.classList.add("show");
+    } else {
+        backToTop.classList.remove("show");
+    }
+});
+
+backToTop.addEventListener("click", () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});
 </script>
-
-<footer>
-
-    <div class="social-links">
-
-        <a href="https://www.instagram.com/projecto_19/"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/instagram.svg"
-                alt=""
-                class="social-icon">
-
-            <span>Instagram</span>
-
-        </a>
-
-        <a href="https://www.facebook.com/projecto19"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/facebook.svg"
-                alt=""
-                class="social-icon">
-
-            <span>Facebook</span>
-
-        </a>
-
-    </div>
-
-    <p>© PROJETO 19</p>
-
-</footer>
 
 </body>
 </html>
