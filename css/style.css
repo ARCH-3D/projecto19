@@ -1500,8 +1500,7 @@ footer p{
     #modal-projeto .fullscreen-btn:active,
     #modal-projeto .zoom-btn:active {
 
-        transform: scale(0.90);
-        opacity: 0.6;
+        opacity: 0.5;
 
     }
 
