@@ -2457,6 +2457,57 @@ function toggleMenu() {
 // EVENT LISTENERS
 // ======================================
 
+// ======================================
+// CONTROLO DE FOCO DO MODAL
+// ======================================
+
+let modalCliqueInterno = false;
+
+modal.addEventListener("mousedown", function(e) {
+
+    // Se clicou num dos próprios botões,
+    // não interferimos no foco normal.
+    if (
+        e.target === closeBtn ||
+        e.target === fullscreenBtn ||
+        e.target === zoomBtn
+    ) {
+        return;
+    }
+
+    // Clique dentro do modal, mas fora dos botões.
+    modalCliqueInterno = true;
+
+});
+
+modal.addEventListener("keydown", function(e) {
+
+    if (e.key !== "Tab") return;
+
+    // Se o foco já está num dos três controlos,
+    // deixamos o browser continuar normalmente.
+    if (
+        document.activeElement === closeBtn ||
+        document.activeElement === fullscreenBtn ||
+        document.activeElement === zoomBtn
+    ) {
+        return;
+    }
+
+    // Se houve um clique dentro do modal,
+    // o próximo TAB começa no X.
+    if (modalCliqueInterno && !e.shiftKey) {
+
+        e.preventDefault();
+
+        modalCliqueInterno = false;
+
+        closeBtn.focus();
+
+    }
+
+});
+
 /* Navegação com teclado */
 document.addEventListener('keydown', function(e) {
   if (modal.style.display === 'flex') {
