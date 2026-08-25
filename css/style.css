@@ -1508,14 +1508,13 @@ footer p{
         position: absolute;
         left: 50%;
         top: 50%;
-        width: 38px;
-        height: 38px;
+        width: 46px;
+        height: 46px;
         border-radius: 0;
-        background: rgba(0,0,0,.12);
+        background: rgba(0,0,0,.14);
         transform: translate(-50%, -50%);
         opacity: 0;
         pointer-events: none;
-        transition: opacity .08s ease;
     }
 
     #modal-projeto .close:active::after,
