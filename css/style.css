@@ -1490,18 +1490,38 @@ footer p{
 }
 
 /* ======================================
-   EFEITO DE CLIQUE NOS CONTROLOS DO MODAL
-   EM ECRÃS TÁTEIS
+   FEEDBACK DE TOQUE NOS CONTROLOS DO MODAL
    ====================================== */
 
 @media (pointer: coarse) {
 
-    #modal-projeto .close:active,
-    #modal-projeto .fullscreen-btn:active,
-    #modal-projeto .zoom-btn:active {
+    #modal-projeto .close,
+    #modal-projeto .fullscreen-btn,
+    #modal-projeto .zoom-btn {
+        -webkit-tap-highlight-color: transparent;
+    }
 
-        opacity: 0.5;
+    #modal-projeto .close::after,
+    #modal-projeto .fullscreen-btn::after,
+    #modal-projeto .zoom-btn::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: rgba(0,0,0,.10);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .08s ease;
+    }
 
+    #modal-projeto .close:active::after,
+    #modal-projeto .fullscreen-btn:active::after,
+    #modal-projeto .zoom-btn:active::after {
+        opacity: 1;
     }
 
 }
