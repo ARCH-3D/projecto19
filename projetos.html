@@ -1638,7 +1638,6 @@ function mostrarBotaoFullscreen(){
     // DISPOSITIVOS COM TOUCH
     // ==================================
 
-    // No telemóvel os controlos ficam sempre visíveis
     if (window.matchMedia("(pointer: coarse)").matches) {
 
         clearTimeout(fullscreenTimeout);
@@ -1655,6 +1654,16 @@ function mostrarBotaoFullscreen(){
 
     fullscreenTimeout = setTimeout(() => {
 
+        // Se o rato estiver sobre algum controlo,
+        // NÃO esconder os botões.
+        if (
+            (btn && btn.matches(":hover")) ||
+            (close && close.matches(":hover")) ||
+            (zoom && zoom.matches(":hover"))
+        ) {
+            return;
+        }
+
         btn.classList.remove("show");
 
         if (close){
@@ -1666,8 +1675,63 @@ function mostrarBotaoFullscreen(){
         }
 
     }, FULLSCREEN_BUTTON_TIMEOUT);
-
 }
+
+// ======================================
+// MANTER CONTROLOS VISÍVEIS AO PASSAR O RATO
+// ======================================
+
+[fullscreenBtn, zoomBtn, closeBtn].forEach(controle => {
+
+    if (!controle) return;
+
+    controle.addEventListener("mouseenter", () => {
+
+        // Cancela qualquer temporizador de ocultação
+        clearTimeout(fullscreenTimeout);
+
+        // Mantém os controlos visíveis
+        if (fullscreenBtn && fullscreenBtn.style.display !== "none") {
+            fullscreenBtn.classList.add("show");
+        }
+
+        if (zoomBtn) {
+            zoomBtn.classList.add("show");
+        }
+
+        if (closeBtn) {
+            closeBtn.classList.add("show-controls");
+        }
+
+    });
+
+    controle.addEventListener("mouseleave", () => {
+
+        // Quando sai do botão, começa novamente
+        // a contagem dos 1 segundo
+        clearTimeout(fullscreenTimeout);
+
+        fullscreenTimeout = setTimeout(() => {
+
+            // Se entretanto o rato voltou para algum
+            // dos controlos, não os esconder
+            if (
+                fullscreenBtn?.matches(":hover") ||
+                zoomBtn?.matches(":hover") ||
+                closeBtn?.matches(":hover")
+            ) {
+                return;
+            }
+
+            fullscreenBtn?.classList.remove("show");
+            zoomBtn?.classList.remove("show");
+            closeBtn?.classList.remove("show-controls");
+
+        }, FULLSCREEN_BUTTON_TIMEOUT);
+
+    });
+
+});
 
 function toggleFullscreen() {
 
