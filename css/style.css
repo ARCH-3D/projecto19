@@ -690,6 +690,17 @@ footer p{
     pointer-events:auto;
 }
 
+.close:focus-visible::after{
+    content:"";
+    position:absolute;
+    left:0;
+    top:2px;
+    width:38px;
+    height:38px;
+    border:2px solid #111;
+    pointer-events:none;
+}
+
 /* Não criar outline ao clicar */
 .close:focus,
 .close:active{
