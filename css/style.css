@@ -1489,22 +1489,3 @@ footer p{
 
 }
 
-/* ======================================
-   FEEDBACK DOS BOTÕES DO MODAL
-   ====================================== */
-
-.close::after,
-.fullscreen-btn::after,
-.zoom-btn::after{
-
-    content:"";
-
-    position:absolute;
-    inset:0;
-
-    background:rgba(0,0,0,0);
-
-    transition:.3s ease;
-
-    z-index:-1;
-}

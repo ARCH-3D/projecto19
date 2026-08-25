@@ -3151,41 +3151,6 @@ backToTop.addEventListener("click", () => {
 
 });
 
-// ======================================
-// FEEDBACK DE TOQUE DOS CONTROLOS DO MODAL
-// ======================================
-
-const modalControls = document.querySelectorAll(
-    "#modal-projeto .close, #modal-projeto .fullscreen-btn, #modal-projeto .zoom-btn"
-);
-
-modalControls.forEach(button => {
-
-    button.addEventListener("touchstart", function() {
-
-        // Só em dispositivos com ecrã tátil
-        if (!window.matchMedia("(pointer: coarse)").matches) {
-            return;
-        }
-
-        this.classList.add("touched");
-
-    }, { passive: true });
-
-    button.addEventListener("touchend", function() {
-
-        this.classList.remove("touched");
-
-    }, { passive: true });
-
-    button.addEventListener("touchcancel", function() {
-
-        this.classList.remove("touched");
-
-    }, { passive: true });
-
-});
-
 </script>
 
 </body>
