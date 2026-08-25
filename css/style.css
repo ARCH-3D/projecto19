@@ -667,7 +667,6 @@ footer p{
 
 .close.show-controls{
     opacity:1;
-    pointer-events:auto;
 }
 
 .close:focus,
@@ -690,7 +689,6 @@ footer p{
     outline:2px solid #111;
     outline-offset:4px;
     opacity:1;
-    pointer-events:auto;
 }
 
 @media (hover:hover){
