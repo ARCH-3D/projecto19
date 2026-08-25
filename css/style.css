@@ -1490,36 +1490,15 @@ footer p{
 }
 
 /* ======================================
-   FEEDBACK DE TOQUE NOS CONTROLOS DO MODAL
+   FEEDBACK DE TOQUE DOS CONTROLOS DO MODAL
    ====================================== */
 
 @media (pointer: coarse) {
 
-    #modal-projeto .close,
-    #modal-projeto .fullscreen-btn,
-    #modal-projeto .zoom-btn {
-        -webkit-tap-highlight-color: transparent;
+    #modal-projeto .close.touch-feedback,
+    #modal-projeto .fullscreen-btn.touch-feedback,
+    #modal-projeto .zoom-btn.touch-feedback {
+        opacity: .5;
     }
 
-    #modal-projeto .close::after,
-    #modal-projeto .fullscreen-btn::after,
-    #modal-projeto .zoom-btn::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 46px;
-        height: 46px;
-        border-radius: 0;
-        background: rgba(0,0,0,.14);
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    #modal-projeto .close:active::after,
-    #modal-projeto .fullscreen-btn:active::after,
-    #modal-projeto .zoom-btn:active::after {
-        opacity: 1;
-    }
 }
