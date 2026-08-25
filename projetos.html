@@ -1584,34 +1584,59 @@ function mostrarBotaoFullscreen(){
         isAppleMobile();
 
     // ==================================
-    // iPHONE / iPAD / ANDROID
-    // FULLSCREEN CONTROLADO PELA VARIÁVEL
+    // FULLSCREEN
+    // ==================================
+    // ANDROID:
+    // true  = mostrar
+    // false = esconder
+    //
+    // iPHONE / iPAD:
+    // nunca mostrar
+    //
+    // PC:
+    // mostrar normalmente
     // ==================================
 
-    if (
-        (isApple || isAndroid) &&
-        !FULLSCREEN_TELEMOVEL
-    ) {
+    if (isApple) {
 
+        // iPhone / iPad
         btn.classList.remove("show");
         btn.style.display = "none";
 
-        // O + fica diretamente na posição
-        // onde estaria o fullscreen
+        // O + ocupa a posição do fullscreen
         if (zoom) {
             zoom.style.right = "78px";
         }
 
+    } else if (isAndroid) {
+
+        // Android
+        if (FULLSCREEN_TELEMOVEL) {
+
+            btn.style.display = "";
+            btn.classList.add("show");
+
+            if (zoom) {
+                zoom.style.right = "126px";
+            }
+
+        } else {
+
+            btn.classList.remove("show");
+            btn.style.display = "none";
+
+            if (zoom) {
+                zoom.style.right = "78px";
+            }
+
+        }
+
     } else {
 
-        // ==================================
-        // PC OU FULLSCREEN ATIVADO NO TELEMÓVEL
-        // ==================================
-
+        // PC / restantes dispositivos
         btn.style.display = "";
         btn.classList.add("show");
 
-        // Posição normal do +
         if (zoom) {
             zoom.style.right = "126px";
         }
