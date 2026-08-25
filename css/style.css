@@ -1,3 +1,7 @@
+/* ================== IMPORT FONTS ================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap');
+
 /* ================== RESET ================== */
 
 *{
@@ -334,31 +338,6 @@ section p {
 
 .grayscale{
     filter: grayscale(100%) brightness(1) contrast(1);
-}
-
-/* Restauro do estilo de button para o card */
-button.project {
-    border: none;
-    background: none;
-    padding: 0;
-    text-align: left;
-    font-family: inherit;
-}
-
-/* Estado de foco visível para navegação por teclado */
-.project:focus-visible {
-    outline: 3px solid #111;
-    outline-offset: -3px; /* Mantém o contorno dentro do card para não ser cortado pelo overflow */
-    z-index: 5;
-}
-
-/* Mostra o overlay e o título quando o card recebe foco */
-.project:focus-visible::before {
-    background: rgba(0, 0, 0, 0.25);
-}
-
-.project:focus-visible .project-title {
-    opacity: 1;
 }
 
 /* ================== OVERLAY ================== */
@@ -700,6 +679,13 @@ footer p{
 
 /* Quando os controlos estão visíveis */
 .close.show-controls{
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* IMPORTANTE:
+   o X aparece sempre quando recebe foco pelo TAB */
+.close:focus-visible{
     opacity:1;
     pointer-events:auto;
 }
@@ -1489,6 +1475,11 @@ footer p{
     }
 
 }
+
+/* ==========================================
+   iPHONE — LANDSCAPE
+   ESCONDER INFORMAÇÕES DO PROJETO
+========================================== */
 
 @media screen and (orientation:landscape){
 
