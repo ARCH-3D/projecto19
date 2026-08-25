@@ -3168,19 +3168,19 @@ modalControls.forEach(button => {
             return;
         }
 
-        this.classList.add("touch-feedback");
+        this.classList.add("touched");
 
     }, { passive: true });
 
     button.addEventListener("touchend", function() {
 
-        this.classList.remove("touch-feedback");
+        this.classList.remove("touched");
 
     }, { passive: true });
 
     button.addEventListener("touchcancel", function() {
 
-        this.classList.remove("touch-feedback");
+        this.classList.remove("touched");
 
     }, { passive: true });
 
