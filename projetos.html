@@ -1576,6 +1576,30 @@ document.querySelectorAll(".project").forEach(projeto => {
     });
 });
 
+// ======================================
+// EFEITO DE TOQUE NOS ELEMENTOS
+// ======================================
+
+const elementosTouch = document.querySelectorAll(
+    "nav a, .contact-trigger, .close, .fullscreen-btn, .zoom-btn"
+);
+
+elementosTouch.forEach(elemento => {
+
+    elemento.addEventListener("touchstart", function(){
+        this.classList.add("touch-active");
+    }, { passive: true });
+
+    elemento.addEventListener("touchend", function(){
+        this.classList.remove("touch-active");
+    }, { passive: true });
+
+    elemento.addEventListener("touchcancel", function(){
+        this.classList.remove("touch-active");
+    }, { passive: true });
+
+});
+
 contactButton.addEventListener("click", function(e){
     e.stopPropagation();
     contactWidget.classList.toggle("active");

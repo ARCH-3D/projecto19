@@ -17,13 +17,30 @@
     box-sizing:border-box;
 }
 
-/* ================== HIGHLIGHT DE TOQUE GLOBAL ================== */
-/* Mancha cinzenta ao tocar em elementos interativos */
+/* ================== EFEITO DE TOQUE ================== */
 
-a,
-button,
-.project {
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.18);
+/* Links de navegação */
+nav a.touch-active {
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+}
+
+/* Botões do modal */
+.close.touch-active,
+.fullscreen-btn.touch-active,
+.zoom-btn.touch-active {
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+}
+
+/* Botão Fale Conosco */
+.contact-trigger.touch-active {
+    background: rgba(220, 220, 220, 0.95);
+}
+
+/* Projetos */
+.project.touch-active::before {
+    background: rgba(0, 0, 0, 0.18);
 }
 
 /* ================== HTML ================== */
