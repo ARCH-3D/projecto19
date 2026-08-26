@@ -1,1038 +1,767 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-    <meta charset="UTF-8">
-
-    <meta name="description" content="Projetos do atelier Projecto 19 — Portfólio de arquitetura, reabilitação e design de interiores.">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-JXJP0D464R');
-    </script>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Projetos</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200&display=swap"
-          rel="stylesheet">
-
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Projetos do atelier Projecto 19 — Portfólio de arquitetura, reabilitação e design de interiores.">
+<title>Projetos — Projecto 19</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-JXJP0D464R');
+</script>
 </head>
 <body>
 
 <header>
-
-  <div class="header-left">
-    <a href="index.html" class="logo-link">
-      <img
-          src="img/Logo.webp"
-          alt="Logo Projecto 19"
-          class="logo"
-          fetchpriority="high"
-          decoding="async">
-      <h1>Projecto 19</h1>
-    </a>
-  </div>
-
-    <button
-        class="menu-toggle"
-        onclick="toggleMenu()"
-        aria-label="Abrir menu"
-        aria-controls="menu">
-        ☰
-    </button>
-
-  <nav id="menu">
-      <a href="index.html">Home</a>
-      <a href="projetos.html">Projetos</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="servicos.html">Serviços</a>
-      <a href="contactos.html">Contactos</a>
-  </nav>
-
+<div class="header-left">
+<a href="index.html" class="logo-link">
+<img src="img/Logo.webp" alt="Logo Projecto 19" class="logo" width="42" height="42" fetchpriority="high" decoding="async">
+<h1>Projecto 19</h1>
+</a>
+</div>
+<button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu" aria-controls="menu">☰</button>
+<nav id="menu">
+<a href="index.html">Home</a>
+<a href="projetos.html">Projetos</a>
+<a href="sobre.html">Sobre</a>
+<a href="servicos.html">Serviços</a>
+<a href="contactos.html">Contactos</a>
+</nav>
 </header>
 
 <div class="contact-widget">
-
-    <div class="contact-links">
-
-        <a href="mailto:info.projecto19@gmail.com">
-
-            <img
-                src="img/icons/e-mail.svg"
-                alt=""
-                class="contact-link-icon">
-
-            <span>Email</span>
-
-        </a>
-
-        <a href="https://wa.me/351934185719"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/whatsapp.svg"
-                alt=""
-                class="contact-link-icon">
-
-            <span>WhatsApp</span>
-
-        </a>
-
-    </div>
-
-    <button class="contact-trigger">
-
-        <img
-            src="img/icons/faleconnosco.svg"
-            alt=""
-            class="contact-icon">
-
-        <span>Fale Connosco</span>
-
-    </button>
-
+<div class="contact-links">
+<a href="mailto:info.projecto19@gmail.com">
+<img src="img/icons/e-mail.svg" alt="" class="contact-link-icon" width="24" height="24" decoding="async">
+<span>Email</span>
+</a>
+<a href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer">
+<img src="img/icons/whatsapp.svg" alt="" class="contact-link-icon" width="24" height="24" decoding="async">
+<span>WhatsApp</span>
+</a>
+</div>
+<button class="contact-trigger">
+<img src="img/icons/faleconnosco.svg" alt="" class="contact-icon" width="24" height="24" decoding="async">
+<span>Fale Connosco</span>
+</button>
 </div>
 
 <button id="back-to-top" aria-label="Voltar ao topo">
-
-    <svg viewBox="0 0 24 24" fill="none">
-
-        <path
-            d="M6 15L12 9L18 15"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"/>
-
-    </svg>
-
+<svg viewBox="0 0 24 24" fill="none">
+<path d="M6 15L12 9L18 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
 </button>
 
 <section class="projects-section">
 <div class="grid">
 
-    <!-- Projeto 0 -->
-    <!--
-    <div class="project" onclick="abrirProjeto('projeto0')">
-        <img
-            src="img/projetos/0_Renovação Interior_Maina_Guimarães/0_1.webp"
-            alt="Renovação Interior - Maina Guimarães"
-            loading="lazy"
-            decoding="async">
+<!-- Projeto 0 -->
+<!--
+<div class="project" onclick="abrirProjeto('projeto0')">
+<img src="img/projetos/0_Renovação Interior_Maina_Guimarães/0_1.webp" alt="Renovação Interior - Maina Guimarães" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Renovação Interior</div>
+<div class="project-location">Maina, Guimarães</div>
+</div>
+</div>
+-->
 
-        <div class="project-title">
-            <div class="project-name">Renovação Interior</div>
-            <div class="project-location">Maina, Guimarães</div>
-        </div>
-    </div>
-    -->
+<!-- Projeto 181 -->
+<div class="project" onclick="abrirProjeto('projeto181')">
+<img src="img/projetos/181_Moradia_Campo_Barcelos/181_1.webp" alt="Moradia em Campo - Barcelos" fetchpriority="high" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia em Campo</div>
+<div class="project-location">Campo, Barcelos</div>
+</div>
+</div>
 
-    <!-- Projeto 181 -->
-    <div class="project" onclick="abrirProjeto('projeto181')">
-        <img src="img/projetos/181_Moradia_Campo_Barcelos/181_1.webp"
-             alt="Moradia em Campo - Barcelos"
-             fetchpriority="high"
-             decoding="async">
+<!-- Projeto 176 -->
+<div class="project" onclick="abrirProjeto('projeto176')">
+<img src="img/projetos/176_Renovacao_Real_Braga/176_1.webp" alt="Renovação em Real - Braga" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Renovação Interior em Real</div>
+<div class="project-location">Real, Braga</div>
+</div>
+</div>
 
-        <div class="project-title">
-            <div class="project-name">Moradia em Campo</div>
-            <div class="project-location">Campo, Barcelos</div>
-        </div>
-    </div>
+<!-- Projeto 171 -->
+<!--
+<div class="project" onclick="abrirProjeto('projeto171')">
+<img src="img/projetos/171_Moradia_Lijo_Barcelos/171_1.webp" alt="Moradia em Lijó - Barcelos" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia em Lijó</div>
+<div class="project-location">Lijó, Barcelos</div>
+</div>
+</div>
+-->
 
-    <!-- Projeto 176 -->
-    <div class="project" onclick="abrirProjeto('projeto176')">
-        <img src="img/projetos/176_Renovacao_Real_Braga/176_1.webp"
-             alt="Renovação em Real - Braga"
-             loading="lazy"
-             decoding="async">
+<!-- Projeto 168 -->
+<div class="project" onclick="abrirProjeto('projeto168')">
+<img src="img/projetos/168_Moradia_Mogege_Famalicao/Ext_5.webp" alt="Moradia em Mogege - Famalicão" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia em Mogege</div>
+<div class="project-location">Mogege, Famalicão</div>
+</div>
+</div>
 
-        <div class="project-title">
-            <div class="project-name">Renovação Interior em Real</div>
-            <div class="project-location">Real, Braga</div>
-        </div>
-    </div>
+<!-- Projeto 158 -->
+<div class="project" onclick="abrirProjeto('projeto158')">
+<img src="img/projetos/158_Moradia_Espinho_Braga/158_1.webp" alt="Moradia em Espinho - Braga" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia em Espinho</div>
+<div class="project-location">Espinho, Braga</div>
+</div>
+</div>
 
-    <!-- Projeto 171 -->
-    <!--
-    <div class="project" onclick="abrirProjeto('projeto171')">
-        <img
-            src="img/projetos/171_Moradia_Lijo_Barcelos/171_1.webp"
-            alt="Moradia em Lijó - Barcelos"
-            loading="lazy"
-            decoding="async">
+<!-- Projeto 156 -->
+<div class="project" onclick="abrirProjeto('projeto156')">
+<img src="img/projetos/156_Moradia_Carapecos_Barcelos/156_1.webp" alt="Moradia em Carapeços - Barcelos" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia em Carapeços</div>
+<div class="project-location">Carapeços, Barcelos</div>
+</div>
+</div>
 
-        <div class="project-title">
-            <div class="project-name">Moradia em Lijó</div>
-            <div class="project-location">Lijó, Barcelos</div>
-        </div>
-    </div>
-    -->
+<!-- Projeto 146 -->
+<div class="project" onclick="abrirProjeto('projeto146')">
+<img src="img/projetos/146_Moradia_MireTibaes_Braga/146_00.webp" alt="Moradia em Mire de Tibães - Braga" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia em Mire de Tibães</div>
+<div class="project-location">Mire de Tibães, Braga</div>
+</div>
+</div>
 
-    <!-- Projeto 168 -->
-    <div class="project" onclick="abrirProjeto('projeto168')">
-        <img src="img/projetos/168_Moradia_Mogege_Famalicao/Ext_5.webp"
-             alt="Moradia em Mogege - Famalicão"
-             loading="lazy"
-             decoding="async">
+<!-- Projeto 187 -->
+<div class="project" onclick="abrirProjeto('projeto187')">
+<img src="img/projetos/187_Moradia_SantoEstevao_Benavente/187_4.webp" alt="Moradia em Santo Estêvão - Benavente" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia em Santo Estêvão</div>
+<div class="project-location">Santo Estêvão, Benavente</div>
+</div>
+</div>
 
-        <div class="project-title">
-            <div class="project-name">Moradia em Mogege</div>
-            <div class="project-location">Mogege, Famalicão</div>
-        </div>
-    </div>
+<!-- Projeto 108 -->
+<div class="project" onclick="abrirProjeto('projeto108')">
+<img src="img/projetos/108_Moradia_Estela_PVarzim/108_1.webp" alt="Moradia na Estela - Póvoa de Varzim" class="grayscale" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia na Estela</div>
+<div class="project-location">Estela, Póvoa de Varzim</div>
+</div>
+</div>
 
-    <!-- Projeto 158 -->
-    <div class="project" onclick="abrirProjeto('projeto158')">
-        <img src="img/projetos/158_Moradia_Espinho_Braga/158_1.webp"
-             alt="Moradia em Espinho - Braga"
-             loading="lazy"
-             decoding="async">
+<!-- Projeto 184 -->
+<!--
+<div class="project" onclick="abrirProjeto('projeto184')">
+<img src="img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_1.webp" alt="Escritórios Fradelos - Braga" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Renovação Interior de Escritórios</div>
+<div class="project-location">Fradelos, Braga</div>
+</div>
+</div>
+-->
 
-        <div class="project-title">
-            <div class="project-name">Moradia em Espinho</div>
-            <div class="project-location">Espinho, Braga</div>
-        </div>
-    </div>
+<!-- Projeto 98 -->
+<div class="project" onclick="abrirProjeto('projeto98')">
+<img src="img/projetos/98_Moradia_VilarParaiso_VNGaia/98_1.webp" alt="Moradia em Vilar do Paraíso - Vila Nova de Gaia" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia em Vilar do Paraíso</div>
+<div class="project-location">Vilar do Paraíso, Vila Nova de Gaia</div>
+</div>
+</div>
 
-    <!-- Projeto 156 -->
-    <div class="project" onclick="abrirProjeto('projeto156')">
-        <img src="img/projetos/156_Moradia_Carapecos_Barcelos/156_1.webp"
-             alt="Moradia em Carapeços - Barcelos"
-             loading="lazy"
-             decoding="async">
+<!-- Projeto 85 -->
+<div class="project" onclick="abrirProjeto('projeto85')">
+<img src="img/projetos/85_Moradia_Gove_Baiao/85_1.webp" alt="Moradia em Gove - Baião" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia em Gove</div>
+<div class="project-location">Gove, Baião</div>
+</div>
+</div>
 
-        <div class="project-title">
-            <div class="project-name">Moradia em Carapeços</div>
-            <div class="project-location">Carapeços, Barcelos</div>
-        </div>
-    </div>
+<!-- Projeto 183 -->
+<div class="project" onclick="abrirProjeto('projeto183')">
+<img src="img/projetos/183_RenovacaoExterior_CasteloPaiva/183_2.webp" alt="Renovação Exterior - Castelo de Paiva" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Renovação Exterior de Moradia em Castelo de Paiva</div>
+<div class="project-location">Castelo de Paiva</div>
+</div>
+</div>
 
-    <!-- Projeto 146 -->
-    <div class="project" onclick="abrirProjeto('projeto146')">
-        <img src="img/projetos/146_Moradia_MireTibaes_Braga/146_00.webp"
-             alt="Moradia em Mire de Tibães - Braga"
-             loading="lazy"
-             decoding="async">
+<!-- Projeto 56 -->
+<div class="project" onclick="abrirProjeto('projeto56')">
+<img src="img/projetos/56_InterioresBanco_CostaMarfim/56_9.webp" alt="Renovação Interior Banco - Costa do Marfim" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Requalificação Interior de Agência Bancária</div>
+<div class="project-location">Costa do Marfim</div>
+</div>
+</div>
 
-        <div class="project-title">
-            <div class="project-name">Moradia em Mire de Tibães</div>
-            <div class="project-location">Mire de Tibães, Braga</div>
-        </div>
-    </div>
+<!-- Projeto 45 -->
+<div class="project" onclick="abrirProjeto('projeto45')">
+<img src="img/projetos/45_Moradias_Frossos_Braga/45_1.webp" alt="Moradias em Frossos - Braga" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradias em Banda em Frossos</div>
+<div class="project-location">Frossos, Braga</div>
+</div>
+</div>
 
-    <!-- Projeto 187 -->
-    <div class="project" onclick="abrirProjeto('projeto187')">
-        <img src="img/projetos/187_Moradia_SantoEstevao_Benavente/187_4.webp"
-             alt="Moradia em Santo Estêvão - Benavente"
-             loading="lazy"
-             decoding="async">
+<!-- Projeto 29 -->
+<!--
+<div class="project" onclick="abrirProjeto('projeto29')">
+<img src="img/projetos/29_Moradia_Marinhas_Esposende/29_1.webp" alt="Moradia nas Marinhas - Esposende" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia nas Marinhas</div>
+<div class="project-location">Marinhas, Esposende</div>
+</div>
+</div>
+-->
 
-        <div class="project-title">
-            <div class="project-name">Moradia em Santo Estêvão</div>
-            <div class="project-location">Santo Estêvão, Benavente</div>
-        </div>
-    </div>
+<!-- Projeto 19 -->
+<div class="project" onclick="abrirProjeto('projeto19')">
+<img src="img/projetos/19_Apartamentos Vila Verde/19_1.webp" alt="Apartamentos em Vila Verde" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Conjunto Habitacional Multifamiliar em Barbudo</div>
+<div class="project-location">Barbudo, Vila Verde</div>
+</div>
+</div>
 
-    <!-- Projeto 108 -->
-    <div class="project" onclick="abrirProjeto('projeto108')">
-        <img
-            src="img/projetos/108_Moradia_Estela_PVarzim/108_1.webp"
-            alt="Moradia na Estela - Póvoa de Varzim"
-            class="grayscale"
-            loading="lazy"
-            decoding="async">
+<!-- Projeto 18 -->
+<div class="project" onclick="abrirProjeto('projeto18')">
+<img src="img/projetos/18_Moradias_Real_Braga/18_1.webp" alt="Moradias em Real - Braga" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradias em Banda em Real</div>
+<div class="project-location">Real, Braga</div>
+</div>
+</div>
 
-        <div class="project-title">
-            <div class="project-name">Moradia na Estela</div>
-            <div class="project-location">Estela, Póvoa de Varzim</div>
-        </div>
-    </div>
+<!-- Projeto 7 -->
+<div class="project" onclick="abrirProjeto('projeto7')">
+<img src="img/projetos/07_Moradia_Besteiros_Amares/07_1.webp" alt="Moradia em Besteiros - Amares" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia em Besteiros</div>
+<div class="project-location">Besteiros, Amares</div>
+</div>
+</div>
 
-    <!-- Projeto 184 -->
-    <!--
-    <div class="project" onclick="abrirProjeto('projeto184')">
-        <img
-            src="img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_1.webp"
-            alt="Escritórios Fradelos - Braga"
-            loading="lazy"
-            decoding="async">
-
-        <div class="project-title">
-            <div class="project-name">Renovação Interior de Escritórios</div>
-            <div class="project-location">Fradelos, Braga</div>
-        </div>
-    </div>
-    -->
-
-    <!-- Projeto 98 -->
-    <div class="project" onclick="abrirProjeto('projeto98')">
-        <img src="img/projetos/98_Moradia_VilarParaiso_VNGaia/98_1.webp"
-             alt="Moradia em Vilar do Paraíso - Vila Nova de Gaia"
-             loading="lazy"
-             decoding="async">
-
-        <div class="project-title">
-            <div class="project-name">Moradia em Vilar do Paraíso</div>
-            <div class="project-location">Vilar do Paraíso, Vila Nova de Gaia</div>
-        </div>
-    </div>
-
-    <!-- Projeto 85 -->
-    <div class="project" onclick="abrirProjeto('projeto85')">
-        <img src="img/projetos/85_Moradia_Gove_Baiao/85_1.webp"
-             alt="Moradia em Gove - Baião"
-             loading="lazy"
-             decoding="async">
-
-        <div class="project-title">
-            <div class="project-name">Moradia em Gove</div>
-            <div class="project-location">Gove, Baião</div>
-        </div>
-    </div>
-
-    <!-- Projeto 183 -->
-    <div class="project" onclick="abrirProjeto('projeto183')">
-        <img src="img/projetos/183_RenovacaoExterior_CasteloPaiva/183_2.webp"
-             alt="Renovação Exterior - Castelo de Paiva"
-             loading="lazy"
-             decoding="async">
-
-        <div class="project-title">
-            <div class="project-name">Renovação Exterior de Moradia em Castelo de Paiva</div>
-            <div class="project-location">Castelo de Paiva</div>
-        </div>
-    </div>
-
-    <!-- Projeto 56 -->
-    <div class="project" onclick="abrirProjeto('projeto56')">
-        <img src="img/projetos/56_InterioresBanco_CostaMarfim/56_9.webp"
-             alt="Renovação Interior Banco - Costa do Marfim"
-             loading="lazy"
-             decoding="async">
-
-        <div class="project-title">
-            <div class="project-name"> Requalificação Interior de Agência Bancária</div>
-            <div class="project-location">Costa do Marfim</div>
-        </div>
-    </div>
-
-    <!-- Projeto 45 -->
-    <div class="project" onclick="abrirProjeto('projeto45')">
-        <img src="img/projetos/45_Moradias_Frossos_Braga/45_1.webp"
-             alt="Moradias em Frossos - Braga"
-             loading="lazy"
-             decoding="async">
-
-        <div class="project-title">
-            <div class="project-name">Moradias em Banda em Frossos</div>
-            <div class="project-location">Frossos, Braga</div>
-        </div>
-    </div>
-
-    <!-- Projeto 29 -->
-    <!--
-    <div class="project" onclick="abrirProjeto('projeto29')">
-        <img
-            src="img/projetos/29_Moradia_Marinhas_Esposende/29_1.webp"
-            alt="Moradia nas Marinhas - Esposende"
-            loading="lazy"
-            decoding="async">
-
-        <div class="project-title">
-            <div class="project-name">Moradia nas Marinhas</div>
-            <div class="project-location">Marinhas, Esposende</div>
-        </div>
-    </div>
-    -->
-
-    <!-- Projeto 19 -->
-    <div class="project" onclick="abrirProjeto('projeto19')">
-        <img src="img/projetos/19_Apartamentos Vila Verde/19_1.webp"
-             alt="Apartamentos em Vila Verde"
-             loading="lazy"
-             decoding="async">
-
-        <div class="project-title">
-            <div class="project-name">Conjunto Habitacional Multifamiliar em Barbudo</div>
-            <div class="project-location">Barbudo, Vila Verde</div>
-        </div>
-    </div>
-
-    <!-- Projeto 18 -->
-    <div class="project" onclick="abrirProjeto('projeto18')">
-        <img src="img/projetos/18_Moradias_Real_Braga/18_1.webp"
-             alt="Moradias em Real - Braga"
-             loading="lazy"
-             decoding="async">
-
-        <div class="project-title">
-            <div class="project-name">Moradias em Banda em Real</div>
-            <div class="project-location">Real, Braga</div>
-        </div>
-    </div>
-
-    <!-- Projeto 7 -->
-    <div class="project" onclick="abrirProjeto('projeto7')">
-        <img src="img/projetos/07_Moradia_Besteiros_Amares/07_1.webp"
-             alt="Moradia em Besteiros - Amares"
-             loading="lazy"
-             decoding="async">
-
-        <div class="project-title">
-            <div class="project-name">Moradia em Besteiros</div>
-            <div class="project-location">Besteiros, Amares</div>
-        </div>
-    </div>
-
-    <!-- Projeto 5 -->
-    <div class="project" onclick="abrirProjeto('projeto5')">
-        <img src="img/projetos/05_Moradia_Pousa_Barcelos/05_1.webp"
-             alt="Moradia na Pousa - Barcelos"
-             loading="lazy"
-             decoding="async">
-
-        <div class="project-title">
-            <div class="project-name">Moradia na Pousa</div>
-            <div class="project-location">Pousa, Barcelos</div>
-        </div>
-    </div>
+<!-- Projeto 5 -->
+<div class="project" onclick="abrirProjeto('projeto5')">
+<img src="img/projetos/05_Moradia_Pousa_Barcelos/05_1.webp" alt="Moradia na Pousa - Barcelos" loading="lazy" decoding="async">
+<div class="project-title">
+<div class="project-name">Moradia na Pousa</div>
+<div class="project-location">Pousa, Barcelos</div>
+</div>
+</div>
 
 </div>
 </section>
 
 <!-- Modal -->
 <div id="modal-projeto" class="modal">
-
-    <button
-        class="close"
-        onclick="fecharModal()"
-        aria-label="Fechar">
-        &times;
-    </button>
-
-    <div id="modal-content"></div>
-
-    <button
-        id="fullscreen-btn"
-        class="fullscreen-btn"
-        aria-label="Ecrã inteiro">
-
-        <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            focusable="false">
-
-            <path d="M4 9V4h5" />
-            <path d="M20 9V4h-5" />
-            <path d="M4 15v5h5" />
-            <path d="M20 15v5h-5" />
-
-        </svg>
-
-    </button>
-
-    <!-- BOTÃO ZOOM -->
-    <button
-        id="zoom-btn"
-        class="zoom-btn"
-        aria-label="Zoom">
-        +
-    </button>
-
-    <div id="modal-indicators" class="media-indicators"></div>
-
-    <div class="modal-info">
-
-        <h2 id="modal-title"></h2>
-
-        <div class="modal-details">
-
-            <div class="modal-item">
-                <img src="img/icons/ano.svg" alt="Ano">
-                <span id="modal-year"></span>
-            </div>
-
-            <div class="modal-item">
-                <img src="img/icons/area.svg" alt="Área">
-                <span id="modal-area"></span>
-            </div>
-
-            <div class="modal-item">
-                <img src="img/icons/local.svg" alt="Local">
-                <span id="modal-location"></span>
-            </div>
-
-        </div>
-
-    </div>
-
-    <span class="prev" onclick="mudarMidia(-1)">‹</span>
-    <span class="next" onclick="mudarMidia(1)">›</span>
-
+<button class="close" onclick="fecharModal()" aria-label="Fechar">&times;</button>
+<div id="modal-content"></div>
+<button id="fullscreen-btn" class="fullscreen-btn" aria-label="Ecrã inteiro">
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+<path d="M4 9V4h5"/>
+<path d="M20 9V4h-5"/>
+<path d="M4 15v5h5"/>
+<path d="M20 15v5h-5"/>
+</svg>
+</button>
+<button id="zoom-btn" class="zoom-btn" aria-label="Zoom">+</button>
+<div id="modal-indicators" class="media-indicators"></div>
+<div class="modal-info">
+<h2 id="modal-title"></h2>
+<div class="modal-details">
+<div class="modal-item">
+<img src="img/icons/ano.svg" alt="Ano" width="24" height="24" decoding="async">
+<span id="modal-year"></span>
+</div>
+<div class="modal-item">
+<img src="img/icons/area.svg" alt="Área" width="24" height="24" decoding="async">
+<span id="modal-area"></span>
+</div>
+<div class="modal-item">
+<img src="img/icons/local.svg" alt="Local" width="24" height="24" decoding="async">
+<span id="modal-location"></span>
+</div>
+</div>
+</div>
+<span class="prev" onclick="mudarMidia(-1)" aria-label="Projeto anterior">‹</span>
+<span class="next" onclick="mudarMidia(1)" aria-label="Projeto seguinte">›</span>
 </div>
 
 <footer>
-
-    <div class="social-links">
-
-        <a href="https://www.instagram.com/projecto_19/"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/instagram.svg"
-                alt=""
-                class="social-icon">
-
-            <span>Instagram</span>
-
-        </a>
-
-        <a href="https://www.facebook.com/projecto19"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/facebook.svg"
-                alt=""
-                class="social-icon">
-
-            <span>Facebook</span>
-
-        </a>
-
-    </div>
-
-    <p>© PROJETO 19</p>
-
+<div class="social-links">
+<a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
+<img src="img/icons/instagram.svg" alt="" class="social-icon" width="24" height="24" decoding="async">
+<span>Instagram</span>
+</a>
+<a href="https://www.facebook.com/projecto19" target="_blank" rel="noopener noreferrer">
+<img src="img/icons/facebook.svg" alt="" class="social-icon" width="24" height="24" decoding="async">
+<span>Facebook</span>
+</a>
+</div>
+<p>© PROJETO 19</p>
 </footer>
 
 <script>
-
 const projetos = {
-  projeto187: {
-
-    info: {
-        nome: "Moradia em Santo Estêvão - Benavente",
-        ano: "2026",
-        area: "245 m²",
-        local: "Santo Estêvão, Benavente"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_1.webp" },
-        { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_2.webp" },
-        { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_3.webp" },
-        { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_4.webp" },
-        { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_5.webp" },
-        { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_6.webp" },
-        { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_7.webp" },
-        { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_8.webp" },
-        { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_9.webp" }/*,
-        { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_10.webp" },
-        { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_11.webp" }*/
-    ]
-
-  },
-
-  projeto184: {
-
-    info: {
-        nome: "Renovação Interior de Escritórios em Fradelos - Braga",
-        ano: "2025",
-        area: "—",
-        local: "Fradelos, Braga"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_1.webp" },
-        { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_2.webp" },
-        { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_3.webp" },
-        { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_4.webp" },
-        { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_5.webp" },
-        { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_6.webp" },
-        { type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_7.webp" }
-    ]
-
-  },
-
-  projeto183: {
-
-    info: {
-        nome: "Renovação Exterior de Moradia em Castelo de Paiva",
-        ano: "2025",
-        area: "—",
-        local: "Castelo de Paiva"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_1.webp" },
-        { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_2.webp" },
-        { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_3.webp" },
-        { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_4.webp" },
-        { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_5.webp" },
-        { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_6.webp" },
-        { type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_7.webp" }
-    ]
-
-  },
-
-  projeto181: {
-
-    info: {
-        nome: "Moradia em Campo - Barcelos",
-        ano: "2026",
-        area: "318 m²",
-        local: "Campo, Barcelos"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_1.webp" },
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_2.webp" },
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_3.webp" },
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_4.webp" },
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_5.webp" },
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_6.webp" },
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_7.webp" },
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_8.webp" },
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_9.webp" },
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_10.webp" }/*,
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_11.webp" },
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_12.webp" },
-        { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_13.webp" }*/
-    ]
-
-  },
-
-  projeto176: {
-
-    info: {
-        nome: "Renovação Interior de Moradia em Real - Braga",
-        ano: "2024",
-        area: "—",
-        local: "Real, Braga"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_1.webp" },
-        { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_2.webp" },
-        { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_3.webp" },
-        { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_4.webp" },
-        { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_5.webp" },
-        { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_6.webp" },
-        { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_7.webp" }
-    ]
-
-  },
-
-  projeto171: {
-
-    info: {
-        nome: "Moradia em Lijó - Barcelos",
-        ano: "2026",
-        area: "270 m²",
-        local: "Lijó, Barcelos"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_1.webp" },
-        { type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_2.webp" },
-        { type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_3.webp" },
-        { type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_4.webp" }
-    ]
-
-  },
-
-  projeto168: {
-
-    info: {
-        nome: "Moradia em Mogege - Famalicão",
-        ano: "2026",
-        area: "401 m²",
-        local: "Mogege, Famalicão"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_1.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_2.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_3.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_4.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_5.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_6.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_7.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_8.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_9.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_10.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_11.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_12.webp" }/*,
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_13.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_14.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_15.webp" },
-        { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_16.webp" }*/
-    ]
-
-  },
-
-  projeto158: {
-
-    info: {
-        nome: "Moradia em Espinho - Braga",
-        ano: "2023",
-        area: "338 m²",
-        local: "Espinho, Braga"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_1.webp" },
-        { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_2.webp" },
-        { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_3.webp" },
-        { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_4.webp" },
-        { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_5.webp" }/*,
-        { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_6.webp" },
-        { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_7.webp" },
-        { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_8.webp" },
-        { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_9.webp" }*/
-    ]
-
-  },
-
-  projeto156: {
-
-    info: {
-        nome: "Moradia em Carapeços - Barcelos",
-        ano: "2023",
-        area: "289 m²",
-        local: "Carapeços, Barcelos"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_1.webp" },
-        { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_2.webp" },
-        { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_3.webp" },
-        { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_4.webp" },
-        { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_5.webp" },
-        { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_6.webp" },
-        { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_7.webp" },
-        { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_8.webp" }
-    ]
-
-  },
-
-  projeto146: {
-
-    info: {
-        nome: "Moradia em Mire de Tibães - Braga",
-        ano: "2025",
-        area: "308 m²",
-        local: "Mire de Tibães, Braga"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_01.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_02.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_03.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_04.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_05.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_06.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_07.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_08.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_09.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_10.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_11.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_12.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_13.webp" }/*,
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_14.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_15.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_16.webp" },
-        { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_17.webp" }*/
-    ]
-
-  },
-
-    projeto108: {
-
-    info: {
-        nome: "Moradia na Estela - Póvoa de Varzim",
-        ano: "2026",
-        area: "211 m²",
-        local: "Estela, Póvoa de Varzim"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_1.webp", grayscale: true }, 
-        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_2.webp", grayscale: true },
-        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_3.webp", grayscale: true },
-        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_4.webp" },
-        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_5.webp" }
-    ]
-
-  },
-
-    /*projeto108: {
-
-    info: {
-        nome: "Moradia na Estela - Póvoa de Varzim",
-        ano: "2022",
-        area: "270 m²",
-        local: "Estela, Póvoa de Varzim"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_1.webp" },
-        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_2.webp" },
-        { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_3.webp" }
-    ]
-
-  },*/
-
-  projeto98: {
-
-    info: {
-        nome: "Moradia em Vilar do Paraíso - Vila Nova de Gaia",
-        ano: "2023",
-        area: "125 m²",
-        local: "Vilar do Paraíso, Vila Nova de Gaia"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_1.webp" },
-        { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_2.webp" },
-        { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_3.webp" },
-        { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_4.webp" },
-        { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_5.webp" }/*,
-        { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_6.webp" },
-        { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_7.webp" },
-        { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_8.webp" },
-        { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_9.webp" },
-        { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_10.webp" }*/
-    ]
-
-  },
-
-  projeto85: {
-
-    info: {
-        nome: "Moradia em Gôve - Baião",
-        ano: "2024",
-        area: "302 m²",
-        local: "Gôve, Baião"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_1.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_2.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_3.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_4.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_5.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_6.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_7.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_8.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_9.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_10.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_11.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_12.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_13.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_14.webp" }/*,
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_15.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_16.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_17.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_18.webp" },
-        { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_19.webp" }*/
-    ]
-
-  },
-
-  projeto56: {
-
-    info: {
-        nome: "Requalificação Interior de Agência Bancária - Costa do Marfim",
-        ano: "2020",
-        area: "—",
-        local: "Costa do Marfim"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_1.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_2.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_3.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_4.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_5.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_6.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_7.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_8.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_9.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_10.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_11.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_12.webp" },
-        { type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_13.webp" }
-    ]
-
-  },
-
-  projeto45: {
-
-    info: {
-        nome: "Moradias em Banda em Frossos - Braga",
-        ano: "2022",
-        area: "252 m² x 6 un.",
-        local: "Frossos, Braga"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_1.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_2.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_3.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_4.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_5.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_6.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_7.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_8.webp" }/*,
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_9.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_10.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_11.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_12.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_13.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_14.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_15.webp" },
-        { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_16.webp" }*/
-    ]
-
-  },
-
-  projeto29: {
-
-    info: {
-        nome: "Moradia nas Marinhas - Esposende",
-        ano: "2020",
-        area: "346 m²",
-        local: "Marinhas, Esposende"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_1.webp" },
-        { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_2.webp" },
-        { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_3.webp" },
-        { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_4.webp" },
-        { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_5.webp" },
-        { type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_6.webp" }
-    ]
-
-  },
-
-  projeto19: {
-
-    info: {
-        nome: "Conjunto Habitacional em Barbudo - Vila Verde",
-        ano: "2023",
-        area: "1664 m² x 2 un.",
-        local: "Barbudo, Vila Verde"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_1.webp" },
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_2.webp" },
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_3.webp" },
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_4.webp" },
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_5.webp" },
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_6.webp" },
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_7.webp" },
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_8.webp" },
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_9.webp" }/*,
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_10.webp" },
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_11.webp" },
-        { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_12.webp" }*/
-    ]
-
-  },
-
-  projeto18: {
-
-    info: {
-        nome: "Moradias em Banda em Real - Braga",
-        ano: "2020",
-        area: "294 m² x 11 un.",
-        local: "Real, Braga"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_1.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_2.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_3.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_4.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_5.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_6.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_7.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_8.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_9.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_10.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_11.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_12.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_13.webp" }/*,
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_14.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_15.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_16.webp" },
-        { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_17.webp" }*/
-    ]
-
-  },
-
-  projeto7: {
-
-    info: {
-        nome: "Moradia em Besteiros - Amares",
-        ano: "2019",
-        area: "385 m²",
-        local: "Besteiros, Amares"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_1.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_2.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_3.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_4.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_5.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_6.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_7.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_8.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_14.webp" }/*,
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_9.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_10.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_11.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_12.webp" },
-        { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_13.webp" }*/
-    ]
-
-  },
-
-  projeto5: {
-
-    info: {
-        nome: "Moradia na Pousa - Barcelos",
-        ano: "2020",
-        area: "486 m²",
-        local: "Pousa, Barcelos"
-    },
-
-    media: [
-        { type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_1.webp" },
-        { type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_2.webp" },
-        { type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_3.webp" },
-        { type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_4.webp" },
-        { type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_5.webp" }
-    ]
-
-  },
+projeto187: {
+info: {
+nome: "Moradia em Santo Estêvão - Benavente",
+ano: "2026",
+area: "245 m²",
+local: "Santo Estêvão, Benavente"
+},
+media: [
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_1.webp" },
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_2.webp" },
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_3.webp" },
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_4.webp" },
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_5.webp" },
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_6.webp" },
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_7.webp" },
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_8.webp" },
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_9.webp" }/*,
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_10.webp" },
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_11.webp" }*/
+]
+},
+
+projeto184: {
+info: {
+nome: "Renovação Interior de Escritórios em Fradelos - Braga",
+ano: "2025",
+area: "—",
+local: "Fradelos, Braga"
+},
+media: [
+{ type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_1.webp" },
+{ type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_2.webp" },
+{ type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_3.webp" },
+{ type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_4.webp" },
+{ type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_5.webp" },
+{ type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_6.webp" },
+{ type: 'image', src: "img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_7.webp" }
+]
+},
+
+projeto183: {
+info: {
+nome: "Renovação Exterior de Moradia em Castelo de Paiva",
+ano: "2025",
+area: "—",
+local: "Castelo de Paiva"
+},
+media: [
+{ type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_1.webp" },
+{ type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_2.webp" },
+{ type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_3.webp" },
+{ type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_4.webp" },
+{ type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_5.webp" },
+{ type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_6.webp" },
+{ type: 'image', src: "img/projetos/183_RenovacaoExterior_CasteloPaiva/183_7.webp" }
+]
+},
+
+projeto181: {
+info: {
+nome: "Moradia em Campo - Barcelos",
+ano: "2026",
+area: "318 m²",
+local: "Campo, Barcelos"
+},
+media: [
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_1.webp" },
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_2.webp" },
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_3.webp" },
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_4.webp" },
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_5.webp" },
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_6.webp" },
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_7.webp" },
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_8.webp" },
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_9.webp" },
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_10.webp" }/*,
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_11.webp" },
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_12.webp" },
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_13.webp" }*/
+]
+},
+
+projeto176: {
+info: {
+nome: "Renovação Interior de Moradia em Real - Braga",
+ano: "2024",
+area: "—",
+local: "Real, Braga"
+},
+media: [
+{ type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_1.webp" },
+{ type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_2.webp" },
+{ type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_3.webp" },
+{ type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_4.webp" },
+{ type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_5.webp" },
+{ type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_6.webp" },
+{ type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_7.webp" }
+]
+},
+
+projeto171: {
+info: {
+nome: "Moradia em Lijó - Barcelos",
+ano: "2026",
+area: "270 m²",
+local: "Lijó, Barcelos"
+},
+media: [
+{ type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_1.webp" },
+{ type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_2.webp" },
+{ type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_3.webp" },
+{ type: 'image', src: "img/projetos/171_Moradia_Lijo_Barcelos/171_4.webp" }
+]
+},
+
+projeto168: {
+info: {
+nome: "Moradia em Mogege - Famalicão",
+ano: "2026",
+area: "401 m²",
+local: "Mogege, Famalicão"
+},
+media: [
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_1.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_2.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_3.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_4.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_5.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_6.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_7.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_8.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_9.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_10.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_11.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_12.webp" }/*,
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_13.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_14.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_15.webp" },
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_16.webp" }*/
+]
+},
+
+projeto158: {
+info: {
+nome: "Moradia em Espinho - Braga",
+ano: "2023",
+area: "338 m²",
+local: "Espinho, Braga"
+},
+media: [
+{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_1.webp" },
+{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_2.webp" },
+{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_3.webp" },
+{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_4.webp" },
+{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_5.webp" }/*,
+{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_6.webp" },
+{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_7.webp" },
+{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_8.webp" },
+{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_9.webp" }*/
+]
+},
+
+projeto156: {
+info: {
+nome: "Moradia em Carapeços - Barcelos",
+ano: "2023",
+area: "289 m²",
+local: "Carapeços, Barcelos"
+},
+media: [
+{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_1.webp" },
+{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_2.webp" },
+{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_3.webp" },
+{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_4.webp" },
+{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_5.webp" },
+{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_6.webp" },
+{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_7.webp" },
+{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_8.webp" }
+]
+},
+
+projeto146: {
+info: {
+nome: "Moradia em Mire de Tibães - Braga",
+ano: "2025",
+area: "308 m²",
+local: "Mire de Tibães, Braga"
+},
+media: [
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_01.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_02.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_03.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_04.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_05.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_06.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_07.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_08.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_09.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_10.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_11.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_12.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_13.webp" }/*,
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_14.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_15.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_16.webp" },
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_17.webp" }*/
+]
+},
+
+projeto108: {
+info: {
+nome: "Moradia na Estela - Póvoa de Varzim",
+ano: "2026",
+area: "211 m²",
+local: "Estela, Póvoa de Varzim"
+},
+media: [
+{ type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_1.webp", grayscale: true },
+{ type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_2.webp", grayscale: true },
+{ type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_3.webp", grayscale: true },
+{ type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_4.webp" },
+{ type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_5.webp" }
+]
+},
+
+/*projeto108: {
+info: {
+nome: "Moradia na Estela - Póvoa de Varzim",
+ano: "2022",
+area: "270 m²",
+local: "Estela, Póvoa de Varzim"
+},
+media: [
+{ type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_1.webp" },
+{ type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_2.webp" },
+{ type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_3.webp" }
+]
+},*/
+
+projeto98: {
+info: {
+nome: "Moradia em Vilar do Paraíso - Vila Nova de Gaia",
+ano: "2023",
+area: "125 m²",
+local: "Vilar do Paraíso, Vila Nova de Gaia"
+},
+media: [
+{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_1.webp" },
+{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_2.webp" },
+{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_3.webp" },
+{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_4.webp" },
+{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_5.webp" }/*,
+{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_6.webp" },
+{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_7.webp" },
+{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_8.webp" },
+{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_9.webp" },
+{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_10.webp" }*/
+]
+},
+
+projeto85: {
+info: {
+nome: "Moradia em Gôve - Baião",
+ano: "2024",
+area: "302 m²",
+local: "Gôve, Baião"
+},
+media: [
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_1.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_2.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_3.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_4.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_5.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_6.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_7.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_8.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_9.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_10.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_11.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_12.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_13.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_14.webp" }/*,
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_15.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_16.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_17.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_18.webp" },
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_19.webp" }*/
+]
+},
+
+projeto56: {
+info: {
+nome: "Requalificação Interior de Agência Bancária - Costa do Marfim",
+ano: "2020",
+area: "—",
+local: "Costa do Marfim"
+},
+media: [
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_1.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_2.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_3.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_4.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_5.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_6.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_7.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_8.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_9.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_10.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_11.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_12.webp" },
+{ type: 'image', src: "img/projetos/56_InterioresBanco_CostaMarfim/56_13.webp" }
+]
+},
+
+projeto45: {
+info: {
+nome: "Moradias em Banda em Frossos - Braga",
+ano: "2022",
+area: "252 m² x 6 un.",
+local: "Frossos, Braga"
+},
+media: [
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_1.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_2.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_3.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_4.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_5.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_6.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_7.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_8.webp" }/*,
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_9.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_10.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_11.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_12.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_13.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_14.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_15.webp" },
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_16.webp" }*/
+]
+},
+
+projeto29: {
+info: {
+nome: "Moradia nas Marinhas - Esposende",
+ano: "2020",
+area: "346 m²",
+local: "Marinhas, Esposende"
+},
+media: [
+{ type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_1.webp" },
+{ type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_2.webp" },
+{ type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_3.webp" },
+{ type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_4.webp" },
+{ type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_5.webp" },
+{ type: 'image', src: "img/projetos/29_Moradia_Marinhas_Esposende/29_6.webp" }
+]
+},
+
+projeto19: {
+info: {
+nome: "Conjunto Habitacional em Barbudo - Vila Verde",
+ano: "2023",
+area: "1664 m² x 2 un.",
+local: "Barbudo, Vila Verde"
+},
+media: [
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_1.webp" },
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_2.webp" },
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_3.webp" },
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_4.webp" },
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_5.webp" },
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_6.webp" },
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_7.webp" },
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_8.webp" },
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_9.webp" }/*,
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_10.webp" },
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_11.webp" },
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_12.webp" }*/
+]
+},
+
+projeto18: {
+info: {
+nome: "Moradias em Banda em Real - Braga",
+ano: "2020",
+area: "294 m² x 11 un.",
+local: "Real, Braga"
+},
+media: [
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_1.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_2.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_3.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_4.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_5.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_6.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_7.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_8.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_9.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_10.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_11.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_12.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_13.webp" }/*,
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_14.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_15.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_16.webp" },
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_17.webp" }*/
+]
+},
+
+projeto7: {
+info: {
+nome: "Moradia em Besteiros - Amares",
+ano: "2019",
+area: "385 m²",
+local: "Besteiros, Amares"
+},
+media: [
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_1.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_2.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_3.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_4.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_5.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_6.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_7.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_8.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_14.webp" }/*,
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_9.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_10.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_11.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_12.webp" },
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_13.webp" }*/
+]
+},
+
+projeto5: {
+info: {
+nome: "Moradia na Pousa - Barcelos",
+ano: "2020",
+area: "486 m²",
+local: "Pousa, Barcelos"
+},
+media: [
+{ type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_1.webp" },
+{ type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_2.webp" },
+{ type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_3.webp" },
+{ type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_4.webp" },
+{ type: 'image', src: "img/projetos/05_Moradia_Pousa_Barcelos/05_5.webp" }
+]
+}
 };
 
 // ======================================
