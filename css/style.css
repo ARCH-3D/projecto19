@@ -15,32 +15,75 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
+
+    /* Remover destaque nativo de toque */
+    -webkit-tap-highlight-color:transparent;
+}
+
+html{
+    scrollbar-gutter:stable;
+    -webkit-text-size-adjust:100%;
+}
+
+button,
+a,
+input,
+textarea,
+select,
+[role="button"]{
+    -webkit-tap-highlight-color:transparent;
+    -webkit-touch-callout:none;
+}
+
+button{
+    -webkit-appearance:none;
+    appearance:none;
 }
 
 /* ================== EFEITO DE TOQUE ================== */
 
+/*
+   Remove completamente o destaque nativo de toque
+   do Android / Chrome / outros browsers touch.
+   O único efeito visual será o .touch-active abaixo.
+*/
+
+nav a,
+.contact-trigger,
+.close,
+.fullscreen-btn,
+.zoom-btn,
+.project{
+    -webkit-tap-highlight-color:transparent;
+    -webkit-touch-callout:none;
+}
+
 /* Links de navegação */
-nav a.touch-active {
-    background: rgba(0, 0, 0, 0.12);
-    border-radius: 6px;
+
+nav a.touch-active{
+    background:rgba(0,0,0,0.12);
+    border-radius:6px;
 }
 
 /* Botões do modal */
+
 .close.touch-active,
 .fullscreen-btn.touch-active,
-.zoom-btn.touch-active {
-    background: rgba(0, 0, 0, 0.12);
-    border-radius: 6px;
+.zoom-btn.touch-active{
+    background:rgba(0,0,0,0.12);
+    border-radius:6px;
 }
 
 /* Botão Fale Conosco */
-.contact-trigger.touch-active {
-    background: rgba(220, 220, 220, 0.95);
+
+.contact-trigger.touch-active{
+    background:rgba(220,220,220,0.95);
 }
 
 /* Projetos */
-.project.touch-active::before {
-    background: rgba(0, 0, 0, 0.18);
+
+.project.touch-active::before{
+    background:rgba(0,0,0,0.18);
 }
 
 /* ================== HTML ================== */
@@ -600,9 +643,14 @@ footer p{
 /* Não criar outline ao clicar */
 
 .close:focus,
-.close:active{
+.close:active,
+.fullscreen-btn:focus,
+.fullscreen-btn:active,
+.zoom-btn:focus,
+.zoom-btn:active{
     outline:none;
     box-shadow:none;
+    -webkit-tap-highlight-color:transparent;
 }
 
 /* Quadrado de seleção do teclado */
