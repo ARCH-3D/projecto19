@@ -148,6 +148,18 @@ nav a:focus-visible{
     -webkit-backface-visibility:hidden;
 }
 
+/* ================== IPHONE ================== */
+
+@media (max-width:767px){
+
+    .hero{
+        height:100vh;
+        min-height:100vh;
+        max-height:100vh;
+    }
+
+}
+
 /* ================== HERO TEXT ================== */
 
 .hero-text{
