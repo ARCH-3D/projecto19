@@ -128,7 +128,7 @@ nav a:focus-visible{
 .hero{
     position:relative;
     width:100%;
-    height:calc(100vh - 1px);
+    height:var(--hero-height, 100vh);
     overflow:hidden;
 }
 

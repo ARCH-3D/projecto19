@@ -130,53 +130,52 @@ setInterval(() => {
 }, 5000);
 
 // WIDGET DE CONTACTO
+
 const contactWidget = document.querySelector(".contact-widget");
 const contactButton = document.querySelector(".contact-trigger");
 
-contactButton.addEventListener("click", function(e) {
+contactButton.addEventListener("click", function(e){
     e.stopPropagation();
     contactWidget.classList.toggle("active");
+
 });
 
-contactWidget.addEventListener("click", function(e) {
+document.addEventListener("click", function(){
+    contactWidget.classList.remove("active");
+});
+
+contactWidget.addEventListener("click", function(e){
     e.stopPropagation();
 });
 
-// MENU MOBILE
-const menu = document.getElementById("menu");
-const menuToggle = document.querySelector(".menu-toggle");
-
 function toggleMenu() {
-    menu.classList.toggle("active");
+    document.getElementById("menu").classList.toggle("active");
 }
 
 document.querySelectorAll("#menu a").forEach(link => {
     link.addEventListener("click", () => {
-        menu.classList.remove("active");
+        document.getElementById("menu").classList.remove("active");
     });
 });
 
-document.addEventListener("click", function(e) {
-    if (
-        menu.classList.contains("active") &&
-        !menu.contains(e.target) &&
-        !menuToggle.contains(e.target)
-    ) {
-        menu.classList.remove("active");
-    }
+let currentWidth = window.innerWidth;
 
-    if (
-        contactWidget.classList.contains("active") &&
-        !contactWidget.contains(e.target)
-    ) {
-        contactWidget.classList.remove("active");
+function setHeroHeight() {
+    document.documentElement.style.setProperty(
+        '--hero-height',
+        `${window.innerHeight}px`
+    );
+}
+
+setHeroHeight();
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth !== currentWidth) {
+        currentWidth = window.innerWidth;
+        setHeroHeight();
     }
 });
 
-window.addEventListener("scroll", () => {
-    menu.classList.remove("active");
-    contactWidget.classList.remove("active");
-}, { passive: true });
 </script>
 </body>
 </html>
