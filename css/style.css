@@ -37,6 +37,7 @@ body{
     background:var(--c-bg);
     line-height:1.6;
     overflow-x:hidden;
+    overscroll-behavior-y: none;
 }
 
 /* Bloquear scroll quando o modal está aberto */
