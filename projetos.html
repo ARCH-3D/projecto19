@@ -1366,6 +1366,11 @@ document.addEventListener("fullscreenchange", () => {
     modal.style.background = "";
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
+
+    /* Remove o foco do fullscreen depois da transição */
+    requestAnimationFrame(() => {
+        fullscreenBtn?.blur();
+    });
 });
 fullscreenBtn.addEventListener("click", function(e){
     e.stopPropagation();
