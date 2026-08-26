@@ -132,6 +132,7 @@ nav a:focus-visible{
     height:100svh;
     min-height:100svh;
     overflow:hidden;
+    contain:paint;
 }
 
 .hero-image{
