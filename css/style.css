@@ -997,113 +997,76 @@ footer p{
 /* ================== FULLSCREEN ================== */
 
 .fullscreen-btn{
-
     position:absolute;
     top:25px;
     right:78px;
     width:38px;
     height:38px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     padding:0;
     margin:0;
-
     border:none;
     outline:none;
     background:none;
-
     color:var(--c-text);
-
     cursor:pointer;
-
     z-index:10003;
-
     opacity:0;
     pointer-events:none;
-
     transition:opacity .5s ease;
-
-    -webkit-appearance:none;
-    appearance:none;
-
     -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
 
-/* Botão visível */
 .fullscreen-btn.show{
-
     opacity:1;
     pointer-events:auto;
-
 }
 
 /* Ícone */
-.fullscreen-btn svg{
 
+.fullscreen-btn svg{
     width:24px;
     height:24px;
-
     display:block;
-
     fill:none;
     stroke:currentColor;
     stroke-width:1.8;
     stroke-linecap:square;
     stroke-linejoin:miter;
-
     transform:translateY(3px);
-
     pointer-events:none;
-
 }
 
 /* Hover apenas no computador */
+
 @media (hover:hover){
-
     .fullscreen-btn:hover{
-
         opacity:.5;
-
     }
-
 }
 
-/* =================================================
-   TOQUE — MESMO COMPORTAMENTO DOS OUTROS BOTÕES
-   ================================================= */
+/* Não deixar o botão ficar "selecionado" após toque */
 
 .fullscreen-btn:focus,
 .fullscreen-btn:active{
-
     outline:none;
     box-shadow:none;
-
 }
 
-/* iPad / iPhone / dispositivos touch */
 @media (pointer:coarse){
-
     .fullscreen-btn:focus,
     .fullscreen-btn:active{
-
         opacity:1;
-
     }
-
 }
 
-/* Teclado */
 .fullscreen-btn:focus-visible{
-
     outline:2px solid var(--c-text);
     outline-offset:4px;
-
     opacity:1;
     pointer-events:auto;
-
 }
 
 /* ================== ZOOM ================== */
