@@ -222,9 +222,9 @@ section p {
 .service{
     display:flex;
     align-items:flex-start;
-    gap:16px;
+    gap:24px;
 
-    margin-bottom:28px;
+    margin-bottom:40px;
 }
 
 .service-icon{
@@ -336,10 +336,6 @@ section p {
     display:block;
 }
 
-.grayscale{
-    filter: grayscale(100%) brightness(1) contrast(1);
-}
-
 /* ================== OVERLAY ================== */
 
 .project::before{
@@ -378,55 +374,25 @@ section p {
 /* ================== PROJECT TITLE ================== */
 
 .project-title{
-
     position:absolute;
 
     left:20px;
-    right:20px;
     bottom:20px;
 
     z-index:2;
 
     color:#fff;
 
+    font-size:12px;
+    font-weight:300;
+
+    letter-spacing:1.5px;
+
+    text-transform:uppercase;
+
     opacity:0;
 
     transition:.3s ease;
-
-}
-
-.project-name{
-
-    display:block;
-
-    font-size:16px;
-
-    font-weight:500;
-
-    letter-spacing:1.6px;
-
-    line-height:1.2;
-
-    text-transform:uppercase;
-
-}
-
-.project-location{
-
-    display:block;
-
-    margin-top:5px;
-
-    font-size:11px;
-
-    font-weight:300;
-
-    letter-spacing:1.8px;
-
-    text-transform:uppercase;
-
-    opacity:.85;
-
 }
 
 /* ================= PROJECT SECTION ================= */
@@ -976,18 +942,13 @@ footer p{
     }
 
     .service-icon{
-    width:56px;
-    min-width:56px;
+    width:52px;
+    min-width:52px;
     }
 
     .service-icon img{
-    width:56px;
-    height:56px;
-    }
-
-    .service{
-    gap:16px;
-    margin-bottom:28px;
+    width:36px;
+    height:36px;
     }
 
     /* Apenas para a página de contactos */
@@ -1024,15 +985,6 @@ footer p{
     .modal-item{
         font-size:11px;
     }
-
-    .social-links{
-        transform:translateY(-25px);
-    }
-
-    footer p{
-        transform:translateY(-35px);
-    }
-
 }
 
 @media (hover: none), (pointer: coarse){
@@ -1219,12 +1171,4 @@ footer p{
 
 .fullscreen-btn{
     display: none !important;
-}
-
-@media (max-width:768px) and (orientation:landscape){
-
-    .media-indicators{
-        bottom:60px;
-    }
-
 }
