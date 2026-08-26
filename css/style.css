@@ -1209,21 +1209,20 @@ footer p{
     @media (max-width:767px) and (orientation:landscape){
 
         .close{
-            right:0 !important;
+            right:-8px !important;
         }
 
         .fullscreen-btn{
-            right:42px !important;
+            right:30px !important;
         }
 
         .zoom-btn{
-            right:84px !important;
+            right:68px !important;
         }
 
-        /* Se o fullscreen estiver escondido,
-           o zoom ocupa a sua posição */
+        /* Sem fullscreen → zoom ocupa a posição do fullscreen */
         .fullscreen-btn:not(.show) + .zoom-btn{
-            right:42px !important;
+            right:30px !important;
         }
     }
 }
