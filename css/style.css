@@ -37,7 +37,6 @@ body{
     background:var(--c-bg);
     line-height:1.6;
     overflow-x:hidden;
-    overscroll-behavior-y: none;
 }
 
 /* Bloquear scroll quando o modal está aberto */
@@ -130,9 +129,7 @@ nav a:focus-visible{
     position:relative;
     width:100%;
     height:100svh;
-    min-height:100svh;
     overflow:hidden;
-    contain:paint;
 }
 
 .hero-image{
@@ -143,9 +140,6 @@ nav a:focus-visible{
     object-fit:cover;
     opacity:1;
     transition:opacity .8s ease;
-    transform:translateZ(0);
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;
 }
 
 /* ================== HERO TEXT ================== */
