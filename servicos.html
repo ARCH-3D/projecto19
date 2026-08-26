@@ -1,226 +1,186 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Serviços da Projecto 19 — Arquitetura, reabilitação, design de interiores, licenciamento, imagens 3D e realidade virtual.">
 
-    <meta name="description" content="Serviços da Projecto 19 — Arquitetura, reabilitação, design de interiores, licenciamento, imagens 3D e realidade virtual.">
+<title>Serviços — Projecto 19</title>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-JXJP0D464R');
+</script>
 
-      gtag('config', 'G-JXJP0D464R');
-    </script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Serviços</title>
+<!-- Fontes -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200&display=swap"
-          rel="stylesheet">
-
-    <link rel="stylesheet" href="css/style.css">
+<!-- CSS -->
+<link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
 <header>
+    <div class="header-left">
+        <a href="index.html" class="logo-link">
+            <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo" width="42" height="42" decoding="async">
+            <h1>Projecto 19</h1>
+        </a>
+    </div>
 
-  <div class="header-left">
-    <a href="index.html" class="logo-link">
-      <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo">
-      <h1>Projecto 19</h1>
-    </a>
-  </div>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
 
-  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-
-  <nav id="menu">
-      <a href="index.html">Home</a>
-      <a href="projetos.html">Projetos</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="servicos.html">Serviços</a>
-      <a href="contactos.html">Contactos</a>
-  </nav>
-
+    <nav id="menu">
+        <a href="index.html">Home</a>
+        <a href="projetos.html">Projetos</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="contactos.html">Contactos</a>
+    </nav>
 </header>
 
 <section>
+    <h3 class="section-title"><strong>Serviços</strong></h3>
 
-  <h3 class="section-title"><strong>Serviços</strong></h3>
+    <p>
+        Acompanhamos todas as fases do processo, do conceito à execução, com rigor técnico, criatividade e atenção ao detalhe. Disponibilizamos um conjunto completo de serviços que asseguram soluções à medida e uma experiência integrada e personalizada.
+    </p>
 
-  <p>
-    Acompanhamos todas as fases do processo, do conceito à execução, com rigor técnico, criatividade e atenção ao detalhe. Disponibilizamos um conjunto completo de serviços que asseguram soluções à medida e uma experiência integrada e personalizada.
-  </p>
+    <br><br>
 
-  <br><br>
-
-  <!-- 1 -->
-  <div class="service">
-    <div class="service-icon">
-      <img src="img/icons/arquitetura.png" alt="Arquitetura">
+    <!-- 1 -->
+    <div class="service">
+        <div class="service-icon">
+            <img src="img/icons/arquitetura.png" alt="Arquitetura" width="56" height="56" loading="lazy" decoding="async">
+        </div>
+        <div class="service-content">
+            <h4>Arquitetura</h4>
+            <p>Desenvolvimento de projetos de arquitetura residencial, comercial e serviços, desde o estudo prévio até ao projeto de execução.</p>
+        </div>
     </div>
 
-    <div class="service-content">
-      <h4>Arquitetura</h4>
-      <p>Desenvolvimento de projetos de arquitetura residencial, comercial e serviços, desde o estudo prévio até ao projeto de execução.</p>
-    </div>
-  </div>
-
-  <!-- 2 -->
-  <div class="service">
-    <div class="service-icon">
-      <img src="img/icons/reabilitacao.png" alt="Reabilitação e Remodelação">
-    </div>
-
-    <div class="service-content">
-      <h4>Reabilitação e Remodelação</h4>
-      <p>Intervenção em espaços existentes, promovendo a sua valorização, funcionalidade e adaptação às exigências contemporâneas.</p>
-    </div>
-  </div>
-
-  <!-- 3 -->
-  <div class="service">
-    <div class="service-icon">
-      <img src="img/icons/interiores.png" alt="Design de Interiores">
+    <!-- 2 -->
+    <div class="service">
+        <div class="service-icon">
+            <img src="img/icons/reabilitacao.png" alt="Reabilitação e Remodelação" width="56" height="56" loading="lazy" decoding="async">
+        </div>
+        <div class="service-content">
+            <h4>Reabilitação e Remodelação</h4>
+            <p>Intervenção em espaços existentes, promovendo a sua valorização, funcionalidade e adaptação às exigências contemporâneas.</p>
+        </div>
     </div>
 
-    <div class="service-content">
-      <h4>Design de Interiores</h4>
-      <p>Conceção de espaços interiores que conciliam funcionalidade, conforto e estética, refletindo a identidade e as necessidades de cada cliente.</p>
-    </div>
-  </div>
-
-  <!-- 4 -->
-  <div class="service">
-    <div class="service-icon">
-      <img src="img/icons/licenciamento.png" alt="Licenciamento">
-    </div>
-
-    <div class="service-content">
-      <h4>Licenciamento e Processos Administrativos</h4>
-      <p>Tratamento de todos os processos necessários junto das entidades competentes, incluindo licenciamento, comunicação prévia, legalização de obras e demais procedimentos administrativos.</p>
-    </div>
-  </div>
-
-  <!-- 5 -->
-  <div class="service">
-    <div class="service-icon">
-      <img src="img/icons/obra.png" alt="Acompanhamento de Obra">
+    <!-- 3 -->
+    <div class="service">
+        <div class="service-icon">
+            <img src="img/icons/interiores.png" alt="Design de Interiores" width="56" height="56" loading="lazy" decoding="async">
+        </div>
+        <div class="service-content">
+            <h4>Design de Interiores</h4>
+            <p>Conceção de espaços interiores que conciliam funcionalidade, conforto e estética, refletindo a identidade e as necessidades de cada cliente.</p>
+        </div>
     </div>
 
-    <div class="service-content">
-      <h4>Acompanhamento de Obra</h4>
-      <p>Acompanhamento contínuo da obra, garantindo a correta execução do projeto e a coordenação entre todas as entidades envolvidas.</p>
-    </div>
-  </div>
-
-  <!-- 6 -->
-  <div class="service">
-    <div class="service-icon">
-      <img src="img/icons/fiscalizacao.png" alt="Fiscalização">
-    </div>
-
-    <div class="service-content">
-      <h4>Fiscalização</h4>
-      <p>Controlo técnico e rigoroso da obra em todas as fases, assegurando a conformidade com o projeto, as normas e os padrões de qualidade definidos.</p>
-    </div>
-  </div>
-
-  <!-- 7 -->
-  <div class="service">
-    <div class="service-icon">
-      <img src="img/icons/render3d.png" alt="Imagens 3D">
+    <!-- 4 -->
+    <div class="service">
+        <div class="service-icon">
+            <img src="img/icons/licenciamento.png" alt="Licenciamento" width="56" height="56" loading="lazy" decoding="async">
+        </div>
+        <div class="service-content">
+            <h4>Licenciamento e Processos Administrativos</h4>
+            <p>Tratamento de todos os processos necessários junto das entidades competentes, incluindo licenciamento, comunicação prévia, legalização de obras e demais procedimentos administrativos.</p>
+        </div>
     </div>
 
-    <div class="service-content">
-      <h4>Desenvolvimento de Imagens 3D</h4>
-      <p>Representação rigorosa do projeto através de imagens 3D, permitindo visualizar os espaços, os materiais, a iluminação e os acabamentos, facilitando a tomada de decisão durante a fase de projeto.</p>
-    </div>
-  </div>
-
-  <!-- 8 -->
-  <div class="service">
-    <div class="service-icon">
-      <img src="img/icons/vr.png" alt="Realidade Virtual">
-    </div>
-
-    <div class="service-content">
-      <h4>Realidade Virtual</h4>
-      <p>Visualização imersiva do projeto em realidade virtual, proporcionando uma perceção real da escala, dos materiais e da organização dos espaços.</p>
-    </div>
-  </div>
-
-  <!-- 9 -->
-  <div class="service">
-    <div class="service-icon">
-      <img src="img/icons/impressao3d.png" alt="Impressão 3D">
+    <!-- 5 -->
+    <div class="service">
+        <div class="service-icon">
+            <img src="img/icons/obra.png" alt="Acompanhamento de Obra" width="56" height="56" loading="lazy" decoding="async">
+        </div>
+        <div class="service-content">
+            <h4>Acompanhamento de Obra</h4>
+            <p>Acompanhamento contínuo da obra, garantindo a correta execução do projeto e a coordenação entre todas as entidades envolvidas.</p>
+        </div>
     </div>
 
-    <div class="service-content">
-      <h4>Impressão 3D</h4>
-      <p>Materialização do projeto através de modelos físicos em impressão 3D, permitindo avaliar a volumetria, as proporções e estudar soluções construtivas com maior rigor.</p>
+    <!-- 6 -->
+    <div class="service">
+        <div class="service-icon">
+            <img src="img/icons/fiscalizacao.png" alt="Fiscalização" width="56" height="56" loading="lazy" decoding="async">
+        </div>
+        <div class="service-content">
+            <h4>Fiscalização</h4>
+            <p>Controlo técnico e rigoroso da obra em todas as fases, assegurando a conformidade com o projeto, as normas e os padrões de qualidade definidos.</p>
+        </div>
     </div>
-  </div>
 
+    <!-- 7 -->
+    <div class="service">
+        <div class="service-icon">
+            <img src="img/icons/render3d.png" alt="Imagens 3D" width="56" height="56" loading="lazy" decoding="async">
+        </div>
+        <div class="service-content">
+            <h4>Desenvolvimento de Imagens 3D</h4>
+            <p>Representação rigorosa do projeto através de imagens 3D, permitindo visualizar os espaços, os materiais, a iluminação e os acabamentos, facilitando a tomada de decisão durante a fase de projeto.</p>
+        </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="service">
+        <div class="service-icon">
+            <img src="img/icons/vr.png" alt="Realidade Virtual" width="56" height="56" loading="lazy" decoding="async">
+        </div>
+        <div class="service-content">
+            <h4>Realidade Virtual</h4>
+            <p>Visualização imersiva do projeto em realidade virtual, proporcionando uma perceção real da escala, dos materiais e da organização dos espaços.</p>
+        </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="service">
+        <div class="service-icon">
+            <img src="img/icons/impressao3d.png" alt="Impressão 3D" width="56" height="56" loading="lazy" decoding="async">
+        </div>
+        <div class="service-content">
+            <h4>Impressão 3D</h4>
+            <p>Materialização do projeto através de modelos físicos em impressão 3D, permitindo avaliar a volumetria, as proporções e estudar soluções construtivas com maior rigor.</p>
+        </div>
+    </div>
 </section>
 
+<!-- WIDGET CONTACTO -->
 <div class="contact-widget">
-
     <div class="contact-links">
-
         <a href="mailto:info.projecto19@gmail.com">
-
-            <img
-                src="img/icons/e-mail.svg"
-                alt=""
-                class="contact-link-icon">
-
+            <img src="img/icons/e-mail.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>Email</span>
-
         </a>
-
-        <a href="https://wa.me/351934185719"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <img
-                src="img/icons/whatsapp.svg"
-                alt=""
-                class="contact-link-icon">
-
+        <a href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer">
+            <img src="img/icons/whatsapp.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>WhatsApp</span>
-
         </a>
-
     </div>
-
-    <button class="contact-trigger">
-
-        <img
-            src="img/icons/faleconnosco.svg"
-            alt=""
-            class="contact-icon">
-
+    <button class="contact-trigger" aria-label="Abrir contactos">
+        <img src="img/icons/faleconnosco.svg" alt="" class="contact-icon" width="24" height="24">
         <span>Fale Connosco</span>
-
     </button>
-
 </div>
 
+<!-- VOLTAR AO TOPO -->
 <button id="back-to-top" aria-label="Voltar ao topo">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="18 15 12 9 6 15"></polyline>
     </svg>
 </button>
 
 <script>
-
 const contactWidget = document.querySelector(".contact-widget");
 const contactButton = document.querySelector(".contact-trigger");
 
@@ -244,43 +204,38 @@ function toggleMenu() {
 const backToTop = document.getElementById("back-to-top");
 
 window.addEventListener("scroll", () => {
-
     if (window.scrollY > 300) {
-
         backToTop.classList.add("show");
-
     } else {
-
         backToTop.classList.remove("show");
-
     }
-
 });
 
 backToTop.addEventListener("click", () => {
-
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
-
 });
 
+document.querySelectorAll("#menu a").forEach(link => {
+    link.addEventListener("click", () => {
+        document.getElementById("menu").classList.remove("active");
+    });
+});
 </script>
 
 <footer>
     <div class="social-links">
         <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
-            <img src="img/icons/instagram.svg" class="social-icon" alt="">
+            <img src="img/icons/instagram.svg" class="social-icon" alt="" width="24" height="24">
             <span>Instagram</span>
         </a>
-
         <a href="https://www.facebook.com/projecto19" target="_blank" rel="noopener noreferrer">
-            <img src="img/icons/facebook.svg" class="social-icon" alt="">
+            <img src="img/icons/facebook.svg" class="social-icon" alt="" width="24" height="24">
             <span>Facebook</span>
         </a>
     </div>
-
     <p>© PROJETO 19</p>
 </footer>
 
