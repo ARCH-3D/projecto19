@@ -1615,12 +1615,22 @@ document.addEventListener("touchstart", function(e){
 }, { passive: true });
 
 window.addEventListener("scroll", () => {
+
+    // Fechar "FALE CONNOSCO" ao fazer scroll
+    if (contactWidget && contactWidget.classList.contains("active")) {
+        contactWidget.classList.remove("active");
+    }
+
     if (document.body.classList.contains("modal-open")) {
         backToTop.classList.remove("show");
         return;
     }
-    if (window.scrollY > 400) backToTop.classList.add("show");
-    else backToTop.classList.remove("show");
+
+    if (window.scrollY > 400) {
+        backToTop.classList.add("show");
+    } else {
+        backToTop.classList.remove("show");
+    }
 });
 
 window.addEventListener("orientationchange", ajustarBolinhasIPhone);
