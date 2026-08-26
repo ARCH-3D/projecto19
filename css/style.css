@@ -143,6 +143,9 @@ nav a:focus-visible{
     object-fit:cover;
     opacity:1;
     transition:opacity .8s ease;
+    transform:translateZ(0);
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
 }
 
 /* ================== HERO TEXT ================== */
