@@ -124,6 +124,12 @@ document.querySelectorAll("#menu a").forEach(link => {
         document.getElementById("menu").classList.remove("active");
     });
 });
+
+// FECHAR MENU E CONTACTOS AO FAZER SCROLL
+window.addEventListener("scroll", () => {
+    document.getElementById("menu").classList.remove("active");
+    contactWidget.classList.remove("active");
+}, { passive: true });
 </script>
 
 <footer>
