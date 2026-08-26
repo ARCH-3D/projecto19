@@ -1581,34 +1581,38 @@ contactButton.addEventListener("click", function(e){
     contactWidget.classList.toggle("active");
 });
 
-document.addEventListener("click", function(e){
+contactWidget.addEventListener("click", function(e){
+    e.stopPropagation();
+});
 
-    // Fechar "Fale connosco" ao clicar fora
+const menuToggle = document.querySelector(".menu-toggle");
+
+// ======================================
+// FECHAR MENU / CONTACTOS AO TOCAR OU
+// FAZER SWIPE FORA DELES
+// ======================================
+document.addEventListener("touchstart", function(e){
+
+    const toque = e.touches[0];
+
+    // MENU
+    if (
+        menu.classList.contains("active") &&
+        !menu.contains(toque.target) &&
+        !menuToggle.contains(toque.target)
+    ) {
+        menu.classList.remove("active");
+    }
+
+    // FALE CONNOSCO
     if (
         contactWidget.classList.contains("active") &&
-        !contactWidget.contains(e.target)
+        !contactWidget.contains(toque.target)
     ) {
         contactWidget.classList.remove("active");
     }
 
-    // Fechar menu ao clicar fora
-    if (menu.classList.contains("active")) {
-
-        const menuToggle = document.querySelector(".menu-toggle");
-
-        if (
-            !menu.contains(e.target) &&
-            !menuToggle.contains(e.target)
-        ) {
-            menu.classList.remove("active");
-        }
-    }
-
-});
-
-contactWidget.addEventListener("click", function(e){
-    e.stopPropagation();
-});
+}, { passive: true });
 
 window.addEventListener("scroll", () => {
     if (document.body.classList.contains("modal-open")) {
