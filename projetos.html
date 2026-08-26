@@ -1591,9 +1591,7 @@ elementosTouch.forEach(elemento => {
     }, { passive: true });
 
     elemento.addEventListener("touchend", function(){
-        setTimeout(() => {
-            this.classList.remove("touch-active");
-        }, 100);
+        this.classList.remove("touch-active");
     }, { passive: true });
 
     elemento.addEventListener("touchcancel", function(){
