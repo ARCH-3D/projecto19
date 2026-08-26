@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="Projecto 19 — Atelier de arquitetura dedicado ao desenvolvimento de projetos de arquitetura, reabilitação e interiores.">
-
 <title>Home — Projecto 19</title>
-
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
 <script>
@@ -16,22 +13,16 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-JXJP0D464R');
 </script>
-
 <!-- Fontes -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
-
 <!-- Preload da primeira imagem do Hero -->
 <link rel="preload" as="image" href="img/hero/hero1.webp">
-
 <!-- CSS -->
 <link rel="stylesheet" href="css/style.css">
-
 </head>
-
 <body>
-
 <header>
     <div class="header-left">
         <a href="index.html" class="logo-link">
@@ -39,9 +30,7 @@ gtag('config', 'G-JXJP0D464R');
             <h1>Projecto 19</h1>
         </a>
     </div>
-
     <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
-
     <nav id="menu">
         <a href="index.html">Home</a>
         <a href="projetos.html">Projetos</a>
@@ -50,7 +39,6 @@ gtag('config', 'G-JXJP0D464R');
         <a href="contactos.html">Contactos</a>
     </nav>
 </header>
-
 <!-- HERO -->
 <div class="hero">
     <img id="hero-image" class="hero-image" src="img/hero/hero1.webp" alt="Projeto 19" fetchpriority="high" decoding="async">
@@ -59,7 +47,6 @@ gtag('config', 'G-JXJP0D464R');
         <p>Arquitetura e Design</p>
     </div>
 </div>
-
 <!-- WIDGET CONTACTO -->
 <div class="contact-widget">
     <div class="contact-links">
@@ -67,35 +54,29 @@ gtag('config', 'G-JXJP0D464R');
             <img src="img/icons/e-mail.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>Email</span>
         </a>
-
         <a href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer">
             <img src="img/icons/whatsapp.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>WhatsApp</span>
         </a>
     </div>
-
     <button class="contact-trigger" aria-label="Abrir contactos">
         <img src="img/icons/faleconnosco.svg" alt="" class="contact-icon" width="24" height="24">
         <span>Fale Connosco</span>
     </button>
 </div>
-
 <footer>
     <div class="social-links">
         <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
             <img src="img/icons/instagram.svg" alt="" class="social-icon" width="24" height="24">
             <span>Instagram</span>
         </a>
-
         <a href="https://www.facebook.com/projecto19" target="_blank" rel="noopener noreferrer">
             <img src="img/icons/facebook.svg" alt="" class="social-icon" width="24" height="24">
             <span>Facebook</span>
         </a>
     </div>
-
     <p>© PROJETO 19</p>
 </footer>
-
 <!-- JAVASCRIPT -->
 <script>
 const hero = document.getElementById("hero-image");
@@ -161,7 +142,6 @@ contactWidget.addEventListener("click", function(e) {
     e.stopPropagation();
 });
 
-
 // MENU MOBILE
 const menu = document.getElementById("menu");
 const menuToggle = document.querySelector(".menu-toggle");
@@ -176,13 +156,7 @@ document.querySelectorAll("#menu a").forEach(link => {
     });
 });
 
-// ======================================
-// FECHAR MENU / CONTACTOS AO CLICAR OU
-// TOCAR FORA DELES
-// ======================================
 document.addEventListener("click", function(e) {
-
-    // MENU
     if (
         menu.classList.contains("active") &&
         !menu.contains(e.target) &&
@@ -191,24 +165,18 @@ document.addEventListener("click", function(e) {
         menu.classList.remove("active");
     }
 
-    // FALE CONNOSCO
     if (
         contactWidget.classList.contains("active") &&
         !contactWidget.contains(e.target)
     ) {
         contactWidget.classList.remove("active");
     }
-
 });
 
-// ======================================
-// FECHAR MENU E CONTACTOS AO FAZER SCROLL
-// ======================================
 window.addEventListener("scroll", () => {
     menu.classList.remove("active");
     contactWidget.classList.remove("active");
 }, { passive: true });
-
 </script>
 </body>
 </html>
