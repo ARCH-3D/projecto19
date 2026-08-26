@@ -204,6 +204,20 @@ document.addEventListener("touchstart", function(e) {
 
 }, { passive: true });
 
+// FIX PARA O REDIMENSIONAMENTO DO HERO NO iOS (EDGE/SAFARI)
+function fixIosHeroHeight() {
+    const heroElement = document.querySelector('.hero');
+    if (heroElement) {
+        // Bloqueia a altura com base na altura real inicial da janela (ignorando a barra dinâmica)
+        const initialHeight = window.innerHeight;
+        heroElement.style.height = initialHeight + 'px';
+    }
+}
+
+// Executa ao carregar e se houver rotação de ecrã
+window.addEventListener('load', fixIosHeroHeight);
+window.addEventListener('orientationchange', fixIosHeroHeight);
+
 </script>
 
 </body>
