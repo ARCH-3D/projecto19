@@ -161,12 +161,10 @@ contactWidget.addEventListener("click", function(e) {
     e.stopPropagation();
 });
 
-document.addEventListener("click", function() {
-    contactWidget.classList.remove("active");
-});
 
 // MENU MOBILE
 const menu = document.getElementById("menu");
+const menuToggle = document.querySelector(".menu-toggle");
 
 function toggleMenu() {
     menu.classList.toggle("active");
@@ -176,6 +174,31 @@ document.querySelectorAll("#menu a").forEach(link => {
     link.addEventListener("click", () => {
         menu.classList.remove("active");
     });
+});
+
+// ======================================
+// FECHAR MENU / CONTACTOS AO CLICAR OU
+// TOCAR FORA DELES
+// ======================================
+document.addEventListener("click", function(e) {
+
+    // MENU
+    if (
+        menu.classList.contains("active") &&
+        !menu.contains(e.target) &&
+        !menuToggle.contains(e.target)
+    ) {
+        menu.classList.remove("active");
+    }
+
+    // FALE CONNOSCO
+    if (
+        contactWidget.classList.contains("active") &&
+        !contactWidget.contains(e.target)
+    ) {
+        contactWidget.classList.remove("active");
+    }
+
 });
 
 // ======================================
