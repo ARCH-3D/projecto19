@@ -768,225 +768,146 @@ media: [
 // FULLSCREEN EM TELEMÓVEIS
 // ======================================
 
-// true  = mostrar botão fullscreen
+// true = mostrar botão fullscreen
 // false = esconder botão fullscreen
 const FULLSCREEN_TELEMOVEL = false;
 
 let projetoAtual = null;
-
 let midiasAtuais = [];
 let indiceAtual = 0;
 let direcaoSlide = 1;
-
 let touchStartX = 0;
 let touchEndX = 0;
-
 let touchStartY = 0;
 let touchEndY = 0;
-
 let ultimoToque = 0;
-
 let currentTranslate = 0;
 let isDragging = false;
-
 let elementoAnterior = null;
 let elementoAtual = null;
 let elementoSeguinte = null;
-
 let isVerticalDrag = false;
 let currentY = 0;
-
 let previewIndice = -1;
-
 let fullscreenTimeout = null;
 
 // ZOOM
 let zoomAtivo = false;
 let escalaZoom = 2;
-
 let zoomX = 0;
 let zoomY = 0;
-
 let zoomStartX = 0;
 let zoomStartY = 0;
-
 let moverImagem = false;
-
 let mouseZoomAtivo = false;
 let mouseZoomStartX = 0;
 let mouseZoomStartY = 0;
 let mouseZoomInicioX = 0;
 let mouseZoomInicioY = 0;
-
 let rafZoom = null;
-
 let zoomTargetX = 0;
 let zoomTargetY = 0;
-
 let limiteZoomX = 0;
 let limiteZoomY = 0;
-
 let distanciaInicialPinch = 0;
 let escalaInicialPinch = 1;
-
 let pinchCentroX = 0;
 let pinchCentroY = 0;
-
 let pinchImagemX = 0;
 let pinchImagemY = 0;
-
 let isPinching = false;
 let ultimoPinch = 0;
 
 const ZOOM_MIN = 1;
 const ZOOM_MAX = 4;
 const DEFAULT_ZOOM = 2;
-
 const MODAL_FADE_DISTANCE = 400;
-
 const DRAG_START_THRESHOLD = 10;
-
 const MEDIA_ENTRY_OFFSET = 50;
-
-const TRANSITION_FAST =
-    "transform .25s ease";
-
-const TRANSITION_RESET =
-    "transform .30s ease";
-
-const TRANSITION_SLIDE =
-    "transform .25s ease-out";
+const TRANSITION_FAST = "transform .25s ease";
+const TRANSITION_RESET = "transform .30s ease";
+const TRANSITION_SLIDE = "transform .25s ease-out";
 
 // Configuração
-
 const SWIPE_THRESHOLD = 0.15;
-
 const PREVIEW_THRESHOLD = 40;
-
 const VERTICAL_CLOSE_THRESHOLD = 0.20;
-
 const DOUBLE_TAP_DELAY = 300;
-
 const SLIDE_ANIMATION_TIME = 250;
-
 const RESET_ANIMATION_TIME = 300;
-
 const MEDIA_TRANSITION_TIME = 450;
-
 const FULLSCREEN_BUTTON_TIMEOUT = 1000;
-
 const MOBILE_BREAKPOINT = 768;
-
 
 // ======================================
 // ELEMENTOS DO DOM
 // ======================================
 
 const modal = document.getElementById("modal-projeto");
-
 const modalContent = document.getElementById("modal-content");
-
 const modalIndicators = document.getElementById("modal-indicators");
-
 const fullscreenBtn = document.getElementById("fullscreen-btn");
-
 const zoomBtn = document.getElementById("zoom-btn");
-
 const closeBtn = document.querySelector(".close");
-
 const contactWidget = document.querySelector(".contact-widget");
-
 const contactButton = document.querySelector(".contact-trigger");
-
 const backToTop = document.getElementById("back-to-top");
-
 const menu = document.getElementById("menu");
-
 
 // ======================================
 // ZOOM
 // ======================================
 
 function resetZoom(){
-
     zoomAtivo = false;
-
     escalaZoom = ZOOM_MIN;
-
     zoomX = 0;
     zoomY = 0;
-
     zoomTargetX = 0;
     zoomTargetY = 0;
-
     mouseZoomAtivo = false;
 
-    if (modalContent){
-        modalContent.style.cursor = "";
-    }
-
-    if (zoomBtn){
-        zoomBtn.textContent = "+";
-    }
-
+    if (modalContent) modalContent.style.cursor = "";
+    if (zoomBtn) zoomBtn.textContent = "+";
 }
 
 function atualizarZoom(){
-
     rafZoom = null;
-
     if (!elementoAtual) return;
 
     atualizarLimitesZoom();
 
-    zoomTargetX = Math.max(
-        -limiteZoomX,
-        Math.min(limiteZoomX, zoomTargetX)
-    );
-
-    zoomTargetY = Math.max(
-        -limiteZoomY,
-        Math.min(limiteZoomY, zoomTargetY)
-    );
+    zoomTargetX = Math.max(-limiteZoomX, Math.min(limiteZoomX, zoomTargetX));
+    zoomTargetY = Math.max(-limiteZoomY, Math.min(limiteZoomY, zoomTargetY));
 
     elementoAtual.style.transform =
-        `translate(-50%, -50%)
-         translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0)
-         scale(${escalaZoom})`;
-
+        `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
 }
 
 function atualizarLimitesZoom(){
-
-    if(!elementoAtual) return;
+    if (!elementoAtual) return;
 
     const larguraImagem = elementoAtual.clientWidth * escalaZoom;
     const alturaImagem = elementoAtual.clientHeight * escalaZoom;
 
     limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
-
     limiteZoomY = Math.max(0, (alturaImagem - window.innerHeight) / 2);
-
 }
 
 function distanciaToques(t1, t2){
-
     const dx = t1.clientX - t2.clientX;
     const dy = t1.clientY - t2.clientY;
-
     return Math.hypot(dx, dy);
-
 }
 
 // ======================================
 // MODAL
 // ======================================
 
-function abrirProjeto(nomeProjeto) {
-
+function abrirProjeto(nomeProjeto){
     if (!projetos[nomeProjeto]) return;
 
-    gtag('event', 'projeto_aberto', {
+    gtag("event", "projeto_aberto", {
         projeto: nomeProjeto,
         nome_projeto: projetos[nomeProjeto].info.nome,
         local: projetos[nomeProjeto].info.local
@@ -1000,7 +921,9 @@ function abrirProjeto(nomeProjeto) {
     atualizarIndicadores(true);
     mostrarMidia();
     mostrarBotaoFullscreen();
+
     if (zoomBtn) zoomBtn.textContent = "+";
+
     preloadImagens();
 
     document.getElementById("modal-title").textContent = projetoAtual.info.nome;
@@ -1011,33 +934,29 @@ function abrirProjeto(nomeProjeto) {
     document.getElementById("modal-projeto").style.display = "flex";
     document.body.classList.add("modal-open");
 
-    const modalProjeto =
-    document.getElementById("modal-projeto");
+    const modalProjeto = document.getElementById("modal-projeto");
 
     if (isIPhoneSafariOrEdge()) {
         modalProjeto.classList.add("iphone-device");
     } else {
         modalProjeto.classList.remove("iphone-device");
     }
-    
+
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
 
     // Esconde o botão "Fale Connosco"
     const widget = document.querySelector(".contact-widget");
-    if (widget) {
-        widget.style.display = "none";
-    }
+
+    if (widget) widget.style.display = "none";
 
     // Esconde a seta "Voltar ao topo"
     const backToTop = document.getElementById("back-to-top");
-    if (backToTop) {
-        backToTop.classList.remove("show");
-    }
+
+    if (backToTop) backToTop.classList.remove("show");
 }
 
-function fecharModal() {
-
+function fecharModal(){
     resetZoom();
 
     document.getElementById("modal-projeto").style.display = "none";
@@ -1056,12 +975,12 @@ function fecharModal() {
 
     // Volta a mostrar o botão "Fale Connosco"
     const widget = document.querySelector(".contact-widget");
-    if (widget) {
-        widget.style.display = "";
-    }
+
+    if (widget) widget.style.display = "";
 
     // Volta a mostrar a seta apenas se a página estiver descida
     const backToTop = document.getElementById("back-to-top");
+
     if (backToTop) {
         if (window.scrollY > 400) {
             backToTop.classList.add("show");
@@ -1082,20 +1001,13 @@ function fecharModal() {
 }
 
 function isAppleMobile(){
-
     return /iPhone|iPod/i.test(navigator.userAgent);
-
 }
 
 function isIPhoneSafariOrEdge(){
-
     const ua = navigator.userAgent;
-
-    const isIPhone =
-        /iPhone/i.test(ua);
-
-    const isEdge =
-        /EdgiOS/i.test(ua);
+    const isIPhone = /iPhone/i.test(ua);
+    const isEdge = /EdgiOS/i.test(ua);
 
     const isSafari =
         /Safari/i.test(ua) &&
@@ -1104,320 +1016,149 @@ function isIPhoneSafariOrEdge(){
         !/EdgiOS/i.test(ua);
 
     return isIPhone && (isSafari || isEdge);
-
 }
 
 function ajustarFullscreenAndroid(){
+    const emAndroid = /Android/i.test(navigator.userAgent);
+    const landscape = window.matchMedia("(orientation: landscape)").matches;
+    const fullscreen = !!document.fullscreenElement;
 
-    const emAndroid =
-        /Android/i.test(navigator.userAgent);
-
-    const landscape =
-        window.matchMedia("(orientation: landscape)").matches;
-
-    const fullscreen =
-        !!document.fullscreenElement;
-
-    if (!emAndroid || !landscape || !fullscreen){
-        return;
-    }
+    if (!emAndroid || !landscape || !fullscreen) return;
 
     function aplicar(){
-
-        const altura =
-            window.innerHeight;
+        const altura = window.innerHeight;
 
         const aplicarImagem = (elemento) => {
-
             if (!elemento) return;
 
-            elemento.style.setProperty(
-                "max-width",
-                "none",
-                "important"
-            );
-
-            elemento.style.setProperty(
-                "max-height",
-                "none",
-                "important"
-            );
-
-            elemento.style.setProperty(
-                "height",
-                altura + "px",
-                "important"
-            );
-
-            elemento.style.setProperty(
-                "width",
-                "auto",
-                "important"
-            );
+            elemento.style.setProperty("max-width", "none", "important");
+            elemento.style.setProperty("max-height", "none", "important");
+            elemento.style.setProperty("height", altura + "px", "important");
+            elemento.style.setProperty("width", "auto", "important");
 
             elemento.style.left = "50%";
             elemento.style.top = "50%";
         };
 
-        // Aplicar a TODAS as imagens existentes
         aplicarImagem(elementoAtual);
         aplicarImagem(elementoAnterior);
         aplicarImagem(elementoSeguinte);
 
+        const indicadores = document.querySelector(".media-indicators");
 
-        // ==============================
-        // BOLINHAS
-        // ==============================
-
-        const indicadores =
-            document.querySelector(".media-indicators");
-
-        if (indicadores){
-
+        if (indicadores) {
             indicadores.style.position = "fixed";
-
             indicadores.style.left = "50%";
-
             indicadores.style.bottom = "60px";
-
-            indicadores.style.transform =
-                "translateX(-50%)";
-
+            indicadores.style.transform = "translateX(-50%)";
             indicadores.style.zIndex = "99999";
-
         }
-
     }
 
     requestAnimationFrame(() => {
-
         aplicar();
-
         setTimeout(aplicar, 100);
-
         setTimeout(aplicar, 300);
-
         setTimeout(aplicar, 600);
-
     });
-
 }
 
 function ajustarBolinhasIPhone(){
+    const indicadores = document.querySelector(".media-indicators");
+    const landscape = window.matchMedia("(orientation: landscape)").matches;
+    const safariEdgeLandscape = isIPhoneSafariOrEdge() && landscape;
 
-    const indicadores =
-        document.querySelector(".media-indicators");
-
-    const landscape =
-        window.matchMedia("(orientation: landscape)").matches;
-
-    const safariEdgeLandscape =
-        isIPhoneSafariOrEdge() &&
-        landscape;
-
-    // ==================================
-    // BOLINHAS
-    // ==================================
-
-    if (indicadores){
-
-        if (safariEdgeLandscape){
-
+    if (indicadores) {
+        if (safariEdgeLandscape) {
             indicadores.style.bottom = "60px";
-
         } else {
-
             indicadores.style.bottom = "";
-
         }
-
     }
 
-    // ==================================
-    // MODAL CONTENT
-    // ==================================
+    const modalContent = document.getElementById("modal-content");
 
-    const modalContent =
-        document.getElementById("modal-content");
-
-    if (modalContent){
-
-        if (safariEdgeLandscape){
-
-            modalContent.classList.add(
-                "iphone-safari-edge-landscape"
-            );
-
+    if (modalContent) {
+        if (safariEdgeLandscape) {
+            modalContent.classList.add("iphone-safari-edge-landscape");
         } else {
-
-            modalContent.classList.remove(
-                "iphone-safari-edge-landscape"
-            );
-
+            modalContent.classList.remove("iphone-safari-edge-landscape");
         }
-
     }
 
-    // ==================================
-    // CORRIGIR TODAS AS IMAGENS
-    // ==================================
-
-    if (safariEdgeLandscape){
-
+    if (safariEdgeLandscape) {
         const aplicarTamanho = (elemento) => {
-
             if (!elemento) return;
 
-            elemento.style.setProperty(
-                "max-width",
-                "none",
-                "important"
-            );
-
-            elemento.style.setProperty(
-                "max-height",
-                "none",
-                "important"
-            );
-
-            elemento.style.setProperty(
-                "height",
-                "calc(100dvh - 20px)",
-                "important"
-            );
-
-            elemento.style.setProperty(
-                "width",
-                "auto",
-                "important"
-            );
-
+            elemento.style.setProperty("max-width", "none", "important");
+            elemento.style.setProperty("max-height", "none", "important");
+            elemento.style.setProperty("height", "calc(100dvh - 20px)", "important");
+            elemento.style.setProperty("width", "auto", "important");
         };
 
         aplicarTamanho(elementoAtual);
         aplicarTamanho(elementoAnterior);
         aplicarTamanho(elementoSeguinte);
-
     }
-
 }
 
 function mostrarBotaoFullscreen(){
-
     const btn = fullscreenBtn;
     const close = closeBtn;
     const zoom = zoomBtn;
 
     if (!btn) return;
 
-    // ==================================
-    // DETETAR DISPOSITIVOS
-    // ==================================
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isApple = isAppleMobile();
 
-    const isAndroid =
-        /Android/i.test(navigator.userAgent);
-
-    const isApple =
-        isAppleMobile();
-
-    // ==================================
     // FULLSCREEN
-    // ==================================
-    // ANDROID:
-    // true  = mostrar
-    // false = esconder
-    //
-    // iPHONE / iPAD:
-    // nunca mostrar
-    //
-    // PC:
-    // mostrar normalmente
-    // ==================================
-
     if (isApple) {
-
         // iPhone / iPad
         btn.classList.remove("show");
         btn.style.display = "none";
 
-        // O + ocupa a posição do fullscreen
-        if (zoom) {
-            zoom.style.right = "78px";
-        }
+        if (zoom) zoom.style.right = "78px";
 
     } else if (isAndroid) {
-
         // Android
         if (FULLSCREEN_TELEMOVEL) {
-
             btn.style.display = "";
             btn.classList.add("show");
 
-            if (zoom) {
-                zoom.style.right = "126px";
-            }
+            if (zoom) zoom.style.right = "126px";
 
         } else {
-
             btn.classList.remove("show");
             btn.style.display = "none";
 
-            if (zoom) {
-                zoom.style.right = "78px";
-            }
-
+            if (zoom) zoom.style.right = "78px";
         }
 
     } else {
-
         // PC / restantes dispositivos
         btn.style.display = "";
         btn.classList.add("show");
 
-        if (zoom) {
-            zoom.style.right = "126px";
-        }
-
+        if (zoom) zoom.style.right = "126px";
     }
 
-    // ==================================
     // MOSTRAR O X
-    // ==================================
+    if (close) close.classList.add("show-controls");
 
-    if (close){
-        close.classList.add("show-controls");
-    }
-
-    // ==================================
     // MOSTRAR O ZOOM
-    // ==================================
+    if (zoom) zoom.classList.add("show");
 
-    if (zoom){
-        zoom.classList.add("show");
-    }
-
-    // ==================================
     // DISPOSITIVOS COM TOUCH
-    // ==================================
-
     if (window.matchMedia("(pointer: coarse)").matches) {
-
         clearTimeout(fullscreenTimeout);
-
         return;
     }
 
-    // ==================================
-    // PC
-    // ESCONDER CONTROLOS APÓS 1 SEGUNDO
-    // ==================================
-
+    // PC — ESCONDER CONTROLOS APÓS 1 SEGUNDO
     clearTimeout(fullscreenTimeout);
 
     fullscreenTimeout = setTimeout(() => {
-
-        // Se o rato estiver sobre algum controlo,
-        // NÃO esconder os botões.
         if (
             (btn && btn.matches(":hover")) ||
             (close && close.matches(":hover")) ||
@@ -1428,14 +1169,8 @@ function mostrarBotaoFullscreen(){
 
         btn.classList.remove("show");
 
-        if (close){
-            close.classList.remove("show-controls");
-        }
-
-        if (zoom){
-            zoom.classList.remove("show");
-        }
-
+        if (close) close.classList.remove("show-controls");
+        if (zoom) zoom.classList.remove("show");
     }, FULLSCREEN_BUTTON_TIMEOUT);
 }
 
@@ -1444,39 +1179,23 @@ function mostrarBotaoFullscreen(){
 // ======================================
 
 [fullscreenBtn, zoomBtn, closeBtn].forEach(controle => {
-
     if (!controle) return;
 
     controle.addEventListener("mouseenter", () => {
-
-        // Cancela qualquer temporizador de ocultação
         clearTimeout(fullscreenTimeout);
 
-        // Mantém os controlos visíveis
         if (fullscreenBtn && fullscreenBtn.style.display !== "none") {
             fullscreenBtn.classList.add("show");
         }
 
-        if (zoomBtn) {
-            zoomBtn.classList.add("show");
-        }
-
-        if (closeBtn) {
-            closeBtn.classList.add("show-controls");
-        }
-
+        if (zoomBtn) zoomBtn.classList.add("show");
+        if (closeBtn) closeBtn.classList.add("show-controls");
     });
 
     controle.addEventListener("mouseleave", () => {
-
-        // Quando sai do botão, começa novamente
-        // a contagem dos 1 segundo
         clearTimeout(fullscreenTimeout);
 
         fullscreenTimeout = setTimeout(() => {
-
-            // Se entretanto o rato voltou para algum
-            // dos controlos, não os esconder
             if (
                 fullscreenBtn?.matches(":hover") ||
                 zoomBtn?.matches(":hover") ||
@@ -1488,41 +1207,24 @@ function mostrarBotaoFullscreen(){
             fullscreenBtn?.classList.remove("show");
             zoomBtn?.classList.remove("show");
             closeBtn?.classList.remove("show-controls");
-
         }, FULLSCREEN_BUTTON_TIMEOUT);
-
     });
-
 });
 
-function toggleFullscreen() {
-
+function toggleFullscreen(){
     if (!document.fullscreenElement) {
-
         if (modal.requestFullscreen) {
-
             modal.requestFullscreen();
-
         } else if (modal.webkitRequestFullscreen) {
-
             modal.webkitRequestFullscreen();
-
         }
-
     } else {
-
         if (document.exitFullscreen) {
-
             document.exitFullscreen();
-
         } else if (document.webkitExitFullscreen) {
-
             document.webkitExitFullscreen();
-
         }
-
     }
-
 }
 
 // ======================================
@@ -1530,105 +1232,71 @@ function toggleFullscreen() {
 // ======================================
 
 function atualizarIndicadores(criar = false){
+    const container = modalIndicators;
 
-    const container =
-        modalIndicators;
-
-    if (criar){
-
+    if (criar) {
         container.innerHTML = "";
 
         midiasAtuais.forEach(() => {
-
             const barra = document.createElement("span");
-
             container.appendChild(barra);
-
         });
-
     }
 
     const barras = container.querySelectorAll("span");
 
-    barras.forEach(barra =>
-        barra.classList.remove("active")
-    );
+    barras.forEach(barra => barra.classList.remove("active"));
 
-    if (barras[indiceAtual]){
-
+    if (barras[indiceAtual]) {
         barras[indiceAtual].classList.add("active");
-
     }
-
 }
 
-function atualizarPreview() {
-
+function atualizarPreview(){
     previewIndice = indiceAtual;
-
     atualizarIndicadores();
-
 }
 
-function atualizarLaterais() {
-
+function atualizarLaterais(){
     prepararImagemAnterior();
-
     prepararProximaImagem();
-
 }
 
 // ======================================
 // NAVEGAÇÃO
 // ======================================
 
-function mudarMidia(direcao) {
-
+function mudarMidia(direcao){
     if (!elementoAtual) return;
 
     const largura = window.innerWidth;
-
     direcaoSlide = direcao;
 
-    // ==================================
     // PRÓXIMA IMAGEM →
-    // ==================================
-
     if (direcao === 1) {
+        if (!elementoSeguinte) prepararProximaImagem();
 
-        if (!elementoSeguinte) {
-            prepararProximaImagem();
-        }
-
-        // Imagem atual
         elementoAtual.style.transition =
             "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
 
-        // Imagem seguinte
         elementoSeguinte.style.transition =
             "transform .35s cubic-bezier(.22,.61,.36,1)";
 
-        // Imagem atual sai para a esquerda
         elementoAtual.style.transform =
             `translate(calc(-50% - ${largura}px), -50%)`;
 
         elementoAtual.style.opacity = "0";
 
-        // Imagem seguinte entra pela direita
         elementoSeguinte.style.transform =
             "translate(-50%, -50%)";
 
-        // Atualizar índice
         indiceAtual =
             (indiceAtual + 1) % midiasAtuais.length;
 
         atualizarPreview();
 
         setTimeout(() => {
-
-            if (elementoAtual) {
-                elementoAtual.remove();
-            }
+            if (elementoAtual) elementoAtual.remove();
 
             elementoAtual = elementoSeguinte;
             elementoSeguinte = null;
@@ -1636,42 +1304,29 @@ function mudarMidia(direcao) {
             atualizarLaterais();
             preloadImagens();
             ajustarFullscreenAndroid();
-
         }, 350);
 
         return;
     }
 
-
-    // ==================================
     // IMAGEM ANTERIOR ←
-    // ==================================
-
     if (direcao === -1) {
+        if (!elementoAnterior) prepararImagemAnterior();
 
-        if (!elementoAnterior) {
-            prepararImagemAnterior();
-        }
-
-        // Imagem atual
         elementoAtual.style.transition =
             "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
 
-        // Imagem anterior
         elementoAnterior.style.transition =
             "transform .35s cubic-bezier(.22,.61,.36,1)";
 
-        // Imagem atual sai para a direita
         elementoAtual.style.transform =
             `translate(calc(-50% + ${largura}px), -50%)`;
 
         elementoAtual.style.opacity = "0";
 
-        // Imagem anterior entra pela esquerda
         elementoAnterior.style.transform =
             "translate(-50%, -50%)";
 
-        // Atualizar índice
         indiceAtual =
             (indiceAtual - 1 + midiasAtuais.length) %
             midiasAtuais.length;
@@ -1679,10 +1334,7 @@ function mudarMidia(direcao) {
         atualizarPreview();
 
         setTimeout(() => {
-
-            if (elementoAtual) {
-                elementoAtual.remove();
-            }
+            if (elementoAtual) elementoAtual.remove();
 
             elementoAtual = elementoAnterior;
             elementoAnterior = null;
@@ -1690,30 +1342,24 @@ function mudarMidia(direcao) {
             atualizarLaterais();
             preloadImagens();
             ajustarFullscreenAndroid();
-
         }, 350);
-
     }
-
 }
 
-function handleSwipe() {
-
+function handleSwipe(){
     const distancia = touchEndX - touchStartX;
     const limite = window.innerWidth * SWIPE_THRESHOLD;
 
     if (!elementoAtual) return;
 
-    // ---------- SWIPE ESQUERDA ----------
+    // SWIPE ESQUERDA
     if (distancia < -limite) {
-
         if (!elementoSeguinte) return;
 
         elementoAtual.style.transition =
             "transform .25s ease-out, opacity .25s ease-out";
-        
-        elementoSeguinte.style.transition =
-            TRANSITION_SLIDE;
+
+        elementoSeguinte.style.transition = TRANSITION_SLIDE;
 
         elementoAtual.style.transform =
             "translate(calc(-50% - 100vw), -50%)";
@@ -1729,7 +1375,6 @@ function handleSwipe() {
         atualizarPreview();
 
         setTimeout(() => {
-
             if (elementoAtual) elementoAtual.remove();
 
             elementoAtual = elementoSeguinte;
@@ -1737,23 +1382,19 @@ function handleSwipe() {
 
             preloadImagens();
             atualizarLaterais();
-
-        },SLIDE_ANIMATION_TIME);
+        }, SLIDE_ANIMATION_TIME);
 
         return;
     }
 
-
-    // ---------- SWIPE DIREITA ----------
+    // SWIPE DIREITA
     if (distancia > limite) {
-        
         if (!elementoAnterior) return;
 
         elementoAtual.style.transition =
             "transform .25s ease-out, opacity .25s ease-out";
 
-        elementoAnterior.style.transition =
-            TRANSITION_SLIDE;
+        elementoAnterior.style.transition = TRANSITION_SLIDE;
 
         elementoAtual.style.transform =
             "translate(calc(-50% + 100vw), -50%)";
@@ -1770,7 +1411,6 @@ function handleSwipe() {
         atualizarPreview();
 
         setTimeout(() => {
-
             if (elementoAtual) elementoAtual.remove();
 
             elementoAtual = elementoAnterior;
@@ -1780,38 +1420,25 @@ function handleSwipe() {
             preloadImagens();
             atualizarLaterais();
             ajustarFullscreenAndroid();
-
-        },SLIDE_ANIMATION_TIME);
+        }, SLIDE_ANIMATION_TIME);
 
         return;
     }
 
-    // ---------- VOLTA AO CENTRO ----------
-
-    elementoAtual.style.transition =
-        TRANSITION_RESET;
-
-    elementoAtual.style.transform =
-        "translate(-50%, -50%)";
+    // VOLTA AO CENTRO
+    elementoAtual.style.transition = TRANSITION_RESET;
+    elementoAtual.style.transform = "translate(-50%, -50%)";
 
     if (currentTranslate < 0 && elementoSeguinte) {
-
-        elementoSeguinte.style.transition =
-            TRANSITION_RESET;
-
+        elementoSeguinte.style.transition = TRANSITION_RESET;
         elementoSeguinte.style.transform =
             "translate(calc(-50% + 100vw), -50%)";
-
     }
 
     if (currentTranslate > 0 && elementoAnterior) {
-
-        elementoAnterior.style.transition =
-            TRANSITION_RESET;
-
+        elementoAnterior.style.transition = TRANSITION_RESET;
         elementoAnterior.style.transform =
             "translate(calc(-50% - 100vw), -50%)";
-
     }
 
     setTimeout(() => {
@@ -1826,11 +1453,8 @@ function handleSwipe() {
         }
 
         atualizarLaterais();
-
         atualizarPreview();
-
-    },RESET_ANIMATION_TIME);
-
+    }, RESET_ANIMATION_TIME);
 }
 
 // ======================================
@@ -1838,128 +1462,76 @@ function handleSwipe() {
 // ======================================
 
 function configurarElementoMidia(elemento){
-
     elemento.style.position = "absolute";
-
     elemento.style.left = "50%";
-
     elemento.style.top = "50%";
-
 }
 
-function criarElementoMidia(midia) {
-
+function criarElementoMidia(midia){
     let elemento;
 
     if (midia.type === "image") {
-
         elemento = document.createElement("img");
         elemento.src = midia.src;
-
     } else {
-
         elemento = document.createElement("video");
         elemento.src = midia.src;
         elemento.controls = true;
         elemento.autoplay = true;
         elemento.muted = true;
         elemento.loop = true;
-
     }
 
     configurarElementoMidia(elemento);
 
-    // ================================
     // IPHONE SAFARI / EDGE — LANDSCAPE
-    // ================================
-
     if (
         isIPhoneSafariOrEdge() &&
         window.matchMedia("(orientation: landscape)").matches
     ) {
-
-        elemento.style.setProperty(
-            "max-width",
-            "none",
-            "important"
-        );
-
-        elemento.style.setProperty(
-            "max-height",
-            "none",
-            "important"
-        );
-
-        elemento.style.setProperty(
-            "height",
-            "calc(100dvh - 20px)",
-            "important"
-        );
-
-        elemento.style.setProperty(
-            "width",
-            "auto",
-            "important"
-        );
-
+        elemento.style.setProperty("max-width", "none", "important");
+        elemento.style.setProperty("max-height", "none", "important");
+        elemento.style.setProperty("height", "calc(100dvh - 20px)", "important");
+        elemento.style.setProperty("width", "auto", "important");
     }
 
-    // Aplicar grayscale se necessário
-    if (midia.grayscale) {
-        elemento.classList.add("grayscale");
-    }
+    if (midia.grayscale) elemento.classList.add("grayscale");
 
     elemento.style.transform = "translate(-50%, -50%)";
     elemento.style.opacity = "1";
     elemento.style.zIndex = "2";
 
     return elemento;
-
 }
 
-function centrarElemento(elemento) {
-
+function centrarElemento(elemento){
     if (!elemento) return;
 
-    elemento.style.transition =
-        TRANSITION_FAST;
-
-    elemento.style.transform =
-        "translate(-50%, -50%)";
-
+    elemento.style.transition = TRANSITION_FAST;
+    elemento.style.transform = "translate(-50%, -50%)";
 }
 
-function preloadImagens() {
-
+function preloadImagens(){
     const proximas = [
         (indiceAtual + 1) % midiasAtuais.length,
         (indiceAtual + 2) % midiasAtuais.length
     ];
 
     proximas.forEach(i => {
-
         const media = midiasAtuais[i];
 
         if (media.type === "image") {
-
             const img = new Image();
             img.src = media.src;
-
         }
-
     });
-
 }
 
-function prepararImagemAnterior() {
-
-    const conteudo =
-        document.getElementById("modal-content");
+function prepararImagemAnterior(){
+    const conteudo = document.getElementById("modal-content");
 
     if (elementoAnterior && elementoAnterior.parentNode) {
-
         elementoAnterior.remove();
-
     }
 
     const indiceAnterior =
@@ -1967,44 +1539,22 @@ function prepararImagemAnterior() {
         midiasAtuais.length;
 
     elementoAnterior =
-        criarElementoMidia(
-            midiasAtuais[indiceAnterior]
-        );
+        criarElementoMidia(midiasAtuais[indiceAnterior]);
 
-    // ==================================
     // ANDROID — FULLSCREEN LANDSCAPE
-    // ==================================
-
     if (
         /Android/i.test(navigator.userAgent) &&
         window.matchMedia("(orientation: landscape)").matches &&
         document.fullscreenElement
     ) {
-
-        elementoAnterior.style.setProperty(
-            "max-width",
-            "none",
-            "important"
-        );
-
-        elementoAnterior.style.setProperty(
-            "max-height",
-            "none",
-            "important"
-        );
-
+        elementoAnterior.style.setProperty("max-width", "none", "important");
+        elementoAnterior.style.setProperty("max-height", "none", "important");
         elementoAnterior.style.setProperty(
             "height",
             window.innerHeight + "px",
             "important"
         );
-
-        elementoAnterior.style.setProperty(
-            "width",
-            "auto",
-            "important"
-        );
-
+        elementoAnterior.style.setProperty("width", "auto", "important");
     }
 
     elementoAnterior.style.zIndex = "1";
@@ -2015,62 +1565,35 @@ function prepararImagemAnterior() {
     elementoAnterior.style.opacity = "1";
 
     conteudo.appendChild(elementoAnterior);
-
 }
 
-function prepararProximaImagem() {
-
-    const conteudo =
-        document.getElementById("modal-content");
+function prepararProximaImagem(){
+    const conteudo = document.getElementById("modal-content");
 
     if (elementoSeguinte && elementoSeguinte.parentNode) {
-
         elementoSeguinte.remove();
-
     }
 
     const proximoIndice =
         (indiceAtual + 1) % midiasAtuais.length;
 
     elementoSeguinte =
-        criarElementoMidia(
-            midiasAtuais[proximoIndice]
-        );
+        criarElementoMidia(midiasAtuais[proximoIndice]);
 
-    // ==================================
     // ANDROID — FULLSCREEN LANDSCAPE
-    // ==================================
-
     if (
         /Android/i.test(navigator.userAgent) &&
         window.matchMedia("(orientation: landscape)").matches &&
         document.fullscreenElement
     ) {
-
-        elementoSeguinte.style.setProperty(
-            "max-width",
-            "none",
-            "important"
-        );
-
-        elementoSeguinte.style.setProperty(
-            "max-height",
-            "none",
-            "important"
-        );
-
+        elementoSeguinte.style.setProperty("max-width", "none", "important");
+        elementoSeguinte.style.setProperty("max-height", "none", "important");
         elementoSeguinte.style.setProperty(
             "height",
             window.innerHeight + "px",
             "important"
         );
-
-        elementoSeguinte.style.setProperty(
-            "width",
-            "auto",
-            "important"
-        );
-
+        elementoSeguinte.style.setProperty("width", "auto", "important");
     }
 
     elementoSeguinte.style.zIndex = "1";
@@ -2081,89 +1604,59 @@ function prepararProximaImagem() {
     elementoSeguinte.style.opacity = "1";
 
     conteudo.appendChild(elementoSeguinte);
-
 }
 
-function mostrarMidia() {
-
+function mostrarMidia(){
     resetZoom();
 
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
+
     atualizarIndicadores();
 
     // Remove qualquer imagem/vídeo antigo que tenha ficado preso
     conteudo.querySelectorAll("img, video").forEach(el => {
-
-        if (el !== elementoAtual &&
+        if (
+            el !== elementoAtual &&
             el !== elementoAnterior &&
-            el !== elementoSeguinte) {
-
+            el !== elementoSeguinte
+        ) {
             el.remove();
-
         }
-
     });
 
     const antigo = elementoAtual;
 
-
-
-    // cria o novo elemento
+    // Cria o novo elemento
     let novo;
 
     if (midia.type === "image") {
-
         novo = document.createElement("img");
         novo.src = midia.src;
-
     } else {
-
         novo = document.createElement("video");
         novo.src = midia.src;
         novo.controls = true;
         novo.autoplay = true;
         novo.muted = true;
         novo.loop = true;
-
     }
 
     configurarElementoMidia(novo);
 
-    // ================================
     // IPHONE SAFARI / EDGE — LANDSCAPE
-    // Aumentar imagem
-    // ================================
-
     if (
         isIPhoneSafariOrEdge() &&
         window.matchMedia("(orientation: landscape)").matches
     ) {
-
-        novo.style.setProperty(
-            "max-width",
-            "none",
-            "important"
-        );
-
-        novo.style.setProperty(
-            "max-height",
-            "none",
-            "important"
-        );
-
+        novo.style.setProperty("max-width", "none", "important");
+        novo.style.setProperty("max-height", "none", "important");
         novo.style.setProperty(
             "height",
             "calc(100dvh - 20px)",
             "important"
         );
-
-        novo.style.setProperty(
-            "width",
-            "auto",
-            "important"
-        );
-
+        novo.style.setProperty("width", "auto", "important");
     }
 
     novo.style.zIndex = "2";
@@ -2178,56 +1671,40 @@ function mostrarMidia() {
     conteudo.appendChild(novo);
 
     const iniciarAnimacao = () => {
-
         requestAnimationFrame(() => {
-
-            // imagem antiga sai
+            // Imagem antiga sai
             if (antigo) {
-
                 antigo.style.transform =
                     direcaoSlide === 1
                     ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)`
                     : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
 
                 antigo.style.opacity = "0";
-
             }
 
-            // nova entra
+            // Nova entra
             novo.style.transform = "translate(-50%, -50%)";
             novo.style.opacity = "1";
-
         });
 
         setTimeout(() => {
+            if (antigo) antigo.remove();
 
-            if (antigo) {
+            if (midia.type === "video") novo.play();
 
-                antigo.remove();
-
-            }
-
-            if (midia.type === "video") {
-
-                novo.play();
-
-            }
-
-            // guardar imagem atual
+            // Guardar imagem atual
             elementoAtual = novo;
 
             // Corrigir imediatamente o tamanho no iPhone
             ajustarBolinhasIPhone();
 
-            // Corrigir Android fullscreen, se aplicável
+            // Corrigir Android fullscreen
             ajustarFullscreenAndroid();
 
-            // remover imagem seguinte anterior
+            // Remover imagem seguinte anterior
             if (elementoSeguinte) {
-
                 elementoSeguinte.remove();
                 elementoSeguinte = null;
-
             }
 
             if (elementoAnterior) {
@@ -2236,27 +1713,17 @@ function mostrarMidia() {
             }
 
             atualizarLaterais();
-
         }, MEDIA_TRANSITION_TIME);
-
     };
 
     if (midia.type === "image") {
-
         if (novo.complete) {
-
             iniciarAnimacao();
-
         } else {
-
             novo.onload = iniciarAnimacao;
-
         }
-
     } else {
-
         novo.onloadeddata = iniciarAnimacao;
-
     }
 
     if (midia.grayscale) {
@@ -2264,17 +1731,14 @@ function mostrarMidia() {
     } else {
         novo.classList.remove("grayscale");
     }
-
 }
 
 // ======================================
 // MENU
 // ======================================
 
-function toggleMenu() {
-
+function toggleMenu(){
     menu.classList.toggle("active");
-
 }
 
 // ======================================
@@ -2282,25 +1746,24 @@ function toggleMenu() {
 // ======================================
 
 /* Navegação com teclado */
-document.addEventListener('keydown', function(e) {
-  if (modal.style.display === 'flex') {
-    if (e.key === "ArrowLeft") mudarMidia(-1);
-    else if (e.key === "ArrowRight") mudarMidia(1);
-    else if (e.key === "Escape") fecharModal();
-  }
+document.addEventListener("keydown", function(e){
+    if (modal.style.display === "flex") {
+        if (e.key === "ArrowLeft") {
+            mudarMidia(-1);
+        } else if (e.key === "ArrowRight") {
+            mudarMidia(1);
+        } else if (e.key === "Escape") {
+            fecharModal();
+        }
+    }
 });
 
 /* Swipe no telemóvel */
-modal.addEventListener('touchstart', function(e) {
+modal.addEventListener("touchstart", function(e){
 
-    // ==========================
     // PINCH (2 DEDOS)
-    // ==========================
-
-    if (e.touches.length === 2){
-
+    if (e.touches.length === 2) {
         isPinching = true;
-
         moverImagem = false;
         isDragging = false;
 
@@ -2309,30 +1772,24 @@ modal.addEventListener('touchstart', function(e) {
 
         escalaInicialPinch = escalaZoom;
 
-        // Centro dos dois dedos
         pinchCentroX =
             (e.touches[0].clientX + e.touches[1].clientX) / 2;
 
         pinchCentroY =
             (e.touches[0].clientY + e.touches[1].clientY) / 2;
 
-        // Guarda a posição atual da imagem
         pinchImagemX = zoomTargetX;
         pinchImagemY = zoomTargetY;
 
         return;
     }
 
-    // ==========================
     // TOQUE NORMAL
-    // ==========================
-
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
 
     // Se a imagem estiver ampliada, começa o movimento da imagem
     if (zoomAtivo) {
-
         moverImagem = true;
 
         zoomStartX = e.touches[0].clientX - zoomX;
@@ -2345,7 +1802,6 @@ modal.addEventListener('touchstart', function(e) {
 
     isVerticalDrag = false;
     currentY = 0;
-
     currentTranslate = 0;
     isDragging = true;
     previewIndice = indiceAtual;
@@ -2355,29 +1811,19 @@ modal.addEventListener('touchstart', function(e) {
     elementoAtual.style.transition = "none";
 
     if (elementoSeguinte) {
-
         elementoSeguinte.style.transition = "none";
-
     }
 
     if (elementoAnterior) {
-
         elementoAnterior.style.transition = "none";
-
     }
-
 });
 
-modal.addEventListener('touchmove', function(e) {
+modal.addEventListener("touchmove", function(e){
 
-    // ==========================
     // PINCH (2 DEDOS)
-    // ==========================
-
-    if (e.touches.length === 2 && elementoAtual){
-
+    if (e.touches.length === 2 && elementoAtual) {
         isPinching = true;
-
         e.preventDefault();
 
         const distanciaAtual =
@@ -2392,54 +1838,41 @@ modal.addEventListener('touchmove', function(e) {
             )
         );
 
-        // Quanto aumentou/diminuiu relativamente ao início do pinch
         const fator = novaEscala / escalaInicialPinch;
 
-        // Ajusta a posição da imagem para que o zoom
-        // aconteça no centro dos dedos
         zoomTargetX =
             pinchImagemX +
-            (pinchCentroX - window.innerWidth / 2) * (1 - fator);
+            (pinchCentroX - window.innerWidth / 2) *
+            (1 - fator);
 
         zoomTargetY =
             pinchImagemY +
-            (pinchCentroY - window.innerHeight / 2) * (1 - fator);
+            (pinchCentroY - window.innerHeight / 2) *
+            (1 - fator);
 
         escalaZoom = novaEscala;
-
         zoomAtivo = escalaZoom > 1.02;
 
-        // Atualizar o símbolo do botão conforme o zoom
         if (zoomBtn) {
             zoomBtn.textContent = zoomAtivo ? "−" : "+";
         }
 
-        if (!zoomAtivo){
-
+        if (!zoomAtivo) {
             zoomX = 0;
             zoomY = 0;
-
             zoomTargetX = 0;
             zoomTargetY = 0;
-
         }
 
-        if (!rafZoom){
-
+        if (!rafZoom) {
             rafZoom = requestAnimationFrame(atualizarZoom);
-
         }
 
         return;
-
     }
 
-    // ==========================
     // ARRASTAR IMAGEM COM ZOOM
-    // ==========================
-
     if (zoomAtivo && moverImagem && elementoAtual) {
-
         e.preventDefault();
 
         zoomX = e.touches[0].clientX - zoomStartX;
@@ -2448,7 +1881,7 @@ modal.addEventListener('touchmove', function(e) {
         zoomTargetX = zoomX;
         zoomTargetY = zoomY;
 
-        if (!rafZoom){
+        if (!rafZoom) {
             rafZoom = requestAnimationFrame(atualizarZoom);
         }
 
@@ -2470,69 +1903,58 @@ modal.addEventListener('touchmove', function(e) {
 
     // Decide a direção apenas uma vez
     if (!isVerticalDrag) {
-        isVerticalDrag = Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > DRAG_START_THRESHOLD;
+        isVerticalDrag =
+            Math.abs(dy) > Math.abs(dx) &&
+            Math.abs(dy) > DRAG_START_THRESHOLD;
     }
 
-    // ==========================
-    // SWIPE VERTICAL (fechar)
-    // ==========================
+    // SWIPE VERTICAL — fechar
     if (isVerticalDrag) {
-
         elementoAtual.style.transform =
             `translate(-50%, calc(-50% + ${currentY}px))`;
 
-        const opacity = Math.max(1 - Math.abs(currentY) / MODAL_FADE_DISTANCE, 0.3);
+        const opacity =
+            Math.max(
+                1 - Math.abs(currentY) / MODAL_FADE_DISTANCE,
+                0.3
+            );
 
-        modal.style.background = `rgba(0,0,0,${opacity})`;
+        modal.style.background =
+            `rgba(0,0,0,${opacity})`;
 
         return;
     }
 
-    // ==========================
-    // SWIPE HORIZONTAL (mudar imagem)
-    // ==========================
-
+    // SWIPE HORIZONTAL — mudar imagem
     elementoAtual.style.transform =
         `translate(calc(-50% + ${currentTranslate}px), -50%)`;
 
     const largura = window.innerWidth;
     const limitePreview = PREVIEW_THRESHOLD;
 
-    // Atualiza as barras enquanto arrasta
-
     let novoIndice = indiceAtual;
 
-    if (currentTranslate < -limitePreview){
-
+    if (currentTranslate < -limitePreview) {
         novoIndice =
             (indiceAtual + 1) % midiasAtuais.length;
-
-    }
-
-    else if (currentTranslate > limitePreview){
-
+    } else if (currentTranslate > limitePreview) {
         novoIndice =
             (indiceAtual - 1 + midiasAtuais.length) %
             midiasAtuais.length;
-
     }
 
-    if (novoIndice !== previewIndice){
-
+    if (novoIndice !== previewIndice) {
         previewIndice = novoIndice;
 
         const barras =
             document.querySelectorAll("#modal-indicators span");
 
-        barras.forEach(b=>b.classList.remove("active"));
-
+        barras.forEach(b => b.classList.remove("active"));
         barras[previewIndice]?.classList.add("active");
-
     }
 
     // Próxima imagem
     if (currentTranslate < 0 && elementoSeguinte) {
-
         const entrada = largura + currentTranslate;
 
         elementoSeguinte.style.transform =
@@ -2541,21 +1963,17 @@ modal.addEventListener('touchmove', function(e) {
 
     // Imagem anterior
     if (currentTranslate > 0 && elementoAnterior) {
-
         const entrada = -largura + currentTranslate;
 
         elementoAnterior.style.transform =
             `translate(calc(-50% + ${entrada}px), -50%)`;
     }
-
 });
 
-modal.addEventListener('touchend', function(e) {
+modal.addEventListener("touchend", function(e){
 
     if (isPinching) {
-
         if (e.touches.length < 2) {
-
             isPinching = false;
             ultimoPinch = Date.now();
         }
@@ -2563,10 +1981,7 @@ modal.addEventListener('touchend', function(e) {
         return;
     }
 
-    if (Date.now() - ultimoPinch < 300) {
-        return;
-    }
-
+    if (Date.now() - ultimoPinch < 300) return;
     if (zoomAtivo) return;
 
     touchEndX = e.changedTouches[0].clientX;
@@ -2575,18 +1990,16 @@ modal.addEventListener('touchend', function(e) {
     isDragging = false;
 
     const dy = touchEndY - touchStartY;
-    const limiteY = window.innerHeight * VERTICAL_CLOSE_THRESHOLD;
+    const limiteY =
+        window.innerHeight * VERTICAL_CLOSE_THRESHOLD;
 
-    // 🔥 PRIORIDADE: swipe vertical (fechar modal)
+    // PRIORIDADE: swipe vertical
     if (isVerticalDrag) {
-
-        // Se puxou o suficiente para cima ou para baixo → FECHA
         if (Math.abs(dy) > limiteY) {
-
             if (!elementoAtual) return;
 
-            // Decide para que lado a imagem sai
-            const destino = dy > 0 ? "100vh" : "-100vh";
+            const destino =
+                dy > 0 ? "100vh" : "-100vh";
 
             elementoAtual.style.transition =
                 "transform .25s ease, opacity .25s ease";
@@ -2596,18 +2009,19 @@ modal.addEventListener('touchend', function(e) {
 
             elementoAtual.style.opacity = "0";
 
-            modal.style.transition = "background .25s ease";
-            modal.style.background = "rgba(0,0,0,0)";
+            modal.style.transition =
+                "background .25s ease";
+
+            modal.style.background =
+                "rgba(0,0,0,0)";
 
             setTimeout(() => {
                 fecharModal();
             }, 200);
 
         } else {
-
             if (!elementoAtual) return;
 
-            // Volta ao centro
             centrarElemento(elementoAtual);
 
             modal.style.transition =
@@ -2616,15 +2030,13 @@ modal.addEventListener('touchend', function(e) {
             modal.style.background = "";
 
             atualizarPreview();
-
         }
 
         return;
     }
 
-    // 🔥 Caso contrário → swipe horizontal normal
+    // Swipe horizontal normal
     handleSwipe();
-
 });
 
 // ======================================
@@ -2633,10 +2045,7 @@ modal.addEventListener('touchend', function(e) {
 
 modalContent.addEventListener("mousedown", function(e){
 
-    // Só funciona com botão esquerdo
     if (e.button !== 0) return;
-
-    // Só permite arrastar quando está ampliado
     if (!zoomAtivo || !elementoAtual) return;
 
     e.preventDefault();
@@ -2650,11 +2059,8 @@ modalContent.addEventListener("mousedown", function(e){
     mouseZoomInicioY = zoomTargetY;
 
     elementoAtual.style.transition = "none";
-
     modalContent.style.cursor = "grabbing";
-
 });
-
 
 document.addEventListener("mousemove", function(e){
 
@@ -2670,41 +2076,36 @@ document.addEventListener("mousemove", function(e){
         mouseZoomInicioY +
         (e.clientY - mouseZoomStartY);
 
-    if (!rafZoom){
-
+    if (!rafZoom) {
         rafZoom =
             requestAnimationFrame(atualizarZoom);
-
     }
-
 });
-
 
 document.addEventListener("mouseup", function(){
 
     if (!mouseZoomAtivo) return;
 
     mouseZoomAtivo = false;
-
     modalContent.style.cursor = "";
-
 });
 
 /* FECHAR AO CLICAR FORA DA IMAGEM */
-
-document.getElementById("modal-projeto").addEventListener("click", function(e){
-
-    if (e.target === this){
-
-        fecharModal();
-
+document.getElementById("modal-projeto").addEventListener(
+    "click",
+    function(e){
+        if (e.target === this) {
+            fecharModal();
+        }
     }
+);
 
-});
-
-document.getElementById('modal-content').addEventListener('click', function(e){
-    e.stopPropagation();
-});
+document.getElementById("modal-content").addEventListener(
+    "click",
+    function(e){
+        e.stopPropagation();
+    }
+);
 
 modalContent.addEventListener("dblclick", function(e){
 
@@ -2714,38 +2115,29 @@ modalContent.addEventListener("dblclick", function(e){
 
     zoomAtivo = !zoomAtivo;
 
-    if (zoomAtivo){
-
+    if (zoomAtivo) {
         escalaZoom = DEFAULT_ZOOM;
-
         zoomX = 0;
         zoomY = 0;
-
         zoomTargetX = 0;
         zoomTargetY = 0;
-
         zoomBtn.textContent = "−";
 
     } else {
-
         escalaZoom = ZOOM_MIN;
-
         zoomX = 0;
         zoomY = 0;
-
         zoomTargetX = 0;
         zoomTargetY = 0;
-
         zoomBtn.textContent = "+";
-
     }
 
     elementoAtual.style.transition = TRANSITION_FAST;
 
-    if (!rafZoom){
-        rafZoom = requestAnimationFrame(atualizarZoom);
+    if (!rafZoom) {
+        rafZoom =
+            requestAnimationFrame(atualizarZoom);
     }
-
 });
 
 modalContent.addEventListener("touchend", function(e){
@@ -2754,101 +2146,70 @@ modalContent.addEventListener("touchend", function(e){
 
     const touch = e.changedTouches[0];
 
-    const dx = Math.abs(touch.clientX - touchStartX);
-    const dy = Math.abs(touch.clientY - touchStartY);
+    const dx =
+        Math.abs(touch.clientX - touchStartX);
+
+    const dy =
+        Math.abs(touch.clientY - touchStartY);
 
     if (
         dx < DRAG_START_THRESHOLD &&
         dy < DRAG_START_THRESHOLD
-    ){
-
+    ) {
         const agora = Date.now();
 
-        if (agora - ultimoToque < DOUBLE_TAP_DELAY){
-
+        if (agora - ultimoToque < DOUBLE_TAP_DELAY) {
             e.preventDefault();
 
-            // ==========================
-            // TELEMÓVEL -> ZOOM
-            // ==========================
-
+            // TELEMÓVEL → ZOOM
             if (
                 window.matchMedia("(pointer: coarse)").matches
-            ){
-
+            ) {
                 if (!elementoAtual) return;
 
-                // Alternar zoom
                 zoomAtivo = !zoomAtivo;
 
                 requestAnimationFrame(() => {
-
                     elementoAtual.style.transition =
                         TRANSITION_FAST;
 
-                    if (zoomAtivo){
-
-                        // Ativar zoom
+                    if (zoomAtivo) {
                         escalaZoom = DEFAULT_ZOOM;
-
-                        // Mudar botão de + para −
                         zoomBtn.textContent = "−";
 
-                    }else{
-
-                        // Desativar zoom
+                    } else {
                         escalaZoom = ZOOM_MIN;
-
                         zoomX = 0;
                         zoomY = 0;
-
                         zoomTargetX = 0;
                         zoomTargetY = 0;
-
-                        // Mudar botão de − para +
                         zoomBtn.textContent = "+";
-
                     }
 
-                    if (!rafZoom){
-
+                    if (!rafZoom) {
                         rafZoom =
                             requestAnimationFrame(atualizarZoom);
-
                     }
-
                 });
-
             }
-
-
         }
 
         ultimoToque = agora;
-
     }
-
 });
 
 modalContent.addEventListener("mousemove", () => {
-
     mostrarBotaoFullscreen();
-
 });
 
 modalContent.addEventListener("touchstart", () => {
-
     mostrarBotaoFullscreen();
-
 });
 
 document.addEventListener("fullscreenchange", () => {
-
     modal.style.background = "";
-
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
-
 });
 
 fullscreenBtn.addEventListener("click", function(e){
@@ -2859,7 +2220,6 @@ fullscreenBtn.addEventListener("click", function(e){
     if (isAppleMobile()) return;
 
     toggleFullscreen();
-
 });
 
 zoomBtn.addEventListener("click", function(e){
@@ -2870,37 +2230,31 @@ zoomBtn.addEventListener("click", function(e){
 
     zoomAtivo = !zoomAtivo;
 
-    zoomBtn.textContent = zoomAtivo ? "−" : "+";
+    zoomBtn.textContent =
+        zoomAtivo ? "−" : "+";
 
-    elementoAtual.style.transition = TRANSITION_FAST;
+    elementoAtual.style.transition =
+        TRANSITION_FAST;
 
-    if (zoomAtivo){
-
+    if (zoomAtivo) {
         escalaZoom = DEFAULT_ZOOM;
-
     } else {
-
         escalaZoom = ZOOM_MIN;
-
         zoomX = 0;
         zoomY = 0;
-
         zoomTargetX = 0;
         zoomTargetY = 0;
-
     }
 
-    if (!rafZoom){
-
-        rafZoom = requestAnimationFrame(atualizarZoom);
-
+    if (!rafZoom) {
+        rafZoom =
+            requestAnimationFrame(atualizarZoom);
     }
-
 });
 
 document.querySelectorAll(".project").forEach(projeto => {
 
-    projeto.addEventListener("touchstart", function () {
+    projeto.addEventListener("touchstart", function(){
 
         // Remove o efeito dos restantes projetos
         document.querySelectorAll(".project").forEach(p => {
@@ -2909,13 +2263,12 @@ document.querySelectorAll(".project").forEach(projeto => {
 
         // Ativa apenas neste
         this.classList.add("touched");
-
     });
-
 });
 
 // Código do Fale Connosco
 contactButton.addEventListener("click", function(e){
+
     e.stopPropagation();
     contactWidget.classList.toggle("active");
 });
@@ -2931,17 +2284,18 @@ contactWidget.addEventListener("click", function(e){
 window.addEventListener("scroll", () => {
 
     // Não mostrar a seta quando o modal está aberto
-    if (document.body.classList.contains("modal-open")) {
+    if (
+        document.body.classList.contains("modal-open")
+    ) {
         backToTop.classList.remove("show");
         return;
     }
 
-    if (window.scrollY > 400){
+    if (window.scrollY > 400) {
         backToTop.classList.add("show");
     } else {
         backToTop.classList.remove("show");
     }
-
 });
 
 window.addEventListener(
@@ -2967,10 +2321,9 @@ window.addEventListener(
 backToTop.addEventListener("click", () => {
 
     window.scrollTo({
-        top:0,
-        behavior:"smooth"
+        top: 0,
+        behavior: "smooth"
     });
-
 });
 
 </script>
