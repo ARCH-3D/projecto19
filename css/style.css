@@ -779,6 +779,11 @@ footer p{
     }
 }
 
+.contact-trigger *,
+nav a * {
+    pointer-events:none;
+}
+
 .contact-trigger img{
     display:block;
 }
