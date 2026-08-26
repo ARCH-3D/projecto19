@@ -1581,8 +1581,29 @@ contactButton.addEventListener("click", function(e){
     contactWidget.classList.toggle("active");
 });
 
-document.addEventListener("click", function(){
-    contactWidget.classList.remove("active");
+document.addEventListener("click", function(e){
+
+    // Fechar "Fale connosco" ao clicar fora
+    if (
+        contactWidget.classList.contains("active") &&
+        !contactWidget.contains(e.target)
+    ) {
+        contactWidget.classList.remove("active");
+    }
+
+    // Fechar menu ao clicar fora
+    if (menu.classList.contains("active")) {
+
+        const menuToggle = document.querySelector(".menu-toggle");
+
+        if (
+            !menu.contains(e.target) &&
+            !menuToggle.contains(e.target)
+        ) {
+            menu.classList.remove("active");
+        }
+    }
+
 });
 
 contactWidget.addEventListener("click", function(e){
