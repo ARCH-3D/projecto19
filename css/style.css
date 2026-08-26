@@ -71,9 +71,15 @@ nav a,
 
 /* Links de navegação */
 
-nav a.touch-active{
-    background:rgba(0,0,0,0.12);
-    border-radius:6px;
+nav a{
+    display:inline-block;
+    color:var(--c-text);
+    text-decoration:none;
+    font-size:12px;
+    font-weight:300;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    transition:var(--trans-main);
 }
 
 
