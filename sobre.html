@@ -140,30 +140,11 @@ function toggleMenu() {
 
 
 // ======================================
-// FECHAR MENU / CONTACTOS AO TOCAR FORA
-// INCLUINDO AO INICIAR UM SWIPE
+// FECHAR MENU E CONTACTOS AO FAZER SCROLL
 // ======================================
-document.addEventListener("touchstart", function(e){
-
-    const elemento = e.target;
-
-    // FECHAR MENU
-    if (
-        menu.classList.contains("active") &&
-        !menu.contains(elemento) &&
-        !menuButton.contains(elemento)
-    ) {
-        menu.classList.remove("active");
-    }
-
-    // FECHAR FALE CONNOSCO
-    if (
-        contactWidget.classList.contains("active") &&
-        !contactWidget.contains(elemento)
-    ) {
-        contactWidget.classList.remove("active");
-    }
-
+window.addEventListener("scroll", () => {
+    menu.classList.remove("active");
+    contactWidget.classList.remove("active");
 }, { passive: true });
 
 const backToTop = document.getElementById("back-to-top");
