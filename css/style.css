@@ -9,12 +9,21 @@
     --trans-main:.3s ease;
 }
 
-/* ================== HIGHLIGHT DE TOQUE GLOBAL ================== */
-/* Mancha cinzenta ao tocar em elementos interativos */
+/* ================== HIGHLIGHT DE TOQUE GLOBAL (ESTILO IPHONE) ================== */
 
+/* Define a mancha cinzenta estilo iOS para todos os elementos interativos */
 a,
 button,
-.project {
+nav a,
+.close,
+.zoom-btn,
+.fullscreen-btn,
+.contact-trigger,
+.project,
+.social-links a,
+#back-to-top,
+.prev,
+.next {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0.18);
 }
 
