@@ -562,7 +562,6 @@ footer p{
     pointer-events:none;
     transition:opacity .5s ease;
     outline:none;
-    -webkit-tap-highlight-color:transparent;
 }
 
 /* Quando os controlos estão visíveis */
@@ -683,7 +682,6 @@ footer p{
     cursor:pointer;
     overflow:hidden;
     transition:var(--trans-main);
-    -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
 
 @media (hover:hover){
@@ -1016,7 +1014,6 @@ footer p{
     opacity:0;
     pointer-events:none;
     transition:opacity .5s ease;
-    -webkit-tap-highlight-color:transparent;
 }
 
 .fullscreen-btn.show{
@@ -1096,7 +1093,6 @@ footer p{
     pointer-events:none;
     appearance:none;
     -webkit-appearance:none;
-    -webkit-tap-highlight-color:transparent;
     transition:opacity .5s ease;
 }
 
