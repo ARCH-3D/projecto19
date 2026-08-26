@@ -204,30 +204,6 @@ document.addEventListener("touchstart", function(e) {
 
 }, { passive: true });
 
-// ======================================
-// EVITAR EFEITO "RUBBER-BAND" NO EDGE/iOS
-// AO PUXAR A PÁGINA PARA BAIXO NO TOPO
-// ======================================
-
-let touchStartY = 0;
-
-document.addEventListener("touchstart", function(e) {
-    touchStartY = e.touches[0].clientY;
-}, { passive: true });
-
-document.addEventListener("touchmove", function(e) {
-
-    const touchY = e.touches[0].clientY;
-    const movimento = touchY - touchStartY;
-
-    // Se estamos no topo e o dedo está a puxar para baixo,
-    // impede o efeito de "borracha" do Edge/iOS.
-    if (window.scrollY <= 0 && movimento > 0) {
-        e.preventDefault();
-    }
-
-}, { passive: false });
-
 </script>
 
 </body>
