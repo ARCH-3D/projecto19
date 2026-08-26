@@ -1049,12 +1049,14 @@ footer p{
 
 /* Não deixar o botão ficar "selecionado" após toque */
 
-.fullscreen-btn:focus{
+.fullscreen-btn:focus,
+.fullscreen-btn:active{
     outline:none;
     box-shadow:none;
 }
 
 @media (pointer:coarse){
+    .fullscreen-btn:focus,
     .fullscreen-btn:active{
         opacity:1;
     }
