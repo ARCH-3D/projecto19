@@ -157,67 +157,24 @@ contactButton.addEventListener("click", function(e) {
     contactWidget.classList.toggle("active");
 });
 
+document.addEventListener("click", function() {
+    contactWidget.classList.remove("active");
+});
+
 contactWidget.addEventListener("click", function(e) {
     e.stopPropagation();
 });
 
-
 // MENU MOBILE
-const menu = document.getElementById("menu");
-const menuButton = document.querySelector(".menu-toggle");
-
 function toggleMenu() {
-    menu.classList.toggle("active");
+    document.getElementById("menu").classList.toggle("active");
 }
 
 document.querySelectorAll("#menu a").forEach(link => {
     link.addEventListener("click", () => {
-        menu.classList.remove("active");
+        document.getElementById("menu").classList.remove("active");
     });
 });
-
-
-// ======================================
-// FECHAR MENU / CONTACTOS AO TOCAR FORA
-// INCLUINDO AO INICIAR UM SWIPE
-// ======================================
-document.addEventListener("touchstart", function(e) {
-
-    const elemento = e.target;
-
-    // Fechar MENU
-    if (
-        menu.classList.contains("active") &&
-        !menu.contains(elemento) &&
-        !menuButton.contains(elemento)
-    ) {
-        menu.classList.remove("active");
-    }
-
-    // Fechar FALE CONNOSCO
-    if (
-        contactWidget.classList.contains("active") &&
-        !contactWidget.contains(elemento)
-    ) {
-        contactWidget.classList.remove("active");
-    }
-
-}, { passive: true });
-
-// FIX PARA O REDIMENSIONAMENTO DO HERO NO iOS (EDGE/SAFARI)
-function fixIosHeroHeight() {
-    const heroElement = document.querySelector('.hero');
-    if (heroElement) {
-        // Bloqueia a altura com base na altura real inicial da janela (ignorando a barra dinâmica)
-        const initialHeight = window.innerHeight;
-        heroElement.style.height = initialHeight + 'px';
-    }
-}
-
-// Executa ao carregar e se houver rotação de ecrã
-window.addEventListener('load', fixIosHeroHeight);
-window.addEventListener('orientationchange', fixIosHeroHeight);
-
 </script>
 
 </body>
