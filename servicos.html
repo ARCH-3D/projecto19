@@ -200,13 +200,9 @@ function toggleMenu() {
     menu.classList.toggle("active");
 }
 
-// ======================================
-// FECHAR MENU / CONTACTOS AO CLICAR OU
-// TOCAR FORA DELES
-// ======================================
+// FECHAR MENU / CONTACTOS AO CLICAR OU TOCAR FORA
 document.addEventListener("click", function(e) {
 
-    // MENU
     if (
         menu.classList.contains("active") &&
         !menu.contains(e.target) &&
@@ -215,7 +211,6 @@ document.addEventListener("click", function(e) {
         menu.classList.remove("active");
     }
 
-    // FALE CONNOSCO
     if (
         contactWidget.classList.contains("active") &&
         !contactWidget.contains(e.target)
@@ -244,13 +239,13 @@ backToTop.addEventListener("click", () => {
 
 document.querySelectorAll("#menu a").forEach(link => {
     link.addEventListener("click", () => {
-        document.getElementById("menu").classList.remove("active");
+        menu.classList.remove("active");
     });
 });
 
 // FECHAR MENU E CONTACTOS AO FAZER SCROLL
 window.addEventListener("scroll", () => {
-    document.getElementById("menu").classList.remove("active");
+    menu.classList.remove("active");
     contactWidget.classList.remove("active");
 }, { passive: true });
 </script>
