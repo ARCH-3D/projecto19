@@ -1,5 +1,4 @@
 /* ================== VARIABLES ================== */
-
 :root{
     --c-text:#111;
     --c-bg:#fff;
@@ -10,102 +9,20 @@
     --trans-main:.3s ease;
 }
 
-
 /* ================== RESET ================== */
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-
-    /* Remover destaque nativo de toque */
-    -webkit-tap-highlight-color:transparent;
 }
 
-
-/* ================== TOUCH / INTERACTION ================== */
-
-/*
-   Remover o destaque nativo de toque dos browsers
-   touch, incluindo Android Chrome e iOS Safari.
-
-   O efeito visual do toque será controlado pelo
-   JavaScript através da classe .touch-active.
-*/
+/* ================== HTML ================== */
 
 html{
     scrollbar-gutter:stable;
     -webkit-text-size-adjust:100%;
 }
-
-button,
-a,
-input,
-textarea,
-select,
-[role="button"]{
-    -webkit-tap-highlight-color:transparent;
-    -webkit-touch-callout:none;
-}
-
-button{
-    -webkit-appearance:none;
-    appearance:none;
-}
-
-
-/* Elementos onde usamos o nosso próprio efeito de toque */
-
-nav a,
-.contact-trigger,
-.close,
-.fullscreen-btn,
-.zoom-btn,
-.project{
-    -webkit-tap-highlight-color:transparent;
-    -webkit-touch-callout:none;
-}
-
-
-/* ================== EFEITO DE TOQUE ================== */
-
-/* Links de navegação */
-
-nav a{
-    display:inline-block;
-    color:var(--c-text);
-    text-decoration:none;
-    font-size:12px;
-    font-weight:300;
-    letter-spacing:1.2px;
-    text-transform:uppercase;
-    transition:var(--trans-main);
-}
-
-
-/* Botões do modal */
-
-.close.touch-active,
-.fullscreen-btn.touch-active,
-.zoom-btn.touch-active{
-    background:rgba(0,0,0,0.12);
-    border-radius:6px;
-}
-
-
-/* Botão Fale Conosco */
-
-.contact-trigger.touch-active{
-    background:rgba(220,220,220,0.95);
-}
-
-
-/* Projetos */
-
-.project.touch-active::before{
-    background:rgba(0,0,0,0.18);
-}
-
 
 /* ================== BODY ================== */
 
@@ -121,7 +38,6 @@ body{
     line-height:1.6;
     overflow-x:hidden;
 }
-
 
 /* Bloquear scroll quando o modal está aberto */
 
@@ -646,6 +562,7 @@ footer p{
     pointer-events:none;
     transition:opacity .5s ease;
     outline:none;
+    -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
 
 /* Quando os controlos estão visíveis */
@@ -658,14 +575,9 @@ footer p{
 /* Não criar outline ao clicar */
 
 .close:focus,
-.close:active,
-.fullscreen-btn:focus,
-.fullscreen-btn:active,
-.zoom-btn:focus,
-.zoom-btn:active{
+.close:active{
     outline:none;
     box-shadow:none;
-    -webkit-tap-highlight-color:transparent;
 }
 
 /* Quadrado de seleção do teclado */
@@ -771,17 +683,13 @@ footer p{
     cursor:pointer;
     overflow:hidden;
     transition:var(--trans-main);
+    -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
 
 @media (hover:hover){
     .contact-trigger:hover{
         transform:translateY(-2px);
     }
-}
-
-.contact-trigger *,
-nav a * {
-    pointer-events:none;
 }
 
 .contact-trigger img{
@@ -1108,6 +1016,7 @@ nav a * {
     opacity:0;
     pointer-events:none;
     transition:opacity .5s ease;
+    -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
 
 .fullscreen-btn.show{
@@ -1187,6 +1096,7 @@ nav a * {
     pointer-events:none;
     appearance:none;
     -webkit-appearance:none;
+    -webkit-tap-highlight-color:rgba(0,0,0,.2);
     transition:opacity .5s ease;
 }
 
