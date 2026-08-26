@@ -1375,6 +1375,7 @@ document.addEventListener("fullscreenchange", () => {
 fullscreenBtn.addEventListener("click", function(e){
     e.stopPropagation();
     if (isAppleMobile()) return;
+    this.blur();
     toggleFullscreen();
 });
 zoomBtn.addEventListener("click", function(e){
