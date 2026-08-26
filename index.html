@@ -5,24 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="Projecto 19 — Atelier de arquitetura dedicado ao desenvolvimento de projetos de arquitetura, reabilitação e interiores.">
 <title>Home — Projecto 19</title>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
 <script>
-window.dataLayer = window.dataLayer || [];
+window.dataLayer=window.dataLayer||[];
 function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-JXJP0D464R');
+gtag('js',new Date());
+gtag('config','G-JXJP0D464R');
 </script>
+
 <!-- Fontes -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
+
 <!-- Preload da primeira imagem do Hero -->
 <link rel="preload" as="image" href="img/hero/hero1.webp">
+
 <!-- CSS -->
 <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
+
 <header>
     <div class="header-left">
         <a href="index.html" class="logo-link">
@@ -39,6 +45,7 @@ gtag('config', 'G-JXJP0D464R');
         <a href="contactos.html">Contactos</a>
     </nav>
 </header>
+
 <!-- HERO -->
 <div class="hero">
     <img id="hero-image" class="hero-image" src="img/hero/hero1.webp" alt="Projeto 19" fetchpriority="high" decoding="async">
@@ -47,6 +54,7 @@ gtag('config', 'G-JXJP0D464R');
         <p>Arquitetura e Design</p>
     </div>
 </div>
+
 <!-- WIDGET CONTACTO -->
 <div class="contact-widget">
     <div class="contact-links">
@@ -64,6 +72,7 @@ gtag('config', 'G-JXJP0D464R');
         <span>Fale Connosco</span>
     </button>
 </div>
+
 <footer>
     <div class="social-links">
         <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
@@ -77,125 +86,96 @@ gtag('config', 'G-JXJP0D464R');
     </div>
     <p>© PROJETO 19</p>
 </footer>
+
 <!-- JAVASCRIPT -->
 <script>
-const hero = document.getElementById("hero-image");
-
-const imagens = [
-    "img/hero/hero1.webp",
-    "img/hero/hero2.webp",
-    "img/hero/hero3.webp",
-    "img/hero/hero4.webp",
-    "img/hero/hero5.webp",
-    "img/hero/hero6.webp",
-    "img/hero/hero7.webp",
-    "img/hero/hero8.webp",
-    "img/hero/hero9.webp",
-    "img/hero/hero10.webp",
-    "img/hero/hero11.webp",
-    "img/hero/hero12.webp",
-    "img/hero/hero13.webp",
-    "img/hero/hero14.webp",
-    "img/hero/hero15.webp",
-    "img/hero/hero16.webp",
-    "img/hero/hero17.webp",
-    "img/hero/hero18.webp",
-    "img/hero/hero19.webp",
-    "img/hero/hero20.webp",
-    "img/hero/hero21.webp",
-    "img/hero/hero22.webp",
-    "img/hero/hero23.webp",
-    "img/hero/hero24.webp",
-    "img/hero/hero25.webp",
-    "img/hero/hero26.webp"
+const hero=document.getElementById("hero-image");
+const imagens=[
+    "img/hero/hero1.webp","img/hero/hero2.webp","img/hero/hero3.webp",
+    "img/hero/hero4.webp","img/hero/hero5.webp","img/hero/hero6.webp",
+    "img/hero/hero7.webp","img/hero/hero8.webp","img/hero/hero9.webp",
+    "img/hero/hero10.webp","img/hero/hero11.webp","img/hero/hero12.webp",
+    "img/hero/hero13.webp","img/hero/hero14.webp","img/hero/hero15.webp",
+    "img/hero/hero16.webp","img/hero/hero17.webp","img/hero/hero18.webp",
+    "img/hero/hero19.webp","img/hero/hero20.webp","img/hero/hero21.webp",
+    "img/hero/hero22.webp","img/hero/hero23.webp","img/hero/hero24.webp",
+    "img/hero/hero25.webp","img/hero/hero26.webp"
 ];
 
-let indice = 0;
-let preload = new Image();
-preload.src = imagens[1];
+let indice=0;
+let preload=new Image();
+preload.src=imagens[1];
 
-setInterval(() => {
-    indice = (indice + 1) % imagens.length;
-    hero.style.opacity = 0;
-
-    setTimeout(() => {
-        hero.src = imagens[indice];
-
-        hero.onload = () => {
-            hero.style.opacity = 1;
-            preload = new Image();
-            preload.src = imagens[(indice + 1) % imagens.length];
+setInterval(()=>{
+    indice=(indice+1)%imagens.length;
+    hero.style.opacity=0;
+    setTimeout(()=>{
+        hero.src=imagens[indice];
+        hero.onload=()=>{
+            hero.style.opacity=1;
+            preload=new Image();
+            preload.src=imagens[(indice+1)%imagens.length];
         };
-    }, 400);
-}, 5000);
+    },400);
+},5000);
 
 // WIDGET DE CONTACTO
-const contactWidget = document.querySelector(".contact-widget");
-const contactButton = document.querySelector(".contact-trigger");
+const contactWidget=document.querySelector(".contact-widget");
+const contactButton=document.querySelector(".contact-trigger");
 
-contactButton.addEventListener("click", function(e) {
+contactButton.addEventListener("click",function(e){
     e.stopPropagation();
     contactWidget.classList.toggle("active");
 });
 
-contactWidget.addEventListener("click", function(e) {
+contactWidget.addEventListener("click",function(e){
     e.stopPropagation();
 });
 
 // MENU MOBILE
-const menu = document.getElementById("menu");
-const menuToggle = document.querySelector(".menu-toggle");
+const menu=document.getElementById("menu");
+const menuToggle=document.querySelector(".menu-toggle");
 
-function toggleMenu() {
+function toggleMenu(){
     menu.classList.toggle("active");
 }
 
-document.querySelectorAll("#menu a").forEach(link => {
-    link.addEventListener("click", () => {
+document.querySelectorAll("#menu a").forEach(link=>{
+    link.addEventListener("click",()=>{
         menu.classList.remove("active");
     });
 });
 
-document.addEventListener("click", function(e) {
-    if (
-        menu.classList.contains("active") &&
-        !menu.contains(e.target) &&
-        !menuToggle.contains(e.target)
-    ) {
+document.addEventListener("click",function(e){
+    if(menu.classList.contains("active")&&!menu.contains(e.target)&&!menuToggle.contains(e.target)){
         menu.classList.remove("active");
     }
-
-    if (
-        contactWidget.classList.contains("active") &&
-        !contactWidget.contains(e.target)
-    ) {
+    if(contactWidget.classList.contains("active")&&!contactWidget.contains(e.target)){
         contactWidget.classList.remove("active");
     }
 });
 
-window.addEventListener("scroll", () => {
+window.addEventListener("scroll",()=>{
     menu.classList.remove("active");
     contactWidget.classList.remove("active");
-}, { passive: true });
+},{passive:true});
 
-let currentWidth = window.innerWidth;
+// ALTURA FIXA DO HERO NO MOBILE
+let currentWidth=window.innerWidth;
 
-function setHeroHeight() {
-    document.documentElement.style.setProperty(
-        '--hero-height',
-        `${window.innerHeight}px`
-    );
+function setHeroHeight(){
+    document.documentElement.style.setProperty("--hero-height",`${window.innerHeight}px`);
 }
 
 setHeroHeight();
 
-window.addEventListener('resize', () => {
-    if (window.innerWidth !== currentWidth) {
-        currentWidth = window.innerWidth;
+window.addEventListener("resize",()=>{
+    if(window.innerWidth!==currentWidth){
+        currentWidth=window.innerWidth;
         setHeroHeight();
     }
 });
-
 </script>
+
 </body>
 </html>
