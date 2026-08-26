@@ -1199,30 +1199,3 @@ footer p{
         display:none !important;
     }
 }
-
-/* ================================
-   iPHONE — LANDSCAPE
-   AJUSTE DOS CONTROLOS
-================================ */
-
-@supports (-webkit-touch-callout:none){
-    @media (max-width:767px) and (orientation:landscape){
-
-        .close{
-            right:-18px !important;
-        }
-
-        .fullscreen-btn{
-            right:20px !important;
-        }
-
-        .zoom-btn{
-            right:58px !important;
-        }
-
-        /* Sem fullscreen → zoom ocupa a posição do fullscreen */
-        .fullscreen-btn:not(.show) + .zoom-btn{
-            right:20px !important;
-        }
-    }
-}
