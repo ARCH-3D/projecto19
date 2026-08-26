@@ -161,10 +161,12 @@ contactWidget.addEventListener("click", function(e) {
     e.stopPropagation();
 });
 
+document.addEventListener("click", function() {
+    contactWidget.classList.remove("active");
+});
 
 // MENU MOBILE
 const menu = document.getElementById("menu");
-const menuButton = document.querySelector(".menu-toggle");
 
 function toggleMenu() {
     menu.classList.toggle("active");
@@ -176,32 +178,12 @@ document.querySelectorAll("#menu a").forEach(link => {
     });
 });
 
-
 // ======================================
-// FECHAR MENU / CONTACTOS AO TOCAR FORA
-// INCLUINDO AO INICIAR UM SWIPE
+// FECHAR MENU E CONTACTOS AO FAZER SCROLL
 // ======================================
-document.addEventListener("touchstart", function(e) {
-
-    const elemento = e.target;
-
-    // Fechar MENU
-    if (
-        menu.classList.contains("active") &&
-        !menu.contains(elemento) &&
-        !menuButton.contains(elemento)
-    ) {
-        menu.classList.remove("active");
-    }
-
-    // Fechar FALE CONNOSCO
-    if (
-        contactWidget.classList.contains("active") &&
-        !contactWidget.contains(elemento)
-    ) {
-        contactWidget.classList.remove("active");
-    }
-
+window.addEventListener("scroll", () => {
+    menu.classList.remove("active");
+    contactWidget.classList.remove("active");
 }, { passive: true });
 
 </script>

@@ -197,8 +197,10 @@ contactWidget.addEventListener("click", function(e){
     e.stopPropagation();
 });
 
+const menu = document.getElementById("menu");
+
 function toggleMenu() {
-    document.getElementById("menu").classList.toggle("active");
+    menu.classList.toggle("active");
 }
 
 const backToTop = document.getElementById("back-to-top");

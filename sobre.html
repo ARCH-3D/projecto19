@@ -129,6 +129,10 @@ contactWidget.addEventListener("click", function(e){
     e.stopPropagation();
 });
 
+document.addEventListener("click", function(){
+    contactWidget.classList.remove("active");
+});
+
 
 // MENU MOBILE
 const menu = document.getElementById("menu");
