@@ -15,6 +15,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.18); /* Aplica globalmente a todos os elementos */
 }
 
 /* ================== HTML ================== */
