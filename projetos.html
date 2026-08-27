@@ -34,6 +34,7 @@ gtag('config','G-JXJP0D464R');
 <a href="contactos.html">Contactos</a>
 </nav>
 </header>
+
 <div class="contact-widget">
 <div class="contact-links">
 <a href="mailto:info.projecto19@gmail.com">
@@ -50,23 +51,15 @@ gtag('config','G-JXJP0D464R');
 <span>Fale Connosco</span>
 </button>
 </div>
+
 <button id="back-to-top" aria-label="Voltar ao topo">
 <svg viewBox="0 0 24 24" fill="none">
 <path d="M6 15L12 9L18 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 </button>
+
 <section class="projects-section">
 <div class="grid">
-<!-- Projeto 0 -->
-<!--
-<div class="project" onclick="abrirProjeto('projeto0')">
-<img src="img/projetos/0_Renovação Interior_Maina_Guimarães/0_1.webp" alt="Renovação Interior - Maina Guimarães" loading="lazy" decoding="async">
-<div class="project-title">
-<div class="project-name">Renovação Interior</div>
-<div class="project-location">Maina, Guimarães</div>
-</div>
-</div>
--->
 <!-- Projeto 181 -->
 <div class="project" onclick="abrirProjeto('projeto181')">
 <img src="img/projetos/181_Moradia_Campo_Barcelos/181_1.webp" alt="Moradia em Campo - Barcelos" fetchpriority="high" decoding="async">
@@ -83,16 +76,6 @@ gtag('config','G-JXJP0D464R');
 <div class="project-location">Real, Braga</div>
 </div>
 </div>
-<!-- Projeto 171 -->
-<!--
-<div class="project" onclick="abrirProjeto('projeto171')">
-<img src="img/projetos/171_Moradia_Lijo_Barcelos/171_1.webp" alt="Moradia em Lijó - Barcelos" loading="lazy" decoding="async">
-<div class="project-title">
-<div class="project-name">Moradia em Lijó</div>
-<div class="project-location">Lijó, Barcelos</div>
-</div>
-</div>
--->
 <!-- Projeto 168 -->
 <div class="project" onclick="abrirProjeto('projeto168')">
 <img src="img/projetos/168_Moradia_Mogege_Famalicao/Ext_5.webp" alt="Moradia em Mogege - Famalicão" loading="lazy" decoding="async">
@@ -141,16 +124,6 @@ gtag('config','G-JXJP0D464R');
 <div class="project-location">Estela, Póvoa de Varzim</div>
 </div>
 </div>
-<!-- Projeto 184 -->
-<!--
-<div class="project" onclick="abrirProjeto('projeto184')">
-<img src="img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_1.webp" alt="Escritórios Fradelos - Braga" loading="lazy" decoding="async">
-<div class="project-title">
-<div class="project-name">Renovação Interior de Escritórios</div>
-<div class="project-location">Fradelos, Braga</div>
-</div>
-</div>
--->
 <!-- Projeto 98 -->
 <div class="project" onclick="abrirProjeto('projeto98')">
 <img src="img/projetos/98_Moradia_VilarParaiso_VNGaia/98_1.webp" alt="Moradia em Vilar do Paraíso - Vila Nova de Gaia" loading="lazy" decoding="async">
@@ -191,16 +164,6 @@ gtag('config','G-JXJP0D464R');
 <div class="project-location">Frossos, Braga</div>
 </div>
 </div>
-<!-- Projeto 29 -->
-<!--
-<div class="project" onclick="abrirProjeto('projeto29')">
-<img src="img/projetos/29_Moradia_Marinhas_Esposende/29_1.webp" alt="Moradia nas Marinhas - Esposende" loading="lazy" decoding="async">
-<div class="project-title">
-<div class="project-name">Moradia nas Marinhas</div>
-<div class="project-location">Marinhas, Esposende</div>
-</div>
-</div>
--->
 <!-- Projeto 19 -->
 <div class="project" onclick="abrirProjeto('projeto19')">
 <img src="img/projetos/19_Apartamentos Vila Verde/19_1.webp" alt="Apartamentos em Vila Verde" loading="lazy" decoding="async">
@@ -235,6 +198,7 @@ gtag('config','G-JXJP0D464R');
 </div>
 </div>
 </section>
+
 <!-- Modal -->
 <div id="modal-projeto" class="modal" role="dialog" aria-modal="true">
 <button class="close" onclick="fecharModal()" aria-label="Fechar">&times;</button>
@@ -266,9 +230,10 @@ gtag('config','G-JXJP0D464R');
 </div>
 </div>
 </div>
-<span class="prev" onclick="mudarMidia(-1)" aria-label="Projeto anterior">‹</span>
-<span class="next" onclick="mudarMidia(1)" aria-label="Projeto seguinte">›</span>
+<span class="prev" onclick="mudarMidia(-1)" aria-label="Imagem anterior">‹</span>
+<span class="next" onclick="mudarMidia(1)" aria-label="Imagem seguinte">›</span>
 </div>
+
 <footer>
 <div class="social-links">
 <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
@@ -282,6 +247,7 @@ gtag('config','G-JXJP0D464R');
 </div>
 <p>© PROJETO 19</p>
 </footer>
+
 <script>
 const projetos = {
 projeto187: {
@@ -295,9 +261,7 @@ media: [
 { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_6.webp" },
 { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_7.webp" },
 { type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_8.webp" },
-{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_9.webp" }/*,
-{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_10.webp" },
-{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_11.webp" }*/
+{ type: 'image', src: "img/projetos/187_Moradia_SantoEstevao_Benavente/187_9.webp" }
 ]
 },
 projeto184: {
@@ -336,10 +300,7 @@ media: [
 { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_7.webp" },
 { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_8.webp" },
 { type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_9.webp" },
-{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_10.webp" }/*,
-{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_11.webp" },
-{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_12.webp" },
-{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_13.webp" }*/
+{ type: 'image', src: "img/projetos/181_Moradia_Campo_Barcelos/181_10.webp" }
 ]
 },
 projeto176: {
@@ -350,8 +311,7 @@ media: [
 { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_3.webp" },
 { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_4.webp" },
 { type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_5.webp" },
-{ type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_6.webp" },/*
-{ type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_7.webp" }*/
+{ type: 'image', src: "img/projetos/176_Renovacao_Real_Braga/176_6.webp" }
 ]
 },
 projeto171: {
@@ -377,11 +337,7 @@ media: [
 { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_9.webp" },
 { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_10.webp" },
 { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_11.webp" },
-{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_12.webp" }/*,
-{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_13.webp" },
-{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_14.webp" },
-{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_15.webp" },
-{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_16.webp" }*/
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_12.webp" }
 ]
 },
 projeto158: {
@@ -391,11 +347,7 @@ media: [
 { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_2.webp" },
 { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_3.webp" },
 { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_4.webp" },
-{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_5.webp" }/*,
-{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_6.webp" },
-{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_7.webp" },
-{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_8.webp" },
-{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_9.webp" }*/
+{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_5.webp" }
 ]
 },
 projeto156: {
@@ -406,9 +358,7 @@ media: [
 { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_3.webp" },
 { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_4.webp" },
 { type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_5.webp" },
-{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_6.webp" }/*,
-{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_7.webp" },
-{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_8.webp" }*/
+{ type: 'image', src: "img/projetos/156_Moradia_Carapecos_Barcelos/156_6.webp" }
 ]
 },
 projeto146: {
@@ -426,11 +376,7 @@ media: [
 { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_10.webp" },
 { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_11.webp" },
 { type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_12.webp" },
-{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_13.webp" }/*,
-{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_14.webp" },
-{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_15.webp" },
-{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_16.webp" },
-{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_17.webp" }*/
+{ type: 'image', src: "img/projetos/146_Moradia_MireTibaes_Braga/146_13.webp" }
 ]
 },
 projeto108: {
@@ -445,14 +391,6 @@ media: [
 { type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_7.webp" }
 ]
 },
-/*projeto108: {
-info: { nome: "Moradia na Estela - Póvoa de Varzim", ano: "2022", area: "270 m²", local: "Estela, Póvoa de Varzim" },
-media: [
-{ type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_1.webp" },
-{ type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_2.webp" },
-{ type: 'image', src: "img/projetos/108_Moradia_Estela_PVarzim/108_3.webp" }
-]
-},*/
 projeto98: {
 info: { nome: "Moradia em Vilar do Paraíso - Vila Nova de Gaia", ano: "2023", area: "125 m²", local: "Vilar do Paraíso, Vila Nova de Gaia" },
 media: [
@@ -460,12 +398,7 @@ media: [
 { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_2.webp" },
 { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_3.webp" },
 { type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_4.webp" },
-{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_5.webp" }/*,
-{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_6.webp" },
-{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_7.webp" },
-{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_8.webp" },
-{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_9.webp" },
-{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_10.webp" }*/
+{ type: 'image', src: "img/projetos/98_Moradia_VilarParaiso_VNGaia/98_5.webp" }
 ]
 },
 projeto85: {
@@ -484,12 +417,7 @@ media: [
 { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_11.webp" },
 { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_12.webp" },
 { type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_13.webp" },
-{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_14.webp" }/*,
-{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_15.webp" },
-{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_16.webp" },
-{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_17.webp" },
-{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_18.webp" },
-{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_19.webp" }*/
+{ type: 'image', src: "img/projetos/85_Moradia_Gove_Baiao/85_14.webp" }
 ]
 },
 projeto56: {
@@ -520,15 +448,7 @@ media: [
 { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_5.webp" },
 { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_6.webp" },
 { type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_7.webp" },
-{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_8.webp" }/*,
-{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_9.webp" },
-{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_10.webp" },
-{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_11.webp" },
-{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_12.webp" },
-{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_13.webp" },
-{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_14.webp" },
-{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_15.webp" },
-{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_16.webp" }*/
+{ type: 'image', src: "img/projetos/45_Moradias_Frossos_Braga/45_8.webp" }
 ]
 },
 projeto29: {
@@ -553,10 +473,7 @@ media: [
 { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_6.webp" },
 { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_7.webp" },
 { type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_8.webp" },
-{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_9.webp" }/*,
-{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_10.webp" },
-{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_11.webp" },
-{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_12.webp" }*/
+{ type: 'image', src: "img/projetos/19_Apartamentos Vila Verde/19_9.webp" }
 ]
 },
 projeto18: {
@@ -577,11 +494,7 @@ media: [
 { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_13.webp" },
 { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_14.webp" },
 { type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_15.webp" },
-{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_16.webp" }/*,
-{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_17.webp" },
-{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_18.webp" },
-{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_19.webp" },
-{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_20.webp" }*/
+{ type: 'image', src: "img/projetos/18_Moradias_Real_Braga/18_16.webp" }
 ]
 },
 projeto7: {
@@ -595,12 +508,7 @@ media: [
 { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_6.webp" },
 { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_7.webp" },
 { type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_8.webp" },
-{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_14.webp" }/*,
-{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_9.webp" },
-{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_10.webp" },
-{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_11.webp" },
-{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_12.webp" },
-{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_13.webp" }*/
+{ type: 'image', src: "img/projetos/07_Moradia_Besteiros_Amares/07_14.webp" }
 ]
 },
 projeto5: {
@@ -614,6 +522,7 @@ media: [
 ]
 }
 };
+
 const FULLSCREEN_TELEMOVEL = false;
 let projetoAtual = null, midiasAtuais = [], indiceAtual = 0, direcaoSlide = 1;
 let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0, ultimoToque = 0;
@@ -627,6 +536,7 @@ let rafZoom = null, zoomTargetX = 0, zoomTargetY = 0, limiteZoomX = 0, limiteZoo
 let distanciaInicialPinch = 0, escalaInicialPinch = 1;
 let pinchCentroX = 0, pinchCentroY = 0, pinchImagemX = 0, pinchImagemY = 0;
 let isPinching = false, ultimoPinch = 0;
+
 const ZOOM_MIN = 1, ZOOM_MAX = 4, DEFAULT_ZOOM = 2;
 const MODAL_FADE_DISTANCE = 400, DRAG_START_THRESHOLD = 10, MEDIA_ENTRY_OFFSET = 50;
 const TRANSITION_FAST = "transform .25s ease";
@@ -635,6 +545,7 @@ const TRANSITION_SLIDE = "transform .25s ease-out";
 const SWIPE_THRESHOLD = 0.15, PREVIEW_THRESHOLD = 40, VERTICAL_CLOSE_THRESHOLD = 0.20;
 const DOUBLE_TAP_DELAY = 300, SLIDE_ANIMATION_TIME = 250, RESET_ANIMATION_TIME = 300;
 const MEDIA_TRANSITION_TIME = 450, FULLSCREEN_BUTTON_TIMEOUT = 1000, MOBILE_BREAKPOINT = 768;
+
 const modal = document.getElementById("modal-projeto");
 const modalContent = document.getElementById("modal-content");
 const modalIndicators = document.getElementById("modal-indicators");
@@ -645,6 +556,7 @@ const contactWidget = document.querySelector(".contact-widget");
 const contactButton = document.querySelector(".contact-trigger");
 const backToTop = document.getElementById("back-to-top");
 const menu = document.getElementById("menu");
+
 function resetZoom(){
     zoomAtivo = false;
     escalaZoom = ZOOM_MIN;
@@ -656,6 +568,7 @@ function resetZoom(){
     if (modalContent) modalContent.style.cursor = "";
     if (zoomBtn) zoomBtn.textContent = "+";
 }
+
 function atualizarZoom(){
     rafZoom = null;
     if (!elementoAtual) return;
@@ -664,6 +577,7 @@ function atualizarZoom(){
     zoomTargetY = Math.max(-limiteZoomY, Math.min(limiteZoomY, zoomTargetY));
     elementoAtual.style.transform = `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
 }
+
 function atualizarLimitesZoom(){
     if (!elementoAtual) return;
     const larguraImagem = elementoAtual.clientWidth * escalaZoom;
@@ -671,18 +585,22 @@ function atualizarLimitesZoom(){
     limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
     limiteZoomY = Math.max(0, (alturaImagem - window.innerHeight) / 2);
 }
+
 function distanciaToques(t1, t2){
     const dx = t1.clientX - t2.clientX;
     const dy = t1.clientY - t2.clientY;
     return Math.hypot(dx, dy);
 }
+
 function abrirProjeto(nomeProjeto){
     if (!projetos[nomeProjeto]) return;
-    gtag("event", "projeto_aberto", {
-        projeto: nomeProjeto,
-        nome_projeto: projetos[nomeProjeto].info.nome,
-        local: projetos[nomeProjeto].info.local
-    });
+    if (typeof gtag === "function") {
+        gtag("event", "projeto_aberto", {
+            projeto: nomeProjeto,
+            nome_projeto: projetos[nomeProjeto].info.nome,
+            local: projetos[nomeProjeto].info.local
+        });
+    }
     projetoAtual = projetos[nomeProjeto];
     midiasAtuais = projetoAtual.media;
     indiceAtual = 0;
@@ -706,11 +624,10 @@ function abrirProjeto(nomeProjeto){
     }
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
-    const widget = document.querySelector(".contact-widget");
-    if (widget) widget.style.display = "none";
-    const backToTop = document.getElementById("back-to-top");
+    if (contactWidget) contactWidget.style.display = "none";
     if (backToTop) backToTop.classList.remove("show");
 }
+
 function fecharModal(){
     resetZoom();
     document.getElementById("modal-projeto").style.display = "none";
@@ -723,9 +640,7 @@ function fecharModal(){
     currentTranslate = 0;
     currentY = 0;
     document.body.classList.remove("modal-open");
-    const widget = document.querySelector(".contact-widget");
-    if (widget) widget.style.display = "";
-    const backToTop = document.getElementById("back-to-top");
+    if (contactWidget) contactWidget.style.display = "";
     if (backToTop) {
         if (window.scrollY > 400) {
             backToTop.classList.add("show");
@@ -742,9 +657,11 @@ function fecharModal(){
     }
     document.getElementById("modal-projeto").style.background = "";
 }
+
 function isAppleMobile(){
     return /iPhone|iPod/i.test(navigator.userAgent);
 }
+
 function isIPhoneSafariOrEdge(){
     const ua = navigator.userAgent;
     const isIPhone = /iPhone/i.test(ua);
@@ -752,6 +669,7 @@ function isIPhoneSafariOrEdge(){
     const isSafari = /Safari/i.test(ua) && !/CriOS/i.test(ua) && !/FxiOS/i.test(ua) && !/EdgiOS/i.test(ua);
     return isIPhone && (isSafari || isEdge);
 }
+
 function ajustarFullscreenAndroid(){
     const emAndroid = /Android/i.test(navigator.userAgent);
     const landscape = window.matchMedia("(orientation: landscape)").matches;
@@ -787,6 +705,7 @@ function ajustarFullscreenAndroid(){
         setTimeout(aplicar, 600);
     });
 }
+
 function ajustarBolinhasIPhone(){
     const indicadores = document.querySelector(".media-indicators");
     const landscape = window.matchMedia("(orientation: landscape)").matches;
@@ -795,7 +714,6 @@ function ajustarBolinhasIPhone(){
         if (safariEdgeLandscape) indicadores.style.bottom = "60px";
         else indicadores.style.bottom = "";
     }
-    const modalContent = document.getElementById("modal-content");
     if (modalContent) {
         if (safariEdgeLandscape) modalContent.classList.add("iphone-safari-edge-landscape");
         else modalContent.classList.remove("iphone-safari-edge-landscape");
@@ -813,6 +731,7 @@ function ajustarBolinhasIPhone(){
         aplicarTamanho(elementoSeguinte);
     }
 }
+
 function mostrarBotaoFullscreen(){
     const btn = fullscreenBtn, close = closeBtn, zoom = zoomBtn;
     if (!btn) return;
@@ -850,6 +769,7 @@ function mostrarBotaoFullscreen(){
         if (zoom) zoom.classList.remove("show");
     }, FULLSCREEN_BUTTON_TIMEOUT);
 }
+
 [fullscreenBtn, zoomBtn, closeBtn].forEach(controle => {
     if (!controle) return;
     controle.addEventListener("mouseenter", () => {
@@ -868,6 +788,7 @@ function mostrarBotaoFullscreen(){
         }, FULLSCREEN_BUTTON_TIMEOUT);
     });
 });
+
 function toggleFullscreen(){
     if (!document.fullscreenElement) {
         if (modal.requestFullscreen) modal.requestFullscreen();
@@ -877,6 +798,7 @@ function toggleFullscreen(){
         else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
     }
 }
+
 function atualizarIndicadores(criar = false){
     const container = modalIndicators;
     if (criar) {
@@ -890,14 +812,17 @@ function atualizarIndicadores(criar = false){
     barras.forEach(barra => barra.classList.remove("active"));
     if (barras[indiceAtual]) barras[indiceAtual].classList.add("active");
 }
+
 function atualizarPreview(){
     previewIndice = indiceAtual;
     atualizarIndicadores();
 }
+
 function atualizarLaterais(){
     prepararImagemAnterior();
     prepararProximaImagem();
 }
+
 function mudarMidia(direcao){
     if (!elementoAtual) return;
     const largura = window.innerWidth;
@@ -940,6 +865,7 @@ function mudarMidia(direcao){
         }, 350);
     }
 }
+
 function handleSwipe(){
     const distancia = touchEndX - touchStartX;
     const limite = window.innerWidth * SWIPE_THRESHOLD;
@@ -1004,11 +930,13 @@ function handleSwipe(){
         atualizarPreview();
     }, RESET_ANIMATION_TIME);
 }
+
 function configurarElementoMidia(elemento){
     elemento.style.position = "absolute";
     elemento.style.left = "50%";
     elemento.style.top = "50%";
 }
+
 function criarElementoMidia(midia){
     let elemento;
     if (midia.type === "image") {
@@ -1035,11 +963,13 @@ function criarElementoMidia(midia){
     elemento.style.zIndex = "2";
     return elemento;
 }
+
 function centrarElemento(elemento){
     if (!elemento) return;
     elemento.style.transition = TRANSITION_FAST;
     elemento.style.transform = "translate(-50%, -50%)";
 }
+
 function preloadImagens(){
     const proximas = [
         (indiceAtual + 1) % midiasAtuais.length,
@@ -1053,6 +983,7 @@ function preloadImagens(){
         }
     });
 }
+
 function prepararImagemAnterior(){
     const conteudo = document.getElementById("modal-content");
     if (elementoAnterior && elementoAnterior.parentNode) elementoAnterior.remove();
@@ -1069,6 +1000,7 @@ function prepararImagemAnterior(){
     elementoAnterior.style.opacity = "1";
     conteudo.appendChild(elementoAnterior);
 }
+
 function prepararProximaImagem(){
     const conteudo = document.getElementById("modal-content");
     if (elementoSeguinte && elementoSeguinte.parentNode) elementoSeguinte.remove();
@@ -1085,6 +1017,7 @@ function prepararProximaImagem(){
     elementoSeguinte.style.opacity = "1";
     conteudo.appendChild(elementoSeguinte);
 }
+
 function mostrarMidia(){
     resetZoom();
     const conteudo = document.getElementById("modal-content");
@@ -1146,18 +1079,21 @@ function mostrarMidia(){
     if (midia.grayscale) novo.classList.add("grayscale");
     else novo.classList.remove("grayscale");
 }
+
 function toggleMenu(){
     menu.classList.toggle("active");
 }
-document.addEventListener("keydown",function(e){
+
+document.addEventListener("keydown", function(e){
     if(modal.style.display==="flex"){
         if(e.key==="ArrowLeft"||e.key==="ArrowRight"){
             if(document.activeElement instanceof HTMLElement) document.activeElement.blur();
             if(e.key==="ArrowLeft") mudarMidia(-1);
             else mudarMidia(1);
-        }else if(e.key==="Escape") fecharModal();
+        } else if(e.key==="Escape") fecharModal();
     }
 });
+
 modal.addEventListener("touchstart", function(e){
     if (e.touches.length === 2) {
         isPinching = true;
@@ -1177,7 +1113,7 @@ modal.addEventListener("touchstart", function(e){
         moverImagem = true;
         zoomStartX = e.touches[0].clientX - zoomX;
         zoomStartY = e.touches[0].clientY - zoomY;
-        elementoAtual.style.transition = "none";
+        if (elementoAtual) elementoAtual.style.transition = "none";
         return;
     }
     isVerticalDrag = false;
@@ -1190,6 +1126,7 @@ modal.addEventListener("touchstart", function(e){
     if (elementoSeguinte) elementoSeguinte.style.transition = "none";
     if (elementoAnterior) elementoAnterior.style.transition = "none";
 });
+
 modal.addEventListener("touchmove", function(e){
     if (e.touches.length === 2 && elementoAtual) {
         isPinching = true;
@@ -1255,6 +1192,7 @@ modal.addEventListener("touchmove", function(e){
         elementoAnterior.style.transform = `translate(calc(-50% + ${entrada}px), -50%)`;
     }
 });
+
 modal.addEventListener("touchend", function(e){
     if (isPinching) {
         if (e.touches.length < 2) {
@@ -1291,6 +1229,7 @@ modal.addEventListener("touchend", function(e){
     }
     handleSwipe();
 });
+
 modalContent.addEventListener("mousedown", function(e){
     if (e.button !== 0 || !zoomAtivo || !elementoAtual) return;
     e.preventDefault();
@@ -1302,6 +1241,7 @@ modalContent.addEventListener("mousedown", function(e){
     elementoAtual.style.transition = "none";
     modalContent.style.cursor = "grabbing";
 });
+
 document.addEventListener("mousemove", function(e){
     if (!mouseZoomAtivo || !elementoAtual) return;
     e.preventDefault();
@@ -1309,17 +1249,21 @@ document.addEventListener("mousemove", function(e){
     zoomTargetY = mouseZoomInicioY + (e.clientY - mouseZoomStartY);
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
 });
+
 document.addEventListener("mouseup", function(){
     if (!mouseZoomAtivo) return;
     mouseZoomAtivo = false;
     modalContent.style.cursor = "";
 });
+
 document.getElementById("modal-projeto").addEventListener("click", function(e){
     if (e.target === this) fecharModal();
 });
+
 document.getElementById("modal-content").addEventListener("click", function(e){
     e.stopPropagation();
 });
+
 modalContent.addEventListener("dblclick", function(e){
     e.stopPropagation();
     if (!elementoAtual) return;
@@ -1336,6 +1280,7 @@ modalContent.addEventListener("dblclick", function(e){
     elementoAtual.style.transition = TRANSITION_FAST;
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
 });
+
 modalContent.addEventListener("touchend", function(e){
     if (isVerticalDrag) return;
     const touch = e.changedTouches[0];
@@ -1365,18 +1310,22 @@ modalContent.addEventListener("touchend", function(e){
         ultimoToque = agora;
     }
 });
+
 modalContent.addEventListener("mousemove", mostrarBotaoFullscreen);
 modalContent.addEventListener("touchstart", mostrarBotaoFullscreen);
+
 document.addEventListener("fullscreenchange", () => {
     modal.style.background = "";
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
 });
+
 fullscreenBtn.addEventListener("click", function(e){
     e.stopPropagation();
     if (isAppleMobile()) return;
     toggleFullscreen();
 });
+
 zoomBtn.addEventListener("click", function(e){
     e.stopPropagation();
     if (!elementoAtual) return;
@@ -1391,23 +1340,28 @@ zoomBtn.addEventListener("click", function(e){
     }
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
 });
+
 document.querySelectorAll(".project").forEach(projeto => {
     projeto.addEventListener("touchstart", function(){
         document.querySelectorAll(".project").forEach(p => p.classList.remove("touched"));
         this.classList.add("touched");
     });
 });
+
 contactButton.addEventListener("click", function(e){
     e.stopPropagation();
     contactWidget.classList.toggle("active");
 });
+
 contactWidget.addEventListener("click", function(e){
     e.stopPropagation();
 });
+
 const menuToggle = document.querySelector(".menu-toggle");
 document.addEventListener("touchstart", function(e){
     const toque = e.touches[0];
     if (
+        menu &&
         menu.classList.contains("active") &&
         !menu.contains(toque.target) &&
         !menuToggle.contains(toque.target)
@@ -1415,12 +1369,14 @@ document.addEventListener("touchstart", function(e){
         menu.classList.remove("active");
     }
     if (
+        contactWidget &&
         contactWidget.classList.contains("active") &&
         !contactWidget.contains(toque.target)
     ) {
         contactWidget.classList.remove("active");
     }
 }, { passive: true });
+
 document.addEventListener("click", function(e){
     if (
         contactWidget &&
@@ -1430,27 +1386,39 @@ document.addEventListener("click", function(e){
         contactWidget.classList.remove("active");
     }
 });
+
 window.addEventListener("scroll", () => {
     if (contactWidget && contactWidget.classList.contains("active")) {
         contactWidget.classList.remove("active");
     }
     if (document.body.classList.contains("modal-open")) {
-        backToTop.classList.remove("show");
+        if (backToTop) backToTop.classList.remove("show");
         return;
     }
-    if (window.scrollY > 400) {
-        backToTop.classList.add("show");
-    } else {
-        backToTop.classList.remove("show");
+    if (backToTop) {
+        if (window.scrollY > 400) {
+            backToTop.classList.add("show");
+        } else {
+            backToTop.classList.remove("show");
+        }
     }
 });
-window.addEventListener("orientationchange", ajustarBolinhasIPhone);
-window.addEventListener("orientationchange", ajustarFullscreenAndroid);
-window.addEventListener("resize", ajustarFullscreenAndroid);
-window.addEventListener("resize", ajustarBolinhasIPhone);
-backToTop.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+window.addEventListener("orientationchange", () => {
+    ajustarBolinhasIPhone();
+    ajustarFullscreenAndroid();
 });
+
+window.addEventListener("resize", () => {
+    ajustarFullscreenAndroid();
+    ajustarBolinhasIPhone();
+});
+
+if (backToTop) {
+    backToTop.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+}
 </script>
 </body>
 </html>
