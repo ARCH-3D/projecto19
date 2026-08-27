@@ -1005,10 +1005,7 @@ footer p{
 }
 
 /* ================== AJUSTE UNIVERSAL MÓVEL LANDSCAPE ================== */
-@media screen and (max-height: 500px) and (orientation: landscape),
-       screen and (max-width: 950px) and (orientation: landscape) and (hover: none) {
-    
-    /* Ajuste da imagem ao ecrã */
+@media screen and (orientation: landscape) and (hover: none) and (pointer: coarse) {
     #modal-content img,
     #modal-content video {
         max-width: none !important;
@@ -1016,14 +1013,7 @@ footer p{
         width: auto !important;
         height: calc(100dvh - 20px) !important;
     }
-
-    /* Ajuste da posição das bolinhas identificadoras */
     .media-indicators {
         bottom: 60px !important;
-    }
-
-    /* Ocultar a informação do projeto para maximizar o espaço visual */
-    #modal-projeto .modal-info {
-        display: none !important;
     }
 }
