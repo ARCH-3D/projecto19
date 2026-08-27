@@ -13,7 +13,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent; /* Remove o destaque tátil nativo em mobile */
+    -webkit-tap-highlight-color:transparent;
 }
 /* ================== HTML ================== */
 html{
@@ -38,7 +38,6 @@ body.modal-open{
 }
 
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
-/* Aplica um efeito de clique/toque universal e instantâneo a todos os botões e links */
 button:active,
 a:active {
     transform: scale(0.95) !important;
@@ -700,24 +699,23 @@ footer p{
         top:80px;
         right:20px;
         background:var(--c-bg);
-        padding:20px; /* Voltou ao espaçamento original */
+        padding:16px; /* Reduzido de 20px para um balão menor */
         border-radius:12px;
         box-shadow:0 10px 30px rgba(0,0,0,.15);
         flex-direction:column;
-        gap:8px; 
+        gap:6px; /* Menos espaço entre os links */
         z-index:5000;
-        /* Removido o min-width para a caixa se ajustar ao texto */
     }
     nav.active{
         display:flex;
     }
     
-    /* Novos estilos para links mobile (maior área de clique, mas alinhado à esquerda) */
+    /* Área de clique e texto ligeiramente reduzidos */
     nav a {
-        font-size: 14px; /* Letra ligeiramente maior */
-        padding: 12px 10px; /* Bom espaçamento para cima/baixo para facilitar o clique */
+        font-size: 13px; /* Reduzido de 14px */
+        padding: 10px 10px; /* Reduzido de 12px para menos altura */
         width: 100%;
-        text-align: left; /* Voltou ao alinhamento original à esquerda */
+        text-align: left;
     }
     
     .service-icon{
