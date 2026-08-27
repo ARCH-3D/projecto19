@@ -38,8 +38,14 @@ body.modal-open{
 }
 
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
 button:active,
-a:active {
+a:active,
+.project:active {
     transform: scale(0.92) !important;
     opacity: 0.5 !important;
     transition: transform 0.08s ease, opacity 0.08s ease !important;

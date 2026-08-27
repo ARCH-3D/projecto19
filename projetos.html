@@ -1389,6 +1389,8 @@ document.addEventListener("click", function(e){
     }
 });
 
+document.addEventListener("touchstart", function(){}, {passive: true});
+
 window.addEventListener("scroll", () => {
     if (contactWidget && contactWidget.classList.contains("active")) {
         contactWidget.classList.remove("active");
