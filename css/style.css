@@ -13,6 +13,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent; /* Remove o destaque tátil nativo em mobile */
 }
 /* ================== HTML ================== */
 html{
@@ -35,6 +36,16 @@ body{
 body.modal-open{
     overflow:hidden;
 }
+
+/* ================== EFEITO GLOBAL DE PRESSÃO ================== */
+/* Aplica um efeito de clique/toque universal e instantâneo a todos os botões e links */
+button:active,
+a:active {
+    transform: scale(0.95) !important;
+    opacity: 0.7 !important;
+    transition: transform 0.1s ease, opacity 0.1s ease !important;
+}
+
 /* ================== HEADER ================== */
 header{
     position:relative;
@@ -168,7 +179,6 @@ section p{
     gap:16px;
     margin-bottom:28px;
 }
-/* Espaçamento do primeiro serviço relativamente ao texto introdutório da secção */
 .service:first-of-type{
     margin-top:45px;
 }
@@ -222,8 +232,7 @@ section p{
     }
 }
 .contact-page .service:link,
-.contact-page .service:visited,
-.contact-page .service:active{
+.contact-page .service:visited{
     color:var(--c-text);
     text-decoration:none;
 }
@@ -480,7 +489,6 @@ footer p{
     pointer-events:none;
     transition:opacity .5s ease;
     outline:none;
-    -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
 .close.show-controls{
     opacity:1;
@@ -576,7 +584,6 @@ footer p{
     cursor:pointer;
     overflow:hidden;
     transition:var(--trans-main);
-    -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
 @media (hover:hover){
     .contact-trigger:hover{
@@ -853,7 +860,6 @@ footer p{
     opacity:0;
     pointer-events:none;
     transition:opacity .5s ease;
-    -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
 .fullscreen-btn.show{
     opacity:1;
@@ -919,7 +925,6 @@ footer p{
     pointer-events:none;
     appearance:none;
     -webkit-appearance:none;
-    -webkit-tap-highlight-color:rgba(0,0,0,.2);
     transition:opacity .5s ease;
 }
 .zoom-btn.show{
