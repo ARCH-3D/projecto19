@@ -8,24 +8,18 @@
     --font-title:'Outfit',sans-serif;
     --trans-main:.3s ease;
 }
-
 /* ================== RESET ================== */
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
-
 /* ================== HTML ================== */
-
 html{
     scrollbar-gutter:stable;
     -webkit-text-size-adjust:100%;
 }
-
 /* ================== BODY ================== */
-
 body{
     min-height:100vh;
     min-height:100dvh;
@@ -38,15 +32,10 @@ body{
     line-height:1.6;
     overflow-x:hidden;
 }
-
-/* Bloquear scroll quando o modal está aberto */
-
 body.modal-open{
     overflow:hidden;
 }
-
 /* ================== HEADER ================== */
-
 header{
     position:relative;
     display:flex;
@@ -57,13 +46,11 @@ header{
     width:100%;
     padding:30px clamp(25px,5vw,80px);
 }
-
 .header-left{
     display:flex;
     align-items:center;
     gap:12px;
 }
-
 .logo-link{
     display:flex;
     align-items:center;
@@ -71,28 +58,23 @@ header{
     text-decoration:none;
     color:inherit;
 }
-
 .logo{
     width:42px;
     height:auto;
 }
-
 header h1{
     font-size:13px;
     font-weight:300;
     letter-spacing:1.5px;
     text-transform:uppercase;
 }
-
 /* ================== NAV ================== */
-
 nav{
     display:flex;
     flex-wrap:wrap;
     justify-content:center;
     gap:18px;
 }
-
 nav a{
     color:var(--c-text);
     text-decoration:none;
@@ -102,13 +84,11 @@ nav a{
     text-transform:uppercase;
     transition:var(--trans-main);
 }
-
 @media (hover:hover){
     nav a:hover{
         opacity:.6;
     }
 }
-
 .menu-toggle{
     display:none;
     background:none;
@@ -117,21 +97,17 @@ nav a{
     font-size:32px;
     cursor:pointer;
 }
-
 nav a:focus-visible{
     outline:2px solid var(--c-text);
     outline-offset:4px;
 }
-
 /* ================== HERO ================== */
-
 .hero{
     position:relative;
     width:100%;
     height:var(--hero-height, 100vh);
     overflow:hidden;
 }
-
 .hero-image{
     position:absolute;
     inset:0;
@@ -141,9 +117,7 @@ nav a:focus-visible{
     opacity:1;
     transition:opacity .8s ease;
 }
-
 /* ================== HERO TEXT ================== */
-
 .hero-text{
     position:absolute;
     top:5%;
@@ -154,7 +128,6 @@ nav a:focus-visible{
     color:var(--c-bg);
     text-align:center;
 }
-
 .hero-text h2{
     font-family:var(--font-title);
     font-size:clamp(2rem,8vw,8rem);
@@ -163,43 +136,38 @@ nav a:focus-visible{
     letter-spacing:-0.04em;
     margin-bottom:20px;
 }
-
 .hero-text p{
     font-size:clamp(.95rem,2vw,1.3rem);
     line-height:1.5;
     opacity:.9;
 }
-
 /* ================== SECTION ================== */
-
 section{
     padding:60px clamp(25px,5vw,80px);
 }
-
 section h3{
     font-size:15px;
     font-weight:500;
     letter-spacing:1.2px;
     margin-bottom:20px;
 }
-
 .section-title{
     font-weight:500;
 }
-
 section p{
     margin:0;
 }
-
+/* Espaçamento específico para os membros da equipa na página Sobre */
+.team-member-title{
+    margin-top:45px;
+}
 /* ================== SERVICES ================== */
-
 .service{
     display:flex;
     align-items:flex-start;
     gap:16px;
     margin-bottom:28px;
 }
-
 .service-icon{
     width:64px;
     min-width:64px;
@@ -207,17 +175,14 @@ section p{
     justify-content:center;
     align-items:flex-start;
 }
-
 .service-icon img{
     width:48px;
     height:48px;
     object-fit:contain;
 }
-
 .service-content{
     flex:1;
 }
-
 .service h4{
     margin:0 0 10px;
     font-size:15px;
@@ -225,19 +190,15 @@ section p{
     letter-spacing:1px;
     text-transform:uppercase;
 }
-
 .service p{
     margin:0;
 }
-
 /* ================== CONTACT PAGE ================== */
-
 .contact-service-icon{
     width:28px !important;
     height:28px !important;
     object-fit:contain;
 }
-
 .contact-page .service{
     display:flex;
     align-items:flex-start;
@@ -247,40 +208,32 @@ section p{
     text-decoration:none;
     transition:var(--trans-main);
 }
-
 .contact-page .service-icon{
     width:42px;
     min-width:42px;
 }
-
 @media (hover:hover){
     .contact-page .service:hover{
         opacity:.6;
     }
 }
-
 .contact-page .service:link,
 .contact-page .service:visited,
 .contact-page .service:active{
     color:var(--c-text);
     text-decoration:none;
 }
-
 .contact-page .service:focus-visible{
     outline:2px solid var(--c-text);
     outline-offset:4px;
 }
-
 /* ================== PROJECT GRID ================== */
-
 .grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
     gap:30px;
 }
-
 /* ================== PROJECT ================== */
-
 .project{
     position:relative;
     width:100%;
@@ -288,7 +241,6 @@ section p{
     overflow:hidden;
     cursor:pointer;
 }
-
 .project img,
 .project video{
     width:100%;
@@ -296,13 +248,10 @@ section p{
     object-fit:cover;
     display:block;
 }
-
 .grayscale{
     filter:grayscale(100%) brightness(1) contrast(1);
 }
-
 /* ================== OVERLAY ================== */
-
 .project::before{
     content:"";
     position:absolute;
@@ -311,27 +260,21 @@ section p{
     transition:var(--trans-main);
     z-index:1;
 }
-
 @media (hover:hover){
     .project:hover::before{
         background:rgba(0,0,0,.25);
     }
-
     .project:hover .project-title{
         opacity:1;
     }
 }
-
 .project.touched::before{
     background:rgba(0,0,0,.25);
 }
-
 .project.touched .project-title{
     opacity:1;
 }
-
 /* ================== PROJECT TITLE ================== */
-
 .project-title{
     position:absolute;
     left:20px;
@@ -342,7 +285,6 @@ section p{
     opacity:0;
     transition:var(--trans-main);
 }
-
 .project-name{
     display:block;
     font-size:16px;
@@ -351,7 +293,6 @@ section p{
     line-height:1.2;
     text-transform:uppercase;
 }
-
 .project-location{
     display:block;
     margin-top:5px;
@@ -361,21 +302,16 @@ section p{
     text-transform:uppercase;
     opacity:.85;
 }
-
 /* ================= PROJECT SECTION ================= */
-
 .projects-section{
     padding-top:0;
 }
-
 /* ================== FOOTER ================== */
-
 footer{
     margin-top:auto;
     padding:80px 60px;
     text-align:center;
 }
-
 .social-links{
     display:flex;
     justify-content:center;
@@ -383,7 +319,6 @@ footer{
     gap:30px;
     margin-bottom:30px;
 }
-
 .social-links a{
     display:flex;
     align-items:center;
@@ -396,28 +331,23 @@ footer{
     transition:var(--trans-main);
     cursor:pointer;
 }
-
 .social-icon{
     width:22px;
     height:22px;
     object-fit:contain;
     flex-shrink:0;
 }
-
 @media (hover:hover){
     .social-links a:hover{
         opacity:.5;
     }
 }
-
 footer p{
     color:var(--c-muted);
     font-size:11px;
     letter-spacing:1px;
 }
-
 /* ================== MODAL ================== */
-
 .modal{
     display:none;
     position:fixed;
@@ -430,7 +360,6 @@ footer p{
     overflow:hidden;
     touch-action:none;
 }
-
 #modal-content{
     display:flex;
     justify-content:center;
@@ -441,7 +370,6 @@ footer p{
     position:relative;
     contain:layout paint;
 }
-
 #modal-content img,
 #modal-content video{
     position:absolute;
@@ -463,27 +391,21 @@ footer p{
     user-select:none;
     -webkit-user-drag:none;
 }
-
 #modal-content video{
     pointer-events:none;
 }
-
 @media (min-width:1600px){
     #modal-content img,
     #modal-content video{
         max-height:calc(100dvh - 130px);
     }
 }
-
-/* iPad e tablets na horizontal */
-
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
     #modal-content img,
     #modal-content video{
         max-height:calc(100dvh - 170px);
     }
 }
-
 @media (max-width:767px) and (orientation:landscape){
     #modal-content img,
     #modal-content video{
@@ -491,9 +413,7 @@ footer p{
         max-height:98dvh;
     }
 }
-
 /* ================= PROJECT INFO ================= */
-
 .modal-info{
     position:absolute;
     left:50%;
@@ -505,14 +425,12 @@ footer p{
     z-index:10002;
     pointer-events:none;
 }
-
 .modal-info h2{
     font-size:18px;
     font-weight:500;
     margin:0;
     display:none;
 }
-
 .modal-details{
     display:flex;
     justify-content:center;
@@ -520,7 +438,6 @@ footer p{
     gap:60px;
     flex-wrap:nowrap;
 }
-
 .modal-item{
     display:flex;
     align-items:center;
@@ -529,15 +446,12 @@ footer p{
     color:var(--c-sec);
     letter-spacing:.5px;
 }
-
 .modal-item img{
     width:18px;
     height:18px;
     object-fit:contain;
 }
-
 /* ================== FECHAR ================== */
-
 .close{
     position:absolute;
     top:25px;
@@ -564,65 +478,45 @@ footer p{
     outline:none;
     -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
-
-/* Quando os controlos estão visíveis */
-
 .close.show-controls{
     opacity:1;
     pointer-events:auto;
 }
-
-/* Não criar outline ao clicar */
-
 .close:focus,
 .close:active{
     outline:none;
     box-shadow:none;
 }
-
-/* Quadrado de seleção do teclado */
-
 .close:focus-visible{
     outline:2px solid var(--c-text);
     outline-offset:4px;
     opacity:1;
     pointer-events:auto;
 }
-
-/* Hover apenas no computador */
-
 @media (hover:hover){
     .close:hover{
         opacity:.5;
     }
-
     .prev:hover,
     .next:hover{
         opacity:.5;
     }
 }
-
-/* Touch */
-
 @media (pointer:coarse){
     .close{
         opacity:1;
         pointer-events:auto;
     }
-
     .fullscreen-btn{
         opacity:1;
         pointer-events:auto;
     }
-
     .zoom-btn{
         opacity:1;
         pointer-events:auto;
     }
 }
-
 /* ================== SETAS ================== */
-
 .prev,
 .next{
     position:absolute;
@@ -636,17 +530,13 @@ footer p{
     z-index:10000;
     transition:var(--trans-main);
 }
-
 .prev{
     left:25px;
 }
-
 .next{
     right:25px;
 }
-
 /* ================= CONTACT WIDGET ================= */
-
 .contact-widget{
     display:flex;
     align-items:center;
@@ -656,7 +546,6 @@ footer p{
     bottom:max(40px,env(safe-area-inset-bottom));
     z-index:999999;
 }
-
 .contact-trigger{
     -webkit-appearance:none;
     appearance:none;
@@ -685,31 +574,26 @@ footer p{
     transition:var(--trans-main);
     -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
-
 @media (hover:hover){
     .contact-trigger:hover{
         transform:translateY(-2px);
     }
 }
-
 .contact-trigger img{
     display:block;
 }
-
 .contact-trigger span{
     display:block;
     line-height:1;
     margin:0;
     padding:0;
 }
-
 .contact-icon{
     width:26px;
     height:26px;
     flex-shrink:0;
     object-fit:contain;
 }
-
 .contact-links{
     position:absolute;
     right:0;
@@ -722,13 +606,11 @@ footer p{
     transform:translateY(10px);
     transition:var(--trans-main);
 }
-
 .contact-widget.active .contact-links{
     opacity:1;
     visibility:visible;
     transform:translateY(0);
 }
-
 .contact-links a{
     display:flex;
     align-items:center;
@@ -742,20 +624,17 @@ footer p{
     box-shadow:0 10px 30px rgba(0,0,0,.1);
     transition:var(--trans-main);
 }
-
 .contact-link-icon{
     width:20px;
     height:20px;
     flex-shrink:0;
     object-fit:contain;
 }
-
 @media (hover:hover){
     .contact-links a:hover{
         transform:translateY(-2px);
     }
 }
-
 #back-to-top{
     position:fixed;
     left:100px;
@@ -777,26 +656,20 @@ footer p{
     transition:var(--trans-main);
     z-index:999999;
 }
-
 #back-to-top.show{
     opacity:1;
     visibility:visible;
     transform:translateY(0);
 }
-
 @media (hover:hover){
     #back-to-top:hover{
         transform:translateY(-2px);
     }
 }
-
 #back-to-top svg{
     width:20px;
     height:20px;
 }
-
-/* Ajuste exclusivo para iPhone */
-
 @supports (-webkit-touch-callout:none){
     @media (max-width:767px){
         .contact-widget,
@@ -805,15 +678,11 @@ footer p{
         }
     }
 }
-
 /* ================= RESPONSIVE ================= */
-
 @media (max-width:768px){
-
     .menu-toggle{
         display:block;
     }
-
     nav{
         display:none;
         position:absolute;
@@ -827,38 +696,29 @@ footer p{
         gap:18px;
         z-index:5000;
     }
-
     nav.active{
         display:flex;
     }
-
     .service-icon{
         width:56px;
         min-width:56px;
     }
-
     .service-icon img{
         width:56px;
         height:56px;
     }
-
     .service{
         gap:16px;
         margin-bottom:28px;
     }
-
-    /* Apenas para a página de contactos */
-
     .contact-page .service-icon{
         width:40px;
         min-width:40px;
     }
-
     .contact-page .contact-service-icon{
         width:24px !important;
         height:24px !important;
     }
-
     .modal-info{
         left:0;
         transform:none;
@@ -866,100 +726,78 @@ footer p{
         bottom:15px;
         padding:0 16px;
     }
-
     .modal-info h2{
         font-size:17px;
     }
-
     .modal-details{
         width:100%;
         justify-content:center;
         gap:20px;
         flex-wrap:wrap;
     }
-
     .modal-item{
         font-size:11px;
     }
-
     .social-links{
         transform:translateY(-25px);
     }
-
     footer p{
         transform:translateY(-35px);
     }
 }
-
 @media (hover:none),(pointer:coarse){
-
     .prev,
     .next{
         display:none !important;
     }
 }
-
 @media (max-width:480px){
-
     #modal-content img,
     #modal-content video{
         max-width:95vw;
         max-height:calc(100dvh - 120px);
     }
-
     .hero-text{
         top:7%;
         width:92%;
     }
-
     .hero-text h2{
         font-size:clamp(2.8rem,12vw,3.8rem);
     }
-
     .hero-text p{
         font-size:15px;
     }
-
     .contact-widget{
         right:35px;
         bottom:max(15px,env(safe-area-inset-bottom));
     }
-
     #back-to-top{
         left:35px;
         bottom:max(15px,env(safe-area-inset-bottom));
         width:48px;
         height:48px;
     }
-
     .contact-trigger{
         width:155px;
         height:48px;
         font-size:10px;
     }
 }
-
 @media (max-width:390px){
-
     .hero-text{
         top:6%;
     }
-
     .hero-text h2{
         font-size:clamp(2.3rem,12vw,3.2rem);
     }
-
     .hero-text p{
         font-size:13px;
     }
-
     footer{
         padding:40px 20px;
     }
 }
-
 /* ================== MEDIA INDICATORS ================== */
-
 .media-indicators{
     position:absolute;
     left:50%;
@@ -969,13 +807,11 @@ footer p{
     gap:8px;
     z-index:20;
 }
-
 @media (max-width: 768px) {
     .media-indicators {
         bottom: 60px;
     }
 }
-
 .media-indicators span{
     width:8px;
     height:8px;
@@ -987,15 +823,12 @@ footer p{
         border-color .25s ease,
         transform .25s ease;
 }
-
 .media-indicators span.active{
     background:var(--c-bg);
     box-shadow:0 0 0 1px rgba(0,0,0,.10);
     transform:scale(1.4);
 }
-
 /* ================== FULLSCREEN ================== */
-
 .fullscreen-btn{
     position:absolute;
     top:25px;
@@ -1018,14 +851,10 @@ footer p{
     transition:opacity .5s ease;
     -webkit-tap-highlight-color:rgba(0,0,0,.2);
 }
-
 .fullscreen-btn.show{
     opacity:1;
     pointer-events:auto;
 }
-
-/* Ícone */
-
 .fullscreen-btn svg{
     width:24px;
     height:24px;
@@ -1038,39 +867,29 @@ footer p{
     transform:translateY(3px);
     pointer-events:none;
 }
-
-/* Hover apenas no computador */
-
 @media (hover:hover){
     .fullscreen-btn:hover{
         opacity:.5;
     }
 }
-
-/* Não deixar o botão ficar "selecionado" após toque */
-
 .fullscreen-btn:focus,
 .fullscreen-btn:active{
     outline:none;
     box-shadow:none;
 }
-
 @media (pointer:coarse){
     .fullscreen-btn:focus,
     .fullscreen-btn:active{
         opacity:1;
     }
 }
-
 .fullscreen-btn:focus-visible{
     outline:2px solid var(--c-text);
     outline-offset:4px;
     opacity:1;
     pointer-events:auto;
 }
-
 /* ================== ZOOM ================== */
-
 .zoom-btn{
     position:absolute;
     top:25px;
@@ -1099,79 +918,53 @@ footer p{
     -webkit-tap-highlight-color:rgba(0,0,0,.2);
     transition:opacity .5s ease;
 }
-
 .zoom-btn.show{
     opacity:1;
     pointer-events:auto;
 }
-
-/* Hover apenas no computador */
-
 @media (hover:hover){
     .zoom-btn:hover{
         opacity:.5;
     }
 }
-
-/* Não deixar o + ficar "preso" mais claro após toque */
-
 .zoom-btn:focus,
 .zoom-btn:active{
     outline:none;
     box-shadow:none;
 }
-
 @media (pointer:coarse){
     .zoom-btn:focus,
     .zoom-btn:active{
         opacity:1;
     }
 }
-
 .zoom-btn:focus-visible{
     outline:2px solid var(--c-text);
     outline-offset:4px;
     opacity:1;
     pointer-events:auto;
 }
-
-/* Ajuste iPad */
-
 @media (min-width:768px) and (max-width:1366px){
-
     body{
         overscroll-behavior-y:none;
     }
-
     .contact-widget{
         right:60px;
         bottom:40px;
     }
-
     #back-to-top{
         left:60px;
         bottom:40px;
     }
 }
-
-/* ================== IPHONE — POSIÇÃO DO ZOOM ================== */
-
 @supports (-webkit-touch-callout:none){
-
     @media (max-width:767px){
-
         .zoom-btn{
             right:78px;
         }
     }
 }
-
-/* ================================
-   IPHONE SAFARI / EDGE — LANDSCAPE
-================================ */
-
 @media (max-width:767px) and (orientation:landscape){
-
     #modal-content.iphone-safari-edge-landscape img,
     #modal-content.iphone-safari-edge-landscape video{
         max-width:none !important;
@@ -1180,21 +973,12 @@ footer p{
         height:calc(100dvh - 20px) !important;
     }
 }
-
-/* ==========================================
-   iPHONE — LANDSCAPE
-   ESCONDER INFORMAÇÕES DO PROJETO
-========================================== */
-
 @media screen and (max-width:767px) and (orientation:landscape){
-
     #modal-projeto .modal-info{
         display:none !important;
     }
 }
-
 @media screen and (orientation:landscape){
-
     #modal-projeto.iphone-device .modal-info{
         display:none !important;
     }

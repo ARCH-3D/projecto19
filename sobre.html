@@ -41,12 +41,14 @@ gtag('config', 'G-JXJP0D464R');
     <h3><strong>Sobre nós</strong></h3>
     <p>PROJECTO19 nasce em 2019 da crença de que a arquitetura deve ser uma síntese entre lugar, pessoas e tempo. Cada projeto tem origem na leitura atenta do contexto, na compreensão das necessidades e aspirações dos seus utilizadores e na valorização dos pormenores que conferem caráter e significado aos espaços.</p>
     <p>Guiados por uma abordagem que alia criatividade, rigor e sustentabilidade, procuramos desenvolver soluções únicas, onde estética e funcionalidade coexistem de forma natural. O nosso objetivo é criar uma arquitetura intemporal, sensível ao ambiente e capaz de despertar emoções, proporcionando espaços que enriquecem a experiência humana.</p>
-    <h3><strong>Tiago Sousa</strong> <span>- Arquiteto</span></h3>
+    
+    <h3 class="team-member-title"><strong>Tiago Sousa</strong> <span>- Arquiteto</span></h3>
     <p>Nascido em 1987, em Barcelos, é Mestre em Arquitetura pela Escola de Arquitetura, Arte e Design da Universidade do Minho.</p>
     <p>Durante a sua formação realizou um período de intercâmbio na Universidade de São Paulo (USP), experiência que contribuiu para uma visão mais ampla da arquitetura e do território.</p>
     <p>Posteriormente desenvolveu a sua atividade profissional em França, onde participou em projetos de diferentes escalas e programas, desde habitação e comércio até ao design de mobiliário e à reabilitação de interiores.</p>
     <p>Em 2019, cofundou a Projecto19, onde exerce funções de Arquiteto Coordenador. O seu trabalho caracteriza-se por uma abordagem que combina criatividade, rigor e atenção ao detalhe, procurando desenvolver uma arquitetura sensível ao contexto, às necessidades dos clientes e à qualidade dos espaços criados. Procura desenvolver soluções que conciliam funcionalidade e rigor com uma forte valorização do aspeto visual, da harmonia dos espaços e da qualidade sensorial da arquitetura.</p>
-    <h3><strong>Nuno Rodrigues</strong> <span>- Arquiteto</span></h3>
+    
+    <h3 class="team-member-title"><strong>Nuno Rodrigues</strong> <span>- Arquiteto</span></h3>
     <p>Nascido em 1987, em Braga, é Mestre em Arquitetura pela Escola de Arquitetura, Arte e Design da Universidade do Minho.</p>
     <p>Durante a sua formação realizou um período de Erasmus em Barcelona, experiência que lhe proporcionou contacto com novas abordagens arquitetónicas e uma visão mais ampla da cidade contemporânea.</p>
     <p>Iniciou a sua atividade profissional na Suíça, onde integrou equipas multidisciplinares e participou em projetos de diferentes escalas e programas, consolidando uma prática assente no rigor técnico e na atenção ao detalhe.</p>
@@ -78,7 +80,6 @@ gtag('config', 'G-JXJP0D464R');
 <script>
 const contactWidget = document.querySelector(".contact-widget");
 const contactButton = document.querySelector(".contact-trigger");
-
 contactButton.addEventListener("click", function(e){
     e.stopPropagation();
     contactWidget.classList.toggle("active");
@@ -86,15 +87,11 @@ contactButton.addEventListener("click", function(e){
 contactWidget.addEventListener("click", function(e){
     e.stopPropagation();
 });
-
-// MENU MOBILE
 const menu = document.getElementById("menu");
 const menuToggle = document.querySelector(".menu-toggle");
-
 function toggleMenu() {
     menu.classList.toggle("active");
 }
-
 document.addEventListener("click", function(e) {
     if (menu.classList.contains("active") && !menu.contains(e.target) && !menuToggle.contains(e.target)) {
         menu.classList.remove("active");
@@ -103,14 +100,11 @@ document.addEventListener("click", function(e) {
         contactWidget.classList.remove("active");
     }
 });
-
 window.addEventListener("scroll", () => {
     menu.classList.remove("active");
     contactWidget.classList.remove("active");
 }, { passive: true });
-
 const backToTop = document.getElementById("back-to-top");
-
 window.addEventListener("scroll", () => {
     if (window.scrollY > 300) {
         backToTop.classList.add("show");
@@ -118,14 +112,12 @@ window.addEventListener("scroll", () => {
         backToTop.classList.remove("show");
     }
 });
-
 backToTop.addEventListener("click", () => {
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
 });
-
 document.querySelectorAll("#menu a").forEach(link => {
     link.addEventListener("click", () => {
         document.getElementById("menu").classList.remove("active");
