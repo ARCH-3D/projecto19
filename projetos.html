@@ -9,26 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<style>
-/* Ajustes específicos para Telemóveis Dobráveis e Ecrãs Duplos / Spanning */
-@media (horizontal-viewport-segments: 2) {
-    body {
-        display: grid;
-        grid-template-columns: env(viewport-segment-width 0 0) env(viewport-segment-width 1 0);
-    }
-    .projects-section {
-        grid-column: span 2;
-    }
-}
-
-@media (vertical-viewport-segments: 2) {
-    /* Modo Tabletop / Dobradiça na horizontal para dobráveis */
-    .modal.iphone-device, .modal {
-        /* Garante adaptação quando o modal abre com o dispositivo dobrado a meio */
-        box-sizing: border-box;
-    }
-}
-</style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
 <script>
 window.dataLayer=window.dataLayer||[];
