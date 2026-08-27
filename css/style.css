@@ -1035,22 +1035,22 @@ footer p{
         z-index: 10005;
     }
 
-    /* Ordem e espaçamento vertical com o Zoom em cima do Fullscreen */
+    /* Nova ordem vertical: Close em cima, Fullscreen a meio, Zoom em baixo */
     .close {
         top: 15px !important;
     }
     
-    .zoom-btn {
-        top: 60px !important; /* Zoom logo abaixo do fechar */
+    .fullscreen-btn {
+        top: 60px !important;
         right: 15px !important;
     }
     
-    .fullscreen-btn {
-        top: 105px !important; /* Fullscreen logo abaixo do zoom */
+    .zoom-btn {
+        top: 105px !important;
         right: 15px !important;
     }
 
-    /* Tamanho otimizado para o modo paisagem */
+    /* Reduz subtilmente o tamanho dos botões para melhor adaptação ao ecrã */
     .close,
     .fullscreen-btn,
     .zoom-btn {
