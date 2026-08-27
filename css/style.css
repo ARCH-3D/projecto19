@@ -157,7 +157,7 @@ section h3{
 section p{
     margin:0;
 }
-/* Espaçamento específico para os membros da equipa na página Sobre */
+/* Espaçamentos específicos de secção */
 .team-member-title{
     margin-top:45px;
 }
@@ -167,6 +167,10 @@ section p{
     align-items:flex-start;
     gap:16px;
     margin-bottom:28px;
+}
+/* Espaçamento do primeiro serviço relativamente ao texto introdutório da secção */
+.service:first-of-type{
+    margin-top:45px;
 }
 .service-icon{
     width:64px;
