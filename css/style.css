@@ -1023,41 +1023,31 @@ footer p{
 }
 /* ================== AJUSTE DE BOTÕES EM MODO PAISAGEM (TELEMÓVEL) ================== */
 @media (max-width: 950px) and (orientation: landscape) {
-    /* Reposiciona os botões de controlo na vertical ao lado da imagem */
     .close,
     .fullscreen-btn,
     .zoom-btn {
         position: absolute;
-        right: 15px;
+        right: max(15px, env(safe-area-inset-right)); 
         left: auto;
         top: auto;
         transform: none;
         z-index: 10005;
     }
-
-    /* Nova ordem vertical: Close em cima, Fullscreen a meio, Zoom em baixo */
     .close {
         top: 15px !important;
     }
-    
     .fullscreen-btn {
         top: 60px !important;
-        right: 15px !important;
     }
-    
     .zoom-btn {
         top: 105px !important;
-        right: 15px !important;
     }
-
-    /* Reduz subtilmente o tamanho dos botões para melhor adaptação ao ecrã */
     .close,
     .fullscreen-btn,
     .zoom-btn {
         width: 34px;
         height: 34px;
     }
-    
     .fullscreen-btn svg {
         width: 20px;
         height: 20px;
