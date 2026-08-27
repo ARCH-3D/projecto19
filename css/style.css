@@ -1023,34 +1023,40 @@ footer p{
 }
 /* ================== AJUSTE DE BOTÕES EM MODO PAISAGEM (TELEMÓVEL) ================== */
 @media (max-width: 950px) and (orientation: landscape) {
-    /* Regra unificada para TODOS os botões garantirem exatamente o mesmo alinhamento vertical */
+    /* Reposiciona os botões de controlo na vertical com eixo X perfeitamente estático */
     .close,
     .fullscreen-btn,
     .zoom-btn {
         position: absolute;
-        /* Alinhamento perfeito: usa 15px de margem base e soma o safe-area apenas se existir notch do lado respetivo */
-        right: calc(15px + env(safe-area-inset-right, 0px));
+        /* Garante que o alinhamento horizontal compensa o notch de forma simétrica e previsível */
+        right: max(15px, env(safe-area-inset-right));
         left: auto;
+        top: auto;
         transform: none;
         z-index: 10005;
-        width: 34px;
-        height: 34px;
     }
 
-    /* Posicionamento vertical em coluna exata */
+    /* Nova ordem vertical: Close em cima, Zoom a meio, Fullscreen em baixo */
     .close {
         top: 15px !important;
     }
     
-    .fullscreen-btn {
+    .zoom-btn {
         top: 60px !important;
     }
     
-    .zoom-btn {
+    .fullscreen-btn {
         top: 105px !important;
     }
 
-    /* Ajuste proporcional para o ícone SVG dentro do botão de fullscreen */
+    /* Reduz subtilmente o tamanho dos botões para melhor adaptação ao ecrã */
+    .close,
+    .fullscreen-btn,
+    .zoom-btn {
+        width: 34px;
+        height: 34px;
+    }
+    
     .fullscreen-btn svg {
         width: 20px;
         height: 20px;
