@@ -679,10 +679,9 @@ function ajustarFullscreenAndroid(){
         const altura = window.innerHeight;
         const aplicarImagem = (elemento) => {
             if (!elemento) return;
-            // Corrigido para evitar larguras infinitas em foldables / mobile landscape
-            elemento.style.setProperty("max-width", "100vw", "important");
-            elemento.style.setProperty("max-height", altura + "px", "important");
-            elemento.style.setProperty("height", "100%", "important");
+            elemento.style.setProperty("max-width", "none", "important");
+            elemento.style.setProperty("max-height", "none", "important");
+            elemento.style.setProperty("height", altura + "px", "important");
             elemento.style.setProperty("width", "auto", "important");
             elemento.style.left = "50%";
             elemento.style.top = "50%";
@@ -722,10 +721,9 @@ function ajustarBolinhasIPhone(){
     if (safariEdgeLandscape) {
         const aplicarTamanho = (elemento) => {
             if (!elemento) return;
-            // Ajustado para garantir limites seguros e responsivos
-            elemento.style.setProperty("max-width", "100vw", "important");
-            elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
-            elemento.style.setProperty("height", "100%", "important");
+            elemento.style.setProperty("max-width", "none", "important");
+            elemento.style.setProperty("max-height", "none", "important");
+            elemento.style.setProperty("height", "calc(100dvh - 20px)", "important");
             elemento.style.setProperty("width", "auto", "important");
         };
         aplicarTamanho(elementoAtual);
@@ -954,9 +952,9 @@ function criarElementoMidia(midia){
     }
     configurarElementoMidia(elemento);
     if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
-        elemento.style.setProperty("max-width", "100vw", "important");
-        elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
-        elemento.style.setProperty("height", "100%", "important");
+        elemento.style.setProperty("max-width", "none", "important");
+        elemento.style.setProperty("max-height", "none", "important");
+        elemento.style.setProperty("height", "calc(100dvh - 20px)", "important");
         elemento.style.setProperty("width", "auto", "important");
     }
     if (midia.grayscale) elemento.classList.add("grayscale");
@@ -992,9 +990,9 @@ function prepararImagemAnterior(){
     const indiceAnterior = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
     elementoAnterior = criarElementoMidia(midiasAtuais[indiceAnterior]);
     if (/Android/i.test(navigator.userAgent) && window.matchMedia("(orientation: landscape)").matches && document.fullscreenElement) {
-        elementoAnterior.style.setProperty("max-width", "100vw", "important");
-        elementoAnterior.style.setProperty("max-height", window.innerHeight + "px", "important");
-        elementoAnterior.style.setProperty("height", "100%", "important");
+        elementoAnterior.style.setProperty("max-width", "none", "important");
+        elementoAnterior.style.setProperty("max-height", "none", "important");
+        elementoAnterior.style.setProperty("height", window.innerHeight + "px", "important");
         elementoAnterior.style.setProperty("width", "auto", "important");
     }
     elementoAnterior.style.zIndex = "1";
@@ -1009,9 +1007,9 @@ function prepararProximaImagem(){
     const proximoIndice = (indiceAtual + 1) % midiasAtuais.length;
     elementoSeguinte = criarElementoMidia(midiasAtuais[proximoIndice]);
     if (/Android/i.test(navigator.userAgent) && window.matchMedia("(orientation: landscape)").matches && document.fullscreenElement) {
-        elementoSeguinte.style.setProperty("max-width", "100vw", "important");
-        elementoSeguinte.style.setProperty("max-height", window.innerHeight + "px", "important");
-        elementoSeguinte.style.setProperty("height", "100%", "important");
+        elementoSeguinte.style.setProperty("max-width", "none", "important");
+        elementoSeguinte.style.setProperty("max-height", "none", "important");
+        elementoSeguinte.style.setProperty("height", window.innerHeight + "px", "important");
         elementoSeguinte.style.setProperty("width", "auto", "important");
     }
     elementoSeguinte.style.zIndex = "1";
@@ -1043,9 +1041,9 @@ function mostrarMidia(){
     }
     configurarElementoMidia(novo);
     if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
-        novo.style.setProperty("max-width", "100vw", "important");
-        novo.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
-        novo.style.setProperty("height", "100%", "important");
+        novo.style.setProperty("max-width", "none", "important");
+        novo.style.setProperty("max-height", "none", "important");
+        novo.style.setProperty("height", "calc(100dvh - 20px)", "important");
         novo.style.setProperty("width", "auto", "important");
     }
     novo.style.zIndex = "2";
@@ -1388,8 +1386,6 @@ document.addEventListener("click", function(e){
         contactWidget.classList.remove("active");
     }
 });
-
-document.addEventListener("touchstart", function(){}, {passive: true});
 
 window.addEventListener("scroll", () => {
     if (contactWidget && contactWidget.classList.contains("active")) {
