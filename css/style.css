@@ -700,24 +700,24 @@ footer p{
         top:80px;
         right:20px;
         background:var(--c-bg);
-        padding:25px; /* Aumentado para melhor toque */
+        padding:20px; /* Voltou ao espaçamento original */
         border-radius:12px;
         box-shadow:0 10px 30px rgba(0,0,0,.15);
         flex-direction:column;
-        gap:8px; /* Reduzido, pois os links agora têm padding */
-        min-width:200px; /* Largura mínima para o menu */
+        gap:8px; 
         z-index:5000;
+        /* Removido o min-width para a caixa se ajustar ao texto */
     }
     nav.active{
         display:flex;
     }
     
-    /* Novos estilos para links mobile (maior área de clique) */
+    /* Novos estilos para links mobile (maior área de clique, mas alinhado à esquerda) */
     nav a {
-        font-size: 14px;
-        padding: 12px 20px;
+        font-size: 14px; /* Letra ligeiramente maior */
+        padding: 12px 10px; /* Bom espaçamento para cima/baixo para facilitar o clique */
         width: 100%;
-        text-align: center;
+        text-align: left; /* Voltou ao alinhamento original à esquerda */
     }
     
     .service-icon{
