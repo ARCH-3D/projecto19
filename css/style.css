@@ -1023,31 +1023,32 @@ footer p{
 }
 /* ================== AJUSTE DE BOTÕES EM MODO PAISAGEM (TELEMÓVEL) ================== */
 @media (max-width: 950px) and (orientation: landscape) {
+    /* Define a posição horizontal comum e segura para todos os botões */
     .close,
     .fullscreen-btn,
     .zoom-btn {
         position: absolute;
-        right: max(15px, env(safe-area-inset-right)); 
+        right: max(15px, env(safe-area-inset-right)) !important;
         left: auto;
-        top: auto;
         transform: none;
         z-index: 10005;
-    }
-    .close {
-        top: 15px !important;
-    }
-    .fullscreen-btn {
-        top: 60px !important;
-    }
-    .zoom-btn {
-        top: 105px !important;
-    }
-    .close,
-    .fullscreen-btn,
-    .zoom-btn {
         width: 34px;
         height: 34px;
     }
+
+    /* Ordem vertical exacta (Close em cima, Fullscreen a meio, Zoom em baixo) */
+    .close {
+        top: 15px !important;
+    }
+    
+    .fullscreen-btn {
+        top: 60px !important;
+    }
+    
+    .zoom-btn {
+        top: 105px !important;
+    }
+    
     .fullscreen-btn svg {
         width: 20px;
         height: 20px;
