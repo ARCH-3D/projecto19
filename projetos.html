@@ -1419,6 +1419,45 @@ if (backToTop) {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
+
+function verificarNotchPaisagem() {
+    const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+    const isMobile = window.innerWidth <= 950;
+    
+    if (isLandscape && isMobile) {
+        // Verifica através das safe-areas qual o lado preenchido pelo notch
+        const safeLeft = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat') || window.getComputedStyle(modal).paddingLeft) || 0;
+        const computedStyle = window.getComputedStyle(modal);
+        
+        // Se houver safe-area maior à esquerda do que à direita, o notch está à esquerda
+        const insetLeft = parseInt(computedStyle.paddingLeft) || envCheck('left');
+        const insetRight = parseInt(computedStyle.paddingRight) || envCheck('right');
+
+        if (insetLeft > insetRight) {
+            document.body.classList.add("landscape-notch-left");
+        } else {
+            document.body.classList.remove("landscape-notch-left");
+        }
+    } else {
+        document.body.classList.remove("landscape-notch-left");
+    }
+}
+
+// Função auxiliar para estimar safe areas caso necessário
+function envCheck(position) {
+    const div = document.createElement('div');
+    div.style.cssText = `position: fixed; ${position}: env(safe-area-inset-${position}); visibility: hidden;`;
+    document.body.appendChild(div);
+    const val = parseInt(window.getComputedStyle(div)[position]) || 0;
+    div.remove();
+    return val;
+}
+
+// Acionar nas rotações e redimensionamentos
+window.addEventListener("resize", verificarNotchPaisagem);
+window.addEventListener("orientationchange", () => {
+    setTimeout(verificarNotchPaisagem, 200);
+});
 </script>
 </body>
 </html>

@@ -1021,36 +1021,38 @@ footer p{
         display: none !important;
     }
 }
-/* ================== AJUSTE DE BOTÕES EM MODO PAISAGEM (TELEMÓVEL) ================== */
+/* ================== AJUSTE DOS BOTÕES EM PAISAGEM (MOBILE LANDSCAPE) ================= */
 @media (max-width: 950px) and (orientation: landscape) {
-    /* Define a posição horizontal comum e segura para todos os botões */
+    /* Agrupador ou posicionamento vertical dos botões à direita ou esquerda dependendo do notch */
     .close,
     .fullscreen-btn,
     .zoom-btn {
-        position: absolute;
+        position: fixed !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
         right: max(15px, env(safe-area-inset-right)) !important;
-        left: auto;
-        transform: none;
-        z-index: 10005;
-        width: 34px;
-        height: 34px;
+        left: auto !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        z-index: 10005 !important;
     }
 
-    /* Ordem vertical exacta (Close em cima, Fullscreen a meio, Zoom em baixo) */
+    /* Se o telemóvel tiver o notch do lado direito, os botões passam automaticamente para o lado esquerdo seguro */
+    body.landscape-notch-left .close,
+    body.landscape-notch-left .fullscreen-btn,
+    body.landscape-notch-left .zoom-btn {
+        right: auto !important;
+        left: max(15px, env(safe-area-inset-left)) !important;
+    }
+
+    /* Organiza os botões em coluna vertical com espaçamento limpo */
     .close {
-        top: 15px !important;
+        top: calc(50% - 75px) !important;
     }
-    
     .fullscreen-btn {
-        top: 60px !important;
+        top: calc(50% - 25px) !important;
     }
-    
     .zoom-btn {
-        top: 105px !important;
-    }
-    
-    .fullscreen-btn svg {
-        width: 20px;
-        height: 20px;
+        top: calc(50% + 25px) !important;
     }
 }
