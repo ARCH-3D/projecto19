@@ -1029,7 +1029,7 @@ footer p{
         display: none !important;
     }
 }
-/* ================== AJUSTE MÓVEL LANDSCAPE (MARGEM OTIMIZADA) ================== */
+/* ================== BOTÕES DO MODAL (ALINHAMENTO HORIZONTAL) ================== */
 @media screen and (max-height: 500px) and (orientation: landscape),
        screen and (max-width: 950px) and (orientation: landscape) and (hover: none) {
     #modal-content img,
@@ -1046,17 +1046,18 @@ footer p{
     #modal-projeto .modal-info {
         display: none !important;
     }
-    /* ================== BOTÕES DO MODAL ================== */
+    
+    /* Reposicionamento horizontal em linha no canto superior direito */
     .close {
         top: max(12px, env(safe-area-inset-top)) !important;
         right: max(20px, env(safe-area-inset-right)) !important;
     }
     .zoom-btn {
-        top: calc(max(12px, env(safe-area-inset-top)) + 48px) !important;
-        right: max(20px, env(safe-area-inset-right)) !important;
+        top: max(12px, env(safe-area-inset-top)) !important;
+        right: max(66px, calc(env(safe-area-inset-right) + 46px)) !important;
     }
     .fullscreen-btn {
-        top: calc(max(12px, env(safe-area-inset-top)) + 96px) !important;
-        right: max(20px, env(safe-area-inset-right)) !important;
+        top: max(12px, env(safe-area-inset-top)) !important;
+        right: max(112px, calc(env(safe-area-inset-right) + 92px)) !important;
     }
 }
