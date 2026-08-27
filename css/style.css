@@ -1024,7 +1024,6 @@ footer p{
 /* ================== AJUSTE MÓVEL LANDSCAPE (MARGEM OTIMIZADA) ================== */
 @media screen and (max-height: 500px) and (orientation: landscape),
        screen and (max-width: 950px) and (orientation: landscape) and (hover: none) {
-    
     #modal-content img,
     #modal-content video {
         max-width: none !important;
@@ -1038,7 +1037,6 @@ footer p{
     #modal-projeto .modal-info {
         display: none !important;
     }
-
     /* ================== BOTÕES DO MODAL ================== */
     .close {
         top: max(12px, env(safe-area-inset-top)) !important;
