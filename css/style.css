@@ -1021,10 +1021,10 @@ footer p{
         display: none !important;
     }
 }
-/* ================== AJUSTE UNIVERSAL MÓVEL LANDSCAPE ================== */
+/* ================== AJUSTE UNIVERSAL MÓVEL LANDSCAPE (MARGEM REDUZIDA) ================== */
 @media screen and (max-height: 500px) and (orientation: landscape),
        screen and (max-width: 950px) and (orientation: landscape) and (hover: none) {
-    /* Ajuste da imagem ao ecrã */
+    
     #modal-content img,
     #modal-content video {
         max-width: none !important;
@@ -1039,17 +1039,17 @@ footer p{
         display: none !important;
     }
 
-    /* ================== BOTÕES DO MODAL (VERTICAL NO CANTO SUPERIOR DIREITO) ================== */
+    /* ================== BOTÕES DO MODAL (10px da margem) ================== */
     .close {
         top: max(12px, env(safe-area-inset-top)) !important;
-        right: max(15px, env(safe-area-inset-right)) !important;
+        right: max(10px, env(safe-area-inset-right)) !important;
     }
     .zoom-btn {
         top: calc(max(12px, env(safe-area-inset-top)) + 48px) !important;
-        right: max(15px, env(safe-area-inset-right)) !important;
+        right: max(10px, env(safe-area-inset-right)) !important;
     }
     .fullscreen-btn {
         top: calc(max(12px, env(safe-area-inset-top)) + 96px) !important;
-        right: max(15px, env(safe-area-inset-right)) !important;
+        right: max(10px, env(safe-area-inset-right)) !important;
     }
 }
