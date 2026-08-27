@@ -166,6 +166,9 @@ section h3{
 }
 section p{
     margin:0;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto; 
 }
 /* Espaçamentos específicos de secção */
 .team-member-title{
