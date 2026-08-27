@@ -1023,34 +1023,34 @@ footer p{
 }
 /* ================== AJUSTE DE BOTÕES EM MODO PAISAGEM (TELEMÓVEL) ================== */
 @media (max-width: 950px) and (orientation: landscape) {
-    /* Agrupa e reposiciona os botões de controlo na vertical ao lado da imagem */
+    /* Reposiciona os botões de controlo na vertical ao lado da imagem */
     .close,
     .fullscreen-btn,
     .zoom-btn {
         position: absolute;
-        right: 15px; /* Distância da margem direita do ecrã */
+        right: 15px;
         left: auto;
         top: auto;
         transform: none;
         z-index: 10005;
     }
 
-    /* Ordem e espaçamento vertical dos botões */
+    /* Ordem e espaçamento vertical com o Zoom em cima do Fullscreen */
     .close {
         top: 15px !important;
     }
     
     .zoom-btn {
-        top: 60px !important; /* Colocado logo abaixo do botão de fechar */
+        top: 60px !important; /* Zoom logo abaixo do fechar */
         right: 15px !important;
     }
     
     .fullscreen-btn {
-        top: 105px !important; /* Colocado logo abaixo do zoom */
+        top: 105px !important; /* Fullscreen logo abaixo do zoom */
         right: 15px !important;
     }
 
-    /* Reduz subtilmente o tamanho dos botões se necessário para ganhar espaço */
+    /* Tamanho otimizado para o modo paisagem */
     .close,
     .fullscreen-btn,
     .zoom-btn {
