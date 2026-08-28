@@ -119,7 +119,8 @@ nav a:focus-visible{
 .hero{
     position:relative;
     width:100%;
-    height:var(--hero-height, 100vh);
+    height: 100vh;
+    height: 100dvh;
     overflow:hidden;
 }
 .hero-image{
