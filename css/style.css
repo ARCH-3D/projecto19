@@ -425,7 +425,7 @@ footer p{
 }
 #modal-content img,
 #modal-content video{
-    max-width: calc(100% - 160px); 
+    max-width: calc(100vw - 120px);
     max-height: calc(100dvh - 140px);
     width:auto;
     height:auto;
@@ -564,24 +564,19 @@ footer p{
     top:50%;
     transform:translateY(-50%);
     color:var(--c-text);
-    font-size:40px;
+    font-size:50px;
     cursor:pointer;
     user-select:none;
     touch-action:manipulation;
     z-index:10000;
     transition:var(--trans-main);
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
+    padding: 20px 10px;
 }
 .prev{
-    left: 15px;
+    left: max(8px, 1vw);
 }
 .next{
-    right: 15px;
+    right: max(8px, 1vw);
 }
 
 /* ================= CONTACT WIDGET ================= */
