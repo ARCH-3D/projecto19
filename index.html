@@ -161,18 +161,11 @@ window.addEventListener("scroll",()=>{
 },{passive:true});
 
 // ALTURA FIXA DO HERO NO MOBILE
-let currentWidth=window.innerWidth;
+let currentWidth = window.innerWidth;
 
-function setHeroHeight(){
-    document.documentElement.style.setProperty("--hero-height",`${window.innerHeight}px`);
-}
-
-setHeroHeight();
-
-window.addEventListener("resize",()=>{
-    if(window.innerWidth!==currentWidth){
-        currentWidth=window.innerWidth;
-        setHeroHeight();
+window.addEventListener("resize", () => {
+    if (window.innerWidth !== currentWidth) {
+        currentWidth = window.innerWidth;
     }
 });
 </script>
