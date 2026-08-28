@@ -411,7 +411,7 @@ footer p{
 }
 #modal-content img,
 #modal-content video{
-    max-width: calc(100vw - max(40px, 6vw));
+    max-width: calc(100vw - 120px);
     max-height: calc(100dvh - 140px);
     width:auto;
     height:auto;
@@ -556,13 +556,12 @@ footer p{
     touch-action:manipulation;
     z-index:10000;
     transition:var(--trans-main);
-    padding: 20px 10px;
 }
 .prev{
-    left: max(15px, 2vw);
+    left:25px;
 }
 .next{
-    right: max(15px, 2vw);
+    right:25px;
 }
 
 /* ================= CONTACT WIDGET ================= */
