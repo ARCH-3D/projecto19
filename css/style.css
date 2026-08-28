@@ -830,7 +830,7 @@ footer p{
 .media-indicators{
     position:absolute;
     left:50%;
-    bottom:90px; /* Recuado para baixo para ganhar distância segura da imagem */
+    bottom:82px; /* Recuado para baixo para ganhar distância segura da imagem */
     transform:translateX(-50%);
     display:flex;
     gap:8px;
@@ -838,7 +838,7 @@ footer p{
 }
 @media (max-width: 768px) {
     .media-indicators {
-        bottom: 55px; /* Ajuste proporcional otimizado para telemóveis */
+        bottom: 48px; /* Ajuste proporcional otimizado para telemóveis */
     }
 }
 .media-indicators span{
