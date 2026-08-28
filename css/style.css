@@ -987,10 +987,11 @@ footer p{
 @media (max-width:767px) and (orientation:landscape){
     #modal-content.iphone-safari-edge-landscape img,
     #modal-content.iphone-safari-edge-landscape video{
-        max-width:none !important;
-        max-height:none !important;
-        width:auto !important;
-        height:calc(100dvh - 20px) !important;
+        max-width:100vw !important;
+        max-height:calc(100dvh - 20px) !important;
+        width:100% !important;
+        height:100% !important;
+        object-fit:contain !important;
     }
 }
 @media screen and (max-width:767px) and (orientation:landscape){
@@ -1009,10 +1010,11 @@ footer p{
     /* Ajuste da imagem ao ecrã */
     #modal-content img,
     #modal-content video {
-        max-width: none !important;
-        max-height: none !important;
-        width: auto !important;
-        height: calc(100dvh - 20px) !important;
+        max-width: 100vw !important;
+        max-height: calc(100dvh - 20px) !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
     }
     .media-indicators {
         bottom: 60px !important;
@@ -1026,10 +1028,11 @@ footer p{
        screen and (max-width: 950px) and (orientation: landscape) and (hover: none) {
     #modal-content img,
     #modal-content video {
-        max-width: none !important;
-        max-height: none !important;
-        width: auto !important;
-        height: calc(100dvh - 20px) !important;
+        max-width: 100vw !important;
+        max-height: calc(100dvh - 20px) !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
     }
     .media-indicators {
         bottom: 60px !important;
