@@ -743,27 +743,31 @@ function mostrarBotaoFullscreen(){
     const btn = fullscreenBtn, close = closeBtn, zoom = zoomBtn;
     if (!btn) return;
     const isAndroid = /Android/i.test(navigator.userAgent), isApple = isAppleMobile();
+    
     if (isApple) {
+        // No iPhone, o botão fullscreen está desativado/oculto, logo o zoom ocupa a sua posição à direita
         btn.classList.remove("show");
         btn.style.display = "none";
-        if (zoom) zoom.style.right = "78px";
+        if (zoom) zoom.style.right = "max(20px, env(safe-area-inset-right))";
     } else if (isAndroid) {
         if (FULLSCREEN_TELEMOVEL) {
             btn.style.display = "";
             btn.classList.add("show");
-            if (zoom) zoom.style.right = "126px";
+            if (zoom) zoom.style.right = "max(124px, calc(env(safe-area-inset-right) + 104px))";
         } else {
             btn.classList.remove("show");
             btn.style.display = "none";
-            if (zoom) zoom.style.right = "78px";
+            if (zoom) zoom.style.right = "max(72px, calc(env(safe-area-inset-right) + 52px))";
         }
     } else {
         btn.style.display = "";
         btn.classList.add("show");
-        if (zoom) zoom.style.right = "126px";
+        if (zoom) zoom.style.right = "max(124px, calc(env(safe-area-inset-right) + 104px))";
     }
+    
     if (close) close.classList.add("show-controls");
     if (zoom) zoom.classList.add("show");
+    
     if (window.matchMedia("(pointer: coarse)").matches) {
         clearTimeout(fullscreenTimeout);
         return;

@@ -1041,35 +1041,33 @@ footer p{
     .media-indicators {
         display: flex !important;
         position: fixed !important;
-        bottom: 40px !important;
+        bottom: 15px !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         z-index: 10004 !important;
     }
 
+    /* Posicionamento seguro no canto superior direito para landscape em mobile */
     .close,
     .fullscreen-btn,
     .zoom-btn {
         position: fixed !important;
-        right: 15px !important;
-        top: auto !important;
         left: auto !important;
         margin: 0 !important;
+        z-index: 10005 !important;
+        top: max(10px, env(safe-area-inset-top)) !important;
     }
 
     .close {
-        top: 15px !important;
-        z-index: 10005 !important;
+        right: max(15px, env(safe-area-inset-right)) !important;
     }
 
     .fullscreen-btn {
-        top: 60px !important;
-        z-index: 10005 !important;
+        right: max(60px, calc(env(safe-area-inset-right) + 45px)) !important;
     }
 
     .zoom-btn {
-        top: 105px !important;
-        z-index: 10005 !important;
+        right: max(105px, calc(env(safe-area-inset-right) + 90px)) !important;
     }
 }
 
