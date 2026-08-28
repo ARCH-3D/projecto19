@@ -8,6 +8,7 @@
     --font-title:'Outfit',sans-serif;
     --trans-main:.3s ease;
 }
+
 /* ================== RESET ================== */
 *{
     margin:0;
@@ -15,11 +16,13 @@
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
 }
+
 /* ================== HTML ================== */
 html{
     scrollbar-gutter:stable;
     -webkit-text-size-adjust:100%;
 }
+
 /* ================== BODY ================== */
 body{
     min-height:100vh;
@@ -82,6 +85,7 @@ header h1{
     letter-spacing:1.5px;
     text-transform:uppercase;
 }
+
 /* ================== NAV ================== */
 nav{
     display:flex;
@@ -115,6 +119,7 @@ nav a:focus-visible{
     outline:2px solid var(--c-text);
     outline-offset:4px;
 }
+
 /* ================== HERO ================== */
 .hero{
     position:relative;
@@ -132,6 +137,7 @@ nav a:focus-visible{
     opacity:1;
     transition:opacity .8s ease;
 }
+
 /* ================== HERO TEXT ================== */
 .hero-text{
     position:absolute;
@@ -156,6 +162,7 @@ nav a:focus-visible{
     line-height:1.5;
     opacity:.9;
 }
+
 /* ================== SECTION ================== */
 section{
     padding:60px clamp(25px,5vw,80px);
@@ -175,10 +182,10 @@ section p{
     hyphens: auto;
     -webkit-hyphens: auto; 
 }
-/* Espaçamentos específicos de secção */
 .team-member-title{
     margin-top:45px;
 }
+
 /* ================== SERVICES ================== */
 .service{
     display:flex;
@@ -214,6 +221,7 @@ section p{
 .service p{
     margin:0;
 }
+
 /* ================== CONTACT PAGE ================== */
 .contact-service-icon{
     width:28px !important;
@@ -248,12 +256,14 @@ section p{
     outline:2px solid var(--c-text);
     outline-offset:4px;
 }
+
 /* ================== PROJECT GRID ================== */
 .grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
     gap:30px;
 }
+
 /* ================== PROJECT ================== */
 .project{
     position:relative;
@@ -272,6 +282,7 @@ section p{
 .grayscale{
     filter:grayscale(100%) brightness(1) contrast(1);
 }
+
 /* ================== OVERLAY ================== */
 .project::before{
     content:"";
@@ -295,6 +306,7 @@ section p{
 .project.touched .project-title{
     opacity:1;
 }
+
 /* ================== PROJECT TITLE ================== */
 .project-title{
     position:absolute;
@@ -323,10 +335,12 @@ section p{
     text-transform:uppercase;
     opacity:.85;
 }
+
 /* ================= PROJECT SECTION ================= */
 .projects-section{
     padding-top:0;
 }
+
 /* ================== FOOTER ================== */
 footer{
     margin-top:auto;
@@ -368,6 +382,7 @@ footer p{
     font-size:11px;
     letter-spacing:1px;
 }
+
 /* ================== MODAL ================== */
 .modal{
     display:none;
@@ -423,19 +438,7 @@ footer p{
         max-height:calc(100dvh - 130px);
     }
 }
-@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
-    #modal-content img,
-    #modal-content video{
-        max-height:calc(100dvh - 170px);
-    }
-}
-@media (max-width:767px) and (orientation:landscape){
-    #modal-content img,
-    #modal-content video{
-        max-width: calc(100vw - 20px);
-        max-height: calc(100dvh - 20px);
-    }
-}
+
 /* ================= PROJECT INFO ================= */
 .modal-info{
     position:absolute;
@@ -474,7 +477,8 @@ footer p{
     height:18px;
     object-fit:contain;
 }
-/* ================== FECHAR ================== */
+
+/* ================== FECHAR E BOTÕES ================== */
 .close{
     position:absolute;
     top:25px;
@@ -538,6 +542,7 @@ footer p{
         pointer-events:auto;
     }
 }
+
 /* ================== SETAS ================== */
 .prev,
 .next{
@@ -558,6 +563,7 @@ footer p{
 .next{
     right:25px;
 }
+
 /* ================= CONTACT WIDGET ================= */
 .contact-widget{
     display:flex;
@@ -699,7 +705,8 @@ footer p{
         }
     }
 }
-/* ================= RESPONSIVE ================= */
+
+/* ================= RESPONSIVE GERAL ================= */
 @media (max-width:768px){
     .menu-toggle{
         display:block;
@@ -720,14 +727,12 @@ footer p{
     nav.active{
         display:flex;
     }
-    
     nav a {
         font-size: 13px;
         padding: 10px 10px;
         width: 100%;
         text-align: left;
     }
-    
     .service-icon{
         width:56px;
         min-width:56px;
@@ -826,11 +831,12 @@ footer p{
         padding:40px 20px;
     }
 }
-/* ================== MEDIA INDICATORS (AJUSTADOS PARA FICAR MAIS ABAIXO) ================== */
+
+/* ================== MEDIA INDICATORS ================== */
 .media-indicators{
     position:absolute;
     left:50%;
-    bottom:100px; /* Recuado para baixo para ganhar distância segura da imagem */
+    bottom:105px; /* Posição ajustada ligeiramente mais alta para dar respiro */
     transform:translateX(-50%);
     display:flex;
     gap:8px;
@@ -838,7 +844,7 @@ footer p{
 }
 @media (max-width: 768px) {
     .media-indicators {
-        bottom: 80px; /* Ajuste proporcional otimizado para telemóveis */
+        bottom: 80px; /* Proporção otimizada para telemóveis */
     }
 }
 .media-indicators span{
@@ -857,6 +863,7 @@ footer p{
     box-shadow:0 0 0 1px rgba(0,0,0,.10);
     transform:scale(1.4);
 }
+
 /* ================== FULLSCREEN ================== */
 .fullscreen-btn{
     position:absolute;
@@ -917,6 +924,7 @@ footer p{
     opacity:1;
     pointer-events:auto;
 }
+
 /* ================== ZOOM ================== */
 .zoom-btn{
     position:absolute;
@@ -971,6 +979,7 @@ footer p{
     opacity:1;
     pointer-events:auto;
 }
+
 @media (min-width:768px) and (max-width:1366px){
     body{
         overscroll-behavior-y:none;
@@ -991,29 +1000,29 @@ footer p{
         }
     }
 }
-@media (max-width:767px) and (orientation:landscape){
-    #modal-content.iphone-safari-edge-landscape img,
-    #modal-content.iphone-safari-edge-landscape video{
-        max-width:100vw !important;
-        max-height:calc(100dvh - 20px) !important;
-        width:100% !important;
-        height:100% !important;
-        object-fit:contain !important;
+
+/* ================== AJUSTES ESPECÍFICOS PARA TABLETS E MOBILE ================== */
+
+/* 1. TABLET MODO RETRATO (Ex: Galaxy Tab S, iPad Portrait): Maximiza a largura e reduz margens brancas */
+@media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
+    #modal-content img,
+    #modal-content video {
+        max-width: calc(100vw - 30px) !important; /* Apenas 15px de margem lateral */
+        max-height: calc(100dvh - 180px) !important; /* Resguardo de altura para indicadores/legenda */
     }
 }
-@media screen and (max-width:767px) and (orientation:landscape){
-    #modal-projeto .modal-info{
-        display:none !important;
+
+/* 2. TABLET MODO PAISAGEM (Ex: Galaxy Tab S11/S7/A9+ Landscape): Impede sobreposição da legenda */
+@media screen and (min-height: 551px) and (max-width: 1366px) and (orientation: landscape) {
+    #modal-content img,
+    #modal-content video {
+        max-width: calc(100vw - 60px) !important;
+        max-height: calc(100dvh - 220px) !important; /* Garante margem de segurança para a legenda */
     }
 }
-@media screen and (orientation:landscape){
-    #modal-projeto.iphone-device .modal-info{
-        display:none !important;
-    }
-}
-/* ================== AJUSTE UNIVERSAL MÓVEL LANDSCAPE ================== */
-@media screen and (max-height: 500px) and (orientation: landscape),
-       screen and (max-width: 950px) and (orientation: landscape) and (hover: none) {
+
+/* 3. TELEMÓVEIS MODO PAISAGEM (Ecrãs baixos <= 550px): Oculta legenda e reaproveita espaço */
+@media screen and (max-height: 550px) and (orientation: landscape) {
     #modal-content img,
     #modal-content video {
         max-width: 100vw !important;
@@ -1022,29 +1031,11 @@ footer p{
         height: 100% !important;
         object-fit: contain !important;
     }
-    .media-indicators {
-        bottom: 50px !important;
-    }
-    #modal-projeto .modal-info {
+    .modal-info {
         display: none !important;
     }
-}
-/* ================== AJUSTE MÓVEL LANDSCAPE (MARGEM OTIMIZADA) ================== */
-@media screen and (max-height: 500px) and (orientation: landscape),
-       screen and (max-width: 950px) and (orientation: landscape) and (hover: none) {
-    #modal-content img,
-    #modal-content video {
-        max-width: 100vw !important;
-        max-height: calc(100dvh - 20px) !important;
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: contain !important;
-    }
     .media-indicators {
-        bottom: 50px !important;
-    }
-    #modal-projeto .modal-info {
-        display: none !important;
+        bottom: 35px !important;
     }
     .close {
         top: max(12px, env(safe-area-inset-top)) !important;
@@ -1059,7 +1050,8 @@ footer p{
         right: max(20px, env(safe-area-inset-right)) !important;
     }
 }
-/* ================== AJUSTE PARA DISPOSITIVOS DOBRÁVEIS ================== */
+
+/* 4. DISPOSITIVOS DOBRÁVEIS (Foldables) */
 @media screen and (max-width: 1024px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {
     .close {
         top: max(15px, env(safe-area-inset-top)) !important;
@@ -1074,13 +1066,13 @@ footer p{
         right: calc(max(15px, env(safe-area-inset-right)) + 96px) !important;
     }
 }
+
 /* ================== CORREÇÃO OTIMIZADA PARA GRELHA DE PROJETOS ================== */
 @media screen and (max-width: 480px) {
     section {
         padding-left: 22px !important;
         padding-right: 22px !important;
     }
-
     .grid {
         display: grid !important;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
@@ -1088,7 +1080,6 @@ footer p{
         width: 100% !important;
         margin: 0 auto !important;
     }
-
     .project {
         width: 100% !important;
     }
@@ -1099,7 +1090,6 @@ footer p{
         padding-left: 30px !important;
         padding-right: 30px !important;
     }
-
     .grid {
         display: grid !important;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
