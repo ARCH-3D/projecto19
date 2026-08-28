@@ -1075,15 +1075,15 @@ footer p{
         right: calc(max(15px, env(safe-area-inset-right)) + 96px) !important;
     }
 }
-/* ================== CORREÇÃO DEFINITIVA PARA GRELHA DE PROJETOS (ECRÃS ESTREITOS) ================== */
-@media screen and (max-width: 480px) {
-    /* Reduz os paddings laterais globais de todas as secções em ecrãs estreitos */
+/* ================== CORREÇÃO DEFINITIVA PARA GRELHA DE PROJETOS (ECRÃS ESTREITOS & LANDSCAPE) ================== */
+@media screen and (max-width: 480px), screen and (max-height: 500px) and (orientation: landscape) {
+    /* Reduz os paddings laterais globais de todas as secções de forma uniforme */
     section {
         padding-left: 15px !important;
         padding-right: 15px !important;
     }
 
-    /* Anula o comportamento da grelha e força centralização absoluta */
+    /* Anula o comportamento da grelha e força centralização absoluta em formato coluna/flex */
     .grid {
         display: flex !important;
         flex-direction: column !important;
