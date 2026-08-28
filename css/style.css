@@ -383,23 +383,25 @@ footer p{
 }
 #modal-content{
     display:flex;
+    flex-direction:column;
     justify-content:center;
     align-items:center;
     width:100%;
     height:100dvh;
+    box-sizing:border-box;
+    padding:2vw;
     overflow:hidden;
     position:relative;
     contain:layout paint;
 }
 #modal-content img,
 #modal-content video{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    max-width:90vw;
-    max-height:calc(100dvh - 100px);
+    max-width:100%;
+    max-height:calc(100dvh - 120px);
+    width:auto;
+    height:auto;
     object-fit:contain;
+    display:block;
     opacity:1;
     transition:
         transform .45s cubic-bezier(.22,.61,.36,1),
@@ -430,8 +432,8 @@ footer p{
 @media (max-width:767px) and (orientation:landscape){
     #modal-content img,
     #modal-content video{
-        max-width:98vw;
-        max-height:98dvh;
+        max-width:100%;
+        max-height:calc(100dvh - 20px);
     }
 }
 /* ================= PROJECT INFO ================= */
@@ -708,21 +710,20 @@ footer p{
         top:80px;
         right:20px;
         background:var(--c-bg);
-        padding:16px; /* Reduzido de 20px para um balão menor */
+        padding:16px;
         border-radius:12px;
         box-shadow:0 10px 30px rgba(0,0,0,.15);
         flex-direction:column;
-        gap:6px; /* Menos espaço entre os links */
+        gap:6px;
         z-index:5000;
     }
     nav.active{
         display:flex;
     }
     
-    /* Área de clique e texto ligeiramente reduzidos */
     nav a {
-        font-size: 13px; /* Reduzido de 14px */
-        padding: 10px 10px; /* Reduzido de 12px para menos altura */
+        font-size: 13px;
+        padding: 10px 10px;
         width: 100%;
         text-align: left;
     }
@@ -782,7 +783,7 @@ footer p{
 @media (max-width:480px){
     #modal-content img,
     #modal-content video{
-        max-width:95vw;
+        max-width:100%;
         max-height:calc(100dvh - 120px);
     }
     .hero-text{
@@ -1013,7 +1014,6 @@ footer p{
 /* ================== AJUSTE UNIVERSAL MÓVEL LANDSCAPE ================== */
 @media screen and (max-height: 500px) and (orientation: landscape),
        screen and (max-width: 950px) and (orientation: landscape) and (hover: none) {
-    /* Ajuste da imagem ao ecrã */
     #modal-content img,
     #modal-content video {
         max-width: 100vw !important;
@@ -1046,7 +1046,6 @@ footer p{
     #modal-projeto .modal-info {
         display: none !important;
     }
-    /* ================== BOTÕES DO MODAL ================== */
     .close {
         top: max(12px, env(safe-area-inset-top)) !important;
         right: max(20px, env(safe-area-inset-right)) !important;
@@ -1060,7 +1059,7 @@ footer p{
         right: max(20px, env(safe-area-inset-right)) !important;
     }
 }
-/* ================== AJUSTE PARA DISPOSITIVOS DOBRÁVEIS (ORDEM: CLOSE, FULLSCREEN, ZOOM) ================== */
+/* ================== AJUSTE PARA DISPOSITIVOS DOBRÁVEIS ================== */
 @media screen and (max-width: 1024px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {
     .close {
         top: max(15px, env(safe-area-inset-top)) !important;
@@ -1077,13 +1076,11 @@ footer p{
 }
 /* ================== CORREÇÃO OTIMIZADA PARA GRELHA DE PROJETOS ================== */
 @media screen and (max-width: 480px) {
-    /* Aumenta a margem lateral para 22px para não colar demasiado ao ecrã */
     section {
         padding-left: 22px !important;
         padding-right: 22px !important;
     }
 
-    /* Mantém a grelha ativa em modo retrato estreito se couber, ou força coluna se for muito estreito */
     .grid {
         display: grid !important;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
@@ -1097,7 +1094,6 @@ footer p{
     }
 }
 
-/* Garante que em modo paisagem (landscape) a grelha nunca fica em coluna única exagerada */
 @media screen and (max-height: 500px) and (orientation: landscape) {
     section {
         padding-left: 30px !important;
