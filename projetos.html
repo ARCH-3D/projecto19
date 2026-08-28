@@ -680,11 +680,11 @@ function ajustarFullscreenAndroid(){
         const altura = window.innerHeight;
         const aplicarImagem = (elemento) => {
             if (!elemento) return;
-            // Alterado para 100vw e altura total, removendo as contas matemáticas (calc)
-            elemento.style.setProperty("max-width", "100vw", "important");
-            elemento.style.setProperty("max-height", altura + "px", "important");
-            elemento.style.setProperty("width", "100%", "important");
-            elemento.style.setProperty("height", "100%", "important");
+            // Garante margens laterais e resguardo inferior para a legenda/indicadores
+            elemento.style.setProperty("max-width", "calc(100vw - 80px)", "important");
+            elemento.style.setProperty("max-height", "calc(" + altura + "px - 95px)", "important");
+            elemento.style.setProperty("width", "auto", "important");
+            elemento.style.setProperty("height", "auto", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
             elemento.style.left = "50%";
             elemento.style.top = "50%";
@@ -697,7 +697,7 @@ function ajustarFullscreenAndroid(){
         if (indicadores) {
             indicadores.style.position = "fixed";
             indicadores.style.left = "50%";
-            indicadores.style.bottom = "25px"; // Ajustado ligeiramente mais para baixo
+            indicadores.style.bottom = "75px";
             indicadores.style.transform = "translateX(-50%)";
             indicadores.style.zIndex = "99999";
         }
