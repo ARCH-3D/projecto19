@@ -1109,3 +1109,23 @@ footer p{
         max-height: calc(100dvh - 20px) !important;
     }
 }
+
+/* ================== CORREÇÃO MARGENS EM FULLSCREEN ================== */
+:fullscreen #modal-content {
+    padding: 0 !important;
+}
+:fullscreen #modal-content img,
+:fullscreen #modal-content video {
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+}
+
+/* Suporte para browsers/sistemas antigos (Webkit) */
+:-webkit-full-screen #modal-content {
+    padding: 0 !important;
+}
+:-webkit-full-screen #modal-content img,
+:-webkit-full-screen #modal-content video {
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+}
