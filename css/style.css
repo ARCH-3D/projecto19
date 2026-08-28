@@ -1009,7 +1009,8 @@ footer p{
     #modal-content img,
     #modal-content video {
         max-width: calc(100vw - 40px) !important;
-        max-height: calc(100dvh - 120px) !important;
+        max-height: calc(100dvh - 170px) !important; /* Reduzido para salvaguardar o espaço da legenda */
+        top: calc(50% - 25px) !important; /* Sobe o centro da imagem ligeiramente para afastar da legenda */
     }
 }
 
@@ -1018,7 +1019,8 @@ footer p{
     #modal-content img,
     #modal-content video {
         max-width: calc(100vw - 80px) !important; /* Margem lateral de segurança */
-        max-height: calc(100dvh - 115px) !important; /* Espaço ideal sem encolher a imagem nem atropelar as legendas */
+        max-height: calc(100dvh - 170px) !important; /* Ajustado para a imagem não atropelar as legendas */
+        top: calc(50% - 25px) !important; /* Sobe o centro da imagem ligeiramente para afastar da legenda */
     }
 }
 
