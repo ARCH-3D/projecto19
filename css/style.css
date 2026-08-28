@@ -1027,7 +1027,7 @@ footer p{
     #modal-content img,
     #modal-content video {
         max-width: calc(100vw - 10px) !important;     /* Deixa uma margem lateral de segurança */
-        max-height: calc(100vh - 10px) !important;    /* Deixa folga em cima e em baixo para as bolinhas */
+        max-height: calc(100dvh - 10px) !important;    /* Deixa folga em cima e em baixo para as bolinhas */
         width: auto !important;                        /* Mantém a proporção */
         height: auto !important;                       /* Deixa a altura ajustar-se proporcionalmente sem forçar 100% */
         object-fit: contain !important;
