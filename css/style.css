@@ -1060,8 +1060,14 @@ footer p{
         right: max(20px, env(safe-area-inset-right)) !important;
     }
 }
-/* ================== AJUSTE EXCLUSIVO PARA DOBRÁVEIS ABERTOS (RETRATO E PAISAGEM) ================== */
-@media screen and (min-width: 768px) and (max-width: 1200px) and (min-aspect-ratio: 4/5) and (max-aspect-ratio: 5/4) {
+/* ================== AJUSTE EXCLUSIVO PARA Z FOLD (ABERTO) E TABLETS ================== */
+/* 
+  Explicação: Um telemóvel normal em paisagem (ex: iPhone) tem uma largura generosa mas uma altura BAIXA (< 500px). 
+  O Z Fold aberto (mesmo em paisagem) tem uma altura ENORME (> 700px). 
+  Isto blinda a regra: afeta o Fold em ambas as rotações e deixa os telemóveis normais intocados.
+*/
+@media screen and (min-width: 700px) and (max-width: 1200px) and (min-height: 700px) {
+    
     .close, 
     .fullscreen-btn, 
     .zoom-btn {
@@ -1069,12 +1075,16 @@ footer p{
         position: absolute !important;
         transform: none !important;
     }
+
+    /* Ordem exata da direita para a esquerda: Close, Fullscreen, Zoom */
     .close {
         right: max(15px, env(safe-area-inset-right)) !important;
     }
+    
     .fullscreen-btn {
         right: calc(max(15px, env(safe-area-inset-right)) + 48px) !important;
     }
+    
     .zoom-btn {
         right: calc(max(15px, env(safe-area-inset-right)) + 96px) !important;
     }
