@@ -1428,7 +1428,10 @@ if (backToTop) {
     });
 }
 
-document.body.addEventListener("touchstart", function() {}, {passive: true});
+document.addEventListener("DOMContentLoaded", function() {
+    document.body.addEventListener("touchstart", function() {}, {passive: true});
+});
+
 </script>
 </body>
 </html>
