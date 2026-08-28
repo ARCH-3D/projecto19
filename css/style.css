@@ -830,7 +830,7 @@ footer p{
 .media-indicators{
     position:absolute;
     left:50%;
-    bottom:95px; /* Recuado para baixo para ganhar distância segura da imagem */
+    bottom:100px; /* Recuado para baixo para ganhar distância segura da imagem */
     transform:translateX(-50%);
     display:flex;
     gap:8px;
