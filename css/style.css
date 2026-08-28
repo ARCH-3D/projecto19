@@ -412,7 +412,7 @@ footer p{
 #modal-content img,
 #modal-content video{
     max-width: calc(100vw - max(40px, 6vw));
-    max-height: calc(100dvh - 120px);
+    max-height: calc(100dvh - 140px);
     width:auto;
     height:auto;
     object-fit:contain;
@@ -1017,7 +1017,7 @@ footer p{
     #modal-content img,
     #modal-content video {
         max-width: calc(100vw - 80px) !important; /* Margem lateral de segurança */
-        max-height: calc(100dvh - 95px) !important; /* Espaço ideal sem encolher a imagem nem atropelar as legendas */
+        max-height: calc(100dvh - 115px) !important; /* Espaço ideal sem encolher a imagem nem atropelar as legendas */
     }
 }
 
