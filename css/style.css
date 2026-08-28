@@ -425,8 +425,8 @@ footer p{
 }
 #modal-content img,
 #modal-content video{
-    max-width: calc(100vw - 120px);
-    max-height: calc(100dvh - 140px);
+    max-width: calc(100vw - 40px);
+    max-height: calc(100dvh - 115px);
     width:auto;
     height:auto;
     object-fit:contain;
@@ -1030,17 +1030,17 @@ footer p{
 @media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 40px) !important;
-        max-height: calc(100dvh - 120px) !important;
+        max-width: calc(100vw - 20px) !important; /* Margem quase impercetível de 10px de cada lado */
+        max-height: calc(100dvh - 115px) !important;
     }
 }
 
-/* 2. TABLET MODO PAISAGEM (Ex: Galaxy Tab S11/S7/A9+ Landscape) */
+/* 2. TABLET MODO PAISAGEM (Ex: Galaxy Tab S11/S7/A9+ Landscape, iPad Pro Landscape) */
 @media screen and (min-height: 551px) and (max-width: 1366px) and (orientation: landscape) {
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 80px) !important; /* Margem lateral de segurança */
-        max-height: calc(100dvh - 115px) !important; /* Espaço ideal sem encolher a imagem nem atropelar as legendas */
+        max-width: calc(100vw - 30px) !important; /* Permite esticar muito mais lateralmente (15px por lado) */
+        max-height: calc(100dvh - 115px) !important;
     }
 }
 
@@ -1124,14 +1124,14 @@ footer p{
 #modal-content:fullscreen img,
 #modal-content:fullscreen video {
     max-width: 100vw !important;
-    max-height: calc(100dvh - 120px) !important;
+    max-height: calc(100dvh - 115px) !important;
 }
 
 /* Para suporte extra em navegadores Safari/Apple */
 #modal-content:-webkit-full-screen img,
 #modal-content:-webkit-full-screen video {
     max-width: 100vw !important;
-    max-height: calc(100dvh - 120px) !important;
+    max-height: calc(100dvh - 115px) !important;
 }
 
 /* Garante que os telemóveis em modo deitado (onde a legenda é oculta) continuam a usar 100% do ecrã */
