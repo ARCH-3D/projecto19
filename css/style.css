@@ -1143,3 +1143,14 @@ footer p{
         max-height: 100dvh !important;
     }
 }
+
+/* Garante que em computadores, mesmo com janelas pequenas, a imagem encolhe para dar espaço às setas nas laterais */
+@media screen and (min-width: 769px) {
+    #modal-content img,
+    #modal-content video,
+    .modal-content img,
+    .modal-content video {
+        max-width: calc(100vw - 120px) !important; /* Deixa 60px de folga em cada lado para as setas */
+        box-sizing: border-box;
+    }
+}
