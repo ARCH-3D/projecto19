@@ -389,7 +389,6 @@ footer p{
     width:100%;
     height:100dvh;
     box-sizing:border-box;
-    /* Margem mínima garantida em redor: assegura resguardo lateral e vertical fluído */
     padding: max(20px, 3vw);
     overflow:hidden;
     position:relative;
@@ -397,8 +396,8 @@ footer p{
 }
 #modal-content img,
 #modal-content video{
-    max-width: calc(100vw - max(40px, 6vw)); /* Respeita sempre a margem mínima nas laterais */
-    max-height: calc(100dvh - 120px);         /* Deixa espaço reservado em baixo para as legendas */
+    max-width: calc(100vw - max(40px, 6vw));
+    max-height: calc(100dvh - 120px);
     width:auto;
     height:auto;
     object-fit:contain;
@@ -827,11 +826,11 @@ footer p{
         padding:40px 20px;
     }
 }
-/* ================== MEDIA INDICATORS ================== */
+/* ================== MEDIA INDICATORS (AJUSTADOS PARA FICAR MAIS ABAIXO) ================== */
 .media-indicators{
     position:absolute;
     left:50%;
-    bottom:150px;
+    bottom:90px; /* Recuado para baixo para ganhar distância segura da imagem */
     transform:translateX(-50%);
     display:flex;
     gap:8px;
@@ -839,7 +838,7 @@ footer p{
 }
 @media (max-width: 768px) {
     .media-indicators {
-        bottom: 60px;
+        bottom: 55px; /* Ajuste proporcional otimizado para telemóveis */
     }
 }
 .media-indicators span{
@@ -1024,7 +1023,7 @@ footer p{
         object-fit: contain !important;
     }
     .media-indicators {
-        bottom: 60px !important;
+        bottom: 50px !important;
     }
     #modal-projeto .modal-info {
         display: none !important;
@@ -1042,7 +1041,7 @@ footer p{
         object-fit: contain !important;
     }
     .media-indicators {
-        bottom: 60px !important;
+        bottom: 50px !important;
     }
     #modal-projeto .modal-info {
         display: none !important;
