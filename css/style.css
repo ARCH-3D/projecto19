@@ -1060,9 +1060,9 @@ footer p{
         right: max(20px, env(safe-area-inset-right)) !important;
     }
 }
-/* ================== AJUSTE PARA DISPOSITIVOS DOBRÁVEIS (Z FOLD ABERTO) ================== */
-@media screen and (max-width: 900px) and (min-aspect-ratio: 4/5) and (max-aspect-ratio: 5/4) {
-    /* Agrupa e posiciona os botões na horizontal no canto superior direito */
+/* ================== AJUSTE PARA DISPOSITIVOS DOBRÁVEIS (AMBAS AS ORIENTAÇÕES) ================== */
+@media screen and (max-width: 1024px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {
+    /* Força a disposição horizontal dos botões no canto superior direito para qualquer rotação (retrato ou paisagem) */
     .close {
         top: max(15px, env(safe-area-inset-top)) !important;
         right: max(15px, env(safe-area-inset-right)) !important;
