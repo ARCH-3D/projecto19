@@ -1075,31 +1075,38 @@ footer p{
         right: calc(max(15px, env(safe-area-inset-right)) + 96px) !important;
     }
 }
-/* ================== CORREÇÃO DEFINITIVA PARA GRELHA DE PROJETOS (ECRÃS ESTREITOS & LANDSCAPE) ================== */
-@media screen and (max-width: 480px), screen and (max-height: 500px) and (orientation: landscape) {
-    /* Reduz os paddings laterais globais de todas as secções de forma uniforme */
+/* ================== CORREÇÃO OTIMIZADA PARA GRELHA DE PROJETOS ================== */
+@media screen and (max-width: 480px) {
+    /* Aumenta a margem lateral para 22px para não colar demasiado ao ecrã */
     section {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
+        padding-left: 22px !important;
+        padding-right: 22px !important;
     }
 
-    /* Anula o comportamento da grelha e força centralização absoluta em formato coluna/flex */
+    /* Mantém a grelha ativa em modo retrato estreito se couber, ou força coluna se for muito estreito */
     .grid {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 auto !important;
-        padding: 0 !important;
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
         gap: 20px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
     }
 
-    /* Força os blocos de projeto a ocuparem 100% da largura útil sem transbordar */
     .project {
         width: 100% !important;
-        max-width: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+    }
+}
+
+/* Garante que em modo paisagem (landscape) a grelha nunca fica em coluna única exagerada */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    section {
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+    }
+
+    .grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+        gap: 20px !important;
     }
 }
