@@ -837,7 +837,7 @@ footer p{
 .media-indicators{
     position:absolute;
     left:50%;
-    bottom:105px; /* Posição ajustada ligeiramente mais alta para dar respiro */
+    bottom:105px;
     transform:translateX(-50%);
     display:flex;
     gap:8px;
@@ -845,7 +845,7 @@ footer p{
 }
 @media (max-width: 768px) {
     .media-indicators {
-        bottom: 80px; /* Proporção otimizada para telemóveis */
+        bottom: 80px;
     }
 }
 .media-indicators span{
@@ -1003,8 +1003,6 @@ footer p{
 }
 
 /* ================== AJUSTES ESPECÍFICOS PARA TABLETS E MOBILE ================== */
-
-/* 1. TABLET MODO RETRATO (Ex: Galaxy Tab S, iPad Portrait) */
 @media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
     #modal-content img,
     #modal-content video {
@@ -1013,16 +1011,14 @@ footer p{
     }
 }
 
-/* 2. TABLET MODO PAISAGEM (Ex: Galaxy Tab S11/S7/A9+ Landscape) */
 @media screen and (min-height: 551px) and (max-width: 1366px) and (orientation: landscape) {
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 80px) !important; /* Margem lateral de segurança */
-        max-height: calc(100dvh - 115px) !important; /* Espaço ideal sem encolher a imagem nem atropelar as legendas */
+        max-width: calc(100vw - 80px) !important;
+        max-height: calc(100dvh - 115px) !important;
     }
 }
 
-/* 3. TELEMÓVEIS MODO PAISAGEM (Ecrãs baixos <= 550px): Oculta legenda e reaproveita espaço */
 @media screen and (max-height: 550px) and (orientation: landscape) {
     #modal-content {
         padding: 10px !important;
@@ -1038,12 +1034,10 @@ footer p{
         object-fit: contain !important;
     }
 
-    /* Ocultar apenas a legenda, mantendo as bolinhas ativas */
     .modal-info {
         display: none !important;
     }
 
-    /* Reposicionar as bolinhas em baixo, visíveis e centradas */
     .media-indicators {
         display: flex !important;
         position: fixed !important;
@@ -1053,7 +1047,6 @@ footer p{
         z-index: 10004 !important;
     }
 
-    /* Reposicionar e alinhar os controlos (Close, Fullscreen, Zoom) na vertical */
     .close,
     .fullscreen-btn,
     .zoom-btn {
@@ -1080,7 +1073,6 @@ footer p{
     }
 }
 
-/* 4. DISPOSITIVOS DOBRÁVEIS (Foldables) */
 @media screen and (max-width: 1024px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {
     .close {
         top: max(15px, env(safe-area-inset-top)) !important;
@@ -1096,7 +1088,6 @@ footer p{
     }
 }
 
-/* ================== CORREÇÃO OTIMIZADA PARA GRELHA DE PROJETOS ================== */
 @media screen and (max-width: 480px) {
     section {
         padding-left: 22px !important;
