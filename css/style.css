@@ -1060,3 +1060,19 @@ footer p{
         right: max(20px, env(safe-area-inset-right)) !important;
     }
 }
+/* ================== AJUSTE PARA DISPOSITIVOS DOBRÁVEIS (Z FOLD ABERTO) ================== */
+@media screen and (max-width: 900px) and (min-aspect-ratio: 4/5) and (max-aspect-ratio: 5/4) {
+    /* Agrupa e posiciona os botões na horizontal no canto superior direito */
+    .close {
+        top: max(15px, env(safe-area-inset-top)) !important;
+        right: max(15px, env(safe-area-inset-right)) !important;
+    }
+    .zoom-btn {
+        top: max(15px, env(safe-area-inset-top)) !important;
+        right: calc(max(15px, env(safe-area-inset-right)) + 48px) !important;
+    }
+    .fullscreen-btn {
+        top: max(15px, env(safe-area-inset-top)) !important;
+        right: calc(max(15px, env(safe-area-inset-right)) + 96px) !important;
+    }
+}
