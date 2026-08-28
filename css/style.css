@@ -1097,3 +1097,15 @@ footer p{
         gap: 20px !important;
     }
 }
+
+/* ================== CORREÇÃO FULLSCREEN PAISAGEM (TELEMÓVEIS) ================== */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+    #modal-content {
+        padding: 10px !important;
+    }
+    #modal-content img, 
+    #modal-content video {
+        max-width: calc(100vw - 20px) !important;
+        max-height: calc(100dvh - 20px) !important;
+    }
+}
