@@ -709,6 +709,14 @@ footer p{
 
 /* ================= RESPONSIVE GERAL ================= */
 @media (max-width:768px){
+    #modal-content img,
+    #modal-content video{
+        max-width: calc(100vw - 20px) !important;
+        max-height: calc(100dvh - 110px) !important;
+        width: auto !important;
+        height: auto !important;
+        object-fit: contain !important;
+    }
     .menu-toggle{
         display:block;
     }

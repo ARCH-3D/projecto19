@@ -847,9 +847,10 @@ function mudarMidia(direcao){
             if (elementoAtual) elementoAtual.remove();
             elementoAtual = elementoSeguinte;
             elementoSeguinte = null;
+            ajustarBolinhasIPhone();
+            ajustarFullscreenAndroid();
             atualizarLaterais();
             preloadImagens();
-            ajustarFullscreenAndroid();
         }, 350);
         return;
     }
@@ -866,9 +867,10 @@ function mudarMidia(direcao){
             if (elementoAtual) elementoAtual.remove();
             elementoAtual = elementoAnterior;
             elementoAnterior = null;
+            ajustarBolinhasIPhone();
+            ajustarFullscreenAndroid();
             atualizarLaterais();
             preloadImagens();
-            ajustarFullscreenAndroid();
         }, 350);
     }
 }
@@ -1008,6 +1010,8 @@ function prepararImagemAnterior(){
     elementoAnterior.style.transform = "translate(calc(-50% - 100vw), -50%)";
     elementoAnterior.style.opacity = "1";
     conteudo.appendChild(elementoAnterior);
+    ajustarBolinhasIPhone();
+    ajustarFullscreenAndroid();
 }
 
 function prepararProximaImagem(){
@@ -1026,6 +1030,8 @@ function prepararProximaImagem(){
     elementoSeguinte.style.transform = "translate(calc(-50% + 100vw), -50%)";
     elementoSeguinte.style.opacity = "1";
     conteudo.appendChild(elementoSeguinte);
+    ajustarBolinhasIPhone();
+    ajustarFullscreenAndroid();
 }
 
 function mostrarMidia(){
@@ -1061,6 +1067,12 @@ function mostrarMidia(){
     novo.style.transform = direcaoSlide === 1 ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)` : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
     novo.style.opacity = "0";
     conteudo.appendChild(novo);
+    
+    // Atribui a referência imediatamente para os ajustes de telemóvel funcionarem logo na 1ª imagem
+    elementoAtual = novo;
+    ajustarBolinhasIPhone();
+    ajustarFullscreenAndroid();
+
     const iniciarAnimacao = () => {
         requestAnimationFrame(() => {
             if (antigo) {
