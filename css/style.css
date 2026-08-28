@@ -45,6 +45,10 @@ a:active {
     transition: transform 0.08s ease, opacity 0.08s ease !important;
 }
 
+button, a {
+    touch-action: manipulation;
+}
+
 /* ================== HEADER ================== */
 header{
     position:relative;
