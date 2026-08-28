@@ -1004,23 +1004,25 @@ footer p{
 
 /* ================== AJUSTES ESPECÍFICOS PARA TABLETS E MOBILE ================== */
 
-/* 1. Tablet em Modo Retrato (Ex: iPad, Galaxy Tab Portrait) */
-@media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
+/* 1. Tablet em Modo Retrato (Ajustado para o Galaxy Tab S7 e similares) */
+@media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) and (pointer: coarse) {
     #modal-content img,
     #modal-content video {
         max-width: calc(100vw - 40px) !important;
-        max-height: calc(100dvh - 220px) !important;
-        top: 50% !important;
+        max-height: calc(100dvh - 260px) !important; /* Folga vertical extra para a legenda */
+        top: 45% !important;
+        object-fit: contain !important;
     }
 }
 
-/* 2. Tablet em Modo Paisagem (Ex: iPad Pro, Galaxy Tab Landscape - Restrito a tablets com toque) */
-@media screen and (min-width: 768px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+/* 2. Tablet em Modo Paisagem (Ajustado para o Galaxy Tab S7 - Restrito a toque e até 1280px) */
+@media screen and (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) and (pointer: coarse) {
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 80px) !important;
-        max-height: calc(100dvh - 200px) !important;
-        top: 50% !important;
+        max-width: calc(100vw - 100px) !important;
+        max-height: calc(100dvh - 210px) !important; /* Reduz a altura para afastar da legenda */
+        top: 44% !important;
+        object-fit: contain !important;
     }
 }
 
