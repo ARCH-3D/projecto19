@@ -260,7 +260,7 @@ section p{
 /* ================== PROJECT GRID ================== */
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
     gap:30px;
 }
 
@@ -837,7 +837,7 @@ footer p{
 .media-indicators{
     position:absolute;
     left:50%;
-    bottom:105px;
+    bottom:105px; /* Posição ajustada ligeiramente mais alta para dar respiro */
     transform:translateX(-50%);
     display:flex;
     gap:8px;
@@ -845,7 +845,7 @@ footer p{
 }
 @media (max-width: 768px) {
     .media-indicators {
-        bottom: 80px;
+        bottom: 80px; /* Proporção otimizada para telemóveis */
     }
 }
 .media-indicators span{
@@ -1003,6 +1003,8 @@ footer p{
 }
 
 /* ================== AJUSTES ESPECÍFICOS PARA TABLETS E MOBILE ================== */
+
+/* 1. TABLET MODO RETRATO (Ex: Galaxy Tab S, iPad Portrait) */
 @media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
     #modal-content img,
     #modal-content video {
@@ -1011,66 +1013,46 @@ footer p{
     }
 }
 
+/* 2. TABLET MODO PAISAGEM (Ex: Galaxy Tab S11/S7/A9+ Landscape) */
 @media screen and (min-height: 551px) and (max-width: 1366px) and (orientation: landscape) {
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 80px) !important;
-        max-height: calc(100dvh - 115px) !important;
+        max-width: calc(100vw - 80px) !important; /* Margem lateral de segurança */
+        max-height: calc(100dvh - 115px) !important; /* Espaço ideal sem encolher a imagem nem atropelar as legendas */
     }
 }
 
+/* 3. TELEMÓVEIS MODO PAISAGEM (Ecrãs baixos <= 550px): Oculta legenda e reaproveita espaço */
 @media screen and (max-height: 550px) and (orientation: landscape) {
-    #modal-content {
-        padding: 10px !important;
-        box-sizing: border-box !important;
-    }
-
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 20px) !important;
-        max-height: calc(100dvh - 20px) !important; 
-        width: auto !important;
-        height: auto !important;
+        max-width: 100vw !important;
+        max-height: calc(100dvh - 20px) !important;
+        width: 100% !important;
+        height: 100% !important;
         object-fit: contain !important;
     }
-
     .modal-info {
         display: none !important;
     }
-
     .media-indicators {
-        display: flex !important;
-        position: fixed !important;
-        bottom: 15px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        z-index: 10004 !important;
+        bottom: 35px !important;
     }
-
-    /* Posicionamento seguro no canto superior direito para landscape em mobile */
-    .close,
-    .fullscreen-btn,
-    .zoom-btn {
-        position: fixed !important;
-        left: auto !important;
-        margin: 0 !important;
-        z-index: 10005 !important;
-        top: max(10px, env(safe-area-inset-top)) !important;
-    }
-
     .close {
-        right: max(15px, env(safe-area-inset-right)) !important;
+        top: max(12px, env(safe-area-inset-top)) !important;
+        right: max(20px, env(safe-area-inset-right)) !important;
     }
-
-    .fullscreen-btn {
-        right: max(60px, calc(env(safe-area-inset-right) + 45px)) !important;
-    }
-
     .zoom-btn {
-        right: max(105px, calc(env(safe-area-inset-right) + 90px)) !important;
+        top: calc(max(12px, env(safe-area-inset-top)) + 48px) !important;
+        right: max(20px, env(safe-area-inset-right)) !important;
+    }
+    .fullscreen-btn {
+        top: calc(max(12px, env(safe-area-inset-top)) + 96px) !important;
+        right: max(20px, env(safe-area-inset-right)) !important;
     }
 }
 
+/* 4. DISPOSITIVOS DOBRÁVEIS (Foldables) */
 @media screen and (max-width: 1024px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {
     .close {
         top: max(15px, env(safe-area-inset-top)) !important;
@@ -1086,6 +1068,7 @@ footer p{
     }
 }
 
+/* ================== CORREÇÃO OTIMIZADA PARA GRELHA DE PROJETOS ================== */
 @media screen and (max-width: 480px) {
     section {
         padding-left: 22px !important;

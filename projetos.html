@@ -680,11 +680,11 @@ function ajustarFullscreenAndroid(){
         const altura = window.innerHeight;
         const aplicarImagem = (elemento) => {
             if (!elemento) return;
-            // Deixa a imagem usar o ecrã todo de forma fluida (controlada pelo CSS responsivo)
-            elemento.style.setProperty("max-width", "100vw", "important");
-            elemento.style.setProperty("max-height", altura + "px", "important");
+            // Garante margens laterais e resguardo inferior para a legenda/indicadores
+            elemento.style.setProperty("max-width", "calc(100vw - 80px)", "important");
+            elemento.style.setProperty("max-height", "calc(" + altura + "px - 95px)", "important");
             elemento.style.setProperty("width", "auto", "important");
-            elemento.style.setProperty("height", "100%", "important");
+            elemento.style.setProperty("height", "auto", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
             elemento.style.left = "50%";
             elemento.style.top = "50%";
@@ -697,7 +697,7 @@ function ajustarFullscreenAndroid(){
         if (indicadores) {
             indicadores.style.position = "fixed";
             indicadores.style.left = "50%";
-            indicadores.style.bottom = "12px"; // Alinha discretamente em baixo
+            indicadores.style.bottom = "75px";
             indicadores.style.transform = "translateX(-50%)";
             indicadores.style.zIndex = "99999";
         }
@@ -743,31 +743,27 @@ function mostrarBotaoFullscreen(){
     const btn = fullscreenBtn, close = closeBtn, zoom = zoomBtn;
     if (!btn) return;
     const isAndroid = /Android/i.test(navigator.userAgent), isApple = isAppleMobile();
-    
     if (isApple) {
-        // No iPhone, o botão fullscreen está desativado/oculto, logo o zoom ocupa a sua posição à direita
         btn.classList.remove("show");
         btn.style.display = "none";
-        if (zoom) zoom.style.right = "max(20px, env(safe-area-inset-right))";
+        if (zoom) zoom.style.right = "78px";
     } else if (isAndroid) {
         if (FULLSCREEN_TELEMOVEL) {
             btn.style.display = "";
             btn.classList.add("show");
-            if (zoom) zoom.style.right = "max(124px, calc(env(safe-area-inset-right) + 104px))";
+            if (zoom) zoom.style.right = "126px";
         } else {
             btn.classList.remove("show");
             btn.style.display = "none";
-            if (zoom) zoom.style.right = "max(72px, calc(env(safe-area-inset-right) + 52px))";
+            if (zoom) zoom.style.right = "78px";
         }
     } else {
         btn.style.display = "";
         btn.classList.add("show");
-        if (zoom) zoom.style.right = "max(124px, calc(env(safe-area-inset-right) + 104px))";
+        if (zoom) zoom.style.right = "126px";
     }
-    
     if (close) close.classList.add("show-controls");
     if (zoom) zoom.classList.add("show");
-    
     if (window.matchMedia("(pointer: coarse)").matches) {
         clearTimeout(fullscreenTimeout);
         return;
