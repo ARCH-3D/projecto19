@@ -1101,11 +1101,14 @@ footer p{
 /* ================== CORREÇÃO FULLSCREEN PAISAGEM (TELEMÓVEIS) ================== */
 @media screen and (max-height: 600px) and (orientation: landscape) {
     #modal-content {
-        padding: 10px !important;
+        padding: 0 !important;
     }
     #modal-content img, 
     #modal-content video {
-        max-width: calc(100vw - 20px) !important;
-        max-height: calc(100dvh - 20px) !important;
+        max-width: 100vw !important;
+        max-height: 100dvh !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
     }
 }
