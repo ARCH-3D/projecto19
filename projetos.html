@@ -34,6 +34,7 @@ gtag('config','G-JXJP0D464R');
 <a href="contactos.html">Contactos</a>
 </nav>
 </header>
+
 <div class="contact-widget">
 <div class="contact-links">
 <a href="mailto:info.projecto19@gmail.com">
@@ -50,11 +51,13 @@ gtag('config','G-JXJP0D464R');
 <span>Fale Connosco</span>
 </button>
 </div>
+
 <button id="back-to-top" aria-label="Voltar ao topo">
 <svg viewBox="0 0 24 24" fill="none">
 <path d="M6 15L12 9L18 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 </button>
+
 <section class="projects-section">
 <div class="grid">
 <!-- Projeto 181 -->
@@ -195,6 +198,7 @@ gtag('config','G-JXJP0D464R');
 </div>
 </div>
 </section>
+
 <!-- Modal -->
 <div id="modal-projeto" class="modal" role="dialog" aria-modal="true">
 <button class="close" onclick="fecharModal()" aria-label="Fechar">&times;</button>
@@ -229,6 +233,7 @@ gtag('config','G-JXJP0D464R');
 <span class="prev" onclick="mudarMidia(-1)" aria-label="Imagem anterior">‹</span>
 <span class="next" onclick="mudarMidia(1)" aria-label="Imagem seguinte">›</span>
 </div>
+
 <footer>
 <div class="social-links">
 <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
@@ -242,6 +247,7 @@ gtag('config','G-JXJP0D464R');
 </div>
 <p>© PROJETO 19</p>
 </footer>
+
 <script>
 const projetos = {
 projeto187: {
@@ -516,7 +522,8 @@ media: [
 ]
 }
 };
-const FULLSCREEN_TELEMOVEL = false;
+
+const FULLSCREEN_TELEMOVEL = true;
 let projetoAtual = null, midiasAtuais = [], indiceAtual = 0, direcaoSlide = 1;
 let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0, ultimoToque = 0;
 let currentTranslate = 0, isDragging = false, isVerticalDrag = false, currentY = 0;
@@ -529,6 +536,7 @@ let rafZoom = null, zoomTargetX = 0, zoomTargetY = 0, limiteZoomX = 0, limiteZoo
 let distanciaInicialPinch = 0, escalaInicialPinch = 1;
 let pinchCentroX = 0, pinchCentroY = 0, pinchImagemX = 0, pinchImagemY = 0;
 let isPinching = false, ultimoPinch = 0;
+
 const ZOOM_MIN = 1, ZOOM_MAX = 4, DEFAULT_ZOOM = 2;
 const MODAL_FADE_DISTANCE = 400, DRAG_START_THRESHOLD = 10, MEDIA_ENTRY_OFFSET = 50;
 const TRANSITION_FAST = "transform .25s ease";
@@ -537,6 +545,7 @@ const TRANSITION_SLIDE = "transform .25s ease-out";
 const SWIPE_THRESHOLD = 0.15, PREVIEW_THRESHOLD = 40, VERTICAL_CLOSE_THRESHOLD = 0.20;
 const DOUBLE_TAP_DELAY = 300, SLIDE_ANIMATION_TIME = 250, RESET_ANIMATION_TIME = 300;
 const MEDIA_TRANSITION_TIME = 450, FULLSCREEN_BUTTON_TIMEOUT = 1000, MOBILE_BREAKPOINT = 768;
+
 const modal = document.getElementById("modal-projeto");
 const modalContent = document.getElementById("modal-content");
 const modalIndicators = document.getElementById("modal-indicators");
@@ -547,6 +556,7 @@ const contactWidget = document.querySelector(".contact-widget");
 const contactButton = document.querySelector(".contact-trigger");
 const backToTop = document.getElementById("back-to-top");
 const menu = document.getElementById("menu");
+
 function resetZoom(){
     zoomAtivo = false;
     escalaZoom = ZOOM_MIN;
@@ -558,6 +568,7 @@ function resetZoom(){
     if (modalContent) modalContent.style.cursor = "";
     if (zoomBtn) zoomBtn.textContent = "+";
 }
+
 function atualizarZoom(){
     rafZoom = null;
     if (!elementoAtual) return;
@@ -566,6 +577,7 @@ function atualizarZoom(){
     zoomTargetY = Math.max(-limiteZoomY, Math.min(limiteZoomY, zoomTargetY));
     elementoAtual.style.transform = `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
 }
+
 function atualizarLimitesZoom(){
     if (!elementoAtual) return;
     const larguraImagem = elementoAtual.clientWidth * escalaZoom;
@@ -573,11 +585,13 @@ function atualizarLimitesZoom(){
     limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
     limiteZoomY = Math.max(0, (alturaImagem - window.innerHeight) / 2);
 }
+
 function distanciaToques(t1, t2){
     const dx = t1.clientX - t2.clientX;
     const dy = t1.clientY - t2.clientY;
     return Math.hypot(dx, dy);
 }
+
 function abrirProjeto(nomeProjeto){
     if (!projetos[nomeProjeto]) return;
     if (typeof gtag === "function") {
@@ -613,6 +627,7 @@ function abrirProjeto(nomeProjeto){
     if (contactWidget) contactWidget.style.display = "none";
     if (backToTop) backToTop.classList.remove("show");
 }
+
 function fecharModal(){
     resetZoom();
     document.getElementById("modal-projeto").style.display = "none";
@@ -642,9 +657,11 @@ function fecharModal(){
     }
     document.getElementById("modal-projeto").style.background = "";
 }
+
 function isAppleMobile(){
     return /iPhone|iPod/i.test(navigator.userAgent);
 }
+
 function isIPhoneSafariOrEdge(){
     const ua = navigator.userAgent;
     const isIPhone = /iPhone/i.test(ua);
@@ -652,6 +669,7 @@ function isIPhoneSafariOrEdge(){
     const isSafari = /Safari/i.test(ua) && !/CriOS/i.test(ua) && !/FxiOS/i.test(ua) && !/EdgiOS/i.test(ua);
     return isIPhone && (isSafari || isEdge);
 }
+
 function ajustarFullscreenAndroid(){
     const emAndroid = /Android/i.test(navigator.userAgent);
     const landscape = window.matchMedia("(orientation: landscape)").matches;
@@ -687,6 +705,7 @@ function ajustarFullscreenAndroid(){
         setTimeout(aplicar, 600);
     });
 }
+
 function ajustarBolinhasIPhone(){
     const indicadores = document.querySelector(".media-indicators");
     const landscape = window.matchMedia("(orientation: landscape)").matches;
@@ -712,6 +731,7 @@ function ajustarBolinhasIPhone(){
         aplicarTamanho(elementoSeguinte);
     }
 }
+
 function mostrarBotaoFullscreen(){
     const btn = fullscreenBtn, close = closeBtn, zoom = zoomBtn;
     if (!btn) return;
@@ -749,6 +769,7 @@ function mostrarBotaoFullscreen(){
         if (zoom) zoom.classList.remove("show");
     }, FULLSCREEN_BUTTON_TIMEOUT);
 }
+
 [fullscreenBtn, zoomBtn, closeBtn].forEach(controle => {
     if (!controle) return;
     controle.addEventListener("mouseenter", () => {
@@ -767,6 +788,7 @@ function mostrarBotaoFullscreen(){
         }, FULLSCREEN_BUTTON_TIMEOUT);
     });
 });
+
 function toggleFullscreen(){
     if (!document.fullscreenElement) {
         if (modal.requestFullscreen) modal.requestFullscreen();
@@ -776,6 +798,7 @@ function toggleFullscreen(){
         else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
     }
 }
+
 function atualizarIndicadores(criar = false){
     const container = modalIndicators;
     if (criar) {
@@ -789,14 +812,17 @@ function atualizarIndicadores(criar = false){
     barras.forEach(barra => barra.classList.remove("active"));
     if (barras[indiceAtual]) barras[indiceAtual].classList.add("active");
 }
+
 function atualizarPreview(){
     previewIndice = indiceAtual;
     atualizarIndicadores();
 }
+
 function atualizarLaterais(){
     prepararImagemAnterior();
     prepararProximaImagem();
 }
+
 function mudarMidia(direcao){
     if (!elementoAtual) return;
     const largura = window.innerWidth;
@@ -839,6 +865,7 @@ function mudarMidia(direcao){
         }, 350);
     }
 }
+
 function handleSwipe(){
     const distancia = touchEndX - touchStartX;
     const limite = window.innerWidth * SWIPE_THRESHOLD;
@@ -903,11 +930,13 @@ function handleSwipe(){
         atualizarPreview();
     }, RESET_ANIMATION_TIME);
 }
+
 function configurarElementoMidia(elemento){
     elemento.style.position = "absolute";
     elemento.style.left = "50%";
     elemento.style.top = "50%";
 }
+
 function criarElementoMidia(midia){
     let elemento;
     if (midia.type === "image") {
@@ -934,11 +963,13 @@ function criarElementoMidia(midia){
     elemento.style.zIndex = "2";
     return elemento;
 }
+
 function centrarElemento(elemento){
     if (!elemento) return;
     elemento.style.transition = TRANSITION_FAST;
     elemento.style.transform = "translate(-50%, -50%)";
 }
+
 function preloadImagens(){
     const proximas = [
         (indiceAtual + 1) % midiasAtuais.length,
@@ -952,6 +983,7 @@ function preloadImagens(){
         }
     });
 }
+
 function prepararImagemAnterior(){
     const conteudo = document.getElementById("modal-content");
     if (elementoAnterior && elementoAnterior.parentNode) elementoAnterior.remove();
@@ -968,6 +1000,7 @@ function prepararImagemAnterior(){
     elementoAnterior.style.opacity = "1";
     conteudo.appendChild(elementoAnterior);
 }
+
 function prepararProximaImagem(){
     const conteudo = document.getElementById("modal-content");
     if (elementoSeguinte && elementoSeguinte.parentNode) elementoSeguinte.remove();
@@ -984,6 +1017,7 @@ function prepararProximaImagem(){
     elementoSeguinte.style.opacity = "1";
     conteudo.appendChild(elementoSeguinte);
 }
+
 function mostrarMidia(){
     resetZoom();
     const conteudo = document.getElementById("modal-content");
@@ -1045,9 +1079,11 @@ function mostrarMidia(){
     if (midia.grayscale) novo.classList.add("grayscale");
     else novo.classList.remove("grayscale");
 }
+
 function toggleMenu(){
     menu.classList.toggle("active");
 }
+
 document.addEventListener("keydown", function(e){
     if(modal.style.display==="flex"){
         if(e.key==="ArrowLeft"||e.key==="ArrowRight"){
@@ -1057,6 +1093,7 @@ document.addEventListener("keydown", function(e){
         } else if(e.key==="Escape") fecharModal();
     }
 });
+
 modal.addEventListener("touchstart", function(e){
     if (e.touches.length === 2) {
         isPinching = true;
@@ -1089,6 +1126,7 @@ modal.addEventListener("touchstart", function(e){
     if (elementoSeguinte) elementoSeguinte.style.transition = "none";
     if (elementoAnterior) elementoAnterior.style.transition = "none";
 });
+
 modal.addEventListener("touchmove", function(e){
     if (e.touches.length === 2 && elementoAtual) {
         isPinching = true;
@@ -1154,6 +1192,7 @@ modal.addEventListener("touchmove", function(e){
         elementoAnterior.style.transform = `translate(calc(-50% + ${entrada}px), -50%)`;
     }
 });
+
 modal.addEventListener("touchend", function(e){
     if (isPinching) {
         if (e.touches.length < 2) {
@@ -1190,6 +1229,7 @@ modal.addEventListener("touchend", function(e){
     }
     handleSwipe();
 });
+
 modalContent.addEventListener("mousedown", function(e){
     if (e.button !== 0 || !zoomAtivo || !elementoAtual) return;
     e.preventDefault();
@@ -1201,6 +1241,7 @@ modalContent.addEventListener("mousedown", function(e){
     elementoAtual.style.transition = "none";
     modalContent.style.cursor = "grabbing";
 });
+
 document.addEventListener("mousemove", function(e){
     if (!mouseZoomAtivo || !elementoAtual) return;
     e.preventDefault();
@@ -1208,17 +1249,21 @@ document.addEventListener("mousemove", function(e){
     zoomTargetY = mouseZoomInicioY + (e.clientY - mouseZoomStartY);
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
 });
+
 document.addEventListener("mouseup", function(){
     if (!mouseZoomAtivo) return;
     mouseZoomAtivo = false;
     modalContent.style.cursor = "";
 });
+
 document.getElementById("modal-projeto").addEventListener("click", function(e){
     if (e.target === this) fecharModal();
 });
+
 document.getElementById("modal-content").addEventListener("click", function(e){
     e.stopPropagation();
 });
+
 modalContent.addEventListener("dblclick", function(e){
     e.stopPropagation();
     if (!elementoAtual) return;
@@ -1235,6 +1280,7 @@ modalContent.addEventListener("dblclick", function(e){
     elementoAtual.style.transition = TRANSITION_FAST;
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
 });
+
 modalContent.addEventListener("touchend", function(e){
     if (isVerticalDrag) return;
     const touch = e.changedTouches[0];
@@ -1264,18 +1310,22 @@ modalContent.addEventListener("touchend", function(e){
         ultimoToque = agora;
     }
 });
+
 modalContent.addEventListener("mousemove", mostrarBotaoFullscreen);
 modalContent.addEventListener("touchstart", mostrarBotaoFullscreen);
+
 document.addEventListener("fullscreenchange", () => {
     modal.style.background = "";
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
 });
+
 fullscreenBtn.addEventListener("click", function(e){
     e.stopPropagation();
     if (isAppleMobile()) return;
     toggleFullscreen();
 });
+
 zoomBtn.addEventListener("click", function(e){
     e.stopPropagation();
     if (!elementoAtual) return;
@@ -1290,19 +1340,23 @@ zoomBtn.addEventListener("click", function(e){
     }
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
 });
+
 document.querySelectorAll(".project").forEach(projeto => {
     projeto.addEventListener("touchstart", function(){
         document.querySelectorAll(".project").forEach(p => p.classList.remove("touched"));
         this.classList.add("touched");
     });
 });
+
 contactButton.addEventListener("click", function(e){
     e.stopPropagation();
     contactWidget.classList.toggle("active");
 });
+
 contactWidget.addEventListener("click", function(e){
     e.stopPropagation();
 });
+
 const menuToggle = document.querySelector(".menu-toggle");
 document.addEventListener("touchstart", function(e){
     const toque = e.touches[0];
@@ -1322,6 +1376,7 @@ document.addEventListener("touchstart", function(e){
         contactWidget.classList.remove("active");
     }
 }, { passive: true });
+
 document.addEventListener("click", function(e){
     if (
         contactWidget &&
@@ -1331,6 +1386,7 @@ document.addEventListener("click", function(e){
         contactWidget.classList.remove("active");
     }
 });
+
 window.addEventListener("scroll", () => {
     if (contactWidget && contactWidget.classList.contains("active")) {
         contactWidget.classList.remove("active");
@@ -1347,14 +1403,17 @@ window.addEventListener("scroll", () => {
         }
     }
 });
+
 window.addEventListener("orientationchange", () => {
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
 });
+
 window.addEventListener("resize", () => {
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
 });
+
 if (backToTop) {
     backToTop.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
