@@ -389,15 +389,16 @@ footer p{
     width:100%;
     height:100dvh;
     box-sizing:border-box;
-    padding:2vw;
+    /* Margem mínima garantida em redor: assegura resguardo lateral e vertical fluído */
+    padding: max(20px, 3vw);
     overflow:hidden;
     position:relative;
     contain:layout paint;
 }
 #modal-content img,
 #modal-content video{
-    max-width:100%;
-    max-height:calc(100dvh - 120px);
+    max-width: calc(100vw - max(40px, 6vw)); /* Respeita sempre a margem mínima nas laterais */
+    max-height: calc(100dvh - 120px);         /* Deixa espaço reservado em baixo para as legendas */
     width:auto;
     height:auto;
     object-fit:contain;
@@ -432,8 +433,8 @@ footer p{
 @media (max-width:767px) and (orientation:landscape){
     #modal-content img,
     #modal-content video{
-        max-width:100%;
-        max-height:calc(100dvh - 20px);
+        max-width: calc(100vw - 20px);
+        max-height: calc(100dvh - 20px);
     }
 }
 /* ================= PROJECT INFO ================= */
@@ -783,8 +784,8 @@ footer p{
 @media (max-width:480px){
     #modal-content img,
     #modal-content video{
-        max-width:100%;
-        max-height:calc(100dvh - 120px);
+        max-width: calc(100vw - 20px);
+        max-height: calc(100dvh - 120px);
     }
     .hero-text{
         top:7%;
