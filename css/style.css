@@ -559,10 +559,10 @@ footer p{
     padding: 20px 10px;
 }
 .prev{
-    left: max(10px, 2vw);
+    left: max(8px, 1vw);
 }
 .next{
-    right: max(10px, 2vw);
+    right: max(8px, 1vw);
 }
 
 /* ================= CONTACT WIDGET ================= */
