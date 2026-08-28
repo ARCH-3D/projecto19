@@ -1060,18 +1060,33 @@ footer p{
         right: max(20px, env(safe-area-inset-right)) !important;
     }
 }
-/* ================== AJUSTE PARA DISPOSITIVOS DOBRÁVEIS (ORDEM: CLOSE, FULLSCREEN, ZOOM) ================== */
-@media screen and (max-width: 1024px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {
-    .close {
-        top: max(15px, env(safe-area-inset-top)) !important;
-        right: max(15px, env(safe-area-inset-right)) !important;
-    }
-    .fullscreen-btn {
-        top: max(15px, env(safe-area-inset-top)) !important;
-        right: calc(max(15px, env(safe-area-inset-right)) + 48px) !important;
-    }
+/* ================== AJUSTE EXCLUSIVO PARA Z FOLDS ABERTOS (TODAS AS GERAÇÕES) ================== */
+/* 
+  1. min-width: 650px e min-height: 650px: Ignora completamente qualquer telemóvel normal, 
+     pois estes nunca atingem estas dimensões simultâneas em nenhuma orientação.
+  2. aspect-ratio: Cobre rigorosamente os formatos quase-quadrados/tipo tablet dos Z Folds 
+     abertos (tanto em retrato como em paisagem), ignorando telemóveis compridos.
+*/
+@media screen and (min-width: 650px) and (min-height: 650px) and (aspect-ratio: 3/5) and (aspect-ratio: 5/3) {
+    
+    .close, 
+    .fullscreen-btn, 
     .zoom-btn {
         top: max(15px, env(safe-area-inset-top)) !important;
+        position: absolute !important;
+        transform: none !important;
+    }
+
+    /* Ordem exata da direita para a esquerda: Close, Fullscreen, Zoom */
+    .close {
+        right: max(15px, env(safe-area-inset-right)) !important;
+    }
+    
+    .fullscreen-btn {
+        right: calc(max(15px, env(safe-area-inset-right)) + 48px) !important;
+    }
+    
+    .zoom-btn {
         right: calc(max(15px, env(safe-area-inset-right)) + 96px) !important;
     }
 }
