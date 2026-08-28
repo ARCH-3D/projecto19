@@ -258,10 +258,24 @@ section p{
 }
 
 /* ================== PROJECT GRID ================== */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:30px;
+.grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Força 1 coluna em telemóveis fechados/normais */
+    gap: 30px; /* Mantém o espaçamento original */
+}
+
+/* Z Fold Desdobrado e Tablets (a partir de 530px) */
+@media (min-width: 530px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr); /* Força exatamente 2 colunas lado a lado */
+    }
+}
+
+/* Ecrãs maiores e Computador (a partir de 1024px) */
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Devolve a fluidez no Desktop */
+    }
 }
 
 /* ================== PROJECT ================== */
