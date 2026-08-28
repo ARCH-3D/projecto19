@@ -1003,21 +1003,21 @@ footer p{
 
 /* ================== AJUSTES ESPECÍFICOS PARA TABLETS E MOBILE ================== */
 
-/* 1. TABLET MODO RETRATO (Ex: Galaxy Tab S, iPad Portrait): Maximiza a largura e reduz margens brancas */
+/* 1. TABLET MODO RETRATO (Ex: Galaxy Tab S, iPad Portrait) */
 @media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 30px) !important; /* Apenas 15px de margem lateral */
-        max-height: calc(100dvh - 180px) !important; /* Resguardo de altura para indicadores/legenda */
+        max-width: calc(100vw - 40px) !important;
+        max-height: calc(100dvh - 120px) !important;
     }
 }
 
-/* 2. TABLET MODO PAISAGEM (Ex: Galaxy Tab S11/S7/A9+ Landscape): Impede sobreposição da legenda */
+/* 2. TABLET MODO PAISAGEM (Ex: Galaxy Tab S11/S7/A9+ Landscape) */
 @media screen and (min-height: 551px) and (max-width: 1366px) and (orientation: landscape) {
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 60px) !important;
-        max-height: calc(100dvh - 220px) !important; /* Garante margem de segurança para a legenda */
+        max-width: calc(100vw - 80px) !important; /* Margem lateral de segurança */
+        max-height: calc(100dvh - 95px) !important; /* Espaço ideal sem encolher a imagem nem atropelar as legendas */
     }
 }
 
