@@ -38,7 +38,6 @@ body.modal-open{
 }
 
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
-/* Efeito de clique/toque mais percetível e imediato */
 button:active,
 a:active {
     transform: scale(0.92) !important;
@@ -165,11 +164,11 @@ section h3{
 .section-title{
     font-weight:500;
 }
-section p {
-    margin: 0;
+section p{
+    margin:0;
     text-align: justify;
     hyphens: auto;
-    -webkit-hyphens: auto;
+    -webkit-hyphens: auto; 
 }
 /* Espaçamentos específicos de secção */
 .team-member-title{
@@ -1021,18 +1020,34 @@ footer p{
     #modal-projeto .modal-info {
         display: none !important;
     }
-
-    /* ================== BOTÕES DO MODAL (VERTICAL NO CANTO SUPERIOR DIREITO) ================== */
+}
+/* ================== AJUSTE MÓVEL LANDSCAPE (MARGEM OTIMIZADA) ================== */
+@media screen and (max-height: 500px) and (orientation: landscape),
+       screen and (max-width: 950px) and (orientation: landscape) and (hover: none) {
+    #modal-content img,
+    #modal-content video {
+        max-width: none !important;
+        max-height: none !important;
+        width: auto !important;
+        height: calc(100dvh - 20px) !important;
+    }
+    .media-indicators {
+        bottom: 60px !important;
+    }
+    #modal-projeto .modal-info {
+        display: none !important;
+    }
+    /* ================== BOTÕES DO MODAL ================== */
     .close {
         top: max(12px, env(safe-area-inset-top)) !important;
-        right: max(15px, env(safe-area-inset-right)) !important;
+        right: max(20px, env(safe-area-inset-right)) !important;
     }
     .zoom-btn {
         top: calc(max(12px, env(safe-area-inset-top)) + 48px) !important;
-        right: max(15px, env(safe-area-inset-right)) !important;
+        right: max(20px, env(safe-area-inset-right)) !important;
     }
     .fullscreen-btn {
         top: calc(max(12px, env(safe-area-inset-top)) + 96px) !important;
-        right: max(15px, env(safe-area-inset-right)) !important;
+        right: max(20px, env(safe-area-inset-right)) !important;
     }
 }
