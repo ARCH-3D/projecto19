@@ -1025,14 +1025,12 @@ footer p{
 /* 3. TELEMÓVEIS MODO PAISAGEM (Ecrãs baixos <= 550px): Oculta legenda e reaproveita espaço */
 @media screen and (max-height: 550px) and (orientation: landscape) {
     #modal-content {
-        /* Padding mínimo e igual em todos os lados para criar a faixa fina uniforme */
         padding: 10px !important;
         box-sizing: border-box !important;
     }
 
     #modal-content img,
     #modal-content video {
-        /* Desconta apenas o espaço mínimo da margem superior/inferior (ex: 20px no total) */
         max-width: calc(100vw - 20px) !important;
         max-height: calc(100dvh - 20px) !important; 
         width: auto !important;
@@ -1040,12 +1038,37 @@ footer p{
         object-fit: contain !important;
     }
 
-    .modal-info {
+    /* Ocultar elementos informativos em ecrãs muito baixos para ganhar área útil */
+    .modal-info,
+    .media-indicators {
         display: none !important;
     }
 
-    .media-indicators {
-        bottom: 40px !important; 
+    /* Reposicionar e alinhar os controlos (Close, Fullscreen, Zoom) na vertical */
+    .close,
+    .fullscreen-btn,
+    .zoom-btn {
+        position: fixed !important;
+        right: 15px !important;
+        top: auto !important;
+        left: auto !important;
+        margin: 0 !important;
+    }
+
+    /* Ordem e espaçamento vertical dos botões no canto superior direito */
+    .close {
+        top: 15px !important;
+        z-index: 10005 !important;
+    }
+
+    .fullscreen-btn {
+        top: 60px !important;
+        z-index: 10005 !important;
+    }
+
+    .zoom-btn {
+        top: 105px !important;
+        z-index: 10005 !important;
     }
 }
 
