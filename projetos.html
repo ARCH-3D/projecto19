@@ -678,11 +678,15 @@ function ajustarFullscreenAndroid(){
     
     function aplicar(){
         const altura = window.innerHeight;
+        
+        // Se for telemóvel (altura <= 550), usa o ecrã todo. Se for Tablet (altura > 550), retira 120px para a legenda.
+        const alturaImagem = altura > 550 ? (altura - 120) : altura;
+        
         const aplicarImagem = (elemento) => {
             if (!elemento) return;
             // Garante margens laterais e resguardo inferior para a legenda/indicadores
             elemento.style.setProperty("max-width", "100vw", "important");
-            elemento.style.setProperty("max-height", altura + "px", "important");
+            elemento.style.setProperty("max-height", alturaImagem + "px", "important");
             elemento.style.setProperty("width", "auto", "important");
             elemento.style.setProperty("height", "auto", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
