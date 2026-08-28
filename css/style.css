@@ -1038,10 +1038,19 @@ footer p{
         object-fit: contain !important;
     }
 
-    /* Ocultar elementos informativos em ecrãs muito baixos para ganhar área útil */
-    .modal-info,
-    .media-indicators {
+    /* Ocultar apenas a legenda, mantendo as bolinhas ativas */
+    .modal-info {
         display: none !important;
+    }
+
+    /* Reposicionar as bolinhas em baixo, visíveis e centradas */
+    .media-indicators {
+        display: flex !important;
+        position: fixed !important;
+        bottom: 40px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 10004 !important;
     }
 
     /* Reposicionar e alinhar os controlos (Close, Fullscreen, Zoom) na vertical */
@@ -1055,7 +1064,6 @@ footer p{
         margin: 0 !important;
     }
 
-    /* Ordem e espaçamento vertical dos botões no canto superior direito */
     .close {
         top: 15px !important;
         z-index: 10005 !important;
