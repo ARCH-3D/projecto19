@@ -16,6 +16,24 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js',new Date());
 gtag('config','G-JXJP0D464R');
 </script>
+<style>
+/* Fix específico para evitar que a imagem sobreponha a legenda (ano/área/local) em tablets como o Galaxy Tab S7 */
+@media (max-width: 1300px) {
+    #modal-content img,
+    #modal-content video {
+        max-height: calc(100dvh - 220px) !important;
+    }
+    .modal-info {
+        z-index: 100000 !important;
+    }
+}
+@media (max-width: 768px) {
+    #modal-content img,
+    #modal-content video {
+        max-height: calc(100dvh - 170px) !important;
+    }
+}
+</style>
 </head>
 <body ontouchstart="">
 <header>
@@ -678,11 +696,12 @@ function ajustarFullscreenAndroid(){
     
     function aplicar(){
         const altura = window.innerHeight;
+        const alturaSegura = altura - 160; // Cria espaço no fundo para não esmagar a legenda
+
         const aplicarImagem = (elemento) => {
             if (!elemento) return;
-            // Alterado para 100vw e altura total, removendo as contas matemáticas (calc)
             elemento.style.setProperty("max-width", "100vw", "important");
-            elemento.style.setProperty("max-height", altura + "px", "important");
+            elemento.style.setProperty("max-height", alturaSegura + "px", "important");
             elemento.style.setProperty("width", "100%", "important");
             elemento.style.setProperty("height", "100%", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
@@ -697,9 +716,14 @@ function ajustarFullscreenAndroid(){
         if (indicadores) {
             indicadores.style.position = "fixed";
             indicadores.style.left = "50%";
-            indicadores.style.bottom = "25px"; // Ajustado ligeiramente mais para baixo
+            indicadores.style.bottom = "75px"; // Colocado confortavelmente acima da legenda
             indicadores.style.transform = "translateX(-50%)";
             indicadores.style.zIndex = "99999";
+        }
+        
+        const legenda = document.querySelector(".modal-info");
+        if (legenda) {
+            legenda.style.zIndex = "100000"; // Traz a legenda à frente
         }
     }
     
@@ -726,7 +750,6 @@ function ajustarBolinhasIPhone(){
     if (safariEdgeLandscape) {
         const aplicarTamanho = (elemento) => {
             if (!elemento) return;
-            // Ajustado para limites seguros com object-fit
             elemento.style.setProperty("max-width", "100vw", "important");
             elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
             elemento.style.setProperty("width", "100%", "important");
@@ -999,7 +1022,7 @@ function prepararImagemAnterior(){
     elementoAnterior = criarElementoMidia(midiasAtuais[indiceAnterior]);
     if (/Android/i.test(navigator.userAgent) && window.matchMedia("(orientation: landscape)").matches && document.fullscreenElement) {
         elementoAnterior.style.setProperty("max-width", "100vw", "important");
-        elementoAnterior.style.setProperty("max-height", window.innerHeight + "px", "important");
+        elementoAnterior.style.setProperty("max-height", (window.innerHeight - 160) + "px", "important");
         elementoAnterior.style.setProperty("width", "100%", "important");
         elementoAnterior.style.setProperty("height", "100%", "important");
         elementoAnterior.style.setProperty("object-fit", "contain", "important");
@@ -1017,7 +1040,7 @@ function prepararProximaImagem(){
     elementoSeguinte = criarElementoMidia(midiasAtuais[proximoIndice]);
     if (/Android/i.test(navigator.userAgent) && window.matchMedia("(orientation: landscape)").matches && document.fullscreenElement) {
         elementoSeguinte.style.setProperty("max-width", "100vw", "important");
-        elementoSeguinte.style.setProperty("max-height", window.innerHeight + "px", "important");
+        elementoSeguinte.style.setProperty("max-height", (window.innerHeight - 160) + "px", "important");
         elementoSeguinte.style.setProperty("width", "100%", "important");
         elementoSeguinte.style.setProperty("height", "100%", "important");
         elementoSeguinte.style.setProperty("object-fit", "contain", "important");
@@ -1328,108 +1351,7 @@ modalContent.addEventListener("touchstart", mostrarBotaoFullscreen);
 document.addEventListener("fullscreenchange", () => {
     modal.style.background = "";
     ajustarFullscreenAndroid();
-    ajustarBolinhasIPhone();
 });
-
-fullscreenBtn.addEventListener("click", function(e){
-    e.stopPropagation();
-    if (isAppleMobile()) return;
-    toggleFullscreen();
-});
-
-zoomBtn.addEventListener("click", function(e){
-    e.stopPropagation();
-    if (!elementoAtual) return;
-    zoomAtivo = !zoomAtivo;
-    zoomBtn.textContent = zoomAtivo ? "−" : "+";
-    elementoAtual.style.transition = TRANSITION_FAST;
-    if (zoomAtivo) {
-        escalaZoom = DEFAULT_ZOOM;
-    } else {
-        escalaZoom = ZOOM_MIN;
-        zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
-    }
-    if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
-});
-
-document.querySelectorAll(".project").forEach(projeto => {
-    projeto.addEventListener("touchstart", function(){
-        document.querySelectorAll(".project").forEach(p => p.classList.remove("touched"));
-        this.classList.add("touched");
-    });
-});
-
-contactButton.addEventListener("click", function(e){
-    e.stopPropagation();
-    contactWidget.classList.toggle("active");
-});
-
-contactWidget.addEventListener("click", function(e){
-    e.stopPropagation();
-});
-
-const menuToggle = document.querySelector(".menu-toggle");
-document.addEventListener("touchstart", function(e){
-    const toque = e.touches[0];
-    if (
-        menu &&
-        menu.classList.contains("active") &&
-        !menu.contains(toque.target) &&
-        !menuToggle.contains(toque.target)
-    ) {
-        menu.classList.remove("active");
-    }
-    if (
-        contactWidget &&
-        contactWidget.classList.contains("active") &&
-        !contactWidget.contains(toque.target)
-    ) {
-        contactWidget.classList.remove("active");
-    }
-}, { passive: true });
-
-document.addEventListener("click", function(e){
-    if (
-        contactWidget &&
-        contactWidget.classList.contains("active") &&
-        !contactWidget.contains(e.target)
-    ) {
-        contactWidget.classList.remove("active");
-    }
-});
-
-window.addEventListener("scroll", () => {
-    if (contactWidget && contactWidget.classList.contains("active")) {
-        contactWidget.classList.remove("active");
-    }
-    if (document.body.classList.contains("modal-open")) {
-        if (backToTop) backToTop.classList.remove("show");
-        return;
-    }
-    if (backToTop) {
-        if (window.scrollY > 400) {
-            backToTop.classList.add("show");
-        } else {
-            backToTop.classList.remove("show");
-        }
-    }
-});
-
-window.addEventListener("orientationchange", () => {
-    ajustarBolinhasIPhone();
-    ajustarFullscreenAndroid();
-});
-
-window.addEventListener("resize", () => {
-    ajustarFullscreenAndroid();
-    ajustarBolinhasIPhone();
-});
-
-if (backToTop) {
-    backToTop.addEventListener("click", () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-}
 </script>
 </body>
 </html>
