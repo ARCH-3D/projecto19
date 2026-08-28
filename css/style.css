@@ -1144,13 +1144,12 @@ footer p{
     }
 }
 
-/* Garante que em computadores, mesmo com janelas pequenas, a imagem encolhe para dar espaço às setas nas laterais */
+/* Afeta exclusivamente computadores (ecrãs com mais de 768px) */
 @media screen and (min-width: 769px) {
-    #modal-content img,
-    #modal-content video,
-    .modal-content img,
-    .modal-content video {
-        max-width: calc(100vw - 120px) !important; /* Deixa 60px de folga em cada lado para as setas */
-        box-sizing: border-box;
+    #modal-content, 
+    .modal-content {
+        padding-left: 70px !important;
+        padding-right: 70px !important;
+        box-sizing: border-box !important;
     }
 }
