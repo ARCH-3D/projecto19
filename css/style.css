@@ -1026,17 +1026,17 @@ footer p{
 @media screen and (max-height: 550px) and (orientation: landscape) {
     #modal-content img,
     #modal-content video {
-        max-width: 100vw !important;
-        max-height: 100dvh !important;
-        width: auto !important;     /* Deixa a largura ajustar-se proporcionalmente */
-        height: 100% !important;    /* Força a imagem a aproveitar toda a altura útil */
+        max-width: calc(100vw - 40px) !important;     /* Deixa uma margem lateral de segurança */
+        max-height: calc(100dvh - 55px) !important;    /* Deixa folga em cima e em baixo para as bolinhas */
+        width: auto !important;                        /* Mantém a proporção */
+        height: auto !important;                       /* Deixa a altura ajustar-se proporcionalmente sem forçar 100% */
         object-fit: contain !important;
     }
     .modal-info {
         display: none !important;
     }
     .media-indicators {
-        bottom: 12px !important;    /* Aproxima as bolinhas do limite para ganhar espaço */
+        bottom: 24px !important;                       /* Afasta as bolinhas de forma segura */
     }
     .close {
         top: max(12px, env(safe-area-inset-top)) !important;
