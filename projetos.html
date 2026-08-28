@@ -681,8 +681,8 @@ function ajustarFullscreenAndroid(){
         const aplicarImagem = (elemento) => {
             if (!elemento) return;
             // Garante margens laterais e resguardo inferior para a legenda/indicadores
-            elemento.style.setProperty("max-width", "calc(100vw - 80px)", "important");
-            elemento.style.setProperty("max-height", "calc(" + altura + "px - 95px)", "important");
+            elemento.style.setProperty("max-width", "100vw", "important");
+            eelemento.style.setProperty("max-height", altura + "px", "important");
             elemento.style.setProperty("width", "auto", "important");
             elemento.style.setProperty("height", "auto", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
@@ -728,7 +728,7 @@ function ajustarBolinhasIPhone(){
             if (!elemento) return;
             // Ajustado para limites seguros com object-fit
             elemento.style.setProperty("max-width", "100vw", "important");
-            elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+            elemento.style.setProperty("max-height", "100dvh", "important");
             elemento.style.setProperty("width", "100%", "important");
             elemento.style.setProperty("height", "100%", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
