@@ -1004,23 +1004,23 @@ footer p{
 
 /* ================== AJUSTES ESPECÍFICOS PARA TABLETS E MOBILE ================== */
 
-/* 1. TABLET MODO RETRATO (Ex: Galaxy Tab S, iPad Portrait) */
+/* 1. Tablet em Modo Retrato (Ex: iPad, Galaxy Tab Portrait) */
 @media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
     #modal-content img,
     #modal-content video {
         max-width: calc(100vw - 40px) !important;
-        max-height: calc(100dvh - 240px) !important; /* Margem aumentada para não sobrepor a legenda */
-        top: calc(50% - 50px) !important; /* Desloca a imagem para cima de forma a libertar o fundo */
+        max-height: calc(100dvh - 220px) !important;
+        top: 50% !important;
     }
 }
 
-/* 2. TABLET MODO PAISAGEM (Ex: Galaxy Tab S11/S7/A9+ Landscape) */
-@media screen and (min-height: 551px) and (max-width: 1600px) and (orientation: landscape) {
+/* 2. Tablet em Modo Paisagem (Ex: iPad Pro, Galaxy Tab Landscape - Restrito a tablets com toque) */
+@media screen and (min-width: 768px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 80px) !important; /* Margem lateral de segurança */
-        max-height: calc(100dvh - 240px) !important; /* Margem aumentada para não sobrepor a legenda */
-        top: calc(50% - 50px) !important; /* Desloca a imagem para cima de forma a libertar o fundo */
+        max-width: calc(100vw - 80px) !important;
+        max-height: calc(100dvh - 200px) !important;
+        top: 50% !important;
     }
 }
 
