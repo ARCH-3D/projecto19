@@ -1143,13 +1143,3 @@ footer p{
         max-height: 100dvh !important;
     }
 }
-
-/* Afeta exclusivamente computadores (ecrãs com mais de 768px) */
-@media screen and (min-width: 769px) {
-    #modal-content, 
-    .modal-content {
-        padding-left: 70px !important;
-        padding-right: 70px !important;
-        box-sizing: border-box !important;
-    }
-}
