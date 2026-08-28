@@ -1075,38 +1075,31 @@ footer p{
         right: calc(max(15px, env(safe-area-inset-right)) + 96px) !important;
     }
 }
-/* ================== CORREÇÃO PARA ECRÃS ESTREITOS (MODO RETRATO / Z FOLD FECHADO) ================== */
-@media screen and (max-width: 480px) and (orientation: portrait) {
-    body, html {
-        overflow-x: hidden;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-    }
-    .projects-grid, 
-    .project-container, 
-    .gallery-grid {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
+/* ================== CORREÇÃO DEFINITIVA PARA GRELHA DE PROJETOS (ECRÃS ESTREITOS) ================== */
+@media screen and (max-width: 480px) {
+    /* Reduz os paddings laterais globais de todas as secções em ecrãs estreitos */
+    section {
         padding-left: 15px !important;
         padding-right: 15px !important;
-        box-sizing: border-box !important;
     }
-    .project-item, 
-    .project-card, 
-    .projects-grid img, 
-    .project-container img {
+
+    /* Anula o comportamento da grelha e força centralização absoluta */
+    .grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
         width: 100% !important;
         max-width: 100% !important;
-        height: auto !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        object-fit: cover;
-        box-sizing: border-box !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        gap: 20px !important;
+    }
+
+    /* Força os blocos de projeto a ocuparem 100% da largura útil sem transbordar */
+    .project {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
 }
