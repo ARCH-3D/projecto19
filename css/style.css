@@ -425,7 +425,7 @@ footer p{
 }
 #modal-content img,
 #modal-content video{
-    max-width: calc(100vw - 120px);
+    max-width: calc(100% - 160px); 
     max-height: calc(100dvh - 140px);
     width:auto;
     height:auto;
@@ -1141,14 +1141,5 @@ footer p{
     #modal-content:-webkit-full-screen img,
     #modal-content:-webkit-full-screen video {
         max-height: 100dvh !important;
-    }
-}
-
-/* Afeta exclusivamente computadores: reduz a largura máxima da imagem para afastar das setas, mantendo o centro perfeito */
-@media screen and (min-width: 769px) {
-    #modal-content img,
-    #modal-content video {
-        max-width: calc(100vw - 180px) !important;
-        max-height: calc(100dvh - 140px) !important;
     }
 }
