@@ -227,6 +227,7 @@ section p{
     color:var(--c-text);
     text-decoration:none;
     transition:var(--trans-main);
+    width: fit-content;
 }
 .contact-page .service-icon{
     width:42px;
