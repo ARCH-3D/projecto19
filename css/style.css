@@ -1060,18 +1060,22 @@ footer p{
         right: max(20px, env(safe-area-inset-right)) !important;
     }
 }
-/* ================== AJUSTE PARA DISPOSITIVOS DOBRÁVEIS (ORDEM: CLOSE, FULLSCREEN, ZOOM) ================== */
-@media screen and (max-width: 1024px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {
-    .close {
+/* ================== AJUSTE ROBUSTO PARA DOBRÁVEIS (AMBAS AS ORIENTAÇÕES) ================== */
+@media screen and (max-width: 1024px) and (max-height: 1024px) {
+    .close, 
+    .fullscreen-btn, 
+    .zoom-btn {
         top: max(15px, env(safe-area-inset-top)) !important;
+        position: absolute !important;
+        transform: none !important;
+    }
+    .close {
         right: max(15px, env(safe-area-inset-right)) !important;
     }
     .fullscreen-btn {
-        top: max(15px, env(safe-area-inset-top)) !important;
         right: calc(max(15px, env(safe-area-inset-right)) + 48px) !important;
     }
     .zoom-btn {
-        top: max(15px, env(safe-area-inset-top)) !important;
         right: calc(max(15px, env(safe-area-inset-right)) + 96px) !important;
     }
 }
