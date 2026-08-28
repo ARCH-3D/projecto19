@@ -556,12 +556,13 @@ footer p{
     touch-action:manipulation;
     z-index:10000;
     transition:var(--trans-main);
+    padding: 20px 10px;
 }
 .prev{
-    left:25px;
+    left: max(15px, 2vw);
 }
 .next{
-    right:25px;
+    right: max(15px, 2vw);
 }
 
 /* ================= CONTACT WIDGET ================= */
