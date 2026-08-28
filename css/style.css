@@ -1004,25 +1004,21 @@ footer p{
 
 /* ================== AJUSTES ESPECÍFICOS PARA TABLETS E MOBILE ================== */
 
-/* 1. Tablet em Modo Retrato (Ajustado para o Galaxy Tab S7 e similares) */
-@media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) and (pointer: coarse) {
+/* 1. TABLET MODO RETRATO (Ex: Galaxy Tab S, iPad Portrait) */
+@media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
     #modal-content img,
     #modal-content video {
         max-width: calc(100vw - 40px) !important;
-        max-height: calc(100dvh - 260px) !important; /* Folga vertical extra para a legenda */
-        top: 45% !important;
-        object-fit: contain !important;
+        max-height: calc(100dvh - 120px) !important;
     }
 }
 
-/* 2. Tablet em Modo Paisagem (Ajustado para o Galaxy Tab S7 - Restrito a toque e até 1280px) */
-@media screen and (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) and (pointer: coarse) {
+/* 2. TABLET MODO PAISAGEM (Ex: Galaxy Tab S11/S7/A9+ Landscape) */
+@media screen and (min-height: 551px) and (max-width: 1366px) and (orientation: landscape) {
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 100px) !important;
-        max-height: calc(100dvh - 210px) !important; /* Reduz a altura para afastar da legenda */
-        top: 44% !important;
-        object-fit: contain !important;
+        max-width: calc(100vw - 80px) !important; /* Margem lateral de segurança */
+        max-height: calc(100dvh - 115px) !important; /* Espaço ideal sem encolher a imagem nem atropelar as legendas */
     }
 }
 
@@ -1099,18 +1095,6 @@ footer p{
         display: grid !important;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
         gap: 20px !important;
-    }
-}
-
-/* ================== CORREÇÃO FULLSCREEN PAISAGEM (TELEMÓVEIS) ================== */
-@media screen and (max-height: 600px) and (orientation: landscape) {
-    #modal-content {
-        padding: 10px !important;
-    }
-    #modal-content img, 
-    #modal-content video {
-        max-width: calc(100vw - 20px) !important;
-        max-height: calc(100dvh - 20px) !important;
     }
 }
 
