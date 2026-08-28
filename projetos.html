@@ -732,7 +732,10 @@ function ajustarBolinhasIPhone(){
             if (!elemento) return;
             // Ajustado para limites seguros com object-fit
             elemento.style.setProperty("max-width", "100vw", "important");
-            elemento.style.setProperty("max-height", "100dvh", "important");
+            
+            // CORREÇÃO: Substituir "100dvh" por "calc(100dvh - 20px)"
+            elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important"); 
+            
             elemento.style.setProperty("width", "100%", "important");
             elemento.style.setProperty("height", "100%", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
