@@ -13,7 +13,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent; /* Remove o destaque tátil nativo em mobile */
+    -webkit-tap-highlight-color:transparent;
 }
 /* ================== HTML ================== */
 html{
@@ -38,12 +38,12 @@ body.modal-open{
 }
 
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
-/* Aplica um efeito de clique/toque universal e instantâneo a todos os botões e links */
+/* Efeito de clique/toque mais percetível e imediato */
 button:active,
 a:active {
-    transform: scale(0.95) !important;
-    opacity: 0.7 !important;
-    transition: transform 0.1s ease, opacity 0.1s ease !important;
+    transform: scale(0.92) !important;
+    opacity: 0.5 !important;
+    transition: transform 0.08s ease, opacity 0.08s ease !important;
 }
 
 /* ================== HEADER ================== */
@@ -165,8 +165,11 @@ section h3{
 .section-title{
     font-weight:500;
 }
-section p{
-    margin:0;
+section p {
+    margin: 0;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
 }
 /* Espaçamentos específicos de secção */
 .team-member-title{
@@ -700,16 +703,25 @@ footer p{
         top:80px;
         right:20px;
         background:var(--c-bg);
-        padding:20px;
+        padding:16px; /* Reduzido de 20px para um balão menor */
         border-radius:12px;
         box-shadow:0 10px 30px rgba(0,0,0,.15);
         flex-direction:column;
-        gap:18px;
+        gap:6px; /* Menos espaço entre os links */
         z-index:5000;
     }
     nav.active{
         display:flex;
     }
+    
+    /* Área de clique e texto ligeiramente reduzidos */
+    nav a {
+        font-size: 13px; /* Reduzido de 14px */
+        padding: 10px 10px; /* Reduzido de 12px para menos altura */
+        width: 100%;
+        text-align: left;
+    }
+    
     .service-icon{
         width:56px;
         min-width:56px;
