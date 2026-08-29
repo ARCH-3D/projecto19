@@ -751,32 +751,22 @@ function mostrarBotaoFullscreen(){
     const btn = fullscreenBtn, close = closeBtn, zoom = zoomBtn;
     if (!btn) return;
     
-    const isAndroid = /Android/i.test(navigator.userAgent), isApple = isAppleMobile();
-    
-    if (isApple) {
-        if (FULLSCREEN_IPHONE) {
-            btn.style.display = "";
-            btn.classList.add("show");
-            if (zoom) zoom.style.right = "126px";
-        } else {
-            btn.classList.remove("show");
-            btn.style.display = "none";
-            if (zoom) zoom.style.right = "78px";
-        }
-    } else if (isAndroid) {
-        if (FULLSCREEN_TELEMOVEL) {
-            btn.style.display = "";
-            btn.classList.add("show");
-            if (zoom) zoom.style.right = "126px";
-        } else {
-            btn.classList.remove("show");
-            btn.style.display = "none";
-            if (zoom) zoom.style.right = "78px";
-        }
-    } else {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isApple = isAppleMobile();
+
+    // Determina se o botão deve ser visível no dispositivo atual
+    const deveMostrar = (isApple && FULLSCREEN_IPHONE) || 
+                          (isAndroid && FULLSCREEN_TELEMOVEL) || 
+                          (!isApple && !isAndroid);
+
+    if (deveMostrar) {
         btn.style.display = "";
         btn.classList.add("show");
         if (zoom) zoom.style.right = "126px";
+    } else {
+        btn.classList.remove("show");
+        btn.style.display = "none";
+        if (zoom) zoom.style.right = "78px";
     }
 
     if (close) close.classList.add("show-controls");
