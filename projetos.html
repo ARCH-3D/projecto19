@@ -1487,6 +1487,27 @@ if (backToTop) {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
+
+// Limpar estilos inline forçados ao sair do modo Fullscreen (corrige imagem colada aos limites)
+document.addEventListener("fullscreenchange", function() {
+    // Verifica se já não estamos em fullscreen
+    if (!document.fullscreenElement) {
+        
+        const limparEstilos = (elemento) => {
+            if (!elemento) return;
+            elemento.style.removeProperty("max-width");
+            elemento.style.removeProperty("max-height");
+            elemento.style.removeProperty("width");
+            elemento.style.removeProperty("height");
+            elemento.style.removeProperty("object-fit");
+        };
+
+        // Remove as propriedades forçadas das imagens carregadas no momento
+        limparEstilos(elementoAtual);
+        limparEstilos(elementoAnterior);
+        limparEstilos(elementoSeguinte);
+    }
+});
 </script>
 </body>
 </html>
