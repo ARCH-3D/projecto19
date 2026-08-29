@@ -524,6 +524,7 @@ media: [
 };
 
 const FULLSCREEN_TELEMOVEL = true;
+const FULLSCREEN_IPHONE = true;
 let projetoAtual = null, midiasAtuais = [], indiceAtual = 0, direcaoSlide = 1;
 let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0, ultimoToque = 0;
 let currentTranslate = 0, isDragging = false, isVerticalDrag = false, currentY = 0;
@@ -749,11 +750,19 @@ function ajustarBolinhasIPhone(){
 function mostrarBotaoFullscreen(){
     const btn = fullscreenBtn, close = closeBtn, zoom = zoomBtn;
     if (!btn) return;
+    
     const isAndroid = /Android/i.test(navigator.userAgent), isApple = isAppleMobile();
+    
     if (isApple) {
-        btn.classList.remove("show");
-        btn.style.display = "none";
-        if (zoom) zoom.style.right = "78px";
+        if (FULLSCREEN_IPHONE) {
+            btn.style.display = "";
+            btn.classList.add("show");
+            if (zoom) zoom.style.right = "126px";
+        } else {
+            btn.classList.remove("show");
+            btn.style.display = "none";
+            if (zoom) zoom.style.right = "78px";
+        }
     } else if (isAndroid) {
         if (FULLSCREEN_TELEMOVEL) {
             btn.style.display = "";
@@ -769,12 +778,15 @@ function mostrarBotaoFullscreen(){
         btn.classList.add("show");
         if (zoom) zoom.style.right = "126px";
     }
+
     if (close) close.classList.add("show-controls");
     if (zoom) zoom.classList.add("show");
+
     if (window.matchMedia("(pointer: coarse)").matches) {
         clearTimeout(fullscreenTimeout);
         return;
     }
+
     clearTimeout(fullscreenTimeout);
     fullscreenTimeout = setTimeout(() => {
         if ((btn && btn.matches(":hover")) || (close && close.matches(":hover")) || (zoom && zoom.matches(":hover"))) return;
@@ -1388,7 +1400,8 @@ document.addEventListener("fullscreenchange", () => {
 
 fullscreenBtn.addEventListener("click", function(e){
     e.stopPropagation();
-    if (isAppleMobile()) return;
+    // Bloqueia apenas se for um dispositivo Apple E a variável estiver a false
+    if (isAppleMobile() && !FULLSCREEN_IPHONE) return; 
     toggleFullscreen();
 });
 
