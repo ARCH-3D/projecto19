@@ -1508,6 +1508,52 @@ document.addEventListener("fullscreenchange", function() {
         limparEstilos(elementoSeguinte);
     }
 });
+
+// Deteção estrita de iPhone
+const isIPhone = /iPhone/i.test(navigator.userAgent) && !window.MSStream;
+
+// Função para acionar o scroll impercetível que encolhe a barra do Safari
+function forcarRecolhimentoSafari() {
+    if (!isIPhone) return;
+
+    // Ligeiro atraso para sincronizar com a animação de abertura do modal
+    setTimeout(() => {
+        window.scrollBy({
+            top: 60,
+            behavior: 'smooth'
+        });
+    }, 150);
+}
+
+// -------------------------------------------------------------
+// EVENTO 1: Ao abrir o modal da imagem do projeto
+// -------------------------------------------------------------
+// Na sua função existente onde abre a imagem em fullscreen/modal:
+function abrirModalImagem() {
+    // 1. Código atual de abertura do modal (ex: modal.classList.add('show');)
+    
+    // 2. Executa o hack de scroll no iPhone
+    forcarRecolhimentoSafari();
+}
+
+// -------------------------------------------------------------
+// EVENTO 2: Ao rodar para Modo Paisagem (Landscape) no iPhone
+// -------------------------------------------------------------
+window.addEventListener('orientationchange', () => {
+    if (!isIPhone) return;
+
+    // Aguarda o iOS concluir a rotação do ecrã antes de acionar o scroll
+    setTimeout(() => {
+        // Verifica se ficou em modo paisagem (largura maior que a altura)
+        if (window.innerWidth > window.innerHeight) {
+            window.scrollBy({
+                top: 60,
+                behavior: 'smooth'
+            });
+        }
+    }, 300);
+});
+
 </script>
 </body>
 </html>
