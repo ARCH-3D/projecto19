@@ -1178,13 +1178,8 @@ modal.addEventListener("touchstart", function(e){
         return;
     }
     
-    // Registo do toque simples
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
-    
-    // Guardar a posição inicial para o gatilho da barra nativa do browser
-    initialTouchY = e.touches[0].clientY;
-    isFirstTouch = true;
 
     if (zoomAtivo) {
         moverImagem = true;
@@ -1204,7 +1199,7 @@ modal.addEventListener("touchstart", function(e){
     if (elementoSeguinte) elementoSeguinte.style.transition = "none";
     if (elementoAnterior) elementoAnterior.style.transition = "none";
 
-}, { passive: true }); // <-- Apenas uma chaveta e parêntese a fechar o addEventListener corretamente
+}, { passive: true });
 
 modal.addEventListener("touchmove", function(e){
     
