@@ -595,7 +595,6 @@ function distanciaToques(t1, t2){
 
 function abrirProjeto(nomeProjeto){
     if (!projetos[nomeProjeto]) return;
-    
     if (typeof gtag === "function") {
         gtag("event", "projeto_aberto", {
             projeto: nomeProjeto,
@@ -603,52 +602,29 @@ function abrirProjeto(nomeProjeto){
             local: projetos[nomeProjeto].info.local
         });
     }
-    
     projetoAtual = projetos[nomeProjeto];
     midiasAtuais = projetoAtual.media;
     indiceAtual = 0;
     previewIndice = indiceAtual;
-    
     atualizarIndicadores(true);
     mostrarMidia();
     mostrarBotaoFullscreen();
     if (zoomBtn) zoomBtn.textContent = "+";
     preloadImagens();
-    
     document.getElementById("modal-title").textContent = projetoAtual.info.nome;
     document.getElementById("modal-year").textContent = projetoAtual.info.ano;
     document.getElementById("modal-area").textContent = projetoAtual.info.area;
     document.getElementById("modal-location").textContent = projetoAtual.info.local;
-    
+    document.getElementById("modal-projeto").style.display = "flex";
+    document.body.classList.add("modal-open");
     const modalProjeto = document.getElementById("modal-projeto");
-    modalProjeto.style.display = "flex";
-    
-    // --- INÍCIO DA CORREÇÃO DO IOS SAFARI ---
     if (isIPhoneSafariOrEdge()) {
         modalProjeto.classList.add("iphone-device");
-        
-        // 1. Força altura extra para garantir espaço de scroll
-        document.body.style.minHeight = "150vh";
-        
-        // 2. Faz scroll para forçar a barra do Safari a encolher
-        window.scrollBy({ top: 150, behavior: 'smooth' });
-        
-        // 3. Aguarda a animação do Safari terminar antes de trancar o scroll do body
-        setTimeout(() => {
-            document.body.classList.add("modal-open");
-            document.body.style.minHeight = ""; // Limpa a altura forçada
-        }, 400);
-        
     } else {
         modalProjeto.classList.remove("iphone-device");
-        // Comportamento normal e imediato para Android e Desktop
-        document.body.classList.add("modal-open");
     }
-    // --- FIM DA CORREÇÃO ---
-
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
-    
     if (contactWidget) contactWidget.style.display = "none";
     if (backToTop) backToTop.classList.remove("show");
 }
@@ -1532,62 +1508,6 @@ document.addEventListener("fullscreenchange", function() {
         limparEstilos(elementoSeguinte);
     }
 });
-
-// Deteção estrita de iPhone
-const isIPhone = /iPhone/i.test(navigator.userAgent) && !window.MSStream;
-
-// Função para acionar o scroll impercetível que encolhe a barra do Safari
-function forcarRecolhimentoSafari() {
-    if (!isIPhone) return;
-
-    // Ligeiro atraso para sincronizar com a animação de abertura do modal
-    setTimeout(() => {
-        window.scrollBy({
-            top: 60,
-            behavior: 'smooth'
-        });
-    }, 150);
-}
-
-// -------------------------------------------------------------
-// EVENTO 1: Ao abrir o modal da imagem do projeto
-// -------------------------------------------------------------
-// Na sua função existente onde abre a imagem em fullscreen/modal:
-function abrirModalImagem() {
-    // 1. Código atual de abertura do modal (ex: modal.classList.add('show');)
-    
-    // 2. Executa o hack de scroll no iPhone
-    forcarRecolhimentoSafari();
-}
-
-// -------------------------------------------------------------
-// EVENTO 2: Ao rodar para Modo Paisagem (Landscape) no iPhone
-// -------------------------------------------------------------
-window.addEventListener('orientationchange', () => {
-    ajustarBolinhasIPhone();
-    ajustarFullscreenAndroid();
-
-    if (!isIPhone) return;
-
-    // Removemos o bloqueio temporariamente
-    document.body.classList.remove("modal-open");
-
-    // Aguarda o iOS concluir a rotação do ecrã
-    setTimeout(() => {
-        if (window.innerWidth > window.innerHeight) {
-            // Scroll agressivo para garantir que a barra minimiza em modo paisagem
-            window.scrollBy({ top: 120, behavior: 'smooth' });
-        }
-        
-        // Volta a bloquear o scroll após a barra recolher
-        setTimeout(() => {
-            if (document.getElementById("modal-projeto").style.display === "flex") {
-                document.body.classList.add("modal-open");
-            }
-        }, 400);
-    }, 300);
-});
-
 </script>
 </body>
 </html>

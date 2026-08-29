@@ -1143,14 +1143,3 @@ footer p{
         max-height: 100dvh !important;
     }
 }
-
-/* Exemplo de estilo para o modal no iPhone */
-.modal-fullscreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100dvh; /* Adapta-se dinamicamente conforme a barra recolhe */
-    background-color: rgba(0, 0, 0, 0.95);
-    transition: opacity 0.3s ease;
-}
