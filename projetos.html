@@ -631,6 +631,7 @@ function abrirProjeto(nomeProjeto){
 
 function fecharModal(){
     resetZoom();
+    modal.classList.remove("immersive-mode");
     document.getElementById("modal-projeto").style.display = "none";
     document.getElementById("modal-content").innerHTML = "";
     elementoAtual = null;
@@ -806,6 +807,13 @@ function mostrarBotaoFullscreen(){
 });
 
 function toggleFullscreen(){
+    // 1. Se for iPhone / iOS, ativa/desativa o Modo Imersivo via CSS (pois o iOS não suporta a API nativa)
+    if (typeof isAppleMobile === "function" && isAppleMobile()) {
+        modal.classList.toggle("immersive-mode");
+        return;
+    }
+
+    // 2. Para Android e Desktop: API Nativa de Fullscreen + Bloqueio de Rotação
     if (!document.fullscreenElement) {
         // Tenta entrar em ecrã inteiro
         const requestFS = modal.requestFullscreen || modal.webkitRequestFullscreen;
@@ -841,7 +849,7 @@ function toggleFullscreen(){
                 if (screen.orientation && screen.orientation.unlock) {
                     screen.orientation.unlock();
                 }
-            });
+            }).catch(e => console.warn(e));
         } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
             if (screen.orientation && screen.orientation.unlock) {
