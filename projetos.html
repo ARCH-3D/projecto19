@@ -537,8 +537,6 @@ let rafZoom = null, zoomTargetX = 0, zoomTargetY = 0, limiteZoomX = 0, limiteZoo
 let distanciaInicialPinch = 0, escalaInicialPinch = 1;
 let pinchCentroX = 0, pinchCentroY = 0, pinchImagemX = 0, pinchImagemY = 0;
 let isPinching = false, ultimoPinch = 0;
-let initialTouchY = 0;
-let isFirstTouch = true;
 
 const ZOOM_MIN = 1, ZOOM_MAX = 4, DEFAULT_ZOOM = 2;
 const MODAL_FADE_DISTANCE = 400, DRAG_START_THRESHOLD = 10, MEDIA_ENTRY_OFFSET = 50;
@@ -1177,10 +1175,8 @@ modal.addEventListener("touchstart", function(e){
         pinchImagemY = zoomTargetY;
         return;
     }
-    
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
-
     if (zoomAtivo) {
         moverImagem = true;
         zoomStartX = e.touches[0].clientX - zoomX;
@@ -1188,7 +1184,6 @@ modal.addEventListener("touchstart", function(e){
         if (elementoAtual) elementoAtual.style.transition = "none";
         return;
     }
-    
     isVerticalDrag = false;
     currentY = 0;
     currentTranslate = 0;
@@ -1198,17 +1193,9 @@ modal.addEventListener("touchstart", function(e){
     elementoAtual.style.transition = "none";
     if (elementoSeguinte) elementoSeguinte.style.transition = "none";
     if (elementoAnterior) elementoAnterior.style.transition = "none";
-
-}, { passive: true });
+});
 
 modal.addEventListener("touchmove", function(e){
-    
-    // 1. Registo do primeiro toque para permitir que o browser retrai a barra nativamente
-    if (isFirstTouch) {
-        isFirstTouch = false;
-    }
-
-    // 2. O seu código de Pinch (Zoom com dois dedos)
     if (e.touches.length === 2 && elementoAtual) {
         isPinching = true;
         e.preventDefault();
@@ -1226,8 +1213,6 @@ modal.addEventListener("touchmove", function(e){
         if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
         return;
     }
-
-    // 3. O seu código de Movimento com Zoom Ativo
     if (zoomAtivo && moverImagem && elementoAtual) {
         e.preventDefault();
         zoomX = e.touches[0].clientX - zoomStartX;
@@ -1237,32 +1222,22 @@ modal.addEventListener("touchmove", function(e){
         if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
         return;
     }
-
-    // 4. O seu código de Arrastar e Fechar por Swipe Vertical / Horizontal
     if (!isDragging || !elementoAtual) return;
-    
+    e.preventDefault();
     const touchX = e.touches[0].clientX, touchY = e.touches[0].clientY;
     const dx = touchX - touchStartX, dy = touchY - touchStartY;
-    
+    currentTranslate = dx;
+    currentY = dy;
     if (!isVerticalDrag) {
         isVerticalDrag = Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > DRAG_START_THRESHOLD;
     }
-
     if (isVerticalDrag) {
-        // Se for arrastado na vertical, prevenimos o comportamento para controlar a opacidade do modal
-        e.preventDefault();
-        currentY = dy;
         elementoAtual.style.transform = `translate(-50%, calc(-50% + ${currentY}px))`;
         const opacity = Math.max(1 - Math.abs(currentY) / MODAL_FADE_DISTANCE, 0.3);
         modal.style.background = `rgba(0,0,0,${opacity})`;
         return;
     }
-
-    // Movimento horizontal entre imagens
-    e.preventDefault();
-    currentTranslate = dx;
     elementoAtual.style.transform = `translate(calc(-50% + ${currentTranslate}px), -50%)`;
-    
     const largura = window.innerWidth, limitePreview = PREVIEW_THRESHOLD;
     let novoIndice = indiceAtual;
     if (currentTranslate < -limitePreview) {
@@ -1270,14 +1245,12 @@ modal.addEventListener("touchmove", function(e){
     } else if (currentTranslate > limitePreview) {
         novoIndice = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
     }
-    
     if (novoIndice !== previewIndice) {
         previewIndice = novoIndice;
         const barras = document.querySelectorAll("#modal-indicators span");
         barras.forEach(b => b.classList.remove("active"));
         barras[previewIndice]?.classList.add("active");
     }
-    
     if (currentTranslate < 0 && elementoSeguinte) {
         const entrada = largura + currentTranslate;
         elementoSeguinte.style.transform = `translate(calc(-50% + ${entrada}px), -50%)`;
@@ -1286,8 +1259,7 @@ modal.addEventListener("touchmove", function(e){
         const entrada = -largura + currentTranslate;
         elementoAnterior.style.transform = `translate(calc(-50% + ${entrada}px), -50%)`;
     }
-
-}, { passive: true }); // <--- Atenção: O { passive: true } fica aqui fora a fechar o addEventListener principal
+});
 
 modal.addEventListener("touchend", function(e){
     if (isPinching) {

@@ -1143,12 +1143,3 @@ footer p{
         max-height: 100dvh !important;
     }
 }
-
-/* No seu style.css, garanta que o conteúdo do modal permite gestos nativos de pan/scroll */
-#modal-content {
-    touch-action: pan-x pan-y pinch-zoom;
-}
-
-#modal-projeto { /* ou a classe/id do seu modal */
-    touch-action: pan-y; /* Permite que o browser reconheça gestos verticais nativos */
-}
