@@ -1148,3 +1148,7 @@ footer p{
 #modal-content {
     touch-action: pan-x pan-y pinch-zoom;
 }
+
+#modal-projeto { /* ou a classe/id do seu modal */
+    touch-action: pan-y; /* Permite que o browser reconheça gestos verticais nativos */
+}
