@@ -805,11 +805,47 @@ function mostrarBotaoFullscreen(){
 
 function toggleFullscreen(){
     if (!document.fullscreenElement) {
-        if (modal.requestFullscreen) modal.requestFullscreen();
-        else if (modal.webkitRequestFullscreen) modal.webkitRequestFullscreen();
+        // Tenta entrar em ecrã inteiro
+        const requestFS = modal.requestFullscreen || modal.webkitRequestFullscreen;
+        
+        if (requestFS) {
+            const promise = requestFS.call(modal);
+            
+            // Navegadores modernos retornam uma Promise
+            if (promise !== undefined) {
+                promise.then(() => {
+                    // Após entrar em fullscreen, força o modo paisagem (landscape)
+                    if (screen.orientation && screen.orientation.lock) {
+                        screen.orientation.lock('landscape').catch(err => {
+                            console.warn("A rotação automática falhou:", err);
+                        });
+                    }
+                }).catch(err => {
+                    console.error("Erro ao entrar em fullscreen:", err);
+                });
+            } else {
+                // Fallback para navegadores antigos que não retornam Promise no requestFullscreen
+                setTimeout(() => {
+                    if (screen.orientation && screen.orientation.lock) {
+                        screen.orientation.lock('landscape').catch(e => console.warn(e));
+                    }
+                }, 200);
+            }
+        }
     } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        // Sai do ecrã inteiro e desbloqueia a rotação
+        if (document.exitFullscreen) {
+            document.exitFullscreen().then(() => {
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+            });
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
+        }
     }
 }
 
