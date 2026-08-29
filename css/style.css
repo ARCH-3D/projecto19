@@ -1144,18 +1144,27 @@ footer p{
     }
 }
 
-/* Modo imersivo para iPhone (oculta controlos para focar na imagem) */
-#modal-projeto.immersive-mode .modal-info,
-#modal-projeto.immersive-mode .media-indicators,
-#modal-projeto.immersive-mode .prev,
-#modal-projeto.immersive-mode .next {
+/* Quando o modal estiver em modo imersivo (especialmente útil no iPhone) */
+.modal.immersive-mode .modal-info,
+.modal.immersive-mode .close,
+.modal.immersive-mode .fullscreen-btn,
+.modal.immersive-mode .zoom-btn {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
 }
 
-#modal-projeto.immersive-mode img,
-#modal-projeto.immersive-mode video {
-    max-height: 100dvh !important;
-    max-width: 100vw !important;
+/* Garante que as bolinhas NÃO desaparecem no iPhone em fullscreen/modo imersivo */
+.modal.immersive-mode .media-indicators {
+    display: flex !important;
+    opacity: 1 !important;
+    z-index: 10003;
+    bottom: 35px; /* Ajuste a altura se necessário para afastar da margem inferior do iPhone */
+}
+
+/* Expande a imagem para ocupar toda a altura útil no modo imersivo do telemóvel */
+.modal.immersive-mode #modal-content img,
+.modal.immersive-mode #modal-content video {
+    max-height: calc(100dvh - 40px);
+    max-width: 100vw;
 }
