@@ -524,7 +524,6 @@ media: [
 };
 
 const FULLSCREEN_TELEMOVEL = true;
-const FULLSCREEN_IPHONE = true;
 let projetoAtual = null, midiasAtuais = [], indiceAtual = 0, direcaoSlide = 1;
 let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0, ultimoToque = 0;
 let currentTranslate = 0, isDragging = false, isVerticalDrag = false, currentY = 0;
@@ -617,9 +616,8 @@ function abrirProjeto(nomeProjeto){
     document.getElementById("modal-location").textContent = projetoAtual.info.local;
     document.getElementById("modal-projeto").style.display = "flex";
     document.body.classList.add("modal-open");
-    
     const modalProjeto = document.getElementById("modal-projeto");
-    if (isAppleMobile()) {
+    if (isIPhoneSafariOrEdge()) {
         modalProjeto.classList.add("iphone-device");
     } else {
         modalProjeto.classList.remove("iphone-device");
@@ -632,7 +630,6 @@ function abrirProjeto(nomeProjeto){
 
 function fecharModal(){
     resetZoom();
-    modal.classList.remove("immersive-mode");
     document.getElementById("modal-projeto").style.display = "none";
     document.getElementById("modal-content").innerHTML = "";
     elementoAtual = null;
@@ -662,7 +659,7 @@ function fecharModal(){
 }
 
 function isAppleMobile(){
-    return /iPhone|iPod|iPad/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    return /iPhone|iPod/i.test(navigator.userAgent);
 }
 
 function isIPhoneSafariOrEdge(){
@@ -721,21 +718,24 @@ function ajustarFullscreenAndroid(){
 function ajustarBolinhasIPhone(){
     const indicadores = document.querySelector(".media-indicators");
     const landscape = window.matchMedia("(orientation: landscape)").matches;
-    const appleLandscape = isAppleMobile() && landscape;
-    
+    const safariEdgeLandscape = isIPhoneSafariOrEdge() && landscape;
     if (indicadores) {
-        if (appleLandscape) indicadores.style.bottom = "60px";
+        if (safariEdgeLandscape) indicadores.style.bottom = "60px";
         else indicadores.style.bottom = "";
     }
     if (modalContent) {
-        if (appleLandscape) modalContent.classList.add("iphone-safari-edge-landscape");
+        if (safariEdgeLandscape) modalContent.classList.add("iphone-safari-edge-landscape");
         else modalContent.classList.remove("iphone-safari-edge-landscape");
     }
-    if (appleLandscape) {
+    if (safariEdgeLandscape) {
         const aplicarTamanho = (elemento) => {
             if (!elemento) return;
+            // Ajustado para limites seguros com object-fit
             elemento.style.setProperty("max-width", "100vw", "important");
+            
+            // CORREÇÃO: Substituir "100dvh" por "calc(100dvh - 20px)"
             elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important"); 
+            
             elemento.style.setProperty("width", "100%", "important");
             elemento.style.setProperty("height", "100%", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
@@ -749,33 +749,32 @@ function ajustarBolinhasIPhone(){
 function mostrarBotaoFullscreen(){
     const btn = fullscreenBtn, close = closeBtn, zoom = zoomBtn;
     if (!btn) return;
-    
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isApple = isAppleMobile();
-
-    // Determina se o botão deve ser visível no dispositivo atual
-    const deveMostrar = (isApple && FULLSCREEN_IPHONE) || 
-                          (isAndroid && FULLSCREEN_TELEMOVEL) || 
-                          (!isApple && !isAndroid);
-
-    if (deveMostrar) {
-        btn.style.display = "";
-        btn.classList.add("show");
-        if (zoom) zoom.style.right = "126px";
-    } else {
+    const isAndroid = /Android/i.test(navigator.userAgent), isApple = isAppleMobile();
+    if (isApple) {
         btn.classList.remove("show");
         btn.style.display = "none";
         if (zoom) zoom.style.right = "78px";
+    } else if (isAndroid) {
+        if (FULLSCREEN_TELEMOVEL) {
+            btn.style.display = "";
+            btn.classList.add("show");
+            if (zoom) zoom.style.right = "126px";
+        } else {
+            btn.classList.remove("show");
+            btn.style.display = "none";
+            if (zoom) zoom.style.right = "78px";
+        }
+    } else {
+        btn.style.display = "";
+        btn.classList.add("show");
+        if (zoom) zoom.style.right = "126px";
     }
-
     if (close) close.classList.add("show-controls");
     if (zoom) zoom.classList.add("show");
-
     if (window.matchMedia("(pointer: coarse)").matches) {
         clearTimeout(fullscreenTimeout);
         return;
     }
-
     clearTimeout(fullscreenTimeout);
     fullscreenTimeout = setTimeout(() => {
         if ((btn && btn.matches(":hover")) || (close && close.matches(":hover")) || (zoom && zoom.matches(":hover"))) return;
@@ -805,13 +804,6 @@ function mostrarBotaoFullscreen(){
 });
 
 function toggleFullscreen(){
-    // 1. Se for iPhone / iOS, ativa/desativa o Modo Imersivo via CSS (pois o iOS não suporta a API nativa)
-    if (typeof isAppleMobile === "function" && isAppleMobile()) {
-        modal.classList.toggle("immersive-mode");
-        return;
-    }
-
-    // 2. Para Android e Desktop: API Nativa de Fullscreen + Bloqueio de Rotação
     if (!document.fullscreenElement) {
         // Tenta entrar em ecrã inteiro
         const requestFS = modal.requestFullscreen || modal.webkitRequestFullscreen;
@@ -847,7 +839,7 @@ function toggleFullscreen(){
                 if (screen.orientation && screen.orientation.unlock) {
                     screen.orientation.unlock();
                 }
-            }).catch(e => console.warn(e));
+            });
         } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
             if (screen.orientation && screen.orientation.unlock) {
@@ -1396,8 +1388,7 @@ document.addEventListener("fullscreenchange", () => {
 
 fullscreenBtn.addEventListener("click", function(e){
     e.stopPropagation();
-    // Bloqueia apenas se for um dispositivo Apple E a variável estiver a false
-    if (isAppleMobile() && !FULLSCREEN_IPHONE) return; 
+    if (isAppleMobile()) return;
     toggleFullscreen();
 });
 
