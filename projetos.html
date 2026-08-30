@@ -201,6 +201,26 @@ gtag('config','G-JXJP0D464R');
 
 <!-- Modal -->
 <div id="modal-projeto" class="modal" role="dialog" aria-modal="true">
+<div id="tutorial-gestos" class="tutorial-overlay" aria-hidden="true">
+    <div class="tutorial-item">
+        <svg viewBox="0 0 24 24">
+            <path d="M4 12h16M8 8l-4 4 4 4M16 8l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Deslizar</span>
+    </div>
+    <div class="tutorial-item">
+        <svg viewBox="0 0 24 24">
+            <path d="M15 9l5-5m0 0v4m0-4h-4M9 15l-5 5m0 0v-4m0 4h4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Zoom</span>
+    </div>
+    <div class="tutorial-item">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 5v14M8 15l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Fechar</span>
+    </div>
+</div>
 <button class="close" onclick="fecharModal()" aria-label="Fechar">&times;</button>
 <div id="modal-content"></div>
 <button id="fullscreen-btn" class="fullscreen-btn" aria-label="Ecrã inteiro">
@@ -627,6 +647,7 @@ function abrirProjeto(nomeProjeto){
     ajustarFullscreenAndroid();
     if (contactWidget) contactWidget.style.display = "none";
     if (backToTop) backToTop.classList.remove("show");
+    mostrarTutorialGestos();
 }
 
 function fecharModal(){
@@ -1534,6 +1555,44 @@ window.addEventListener("resize", () => {
         ajustarFullscreenAndroid();
     }
 });
+
+let tutorialTimeout;
+
+function mostrarTutorialGestos() {
+    // Verifica se é mobile (faz sentido focar o tutorial em dispositivos touch)
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    
+    // Verifica se já foi mostrado nesta sessão
+    if (isTouch && !sessionStorage.getItem("tutorialVisto")) {
+        const tutorial = document.getElementById("tutorial-gestos");
+        
+        // Dá um pequeno delay para a imagem carregar antes de mostrar
+        setTimeout(() => {
+            tutorial.classList.add("show");
+            
+            // Marca como visto
+            sessionStorage.setItem("tutorialVisto", "true");
+
+            // Esconde automaticamente passado 4.5 segundos
+            tutorialTimeout = setTimeout(() => {
+                esconderTutorialGestos();
+            }, 4500);
+        }, 500);
+    }
+}
+
+function esconderTutorialGestos() {
+    const tutorial = document.getElementById("tutorial-gestos");
+    if (tutorial && tutorial.classList.contains("show")) {
+        tutorial.classList.remove("show");
+        clearTimeout(tutorialTimeout);
+    }
+}
+
+// Fechar ao mínimo toque no ecrã (se ele estiver ativo)
+document.getElementById("tutorial-gestos").addEventListener("touchstart", esconderTutorialGestos, { passive: true });
+document.getElementById("tutorial-gestos").addEventListener("click", esconderTutorialGestos);
+
 </script>
 </body>
 </html>
