@@ -672,7 +672,7 @@ function isIPhoneSafariOrEdge(){
 }
 
 function ajustarFullscreenAndroid(){
-    const emAndroid = /Android/i.test(navigator.userAgent) && window.innerWidth < 800;
+    const emAndroid = /Android/i.test(navigator.userAgent);
     const landscape = window.matchMedia("(orientation: landscape)").matches;
     const fullscreen = !!document.fullscreenElement;
     if (!emAndroid || !landscape || !fullscreen) return;
@@ -759,7 +759,7 @@ function mostrarBotaoFullscreen(){
     const btn = fullscreenBtn, close = closeBtn, zoom = zoomBtn;
     if (!btn) return;
     
-    const isAndroid = /Android.*Mobile/i.test(navigator.userAgent);
+    const isAndroid = /Android/i.test(navigator.userAgent);
     const isApple = isAppleMobile();
 
     // Determina se o botão deve ser visível no dispositivo atual
@@ -1052,7 +1052,7 @@ function prepararImagemAnterior(){
     if (elementoAnterior && elementoAnterior.parentNode) elementoAnterior.remove();
     const indiceAnterior = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
     elementoAnterior = criarElementoMidia(midiasAtuais[indiceAnterior]);
-    if (/Android/i.test(navigator.userAgent) && window.innerWidth < 800 && window.matchMedia("(orientation: landscape)").matches && document.fullscreenElement) {
+    if (/Android/i.test(navigator.userAgent) && window.matchMedia("(orientation: landscape)").matches && document.fullscreenElement) {
         elementoAnterior.style.setProperty("max-width", "100vw", "important");
         elementoAnterior.style.setProperty("max-height", window.innerHeight + "px", "important");
         elementoAnterior.style.setProperty("width", "100%", "important");
@@ -1072,7 +1072,7 @@ function prepararProximaImagem(){
     if (elementoSeguinte && elementoSeguinte.parentNode) elementoSeguinte.remove();
     const proximoIndice = (indiceAtual + 1) % midiasAtuais.length;
     elementoSeguinte = criarElementoMidia(midiasAtuais[proximoIndice]);
-    if (/Android/i.test(navigator.userAgent) && window.innerWidth < 800 && window.matchMedia("(orientation: landscape)").matches && document.fullscreenElement) {
+    if (/Android/i.test(navigator.userAgent) && window.matchMedia("(orientation: landscape)").matches && document.fullscreenElement) {
         elementoSeguinte.style.setProperty("max-width", "100vw", "important");
         elementoSeguinte.style.setProperty("max-height", window.innerHeight + "px", "important");
         elementoSeguinte.style.setProperty("width", "100%", "important");
