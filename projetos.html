@@ -720,6 +720,7 @@ function ajustarBolinhasIPhone(){
     const indicadores = document.querySelector(".media-indicators");
     const landscape = window.matchMedia("(orientation: landscape)").matches;
     const safariEdgeLandscape = isIPhoneSafariOrEdge() && landscape;
+
     if (indicadores) {
         if (safariEdgeLandscape) indicadores.style.bottom = "60px";
         else indicadores.style.bottom = "";
@@ -728,23 +729,30 @@ function ajustarBolinhasIPhone(){
         if (safariEdgeLandscape) modalContent.classList.add("iphone-safari-edge-landscape");
         else modalContent.classList.remove("iphone-safari-edge-landscape");
     }
-    if (safariEdgeLandscape) {
-        const aplicarTamanho = (elemento) => {
-            if (!elemento) return;
-            // Ajustado para limites seguros com object-fit
+
+    // NOVA LÓGICA: Aplica ou remove os estilos dependendo da orientação
+    const aplicarTamanho = (elemento, isLandscape) => {
+        if (!elemento) return;
+        
+        if (isLandscape) {
             elemento.style.setProperty("max-width", "100vw", "important");
-            
-            // CORREÇÃO: Substituir "100dvh" por "calc(100dvh - 20px)"
             elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important"); 
-            
             elemento.style.setProperty("width", "100%", "important");
             elemento.style.setProperty("height", "100%", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
-        };
-        aplicarTamanho(elementoAtual);
-        aplicarTamanho(elementoAnterior);
-        aplicarTamanho(elementoSeguinte);
-    }
+        } else {
+            // Remove os inline styles para devolver o controlo ao CSS (modo retrato)
+            elemento.style.removeProperty("max-width");
+            elemento.style.removeProperty("max-height");
+            elemento.style.removeProperty("width");
+            elemento.style.removeProperty("height");
+            elemento.style.removeProperty("object-fit");
+        }
+    };
+
+    aplicarTamanho(elementoAtual, safariEdgeLandscape);
+    aplicarTamanho(elementoAnterior, safariEdgeLandscape);
+    aplicarTamanho(elementoSeguinte, safariEdgeLandscape);
 }
 
 function mostrarBotaoFullscreen(){
@@ -1506,6 +1514,15 @@ document.addEventListener("fullscreenchange", function() {
         limparEstilos(elementoAtual);
         limparEstilos(elementoAnterior);
         limparEstilos(elementoSeguinte);
+    }
+});
+
+// Ouve as rotações/redimensionamentos do dispositivo
+window.addEventListener("resize", () => {
+    // Apenas corre a atualização se o modal estiver aberto
+    if (document.getElementById("modal-projeto").style.display === "flex") {
+        ajustarBolinhasIPhone();
+        ajustarFullscreenAndroid();
     }
 });
 </script>
