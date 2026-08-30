@@ -1201,27 +1201,22 @@ footer p{
    ANIMAÇÕES DO TUTORIAL DE GESTOS
    ========================================= */
 
-/* 1. Mudar Imagem (Deslizar para os lados de forma alternada) */
-@keyframes deslizaDireita {
-    0% { transform: translateX(-8px); opacity: 0; }
-    15% { transform: translateX(0); opacity: 1; }
-    35% { transform: translateX(8px); opacity: 1; }
-    50%, 100% { transform: translateX(12px); opacity: 0; } /* Fica invisível na 2ª metade do tempo */
+/* 1. Mudar Imagem (Animação horizontal para a seta de Mudar de Imagem) */
+.anim-swipe-side {
+    /* Pode ajustar os segundos (2s) caso a sua seta de fechar seja mais rápida/lenta */
+    animation: swipeSideAnim 2s ease-in-out infinite; 
 }
 
-@keyframes deslizaEsquerda {
-    0%, 50% { transform: translateX(8px); opacity: 0; } /* Fica invisível na 1ª metade do tempo */
-    65% { transform: translateX(0); opacity: 1; }
-    85% { transform: translateX(-8px); opacity: 1; }
-    100% { transform: translateX(-12px); opacity: 0; }
-}
-
-.seta-direita {
-    animation: deslizaDireita 4s infinite ease-in-out;
-}
-
-.seta-esquerda {
-    animation: deslizaEsquerda 4s infinite ease-in-out;
+@keyframes swipeSideAnim {
+    0% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(-5px);
+    }
 }
 
 /* 2. Zoom na diagonal (Efeito de afastar/juntar os dedos) */
@@ -1255,22 +1250,4 @@ footer p{
 }
 .anim-swipe-down {
     animation: deslizaBaixo 2s infinite ease-in-out;
-}
-
-/* Animação horizontal para a seta de Mudar de Imagem */
-.anim-swipe-side {
-    /* Pode ajustar os segundos (1.5s) caso a sua seta de fechar seja mais rápida/lenta */
-    animation: swipeSideAnim 1.5s ease-in-out infinite; 
-}
-
-@keyframes swipeSideAnim {
-    0% {
-        transform: translateX(-5px);
-    }
-    50% {
-        transform: translateX(5px);
-    }
-    100% {
-        transform: translateX(-5px);
-    }
 }
