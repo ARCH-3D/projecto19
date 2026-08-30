@@ -821,14 +821,16 @@ function toggleFullscreen(){
         if (requestFS) {
             const promise = requestFS.call(modal);
             
-            // LÓGICA NOVA: Função auxiliar para rodar apenas se for telemóvel
+            // LÓGICA NOVA: Função auxiliar para rodar apenas se for telemóvel padrão
             const tentarRodarEcra = () => {
                 // Telemóveis Android incluem "Mobile" no User-Agent. 
-                // Tablets Android (como o Galaxy Tab) normalmente omitem o "Mobile".
                 const isMobile = /Mobile/i.test(navigator.userAgent);
                 
-                // Só bloqueia para "landscape" se for efetivamente um dispositivo Mobile
-                if (isMobile && screen.orientation && screen.orientation.lock) {
+                // Deteta Z Fold aberto: ecrã simultaneamente largo e alto
+                const isFoldUnfolded = window.innerWidth > 600 && window.innerHeight > 600;
+                
+                // Só bloqueia para "landscape" se for um dispositivo Mobile E não for um Fold aberto
+                if (isMobile && !isFoldUnfolded && screen.orientation && screen.orientation.lock) {
                     screen.orientation.lock('landscape').catch(err => {
                         console.warn("A rotação automática falhou:", err);
                     });
@@ -850,7 +852,7 @@ function toggleFullscreen(){
             }
         }
     } else {
-        // Sai do ecrã inteiro e desbloqueia a rotação (seguro executar mesmo em tablets)
+        // Sai do ecrã inteiro e desbloqueia a rotação
         if (document.exitFullscreen) {
             document.exitFullscreen().then(() => {
                 if (screen.orientation && screen.orientation.unlock) {
