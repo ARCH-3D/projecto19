@@ -1223,7 +1223,7 @@ footer p{
 }
 
 .anim-swipe-right {
-    animation: swipeRightLoop 2.5s infinite ease-in-out;
+    animation: swipeRightLoop 2s infinite ease-in-out;
 }
 
 /* 2. Zoom na diagonal (Efeito de afastar/juntar os dedos) */
@@ -1232,7 +1232,7 @@ footer p{
     50% { transform: scale(1.35); opacity: 1; }
 }
 .anim-pinch {
-    animation: efeitoPinch 2.5s infinite ease-in-out;
+    animation: efeitoPinch 2s infinite ease-in-out;
 }
 
 /* 3. Duplo toque (Efeito de duplo pulso no anel exterior) */
@@ -1256,5 +1256,5 @@ footer p{
     100% { transform: translateY(12px); opacity: 0; }
 }
 .anim-swipe-down {
-    animation: deslizaBaixo 2.5s infinite ease-in-out;
+    animation: deslizaBaixo 2s infinite ease-in-out;
 }
