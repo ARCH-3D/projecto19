@@ -1214,15 +1214,26 @@ footer p{
     animation: deslizaDireita 2s infinite ease-in-out;
 }
 
-@keyframes swipeRightAnim {
-    0%, 100% {
-        transform: translateX(0);
-        opacity: 0.3;
+@keyframes swipeRightLoop {
+    0% {
+        transform: translateX(-14px);
+        opacity: 0;
     }
-    50% {
-        transform: translateX(12px);
+    15% {
         opacity: 1;
     }
+    70% {
+        transform: translateX(14px);
+        opacity: 1;
+    }
+    85%, 100% {
+        transform: translateX(14px);
+        opacity: 0;
+    }
+}
+
+.anim-swipe-right {
+    animation: swipeRightLoop 2s infinite ease-in-out;
 }
 
 .anim-swipe-right {
