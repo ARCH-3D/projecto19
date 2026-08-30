@@ -1517,26 +1517,12 @@ document.addEventListener("fullscreenchange", function() {
     }
 });
 
-// Variável para guardar o temporizador
-let tempoEsperaResize;
-
 // Ouve as rotações/redimensionamentos do dispositivo
 window.addEventListener("resize", () => {
-    // Apenas corre se o modal estiver aberto
+    // Apenas corre a atualização se o modal estiver aberto
     if (document.getElementById("modal-projeto").style.display === "flex") {
-        
-        // Cancela a execução anterior se o Safari disparar o evento várias vezes seguidas
-        clearTimeout(tempoEsperaResize);
-        
-        // Aguarda 200ms até o Safari terminar a sua própria animação de rotação
-        tempoEsperaResize = setTimeout(() => {
-            ajustarBolinhasIPhone();
-            
-            // Só chama esta função se ela existir no teu código
-            if (typeof ajustarFullscreenAndroid === 'function') {
-                ajustarFullscreenAndroid();
-            }
-        }, 200); 
+        ajustarBolinhasIPhone();
+        ajustarFullscreenAndroid();
     }
 });
 </script>
