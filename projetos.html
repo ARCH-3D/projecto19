@@ -214,6 +214,14 @@ gtag('config','G-JXJP0D464R');
         </svg>
         <span>Zoom</span>
     </div>
+    <!-- NOVO ITEM: Duplo Toque -->
+    <div class="tutorial-item">
+        <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="8" stroke-dasharray="3 3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Duplo Toque</span>
+    </div>
     <div class="tutorial-item">
         <svg viewBox="0 0 24 24">
             <path d="M12 5v14M8 15l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -545,6 +553,7 @@ media: [
 
 const FULLSCREEN_TELEMOVEL = true;
 const FULLSCREEN_IPHONE = false;
+const ATIVAR_TUTORIAL_GESTOS = true; // Coloque 'false' se quiser desativar o tutorial
 let projetoAtual = null, midiasAtuais = [], indiceAtual = 0, direcaoSlide = 1;
 let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0, ultimoToque = 0;
 let currentTranslate = 0, isDragging = false, isVerticalDrag = false, currentY = 0;
@@ -1559,6 +1568,9 @@ window.addEventListener("resize", () => {
 let tutorialTimeout;
 
 function mostrarTutorialGestos() {
+    // Se a variável estiver false, interrompe e não mostra o tutorial
+    if (!ATIVAR_TUTORIAL_GESTOS) return;
+
     // Verifica se é mobile (faz sentido focar o tutorial em dispositivos touch)
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
     
