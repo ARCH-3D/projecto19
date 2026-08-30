@@ -1201,14 +1201,25 @@ footer p{
    ANIMAÇÕES DO TUTORIAL DE GESTOS
    ========================================= */
 
-/* 1. Deslizar para os lados (Mudar Imagem) */
-@keyframes moveLaterais {
-    0% { transform: translateX(-8px); opacity: 0.6; }
-    50% { transform: translateX(8px); opacity: 1; }
-    100% { transform: translateX(-8px); opacity: 0.6; }
+/* 1. Mudar Imagem (Seta direita e depois seta esquerda com movimento correspondente) */
+@keyframes swipeDireita {
+    0%, 45% { transform: translateX(-8px); opacity: 0; }
+    5%, 40% { transform: translateX(0); opacity: 1; }
+    48%, 100% { transform: translateX(8px); opacity: 0; }
 }
-.anim-swipe {
-    animation: moveLaterais 2.5s infinite ease-in-out;
+
+@keyframes swipeEsquerda {
+    0%, 50% { transform: translateX(8px); opacity: 0; }
+    55%, 90% { transform: translateX(0); opacity: 1; }
+    95%, 100% { transform: translateX(-8px); opacity: 0; }
+}
+
+.seta-direita {
+    animation: swipeDireita 3s infinite ease-in-out;
+}
+
+.seta-esquerda {
+    animation: swipeEsquerda 3s infinite ease-in-out;
 }
 
 /* 2. Zoom na diagonal (Efeito de afastar/juntar os dedos) */
