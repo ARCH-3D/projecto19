@@ -1206,19 +1206,17 @@ footer p{
 @keyframes swipeRightLoop {
     0% {
         transform: translateX(-8px);
-        opacity: 0; /* Começa invisível do lado esquerdo */
+        opacity: 0;
     }
     30% {
-        transform: translateX(0);
-        opacity: 1; /* Torna-se visível enquanto começa a mover */
+        opacity: 1; /* O transform foi removido daqui. Interpola a opacidade apenas. */
     }
     70% {
-        transform: translateX(8px);
-        opacity: 1; /* Chega ao lado direito ainda visível */
+        opacity: 1; /* O transform foi removido daqui. */
     }
     100% {
-        transform: translateX(12px);
-        opacity: 0; /* Desaparece totalmente no limite direito */
+        transform: translateX(12px); /* Movimento contínuo e fluido dos -8px aos 12px */
+        opacity: 0;
     }
 }
 
@@ -1250,11 +1248,22 @@ footer p{
 
 /* 4. Fechar (Deslizar de cima para baixo e desaparecer) */
 @keyframes deslizaBaixo {
-    0% { transform: translateY(-8px); opacity: 0; }
-    30% { transform: translateY(0); opacity: 1; }
-    70% { transform: translateY(8px); opacity: 1; }
-    100% { transform: translateY(12px); opacity: 0; }
+    0% {
+        transform: translateY(-8px);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(12px);
+        opacity: 0;
+    }
 }
+
 .anim-swipe-down {
     animation: deslizaBaixo 2s infinite ease-in-out;
 }
