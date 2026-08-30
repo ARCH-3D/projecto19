@@ -160,12 +160,26 @@ window.addEventListener("scroll",()=>{
     contactWidget.classList.remove("active");
 },{passive:true});
 
-// ALTURA FIXA DO HERO NO MOBILE
+// ALTURA FIXA DO HERO NO MOBILE (Correção Cross-browser)
+const heroSection = document.querySelector(".hero");
 let currentWidth = window.innerWidth;
 
+// 1. Função que aplica a altura estática em píxeis
+function setHeroHeight() {
+    if (heroSection) {
+        heroSection.style.height = `${window.innerHeight}px`;
+    }
+}
+
+// 2. Aplica a altura assim que a página carrega
+setHeroHeight();
+
+// 3. Atualiza a altura APENAS se a largura mudar (ex: rodar o telemóvel),
+// bloqueando completamente o redimensionamento ao fazer scroll vertical.
 window.addEventListener("resize", () => {
     if (window.innerWidth !== currentWidth) {
         currentWidth = window.innerWidth;
+        setHeroHeight();
     }
 });
 </script>
