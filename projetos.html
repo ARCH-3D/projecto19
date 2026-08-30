@@ -821,29 +821,36 @@ function toggleFullscreen(){
         if (requestFS) {
             const promise = requestFS.call(modal);
             
+            // LÓGICA NOVA: Função auxiliar para rodar apenas se for telemóvel
+            const tentarRodarEcra = () => {
+                // Telemóveis Android incluem "Mobile" no User-Agent. 
+                // Tablets Android (como o Galaxy Tab) normalmente omitem o "Mobile".
+                const isMobile = /Mobile/i.test(navigator.userAgent);
+                
+                // Só bloqueia para "landscape" se for efetivamente um dispositivo Mobile
+                if (isMobile && screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape').catch(err => {
+                        console.warn("A rotação automática falhou:", err);
+                    });
+                }
+            };
+            
             // Navegadores modernos retornam uma Promise
             if (promise !== undefined) {
                 promise.then(() => {
-                    // Após entrar em fullscreen, força o modo paisagem (landscape)
-                    if (screen.orientation && screen.orientation.lock) {
-                        screen.orientation.lock('landscape').catch(err => {
-                            console.warn("A rotação automática falhou:", err);
-                        });
-                    }
+                    tentarRodarEcra();
                 }).catch(err => {
                     console.error("Erro ao entrar em fullscreen:", err);
                 });
             } else {
-                // Fallback para navegadores antigos que não retornam Promise no requestFullscreen
+                // Fallback para navegadores antigos que não retornam Promise
                 setTimeout(() => {
-                    if (screen.orientation && screen.orientation.lock) {
-                        screen.orientation.lock('landscape').catch(e => console.warn(e));
-                    }
+                    tentarRodarEcra();
                 }, 200);
             }
         }
     } else {
-        // Sai do ecrã inteiro e desbloqueia a rotação
+        // Sai do ecrã inteiro e desbloqueia a rotação (seguro executar mesmo em tablets)
         if (document.exitFullscreen) {
             document.exitFullscreen().then(() => {
                 if (screen.orientation && screen.orientation.unlock) {
