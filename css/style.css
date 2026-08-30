@@ -1256,3 +1256,21 @@ footer p{
 .anim-swipe-down {
     animation: deslizaBaixo 2s infinite ease-in-out;
 }
+
+/* Animação horizontal para a seta de Mudar de Imagem */
+.anim-swipe-side {
+    /* Pode ajustar os segundos (1.5s) caso a sua seta de fechar seja mais rápida/lenta */
+    animation: swipeSideAnim 1.5s ease-in-out infinite; 
+}
+
+@keyframes swipeSideAnim {
+    0% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(-5px);
+    }
+}
