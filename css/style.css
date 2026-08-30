@@ -1203,41 +1203,26 @@ footer p{
    ========================================= */
 
 /* 1. Mudar Imagem (Deslizar da esquerda para a direita) */
-@keyframes deslizaDireita {
-    0% { transform: translateX(-8px); opacity: 0; }
-    30% { transform: translateX(0); opacity: 1; }
-    70% { transform: translateX(8px); opacity: 1; }
-    100% { transform: translateX(12px); opacity: 0; }
-}
-
-.seta-direita {
-    animation: deslizaDireita 2s infinite ease-in-out;
-}
-
 @keyframes swipeRightLoop {
     0% {
-        transform: translateX(-14px);
-        opacity: 0;
+        transform: translateX(-15px);
+        opacity: 0; /* Começa invisível do lado esquerdo */
     }
     15% {
-        opacity: 1;
+        opacity: 1; /* Torna-se visível enquanto começa a mover */
     }
-    70% {
-        transform: translateX(14px);
-        opacity: 1;
+    75% {
+        transform: translateX(15px);
+        opacity: 1; /* Chega ao lado direito ainda visível */
     }
-    85%, 100% {
-        transform: translateX(14px);
-        opacity: 0;
+    100% {
+        transform: translateX(20px);
+        opacity: 0; /* Desaparece totalmente no limite direito */
     }
 }
 
 .anim-swipe-right {
-    animation: swipeRightLoop 2s infinite ease-in-out;
-}
-
-.anim-swipe-right {
-    animation: swipeRightAnim 1.8s ease-in-out infinite;
+    animation: swipeRightLoop 1.8s ease-in-out infinite;
 }
 
 /* 2. Zoom na diagonal (Efeito de afastar/juntar os dedos) */
