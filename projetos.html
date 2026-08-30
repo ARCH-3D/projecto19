@@ -201,7 +201,7 @@ gtag('config','G-JXJP0D464R');
 
 <!-- Modal -->
 <div id="modal-projeto" class="modal" role="dialog" aria-modal="true">
-<div id="tutorial-gestos" class="tutorial-overlay" aria-hidden="true">
+<div id="tutorial-gestos" class="tutorial-overlay" aria-hidden="true" onclick="esconderTutorial()">
     <div class="tutorial-item">
         <svg viewBox="0 0 24 24">
             <path d="M4 12h16M8 8l-4 4 4 4M16 8l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1565,7 +1565,7 @@ window.addEventListener("resize", () => {
     }
 });
 
-let tutorialTimeout;
+let tutorialTimeout; // IMPORTANTE: Declarar a variável fora para ambas as funções terem acesso
 
 function mostrarTutorialGestos() {
     // Se a variável estiver false, interrompe e não mostra o tutorial
@@ -1580,15 +1580,17 @@ function mostrarTutorialGestos() {
         
         // Dá um pequeno delay para a imagem carregar antes de mostrar
         setTimeout(() => {
-            tutorial.classList.add("show");
-            
-            // Marca como visto
-            sessionStorage.setItem("tutorialVisto", "true");
+            if (tutorial) {
+                tutorial.classList.add("show");
+                
+                // Marca como visto
+                sessionStorage.setItem("tutorialVisto", "true");
 
-            // Esconde automaticamente passado 4.5 segundos
-            tutorialTimeout = setTimeout(() => {
-                esconderTutorialGestos();
-            }, 4500);
+                // Esconde automaticamente passado 6 segundos (6000ms)
+                tutorialTimeout = setTimeout(() => {
+                    esconderTutorialGestos();
+                }, 6000);
+            }
         }, 500);
     }
 }
@@ -1597,7 +1599,7 @@ function esconderTutorialGestos() {
     const tutorial = document.getElementById("tutorial-gestos");
     if (tutorial && tutorial.classList.contains("show")) {
         tutorial.classList.remove("show");
-        clearTimeout(tutorialTimeout);
+        clearTimeout(tutorialTimeout); // Cancela o temporizador se o utilizador fechar com o toque
     }
 }
 
