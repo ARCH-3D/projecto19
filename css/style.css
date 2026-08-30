@@ -527,6 +527,7 @@ footer p{
     fill: none;
     stroke: currentColor;
     stroke-width: 1.2; /* Traço muito fino e elegante */
+    overflow: visible;
 }
 
 .tutorial-item span {
