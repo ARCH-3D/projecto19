@@ -1223,40 +1223,6 @@ document.addEventListener("keydown", function(e){
 });
 
 modal.addEventListener("touchstart", function(e){
-    if (e.touches.length === 2) {
-        isPinching = true;
-        moverImagem = false;
-        isDragging = false;
-        distanciaInicialPinch = distanciaToques(e.touches[0], e.touches[1]);
-        escalaInicialPinch = escalaZoom;
-        pinchCentroX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-        pinchCentroY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-        pinchImagemX = zoomTargetX;
-        pinchImagemY = zoomTargetY;
-        return;
-    }
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    if (zoomAtivo) {
-        moverImagem = true;
-        zoomStartX = e.touches[0].clientX - zoomX;
-        zoomStartY = e.touches[0].clientY - zoomY;
-        if (elementoAtual) elementoAtual.style.transition = "none";
-        return;
-    }
-    isVerticalDrag = false;
-    currentY = 0;
-    currentTranslate = 0;
-    isDragging = true;
-    previewIndice = indiceAtual;
-    if (!elementoAtual) return;
-    elementoAtual.style.transition = "none";
-    if (elementoSeguinte) elementoSeguinte.style.transition = "none";
-    if (elementoAnterior) elementoAnterior.style.transition = "none";
-});
-
-modal.addEventListener("touchstart", function(e){
-    // 1. IGNORAR GESTOS SE O TOQUE FOR NUM BOTÃO OU CONTROLO INTERATIVO
     if (e.target.closest("button, .close, .zoom-btn, .fullscreen-btn, .media-indicators, .contact-widget")) {
         isDragging = false;
         return;
@@ -1274,47 +1240,49 @@ modal.addEventListener("touchstart", function(e){
         pinchImagemY = zoomTargetY;
         return;
     }
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    if (zoomAtivo) {
-        moverImagem = true;
-        zoomStartX = e.touches[0].clientX - zoomX;
-        zoomStartY = e.touches[0].clientY - zoomY;
-        if (elementoAtual) elementoAtual.style.transition = "none";
-        return;
+    
+    if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        if (zoomAtivo) {
+            moverImagem = true;
+            zoomStartX = e.touches[0].clientX - zoomX;
+            zoomStartY = e.touches[0].clientY - zoomY;
+            if (elementoAtual) elementoAtual.style.transition = "none";
+            return;
+        }
+        isVerticalDrag = false;
+        currentY = 0;
+        currentTranslate = 0;
+        isDragging = true;
+        previewIndice = indiceAtual;
+        if (!elementoAtual) return;
+        elementoAtual.style.transition = "none";
+        if (elementoSeguinte) elementoSeguinte.style.transition = "none";
+        if (elementoAnterior) elementoAnterior.style.transition = "none";
     }
-    isVerticalDrag = false;
-    currentY = 0;
-    currentTranslate = 0;
-    isDragging = true;
-    previewIndice = indiceAtual;
-    if (!elementoAtual) return;
-    elementoAtual.style.transition = "none";
-    if (elementoSeguinte) elementoSeguinte.style.transition = "none";
-    if (elementoAnterior) elementoAnterior.style.transition = "none";
-});
+}, { passive: false });
 
 modal.addEventListener("touchmove", function(e){
-    // IGNORAR SE O TOQUE ORIGINOU NUM BOTÃO OU SE NÃO ESTIVER EM DRAG
-    if (!isDragging || e.target.closest("button, .close, .zoom-btn, .fullscreen-btn")) return;
+    if (e.target.closest("button, .close, .zoom-btn, .fullscreen-btn")) return;
 
     if (e.touches.length === 2 && elementoAtual) {
         isPinching = true;
         e.preventDefault();
         const distanciaAtual = distanciaToques(e.touches[0], e.touches[1]);
         const novaEscala = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, escalaInicialPinch * (distanciaAtual / distanciaInicialPinch)));
-        const fator = novaEscala / escalaInicialPinch;
-        zoomTargetX = pinchImagemX + (pinchCentroX - window.innerWidth / 2) * (1 - fator);
-        zoomTargetY = pinchImagemY + (pinchCentroY - window.innerHeight / 2) * (1 - fator);
+        
         escalaZoom = novaEscala;
         zoomAtivo = escalaZoom > 1.02;
         if (zoomBtn) zoomBtn.textContent = zoomAtivo ? "−" : "+";
+        
         if (!zoomAtivo) {
             zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
         }
         if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
         return;
     }
+
     if (zoomAtivo && moverImagem && elementoAtual) {
         e.preventDefault();
         zoomX = e.touches[0].clientX - zoomStartX;
@@ -1324,35 +1292,42 @@ modal.addEventListener("touchmove", function(e){
         if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
         return;
     }
-    if (!elementoAtual) return;
+
+    if (!isDragging || !elementoAtual) return;
     e.preventDefault();
     const touchX = e.touches[0].clientX, touchY = e.touches[0].clientY;
     const dx = touchX - touchStartX, dy = touchY - touchStartY;
     currentTranslate = dx;
     currentY = dy;
+    
     if (!isVerticalDrag) {
         isVerticalDrag = Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > DRAG_START_THRESHOLD;
     }
+    
     if (isVerticalDrag) {
         elementoAtual.style.transform = `translate(-50%, calc(-50% + ${currentY}px))`;
         const opacity = Math.max(1 - Math.abs(currentY) / MODAL_FADE_DISTANCE, 0.3);
         modal.style.background = `rgba(0,0,0,${opacity})`;
         return;
     }
+    
     elementoAtual.style.transform = `translate(calc(-50% + ${currentTranslate}px), -50%)`;
     const largura = window.innerWidth, limitePreview = PREVIEW_THRESHOLD;
     let novoIndice = indiceAtual;
+    
     if (currentTranslate < -limitePreview) {
         novoIndice = (indiceAtual + 1) % midiasAtuais.length;
     } else if (currentTranslate > limitePreview) {
         novoIndice = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
     }
+    
     if (novoIndice !== previewIndice) {
         previewIndice = novoIndice;
         const barras = document.querySelectorAll("#modal-indicators span");
         barras.forEach(b => b.classList.remove("active"));
         barras[previewIndice]?.classList.add("active");
     }
+    
     if (currentTranslate < 0 && elementoSeguinte) {
         const entrada = largura + currentTranslate;
         elementoSeguinte.style.transform = `translate(calc(-50% + ${entrada}px), -50%)`;
@@ -1361,7 +1336,7 @@ modal.addEventListener("touchmove", function(e){
         const entrada = -largura + currentTranslate;
         elementoAnterior.style.transform = `translate(calc(-50% + ${entrada}px), -50%)`;
     }
-});
+}, { passive: false });
 
 modal.addEventListener("touchend", function(e){
     if (isPinching) {
@@ -1372,12 +1347,20 @@ modal.addEventListener("touchend", function(e){
         return;
     }
     if (Date.now() - ultimoPinch < 300) return;
-    if (zoomAtivo) return;
-    touchEndX = e.changedTouches[0].clientX;
-    touchEndY = e.changedTouches[0].clientY;
+    if (zoomAtivo) {
+        moverImagem = false;
+        isDragging = false;
+        return;
+    }
+    
+    if (e.changedTouches && e.changedTouches[0]) {
+        touchEndX = e.changedTouches[0].clientX;
+        touchEndY = e.changedTouches[0].clientY;
+    }
     isDragging = false;
     const dy = touchEndY - touchStartY;
     const limiteY = window.innerHeight * VERTICAL_CLOSE_THRESHOLD;
+    
     if (isVerticalDrag) {
         if (Math.abs(dy) > limiteY) {
             if (!elementoAtual) return;
