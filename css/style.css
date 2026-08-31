@@ -1298,11 +1298,18 @@ html:has(:fullscreen) {
     background-color: var(--c-bg);
 }
 
-/* Garante que os botões do modal respeitam a Dynamic Island e safe areas no iOS */
+/* Correção de touch e safe-area sem sobrepor botões */
 .close, 
 .zoom-btn, 
 .fullscreen-btn {
-    top: max(20px, env(safe-area-inset-top)) !important;
     touch-action: manipulation;
-    z-index: 100;
+}
+
+/* Aplica a safe area mantendo as posições individuais e sem anular o modo paisagem */
+@media screen and (min-height: 551px) {
+    .close,
+    .zoom-btn,
+    .fullscreen-btn {
+        top: max(20px, env(safe-area-inset-top));
+    }
 }
