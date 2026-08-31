@@ -1227,15 +1227,16 @@ footer p{
 
 /* 2. Zoom na diagonal (Efeito de afastar/juntar os dedos) */
 @keyframes efeitoPinch {
-    0% { transform: scale(0.85); opacity: 0;
+    0% { 
+        transform: scale(0.85); 
+        opacity: 0;
     }
-    30% {
-        opacity: 1; /* O transform foi removido daqui. Interpola a opacidade apenas. */
+    30% {opacity: 1;
     }
-    70% {
-        opacity: 1; /* O transform foi removido daqui. */
+    70% {opacity: 1;
     }
-    100% { transform: scale(1.35); opacity: 0; }
+    100% { transform: scale(1.35); opacity: 0; 
+    }
 }
 .anim-pinch {
     animation: efeitoPinch 2s infinite ease-in-out;
