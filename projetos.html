@@ -1271,14 +1271,34 @@ modal.addEventListener("touchmove", function(e){
         e.preventDefault();
         const distanciaAtual = distanciaToques(e.touches[0], e.touches[1]);
         const novaEscala = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, escalaInicialPinch * (distanciaAtual / distanciaInicialPinch)));
-        
+    
+        // --- NOVO: Cálculo para focar o zoom no local dos dedos ---
+        // Encontrar o rácio de crescimento em relação ao tamanho que a imagem tinha no início do gesto
+        const razaoEscala = novaEscala / escalaInicialPinch;
+    
+        // O centro visual do ecrã
+        const centroEcraX = window.innerWidth / 2;
+        const centroEcraY = window.innerHeight / 2;
+    
+        // Deslocar o alvo de zoom na direção oposta ao centro da pinça, multiplicando pela diferença de escala
+        zoomTargetX = pinchImagemX - (pinchCentroX - centroEcraX) * (razaoEscala - 1);
+        zoomTargetY = pinchImagemY - (pinchCentroY - centroEcraY) * (razaoEscala - 1);
+        // -----------------------------------------------------------
+
         escalaZoom = novaEscala;
         zoomAtivo = escalaZoom > 1.02;
+    
         if (zoomBtn) zoomBtn.textContent = zoomAtivo ? "−" : "+";
-        
+    
         if (!zoomAtivo) {
             zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
+        } else {
+            // NOVO: Sincronizar as variáveis de arrasto simples para que a imagem não dê um salto 
+            // caso o utilizador levante apenas um dedo e continue a arrastar a imagem
+            zoomX = zoomTargetX;
+            zoomY = zoomTargetY;
         }
+    
         if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
         return;
     }
