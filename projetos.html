@@ -1615,17 +1615,6 @@ function esconderTutorialGestos() {
 document.getElementById("tutorial-gestos").addEventListener("touchstart", esconderTutorialGestos, { passive: true });
 document.getElementById("tutorial-gestos").addEventListener("click", esconderTutorialGestos);
 
-// Garante o encerramento do tutorial de gestos no toque em dispositivos iPadOS/Safari
-document.addEventListener("DOMContentLoaded", function() {
-    const tutorialGestosEl = document.getElementById("tutorial-gestos");
-    if (tutorialGestosEl) {
-        tutorialGestosEl.addEventListener("touchstart", function(e) {
-            e.preventDefault();
-            esconderTutorial();
-        }, { passive: false });
-    }
-});
-
 </script>
 </body>
 </html>

@@ -500,7 +500,7 @@ footer p{
     justify-content: center;
     align-items: center;
     gap: 60px;
-    background: rgba(255, 255, 255, 0.83);
+    background: rgba(255, 255, 255, 0.8);
     /*backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);*/
     color: var(--c-text);
@@ -1267,56 +1267,4 @@ footer p{
 
 .anim-swipe-down {
     animation: deslizaBaixo 2s infinite ease-in-out;
-}
-
-/* ================== CORREÇÃO DEFINITIVA IPAD PRO E TABLETS ================== */
-
-/* 1. Impede que o texto do menu se junte/dobre no Safari/iPad */
-nav a {
-    white-space: nowrap !important;
-    flex-shrink: 0;
-}
-
-/* 2. Ajustes específicos para o ecrã do iPad / iPad Pro (769px a 1024px) */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-    
-    /* Mantém o logótipo à esquerda e o menu à direita sem sobreposição */
-    header {
-        padding: 25px 40px !important;
-        flex-wrap: nowrap !important;
-        justify-content: space-between !important;
-    }
-
-    .header-left {
-        flex-shrink: 0;
-    }
-
-    /* Garante o espaçamento entre as palavras do menu */
-    nav {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        gap: 20px !important;
-    }
-
-    nav a {
-        font-size: 11px !important;
-        letter-spacing: 1px !important;
-    }
-
-    /* Força a grelha a ter 2 colunas perfeitamente alinhadas */
-    .grid {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 24px !important;
-        width: 100% !important;
-    }
-}
-
-/* 3. Grelha fluida para Desktop (acima de 1024px) */
-@media screen and (min-width: 1025px) {
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 30px;
-    }
 }
