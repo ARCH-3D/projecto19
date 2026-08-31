@@ -1594,10 +1594,10 @@ function mostrarTutorialGestos() {
                 // Marca como visto
                 sessionStorage.setItem("tutorialVisto", "true");
 
-                // Esconde automaticamente passado 6 segundos (6000ms)
+                // Esconde automaticamente passado 4 segundos (4000ms)
                 tutorialTimeout = setTimeout(() => {
                     esconderTutorialGestos();
-                }, 6000);
+                }, 4000);
             }
         }, 500);
     }
