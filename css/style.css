@@ -1297,3 +1297,12 @@ html:has(:fullscreen) {
 .modal::backdrop {
     background-color: var(--c-bg);
 }
+
+/* Garante que os botões do modal respeitam a Dynamic Island e safe areas no iOS */
+.close, 
+.zoom-btn, 
+.fullscreen-btn {
+    top: max(20px, env(safe-area-inset-top)) !important;
+    touch-action: manipulation;
+    z-index: 100;
+}
