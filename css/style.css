@@ -495,17 +495,17 @@ footer p{
 .tutorial-overlay {
     position: absolute;
     inset: 0;
-    z-index: 10005; /* Acima de tudo, exceto controlos que não queremos clicar agora */
+    z-index: 10005;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 60px;
-    background: rgba(0, 0, 0, 0.65); /* Escurece a imagem por trás */
-    backdrop-filter: blur(2px); /* Efeito opcional premium */
-    -webkit-backdrop-filter: blur(2px);
-    color: #fff;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--c-text);
     opacity: 0;
-    pointer-events: none; /* Inativo por defeito */
+    pointer-events: none;
     transition: opacity 0.5s ease;
 }
 
