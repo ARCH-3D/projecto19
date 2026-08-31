@@ -1393,7 +1393,7 @@ modal.addEventListener("touchend", function(e){
             elementoAtual.style.transform = `translate(-50%, calc(-50% + ${destino}))`;
             elementoAtual.style.opacity = "0";
             modal.style.transition = "background .25s ease";
-            modal.style.background = "rgba(0,0,0,0)";
+            modal.style.background = "rgba(255,255,255,0)"; /* Fundo branco transparente */
             setTimeout(() => { fecharModal(); }, 200);
         } else {
             if (!elementoAtual) return;
