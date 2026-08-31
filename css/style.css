@@ -408,7 +408,7 @@ footer p{
     align-items:center;
     flex-direction:column;
     overflow:hidden;
-    touch-action:none;
+    touch-action: pinch-zoom;
 }
 #modal-content{
     display:flex;
