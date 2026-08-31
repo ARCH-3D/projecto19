@@ -38,7 +38,6 @@ body{
 }
 body.modal-open{
     overflow:hidden;
-    overscroll-behavior: none;
 }
 
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
@@ -409,7 +408,7 @@ footer p{
     align-items:center;
     flex-direction:column;
     overflow:hidden;
-    touch-action: none;
+    touch-action: pinch-zoom;
 }
 #modal-content{
     display:flex;
