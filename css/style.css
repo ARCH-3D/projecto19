@@ -1176,25 +1176,25 @@ footer p{
 }
 
 /* Aplica tamanho subtraindo a legenda em Fullscreen nativo (Tablets e PC) */
-#modal-content:fullscreen img,
-#modal-content:fullscreen video {
+#modal-projeto:fullscreen #modal-content img,
+#modal-projeto:fullscreen #modal-content video {
     max-width: 100vw !important;
     max-height: calc(100dvh - 115px) !important;
 }
 
 /* Para suporte extra em navegadores Safari/Apple */
-#modal-content:-webkit-full-screen img,
-#modal-content:-webkit-full-screen video {
+#modal-projeto:-webkit-full-screen #modal-content img,
+#modal-projeto:-webkit-full-screen #modal-content video {
     max-width: 100vw !important;
     max-height: calc(100dvh - 115px) !important;
 }
 
 /* Garante que os telemóveis em modo deitado (onde a legenda é oculta) continuam a usar 100% do ecrã */
 @media screen and (max-height: 550px) and (orientation: landscape) {
-    #modal-content:fullscreen img,
-    #modal-content:fullscreen video,
-    #modal-content:-webkit-full-screen img,
-    #modal-content:-webkit-full-screen video {
+    #modal-projeto:fullscreen #modal-content img,
+    #modal-projeto:fullscreen #modal-content video,
+    #modal-projeto:-webkit-full-screen #modal-content img,
+    #modal-projeto:-webkit-full-screen #modal-content video {
         max-height: 100dvh !important;
     }
 }
