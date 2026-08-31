@@ -38,6 +38,7 @@ body{
 }
 body.modal-open{
     overflow:hidden;
+    overscroll-behavior: none;
 }
 
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
