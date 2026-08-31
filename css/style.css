@@ -1276,3 +1276,23 @@ footer p{
 .anim-swipe-down {
     animation: deslizaBaixo 2s infinite ease-in-out;
 }
+
+/* ================== CORREÇÃO FULLSCREEN WINDOWS ================== */
+/* Remove a reserva de espaço da barra de scroll em ecrã inteiro */
+html:has(:fullscreen) {
+    scrollbar-gutter: auto;
+}
+
+/* Força o modal a ocupar 100% da área visível sem restrições */
+.modal:fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Pinta o fundo nativo do browser de branco para evitar rebordos pretos */
+.modal::backdrop {
+    background-color: var(--c-bg);
+}

@@ -1443,6 +1443,13 @@ modalContent.addEventListener("mousemove", mostrarBotaoFullscreen);
 modalContent.addEventListener("touchstart", mostrarBotaoFullscreen);
 
 document.addEventListener("fullscreenchange", () => {
+    // Remove o espaço lateral do scrollbar no HTML durante o fullscreen
+    if (document.fullscreenElement) {
+        document.documentElement.style.setProperty("scrollbar-gutter", "auto", "important");
+    } else {
+        document.documentElement.style.removeProperty("scrollbar-gutter");
+    }
+    
     modal.style.background = "";
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
