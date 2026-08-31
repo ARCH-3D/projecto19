@@ -536,6 +536,7 @@ footer p{
     letter-spacing: 1.5px;
     text-transform: uppercase;
     text-align: center;
+    color: var(--c-sec);
 }
 
 /* Ajustes para Telemóvel */
