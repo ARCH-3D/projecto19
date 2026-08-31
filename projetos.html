@@ -1255,7 +1255,49 @@ modal.addEventListener("touchstart", function(e){
     if (elementoAnterior) elementoAnterior.style.transition = "none";
 });
 
+modal.addEventListener("touchstart", function(e){
+    // 1. IGNORAR GESTOS SE O TOQUE FOR NUM BOTÃO OU CONTROLO INTERATIVO
+    if (e.target.closest("button, .close, .zoom-btn, .fullscreen-btn, .media-indicators, .contact-widget")) {
+        isDragging = false;
+        return;
+    }
+
+    if (e.touches.length === 2) {
+        isPinching = true;
+        moverImagem = false;
+        isDragging = false;
+        distanciaInicialPinch = distanciaToques(e.touches[0], e.touches[1]);
+        escalaInicialPinch = escalaZoom;
+        pinchCentroX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        pinchCentroY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        pinchImagemX = zoomTargetX;
+        pinchImagemY = zoomTargetY;
+        return;
+    }
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    if (zoomAtivo) {
+        moverImagem = true;
+        zoomStartX = e.touches[0].clientX - zoomX;
+        zoomStartY = e.touches[0].clientY - zoomY;
+        if (elementoAtual) elementoAtual.style.transition = "none";
+        return;
+    }
+    isVerticalDrag = false;
+    currentY = 0;
+    currentTranslate = 0;
+    isDragging = true;
+    previewIndice = indiceAtual;
+    if (!elementoAtual) return;
+    elementoAtual.style.transition = "none";
+    if (elementoSeguinte) elementoSeguinte.style.transition = "none";
+    if (elementoAnterior) elementoAnterior.style.transition = "none";
+});
+
 modal.addEventListener("touchmove", function(e){
+    // IGNORAR SE O TOQUE ORIGINOU NUM BOTÃO OU SE NÃO ESTIVER EM DRAG
+    if (!isDragging || e.target.closest("button, .close, .zoom-btn, .fullscreen-btn")) return;
+
     if (e.touches.length === 2 && elementoAtual) {
         isPinching = true;
         e.preventDefault();
@@ -1282,7 +1324,7 @@ modal.addEventListener("touchmove", function(e){
         if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
         return;
     }
-    if (!isDragging || !elementoAtual) return;
+    if (!elementoAtual) return;
     e.preventDefault();
     const touchX = e.touches[0].clientX, touchY = e.touches[0].clientY;
     const dx = touchX - touchStartX, dy = touchY - touchStartY;
