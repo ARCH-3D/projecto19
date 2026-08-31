@@ -1359,6 +1359,10 @@ modal.addEventListener("touchmove", function(e){
 }, { passive: false });
 
 modal.addEventListener("touchend", function(e){
+    if (e.target.closest("button, .close, .zoom-btn, .fullscreen-btn, .media-indicators, .contact-widget")) {
+            return;
+        }
+
     if (isPinching) {
         if (e.touches.length < 2) {
             isPinching = false;
