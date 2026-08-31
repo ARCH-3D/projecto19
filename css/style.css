@@ -501,8 +501,8 @@ footer p{
     align-items: center;
     gap: 60px;
     background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    /*backdrop-filter: blur(10px);*/
+    /*-webkit-backdrop-filter: blur(10px);*/
     color: var(--c-text);
     opacity: 0;
     pointer-events: none;
