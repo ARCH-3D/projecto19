@@ -1206,7 +1206,7 @@ footer p{
 /* 1. Mudar Imagem (Deslizar da esquerda para a direita) */
 @keyframes swipeRightLoop {
     0% {
-        transform: translateX(-8px);
+        transform: translateX(-12px);
         opacity: 0;
     }
     30% {
@@ -1227,8 +1227,8 @@ footer p{
 
 /* 2. Zoom na diagonal (Efeito de afastar/juntar os dedos) */
 @keyframes efeitoPinch {
-    0%, 100% { transform: scale(0.85); opacity: 0.7; }
-    50% { transform: scale(1.35); opacity: 1; }
+    0%, 100% { transform: scale(0.75); opacity: 0.7; }
+    50% { transform: scale(1.45); opacity: 1; }
 }
 .anim-pinch {
     animation: efeitoPinch 2s infinite ease-in-out;
@@ -1250,7 +1250,7 @@ footer p{
 /* 4. Fechar (Deslizar de cima para baixo e desaparecer) */
 @keyframes deslizaBaixo {
     0% {
-        transform: translateY(-8px);
+        transform: translateY(-12px);
         opacity: 0;
     }
     30% {
