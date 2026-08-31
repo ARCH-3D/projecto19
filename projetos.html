@@ -206,7 +206,7 @@ gtag('config','G-JXJP0D464R');
 
 <!-- Modal -->
 <div id="modal-projeto" class="modal" role="dialog" aria-modal="true">
-<div id="tutorial-gestos" class="tutorial-overlay" aria-hidden="true" onclick="esconderTutorialGestos()">
+<div id="tutorial-gestos" class="tutorial-overlay" aria-hidden="true" onclick="esconderTutorial()">
     
     <!-- 1. Deslizar para os Lados -->
     <div class="tutorial-item">
@@ -1223,6 +1223,39 @@ document.addEventListener("keydown", function(e){
 });
 
 modal.addEventListener("touchstart", function(e){
+    if (e.touches.length === 2) {
+        isPinching = true;
+        moverImagem = false;
+        isDragging = false;
+        distanciaInicialPinch = distanciaToques(e.touches[0], e.touches[1]);
+        escalaInicialPinch = escalaZoom;
+        pinchCentroX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        pinchCentroY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        pinchImagemX = zoomTargetX;
+        pinchImagemY = zoomTargetY;
+        return;
+    }
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    if (zoomAtivo) {
+        moverImagem = true;
+        zoomStartX = e.touches[0].clientX - zoomX;
+        zoomStartY = e.touches[0].clientY - zoomY;
+        if (elementoAtual) elementoAtual.style.transition = "none";
+        return;
+    }
+    isVerticalDrag = false;
+    currentY = 0;
+    currentTranslate = 0;
+    isDragging = true;
+    previewIndice = indiceAtual;
+    if (!elementoAtual) return;
+    elementoAtual.style.transition = "none";
+    if (elementoSeguinte) elementoSeguinte.style.transition = "none";
+    if (elementoAnterior) elementoAnterior.style.transition = "none";
+});
+
+modal.addEventListener("touchstart", function(e){
     // 1. IGNORAR GESTOS SE O TOQUE FOR NUM BOTÃO OU CONTROLO INTERATIVO
     if (e.target.closest("button, .close, .zoom-btn, .fullscreen-btn, .media-indicators, .contact-widget")) {
         isDragging = false;
@@ -1551,6 +1584,11 @@ window.addEventListener("scroll", () => {
 window.addEventListener("orientationchange", () => {
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
+});
+
+window.addEventListener("resize", () => {
+    ajustarFullscreenAndroid();
+    ajustarBolinhasIPhone();
 });
 
 if (backToTop) {
