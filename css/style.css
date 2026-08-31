@@ -1299,17 +1299,17 @@ html:has(:fullscreen) {
 }
 
 /* Correção de touch e safe-area sem sobrepor botões */
-.close, 
+/*.close, 
 .zoom-btn, 
 .fullscreen-btn {
     touch-action: manipulation;
-}
+}*/
 
 /* Aplica a safe area mantendo as posições individuais e sem anular o modo paisagem */
-@media screen and (min-height: 551px) {
+/*@media screen and (min-height: 551px) {
     .close,
     .zoom-btn,
     .fullscreen-btn {
         top: max(20px, env(safe-area-inset-top));
     }
-}
+}*/
