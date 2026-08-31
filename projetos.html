@@ -1327,7 +1327,7 @@ modal.addEventListener("touchmove", function(e){
     if (isVerticalDrag) {
         elementoAtual.style.transform = `translate(-50%, calc(-50% + ${currentY}px))`;
         const opacity = Math.max(1 - Math.abs(currentY) / MODAL_FADE_DISTANCE, 0.3);
-        modal.style.background = `rgba(0,0,0,${opacity})`;
+        modal.style.background = `rgba(255,255,255,${opacity})`; /* Fundo branco com opacidade */
         return;
     }
     
