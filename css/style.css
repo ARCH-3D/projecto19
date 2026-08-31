@@ -500,7 +500,9 @@ footer p{
     justify-content: center;
     align-items: center;
     gap: 60px;
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     color: var(--c-text);
     opacity: 0;
     pointer-events: none;
