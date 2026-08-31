@@ -1130,7 +1130,7 @@ footer p{
     }
 }
 
-/* 4. DISPOSITIVOS DOBRÁVEIS (Foldables) */
+/* 4. ECRÃS QUASE QUADRADOS / FOLDABLES ABERTOS */
 @media screen and (max-width: 1024px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {
     .close {
         top: max(15px, env(safe-area-inset-top)) !important;
