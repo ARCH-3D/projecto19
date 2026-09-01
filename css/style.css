@@ -646,7 +646,7 @@ footer p{
 .prev:focus-visible,
 .next:focus-visible {
     outline: 2px solid var(--c-text);
-    outline-offset: 4px;
+    outline-offset: -10px;
 }
 
 .prev {
