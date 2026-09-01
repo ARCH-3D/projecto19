@@ -1325,7 +1325,7 @@ body.modal-open #menu-projetos { /* Certifique-se de que #menu-projetos é o ID/
 /* 2. Define o fundo do body com a mesma cor do modal (ex: preto) */
 body.modal-open {
     overflow: hidden;
-    background-color: #000 !important; /* Ajuste para a cor de fundo do seu modal */
+    background-color: #ffffff !important; /* Ajuste para a cor de fundo do seu modal */
 }
 
 /* 3. Força o Safari a manter o modal numa camada dedicada da GPU */
