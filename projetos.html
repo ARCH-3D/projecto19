@@ -1243,6 +1243,9 @@ modal.addEventListener("touchmove", function(e){
 
     if (e.touches.length === 2 && elementoAtual) {
         isPinching = true;
+        isVerticalDrag = false;
+        modal.style.background = "";
+        
         e.preventDefault();
         const distanciaAtual = distanciaToques(e.touches[0], e.touches[1]);
         const novaEscala = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, escalaInicialPinch * (distanciaAtual / distanciaInicialPinch)));
