@@ -619,65 +619,50 @@ footer p{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    color: var(--c-text);
+    font-size: 50px;
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
     z-index: 10000;
+    transition: var(--trans-main);
     
-    /* Dimensões e Alinhamento junto à extremidade */
-    width: 50px;
-    height: 70px;
+    /* Novas regras para forçar o quadrado */
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
     
-    /* Magia Minimalista: Inversão inteligente de cor baseada no fundo */
-    color: #ffffff;
-    mix-blend-mode: difference;
-    
-    font-size: 38px;
-    font-weight: 300;
-    
-    /* Resets de Botão */
+    /* Remoção do retângulo e estilo base do <button> */
     background: transparent;
     border: none;
     outline: none;
-    cursor: pointer;
-    user-select: none;
-    touch-action: manipulation;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    appearance: none;
+    -webkit-appearance: none;
 }
 
-/* Ancoragem rigorosa às extremidades da janela */
-.prev {
-    left: 12px;
-}
-
-.next {
-    right: 12px;
-}
-
-/* Efeito ao passar o cursor (Desktop) */
-@media (hover: hover) {
-    .prev:hover,
-    .next:hover {
-        opacity: 0.5;
-        transform: translateY(-50%) scale(1.08);
-    }
-}
-
-/* Efeito ao clicar (estado active) mantendo a tua regra global */
-.prev:active,
-.next:active {
-    transform: translateY(-50%) scale(0.92) !important;
-    opacity: 0.4 !important;
-    transition: transform 0.08s ease, opacity 0.08s ease !important;
-}
-
-/* Acessibilidade por Teclado (Tab) */
+/* Regra para mostrar o quadrado com o Tab */
 .prev:focus-visible,
 .next:focus-visible {
     outline: 2px solid var(--c-text);
-    outline-offset: 4px;
-    mix-blend-mode: normal;
-    color: var(--c-text);
+    outline-offset: -10px;
+}
+
+.prev {
+    left: max(8px, 1vw);
+}
+
+.next {
+    right: max(8px, 1vw);
+}
+
+/* Efeito ao clicar (estado active) */
+.prev:active,
+.next:active {
+    transform: translateY(-50%) scale(0.92) !important;
+    opacity: 0.5 !important;
+    transition: transform 0.08s ease, opacity 0.08s ease !important;
 }
 
 /* ================= CONTACT WIDGET ================= */
