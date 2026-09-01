@@ -260,19 +260,21 @@ section p{
 /* ================== PROJECT GRID ================== */
 .grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 30px;
+    grid-template-columns: 1fr; /* Força 1 coluna em telemóveis fechados/normais */
+    gap: 30px; /* Mantém o espaçamento original */
 }
 
+/* Z Fold Desdobrado e Tablets (a partir de 530px) */
 @media (min-width: 530px) {
     .grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr); /* Força exatamente 2 colunas lado a lado */
     }
 }
 
+/* Ecrãs maiores e Computador (a partir de 1024px) */
 @media (min-width: 1024px) {
     .grid {
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Devolve a fluidez no Desktop */
     }
 }
 
@@ -421,11 +423,9 @@ footer p{
     position:relative;
     contain:layout paint;
 }
-
-/* Imagens/Vídeos no Modal: Com margem de segurança lateral em Desktop para as setas nunca sobreporem */
 #modal-content img,
 #modal-content video{
-    max-width: calc(100vw - 120px); /* Afastamento lateral garantido em Computador */
+    max-width: calc(100vw - 40px);
     max-height: calc(100dvh - 115px);
     width:auto;
     height:auto;
@@ -502,6 +502,8 @@ footer p{
     align-items: center;
     gap: 60px;
     background: rgba(255, 255, 255, 0.92);
+    /*backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);*/
     color: var(--c-text);
     opacity: 0;
     pointer-events: none;
@@ -510,7 +512,7 @@ footer p{
 
 .tutorial-overlay.show {
     opacity: 1;
-    pointer-events: auto;
+    pointer-events: auto; /* Permite captar o toque para fechar */
 }
 
 .tutorial-item {
@@ -525,7 +527,7 @@ footer p{
     height: 32px;
     fill: none;
     stroke: currentColor;
-    stroke-width: 1.2;
+    stroke-width: 1.2; /* Traço muito fino e elegante */
     overflow: visible;
 }
 
@@ -538,6 +540,7 @@ footer p{
     color: var(--c-sec);
 }
 
+/* Ajustes para Telemóvel */
 @media (max-width: 768px) {
     .tutorial-overlay {
         flex-direction: column;
@@ -593,7 +596,6 @@ footer p{
     .prev:hover,
     .next:hover{
         opacity:.5;
-        transform: translateY(-50%) scale(1.08);
     }
 }
 @media (pointer:coarse){
@@ -618,20 +620,21 @@ footer p{
     top: 50%;
     transform: translateY(-50%);
     color: var(--c-text);
-    font-size: 42px;
-    font-weight: 300;
+    font-size: 50px;
     cursor: pointer;
     user-select: none;
     touch-action: manipulation;
     z-index: 10000;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: var(--trans-main);
     
-    width: 60px;
+    /* Novas regras para forçar o quadrado */
+    width: 80px;
     height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
     
+    /* Remoção do retângulo e estilo base do <button> */
     background: transparent;
     border: none;
     outline: none;
@@ -639,25 +642,26 @@ footer p{
     -webkit-appearance: none;
 }
 
-/* Posicionadas nas margens laterais criadas, descansando sobre o fundo branco */
-.prev {
-    left: 20px;
-}
-
-.next {
-    right: 20px;
-}
-
+/* Regra para mostrar o quadrado com o Tab */
 .prev:focus-visible,
 .next:focus-visible {
     outline: 2px solid var(--c-text);
-    outline-offset: 4px;
+    outline-offset: -10px;
 }
 
+.prev {
+    left: max(8px, 1vw);
+}
+
+.next {
+    right: max(8px, 1vw);
+}
+
+/* Efeito ao clicar (estado active) */
 .prev:active,
 .next:active {
     transform: translateY(-50%) scale(0.92) !important;
-    opacity: 0.4 !important;
+    opacity: 0.5 !important;
     transition: transform 0.08s ease, opacity 0.08s ease !important;
 }
 
@@ -939,7 +943,7 @@ footer p{
 .media-indicators{
     position:absolute;
     left:50%;
-    bottom:105px;
+    bottom:105px; /* Posição ajustada ligeiramente mais alta para dar respiro */
     transform:translateX(-50%);
     display:flex;
     gap:8px;
@@ -947,7 +951,7 @@ footer p{
 }
 @media (max-width: 768px) {
     .media-indicators {
-        bottom: 80px;
+        bottom: 80px; /* Proporção otimizada para telemóveis */
     }
 }
 .media-indicators span{
@@ -1106,22 +1110,25 @@ footer p{
 
 /* ================== AJUSTES ESPECÍFICOS PARA TABLETS E MOBILE ================== */
 
+/* 1. TABLET MODO RETRATO (Ex: Galaxy Tab S, iPad Portrait) */
 @media screen and (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important; /* Margem quase impercetível de 10px de cada lado */
         max-height: calc(100dvh - 115px) !important;
     }
 }
 
+/* 2. TABLET MODO PAISAGEM (Ex: Galaxy Tab S11/S7/A9+ Landscape, iPad Pro Landscape) */
 @media screen and (min-height: 551px) and (max-width: 1366px) and (orientation: landscape) {
     #modal-content img,
     #modal-content video {
-        max-width: calc(100vw - 30px) !important;
+        max-width: calc(100vw - 30px) !important; /* Permite esticar muito mais lateralmente (15px por lado) */
         max-height: calc(100dvh - 115px) !important;
     }
 }
 
+/* 3. TELEMÓVEIS MODO PAISAGEM (Ecrãs baixos <= 550px): Oculta legenda e reaproveita espaço */
 @media screen and (max-height: 550px) and (orientation: landscape) {
     #modal-content img,
     #modal-content video {
@@ -1151,6 +1158,7 @@ footer p{
     }
 }
 
+/* 4. ECRÃS QUASE QUADRADOS / FOLDABLES ABERTOS */
 @media screen and (max-width: 1024px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {
     .close {
         top: max(15px, env(safe-area-inset-top)) !important;
@@ -1166,6 +1174,7 @@ footer p{
     }
 }
 
+/* ================== CORREÇÃO OTIMIZADA PARA GRELHA DE PROJETOS ================== */
 @media screen and (max-width: 480px) {
     section {
         padding-left: 22px !important;
@@ -1195,18 +1204,21 @@ footer p{
     }
 }
 
+/* Aplica tamanho subtraindo a legenda em Fullscreen nativo (Tablets e PC) */
 #modal-projeto:fullscreen #modal-content img,
 #modal-projeto:fullscreen #modal-content video {
     max-width: 100vw !important;
     max-height: calc(100dvh - 115px) !important;
 }
 
+/* Para suporte extra em navegadores Safari/Apple */
 #modal-projeto:-webkit-full-screen #modal-content img,
 #modal-projeto:-webkit-full-screen #modal-content video {
     max-width: 100vw !important;
     max-height: calc(100dvh - 115px) !important;
 }
 
+/* Garante que os telemóveis em modo deitado (onde a legenda é oculta) continuam a usar 100% do ecrã */
 @media screen and (max-height: 550px) and (orientation: landscape) {
     #modal-projeto:fullscreen #modal-content img,
     #modal-projeto:fullscreen #modal-content video,
@@ -1220,19 +1232,20 @@ footer p{
    ANIMAÇÕES DO TUTORIAL DE GESTOS
    ========================================= */
 
+/* 1. Mudar Imagem (Deslizar da esquerda para a direita) */
 @keyframes swipeRightLoop {
     0% {
         transform: translateX(-12px);
         opacity: 0;
     }
     30% {
-        opacity: 1;
+        opacity: 1; /* O transform foi removido daqui. Interpola a opacidade apenas. */
     }
     70% {
-        opacity: 1;
+        opacity: 1; /* O transform foi removido daqui. */
     }
     100% {
-        transform: translateX(12px);
+        transform: translateX(12px); /* Movimento contínuo e fluido dos -8px aos 12px */
         opacity: 0;
     }
 }
@@ -1241,19 +1254,37 @@ footer p{
     animation: swipeRightLoop 2s infinite ease-in-out;
 }
 
+/* 2. Zoom na diagonal (Efeito de afastar/juntar os dedos) */
 @keyframes efeitoPinch {
     0% { 
         transform: scale(0.85); 
         opacity: 0;
     }
-    30% {opacity: 1;}
-    70% {opacity: 1;}
-    100% { transform: scale(1.35); opacity: 0; }
+    30% {opacity: 1;
+    }
+    70% {opacity: 1;
+    }
+    100% { transform: scale(1.35); opacity: 0; 
+    }
 }
 .anim-pinch {
     animation: efeitoPinch 2s infinite ease-in-out;
 }
 
+/* 3. Duplo toque (Efeito de duplo pulso no anel exterior) */
+/*@keyframes efeitoDuploToque {
+    0% { transform: scale(0.8); opacity: 1; }
+    15% { transform: scale(1.4); opacity: 0; }
+    30% { transform: scale(0.8); opacity: 1; }
+    45% { transform: scale(1.4); opacity: 0; }
+    100% { transform: scale(0.8); opacity: 0; }
+}
+.anim-double-tap .anel-zoom {
+    animation: efeitoDuploToque 3s infinite;
+    transform-origin: center;
+}*/
+
+/* 4. Fechar (Deslizar de cima para baixo e desaparecer) */
 @keyframes deslizaBaixo {
     0% {
         transform: translateY(-12px);
@@ -1275,10 +1306,13 @@ footer p{
     animation: deslizaBaixo 2s infinite ease-in-out;
 }
 
+/* ================== CORREÇÃO FULLSCREEN WINDOWS ================== */
+/* Remove a reserva de espaço da barra de scroll em ecrã inteiro */
 html:has(:fullscreen) {
     scrollbar-gutter: auto;
 }
 
+/* Força o modal a ocupar 100% da área visível sem restrições */
 .modal:fullscreen {
     width: 100vw !important;
     height: 100vh !important;
@@ -1287,16 +1321,19 @@ html:has(:fullscreen) {
     padding: 0 !important;
 }
 
+/* Pinta o fundo nativo do browser de branco para evitar rebordos pretos */
 .modal::backdrop {
     background-color: var(--c-bg);
 }
 
+/* Correção de touch e safe-area sem sobrepor botões */
 .close, 
 .zoom-btn, 
 .fullscreen-btn {
     touch-action: manipulation;
 }
 
+/* Aplica a safe area mantendo as posições individuais e sem anular o modo paisagem */
 @media screen and (min-height: 551px) {
     .close,
     .zoom-btn,
