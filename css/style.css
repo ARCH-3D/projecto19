@@ -616,69 +616,68 @@ footer p{
 /* ================== SETAS ================== */
 .prev,
 .next {
-    position: fixed;
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 100000;
+    z-index: 10000;
     
-    /* Dimensões e Centagem */
-    width: 60px;
-    height: 60px;
+    /* Dimensões e Alinhamento junto à extremidade */
+    width: 50px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
     
-    /* Estilo Minimalista (Sem Fundo) */
+    /* Magia Minimalista: Inversão inteligente de cor baseada no fundo */
+    color: #ffffff;
+    mix-blend-mode: difference;
+    
+    font-size: 38px;
+    font-weight: 300;
+    
+    /* Resets de Botão */
     background: transparent;
     border: none;
     outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    
-    /* Tipografia e Legibilidade universal sem fundo */
-    color: #ffffff;
-    font-size: 45px;
     cursor: pointer;
     user-select: none;
     touch-action: manipulation;
-    
-    /* Sombra subtil de contraste: garante visibilidade perfeita em fotos brancas ou pretas sem usar caixas */
-    filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
-    
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* Ancoragem estrita às extremidades da janela */
+/* Ancoragem rigorosa às extremidades da janela */
 .prev {
-    left: 20px;
+    left: 12px;
 }
 
 .next {
-    right: 20px;
+    right: 12px;
 }
 
-/* Foco por teclado (Acessibilidade) */
-.prev:focus-visible,
-.next:focus-visible {
-    outline: 2px solid #ffffff;
-    outline-offset: 4px;
-}
-
-/* Efeito ao clicar (estado active) */
-.prev:active,
-.next:active {
-    transform: translateY(-50%) scale(0.92) !important;
-    opacity: 0.5 !important;
-    transition: transform 0.08s ease, opacity 0.08s ease !important;
-}
-
-/* Efeito ao passar o cursor no Computador */
+/* Efeito ao passar o cursor (Desktop) */
 @media (hover: hover) {
     .prev:hover,
     .next:hover {
-        opacity: 0.7;
+        opacity: 0.5;
         transform: translateY(-50%) scale(1.08);
     }
+}
+
+/* Efeito ao clicar (estado active) mantendo a tua regra global */
+.prev:active,
+.next:active {
+    transform: translateY(-50%) scale(0.92) !important;
+    opacity: 0.4 !important;
+    transition: transform 0.08s ease, opacity 0.08s ease !important;
+}
+
+/* Acessibilidade por Teclado (Tab) */
+.prev:focus-visible,
+.next:focus-visible {
+    outline: 2px solid var(--c-text);
+    outline-offset: 4px;
+    mix-blend-mode: normal;
+    color: var(--c-text);
 }
 
 /* ================= CONTACT WIDGET ================= */
