@@ -660,9 +660,9 @@ footer p{
 /* Efeito ao clicar (estado active) */
 .prev:active,
 .next:active {
-    /* MANTÉM a seta centrada na vertical E aplica o efeito de clique.
-       Altere o scale(0.9) para o valor que usa nos outros botões do site */
-    transform: translateY(-50%) scale(0.9);
+    transform: translateY(-50%) scale(0.92) !important;
+    opacity: 0.5 !important;
+    transition: transform 0.08s ease, opacity 0.08s ease !important;
 }
 
 /* ================= CONTACT WIDGET ================= */
