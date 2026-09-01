@@ -1316,13 +1316,3 @@ html:has(:fullscreen) {
 .bloquear-animacoes * {
     transition: none !important;
 }
-
-/* Oculta os elementos da página de fundo quando o modal está aberto */
-/* Impede que sejam vistos durante a rotação de ecrã no iOS */
-body.modal-open header,
-body.modal-open .projects-section,
-body.modal-open footer,
-body.modal-open .contact-widget,
-body.modal-open #back-to-top {
-    visibility: hidden;
-}
