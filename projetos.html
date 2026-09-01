@@ -205,7 +205,7 @@ gtag('config','G-JXJP0D464R');
 </section>
 
 <!-- Modal -->
-<div id="modal-projeto" class="modal" role="dialog" aria-modal="true">
+<div id="modal-projeto" class="modal" role="dialog" aria-modal="true" tabindex="-1">
 <div id="tutorial-gestos" class="tutorial-overlay" aria-hidden="true">
     
     <!-- 1. Deslizar para os Lados -->
@@ -579,6 +579,7 @@ let rafZoom = null, zoomTargetX = 0, zoomTargetY = 0, limiteZoomX = 0, limiteZoo
 let distanciaInicialPinch = 0, escalaInicialPinch = 1;
 let pinchCentroX = 0, pinchCentroY = 0, pinchImagemX = 0, pinchImagemY = 0;
 let isPinching = false, ultimoPinch = 0;
+let elementoFocadoAnteriormente = null;
 
 const ZOOM_MIN = 1, ZOOM_MAX = 4, DEFAULT_ZOOM = 2;
 const MODAL_FADE_DISTANCE = 400, DRAG_START_THRESHOLD = 10, MEDIA_ENTRY_OFFSET = 50;
@@ -670,9 +671,36 @@ function abrirProjeto(nomeProjeto){
     if (contactWidget) contactWidget.style.display = "none";
     if (backToTop) backToTop.classList.remove("show");
     mostrarTutorialGestos();
+
+    // --- CORREÇÃO DE ACESSIBILIDADE E FOCO ---
+    // Guardar a capa do projeto em que se clicou
+    elementoFocadoAnteriormente = document.activeElement;
+    
+    // Isolar os elementos de fundo para a navegação por teclado (Tab) ignorá-los
+    const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
+    elementosFundo.forEach(el => {
+        if (el) el.setAttribute('inert', ''); 
+    });
+    
+    // Focar no próprio modal para a navegação começar aí dentro
+    modalProjeto.focus();
+    // -----------------------------------------
 }
 
 function fecharModal(){
+    // --- CORREÇÃO DE ACESSIBILIDADE E FOCO ---
+    // Devolver a interatividade aos elementos da página principal
+    const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
+    elementosFundo.forEach(el => {
+        if (el) el.removeAttribute('inert');
+    });
+
+    // Devolver o foco à capa do projeto que o utilizador tinha clicado
+    if (elementoFocadoAnteriormente) {
+        elementoFocadoAnteriormente.focus();
+    }
+    // -----------------------------------------
+
     resetZoom();
     document.getElementById("modal-projeto").style.display = "none";
     document.getElementById("modal-content").innerHTML = "";
