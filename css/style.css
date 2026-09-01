@@ -1316,3 +1316,21 @@ html:has(:fullscreen) {
 .bloquear-animacoes * {
     transition: none !important;
 }
+
+/* Limpa o aspeto padrão de botão do navegador, mantendo o minimalismo */
+.prev, .next {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font: inherit; /* Herda o tamanho e tipo de letra do modal */
+    color: inherit; /* Herda a cor original (ex: branco) */
+    outline: none;  /* Remove a linha de foco feia padrão do browser */
+}
+
+/* Opcional: Adiciona um efeito de foco subtil para quem navega por teclado (acessibilidade) */
+.prev:focus-visible, .next:focus-visible {
+    opacity: 1;
+    transform: scale(1.1); /* Um pequeno zoom subtil ao focar por teclado */
+}
