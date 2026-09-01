@@ -128,7 +128,7 @@ nav a:focus-visible{
     height: 100vh;
     min-height: 100dvh;
     overflow: hidden;
-    transform: translateZ(0); /* Força a aceleração por hardware para evitar fundo preto */
+    transform: translateZ(0);
     -webkit-transform: translateZ(0);
 }
 
@@ -140,7 +140,7 @@ nav a:focus-visible{
     height: 100%;
     object-fit: cover;
     object-position: center;
-    backface-visibility: hidden; /* Estabiliza a renderização durante gestos de zoom */
+    backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
 }
 
