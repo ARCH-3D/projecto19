@@ -1311,3 +1311,8 @@ html:has(:fullscreen) {
         top: max(20px, env(safe-area-inset-top));
     }
 }
+
+.bloquear-animacoes,
+.bloquear-animacoes * {
+    transition: none !important;
+}
