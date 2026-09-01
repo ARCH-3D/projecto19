@@ -1316,3 +1316,7 @@ html:has(:fullscreen) {
 .bloquear-animacoes * {
     transition: none !important;
 }
+
+html, body {
+    background-color: #000; /* Use a mesma cor de fundo do seu modal */
+}
