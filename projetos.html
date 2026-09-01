@@ -1245,7 +1245,7 @@ modal.addEventListener("touchmove", function(e){
         isPinching = true;
         isVerticalDrag = false;
         modal.style.background = "";
-        
+
         e.preventDefault();
         const distanciaAtual = distanciaToques(e.touches[0], e.touches[1]);
         const novaEscala = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, escalaInicialPinch * (distanciaAtual / distanciaInicialPinch)));
@@ -1337,6 +1337,7 @@ modal.addEventListener("touchend", function(e){
         if (e.touches.length < 2) {
             isPinching = false;
             ultimoPinch = Date.now();
+            modal.style.background = "";
         }
         return;
     }
