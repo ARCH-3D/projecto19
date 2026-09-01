@@ -52,13 +52,15 @@ gtag('config','G-JXJP0D464R');
 </header>
 
 <!-- HERO -->
-<div class="hero">
-    <img id="hero-image" class="hero-image" src="img/hero/hero1.webp" alt="Projecto 19" fetchpriority="high" decoding="async">
-    <div class="hero-text">
-        <h2>Projecto 19</h2>
-        <p>Arquitetura e Design</p>
+<main>
+    <div class="hero">
+        <img id="hero-image" class="hero-image" src="img/hero/hero1.webp" alt="Projecto 19" fetchpriority="high" decoding="async">
+        <div class="hero-text">
+            <h2>Projecto 19</h2>
+            <p>Arquitetura e Design</p>
+        </div>
     </div>
-</div>
+</main>
 
 <!-- WIDGET CONTACTO -->
 <div class="contact-widget">
@@ -121,6 +123,10 @@ setInterval(()=>{
             preload=new Image();
             preload.src=imagens[(indice+1)%imagens.length];
         };
+        hero.onerror=()=>{
+            hero.style.opacity=1;
+            console.warn("Falha ao carregar a imagem: " + imagens[indice]);
+        };
     },400);
 },5000);
 
@@ -151,11 +157,11 @@ document.querySelectorAll("#menu a").forEach(link=>{
     });
 });
 
-document.addEventListener("click",function(e){
-    if(menu.classList.contains("active")&&!menu.contains(e.target)&&!menuToggle.contains(e.target)){
+document.addEventListener("pointerdown", function(e){
+    if(menu.classList.contains("active") && !menu.contains(e.target) && !menuToggle.contains(e.target)){
         menu.classList.remove("active");
     }
-    if(contactWidget.classList.contains("active")&&!contactWidget.contains(e.target)){
+    if(contactWidget.classList.contains("active") && !contactWidget.contains(e.target)){
         contactWidget.classList.remove("active");
     }
 });
