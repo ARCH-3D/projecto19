@@ -1322,5 +1322,5 @@ html:has(:fullscreen) {
 }
 
 html, body {
-    background-color: #000; /* Use a mesma cor de fundo do seu modal */
+    background-color: #ffffff; /* Use a mesma cor de fundo do seu modal */
 }
