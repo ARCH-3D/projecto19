@@ -1316,3 +1316,26 @@ html:has(:fullscreen) {
 .bloquear-animacoes * {
     transition: none !important;
 }
+
+/* 1. Esconde a grelha/menu de projetos quando o modal está aberto */
+body.modal-open #menu-projetos { /* Certifique-se de que #menu-projetos é o ID/classe real do seu menu/grelha */
+    visibility: hidden !important;
+}
+
+/* 2. Define o fundo do body com a mesma cor do modal (ex: preto) */
+body.modal-open {
+    overflow: hidden;
+    background-color: #000 !important; /* Ajuste para a cor de fundo do seu modal */
+}
+
+/* 3. Força o Safari a manter o modal numa camada dedicada da GPU */
+#modal-projeto {
+    position: fixed;
+    inset: 0; /* Garante cobertura total (top, right, bottom, left) */
+    width: 100vw;
+    height: 100dvh; /* dvh evita saltos da barra de endereços do iOS */
+    -webkit-transform: translateZ(0); /* Força aceleração por hardware no iOS */
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
