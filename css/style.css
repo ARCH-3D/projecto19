@@ -616,45 +616,51 @@ footer p{
 /* ================== SETAS ================== */
 .prev,
 .next {
-    position: absolute;
+    position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--c-text);
-    font-size: 50px;
-    cursor: pointer;
-    user-select: none;
-    touch-action: manipulation;
     z-index: 10000;
-    transition: var(--trans-main);
     
-    /* Novas regras para forçar o quadrado */
-    width: 80px;
-    height: 80px;
+    /* Estilo e Dimensões */
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
     
-    /* Remoção do retângulo e estilo base do <button> */
-    background: transparent;
-    border: none;
+    /* Tipografia/Ícone */
+    font-size: 28px;
+    color: #ffffff;
+    
+    /* Fundo escuro para visibilidade sobre imagens claras */
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    
+    /* Resets de Botão e Interação */
+    cursor: pointer;
     outline: none;
     appearance: none;
     -webkit-appearance: none;
+    user-select: none;
+    touch-action: manipulation;
+    transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Regra para mostrar o quadrado com o Tab */
-.prev:focus-visible,
-.next:focus-visible {
-    outline: 2px solid var(--c-text);
-    outline-offset: -10px;
-}
-
+/* Ancoragem às extremidades */
 .prev {
-    left: max(8px, 1vw);
+    left: 20px;
 }
 
 .next {
-    right: max(8px, 1vw);
+    right: 20px;
+}
+
+/* Regra para mostrar o focus com o Tab */
+.prev:focus-visible,
+.next:focus-visible {
+    outline: 2px solid var(--c-text);
+    outline-offset: 4px;
 }
 
 /* Efeito ao clicar (estado active) */
@@ -663,6 +669,32 @@ footer p{
     transform: translateY(-50%) scale(0.92) !important;
     opacity: 0.5 !important;
     transition: transform 0.08s ease, opacity 0.08s ease !important;
+}
+
+/* Efeito ao passar o cursor (Desktop) */
+@media (hover: hover) {
+    .prev:hover,
+    .next:hover {
+        background-color: rgba(0, 0, 0, 0.75);
+        transform: translateY(-50%) scale(1.08);
+    }
+}
+
+/* Ajustes para ecrãs mais pequenos / Dispositivos Móveis */
+@media (max-width: 768px) {
+    .prev {
+        left: 10px;
+    }
+    .next {
+        right: 10px;
+    }
+    .prev,
+    .next {
+        width: 40px;
+        height: 40px;
+        font-size: 22px;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
 }
 
 /* ================= CONTACT WIDGET ================= */
@@ -1345,10 +1377,4 @@ html:has(:fullscreen) {
 .bloquear-animacoes,
 .bloquear-animacoes * {
     transition: none !important;
-}
-
-.prev:focus-visible,
-.next:focus-visible {
-    outline: 2px solid var(--c-text);
-    outline-offset: 4px;
 }
