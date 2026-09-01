@@ -1680,32 +1680,6 @@ function esconderTutorialGestos() {
 document.getElementById("tutorial-gestos").addEventListener("touchstart", esconderTutorialGestos, { passive: true });
 document.getElementById("tutorial-gestos").addEventListener("click", esconderTutorialGestos);
 
-let tempoEsperaResize;
-
-window.addEventListener('resize', () => {
-    // 1. Bloqueia as animações instantaneamente ao iniciar a rotação
-    document.body.classList.add('bloquear-animacoes');
-
-    const modalProjeto = document.getElementById("modal-projeto");
-    if (modalProjeto && modalProjeto.style.display === "flex") {
-        if (typeof ajustarBolinhasIPhone === 'function') ajustarBolinhasIPhone();
-        if (typeof ajustarFullscreenAndroid === 'function') ajustarFullscreenAndroid();
-
-        // Reposiciona as imagens usando 100vw (como feito no passo anterior)
-        if (elementoAtual) elementoAtual.style.transform = "translate(-50%, -50%)";
-        if (elementoAnterior) elementoAnterior.style.transform = "translate(calc(-50% - 100vw), -50%)";
-        if (elementoSeguinte) elementoSeguinte.style.transform = "translate(calc(-50% + 100vw), -50%)";
-    }
-
-    // 2. Limpa o tempo anterior se o ecrã ainda estiver a rodar
-    clearTimeout(tempoEsperaResize);
-
-    // 3. Remove o bloqueio de animações 250ms depois da rotação terminar
-    tempoEsperaResize = setTimeout(() => {
-        document.body.classList.remove('bloquear-animacoes');
-    }, 250); 
-});
-
 </script>
 </body>
 </html>

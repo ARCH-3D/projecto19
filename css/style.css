@@ -1198,10 +1198,6 @@ footer p{
     }
 }
 
-#modal-projeto {
-    overflow: hidden; /* Corta imediatamente qualquer coisa que saia das bordas do ecrã */
-}
-
 /* =========================================
    ANIMAÇÕES DO TUTORIAL DE GESTOS
    ========================================= */
@@ -1319,8 +1315,4 @@ html:has(:fullscreen) {
 .bloquear-animacoes,
 .bloquear-animacoes * {
     transition: none !important;
-}
-
-html, body {
-    background-color: #ffffff; /* Use a mesma cor de fundo do seu modal */
 }
