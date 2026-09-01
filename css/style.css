@@ -626,7 +626,13 @@ footer p{
     touch-action: manipulation;
     z-index: 10000;
     transition: var(--trans-main);
-    padding: 20px 10px;
+    
+    /* Novas regras para forçar o quadrado */
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
     /* Remoção do retângulo e estilo base do <button> */
     background: transparent;
@@ -634,6 +640,13 @@ footer p{
     outline: none;
     appearance: none;
     -webkit-appearance: none;
+}
+
+/* Regra para mostrar o quadrado com o Tab */
+.prev:focus-visible,
+.next:focus-visible {
+    outline: 2px solid var(--c-text);
+    outline-offset: 4px;
 }
 
 .prev {
