@@ -1198,6 +1198,10 @@ footer p{
     }
 }
 
+#modal-projeto {
+    overflow: hidden; /* Corta imediatamente qualquer coisa que saia das bordas do ecrã */
+}
+
 /* =========================================
    ANIMAÇÕES DO TUTORIAL DE GESTOS
    ========================================= */
