@@ -206,7 +206,7 @@ gtag('config','G-JXJP0D464R');
 
 <!-- Modal -->
 <div id="modal-projeto" class="modal" role="dialog" aria-modal="true">
-<div id="tutorial-gestos" class="tutorial-overlay" aria-hidden="true" onclick="esconderTutorial()">
+<div id="tutorial-gestos" class="tutorial-overlay" aria-hidden="true" onclick="esconderTutorialGestos()">
     
     <!-- 1. Deslizar para os Lados -->
     <div class="tutorial-item">
@@ -224,16 +224,7 @@ gtag('config','G-JXJP0D464R');
         <span>Zoom</span>
     </div>
     
-    <!-- 3. Duplo Toque -->
-    <!--<div class="tutorial-item">
-        <svg class="anim-double-tap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle class="anel-zoom" cx="12" cy="12" r="8" stroke-dasharray="3 3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Zoom 200%</span>
-    </div>-->
-    
-    <!-- 4. Fechar (Deslizar para baixo) -->
+    <!-- 3. Fechar (Deslizar para baixo) -->
     <div class="tutorial-item">
         <svg class="anim-swipe-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 5v14M6 13l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -566,7 +557,7 @@ media: [
 
 const FULLSCREEN_TELEMOVEL = true;
 const FULLSCREEN_IPHONE = false;
-const ATIVAR_TUTORIAL_GESTOS = true; // Coloque 'false' se quiser desativar o tutorial
+const ATIVAR_TUTORIAL_GESTOS = true;
 let projetoAtual = null, midiasAtuais = [], indiceAtual = 0, direcaoSlide = 1;
 let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0, ultimoToque = 0;
 let currentTranslate = 0, isDragging = false, isVerticalDrag = false, currentY = 0;
@@ -722,13 +713,10 @@ function ajustarFullscreenAndroid(){
     
     function aplicar(){
         const altura = window.innerHeight;
-        
-        // Se for telemóvel (altura <= 550), usa o ecrã todo. Se for Tablet (altura > 550), retira 120px para a legenda.
         const alturaImagem = altura > 550 ? (altura - 120) : altura;
         
         const aplicarImagem = (elemento) => {
             if (!elemento) return;
-            // Garante margens laterais e resguardo inferior para a legenda/indicadores
             elemento.style.setProperty("max-width", "100vw", "important");
             elemento.style.setProperty("max-height", alturaImagem + "px", "important");
             elemento.style.setProperty("width", "auto", "important");
@@ -773,7 +761,6 @@ function ajustarBolinhasIPhone(){
         else modalContent.classList.remove("iphone-safari-edge-landscape");
     }
 
-    // NOVA LÓGICA: Aplica ou remove os estilos dependendo da orientação
     const aplicarTamanho = (elemento, isLandscape) => {
         if (!elemento) return;
         
@@ -784,7 +771,6 @@ function ajustarBolinhasIPhone(){
             elemento.style.setProperty("height", "100%", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
         } else {
-            // Remove os inline styles para devolver o controlo ao CSS (modo retrato)
             elemento.style.removeProperty("max-width");
             elemento.style.removeProperty("max-height");
             elemento.style.removeProperty("width");
@@ -805,7 +791,6 @@ function mostrarBotaoFullscreen(){
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isApple = isAppleMobile();
 
-    // Determina se o botão deve ser visível no dispositivo atual
     const deveMostrar = (isApple && FULLSCREEN_IPHONE) || 
                           (isAndroid && FULLSCREEN_TELEMOVEL) || 
                           (!isApple && !isAndroid);
@@ -858,21 +843,15 @@ function mostrarBotaoFullscreen(){
 
 function toggleFullscreen(){
     if (!document.fullscreenElement) {
-        // Tenta entrar em ecrã inteiro
         const requestFS = modal.requestFullscreen || modal.webkitRequestFullscreen;
         
         if (requestFS) {
             const promise = requestFS.call(modal);
             
-            // LÓGICA NOVA: Função auxiliar para rodar apenas se for telemóvel padrão
             const tentarRodarEcra = () => {
-                // Telemóveis Android incluem "Mobile" no User-Agent. 
                 const isMobile = /Mobile/i.test(navigator.userAgent);
-                
-                // Deteta Z Fold aberto: ecrã simultaneamente largo e alto
                 const isFoldUnfolded = window.innerWidth > 600 && window.innerHeight > 600;
                 
-                // Só bloqueia para "landscape" se for um dispositivo Mobile E não for um Fold aberto
                 if (isMobile && !isFoldUnfolded && screen.orientation && screen.orientation.lock) {
                     screen.orientation.lock('landscape').catch(err => {
                         console.warn("A rotação automática falhou:", err);
@@ -880,7 +859,6 @@ function toggleFullscreen(){
                 }
             };
             
-            // Navegadores modernos retornam uma Promise
             if (promise !== undefined) {
                 promise.then(() => {
                     tentarRodarEcra();
@@ -888,14 +866,12 @@ function toggleFullscreen(){
                     console.error("Erro ao entrar em fullscreen:", err);
                 });
             } else {
-                // Fallback para navegadores antigos que não retornam Promise
                 setTimeout(() => {
                     tentarRodarEcra();
                 }, 200);
             }
         }
     } else {
-        // Sai do ecrã inteiro e desbloqueia a rotação
         if (document.exitFullscreen) {
             document.exitFullscreen().then(() => {
                 if (screen.orientation && screen.orientation.unlock) {
@@ -1173,7 +1149,6 @@ function mostrarMidia(){
     novo.style.opacity = "0";
     conteudo.appendChild(novo);
     
-    // Atribui a referência imediatamente para os ajustes de telemóvel funcionarem logo na 1ª imagem
     elementoAtual = novo;
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
@@ -1272,18 +1247,12 @@ modal.addEventListener("touchmove", function(e){
         const distanciaAtual = distanciaToques(e.touches[0], e.touches[1]);
         const novaEscala = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, escalaInicialPinch * (distanciaAtual / distanciaInicialPinch)));
     
-        // --- NOVO: Cálculo para focar o zoom no local dos dedos ---
-        // Encontrar o rácio de crescimento em relação ao tamanho que a imagem tinha no início do gesto
         const razaoEscala = novaEscala / escalaInicialPinch;
-    
-        // O centro visual do ecrã
         const centroEcraX = window.innerWidth / 2;
         const centroEcraY = window.innerHeight / 2;
     
-        // Deslocar o alvo de zoom na direção oposta ao centro da pinça, multiplicando pela diferença de escala
         zoomTargetX = pinchImagemX - (pinchCentroX - centroEcraX) * (razaoEscala - 1);
         zoomTargetY = pinchImagemY - (pinchCentroY - centroEcraY) * (razaoEscala - 1);
-        // -----------------------------------------------------------
 
         escalaZoom = novaEscala;
         zoomAtivo = escalaZoom > 1.02;
@@ -1293,8 +1262,6 @@ modal.addEventListener("touchmove", function(e){
         if (!zoomAtivo) {
             zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
         } else {
-            // NOVO: Sincronizar as variáveis de arrasto simples para que a imagem não dê um salto 
-            // caso o utilizador levante apenas um dedo e continue a arrastar a imagem
             zoomX = zoomTargetX;
             zoomY = zoomTargetY;
         }
@@ -1360,8 +1327,8 @@ modal.addEventListener("touchmove", function(e){
 
 modal.addEventListener("touchend", function(e){
     if (e.target.closest("button, .close, .zoom-btn, .fullscreen-btn, .media-indicators, .contact-widget")) {
-            return;
-        }
+        return;
+    }
 
     if (isPinching) {
         if (e.touches.length < 2) {
@@ -1492,11 +1459,21 @@ modalContent.addEventListener("mousemove", mostrarBotaoFullscreen);
 modalContent.addEventListener("touchstart", mostrarBotaoFullscreen);
 
 document.addEventListener("fullscreenchange", () => {
-    // Remove o espaço lateral do scrollbar no HTML durante o fullscreen
     if (document.fullscreenElement) {
         document.documentElement.style.setProperty("scrollbar-gutter", "auto", "important");
     } else {
         document.documentElement.style.removeProperty("scrollbar-gutter");
+        const limparEstilos = (elemento) => {
+            if (!elemento) return;
+            elemento.style.removeProperty("max-width");
+            elemento.style.removeProperty("max-height");
+            elemento.style.removeProperty("width");
+            elemento.style.removeProperty("height");
+            elemento.style.removeProperty("object-fit");
+        };
+        limparEstilos(elementoAtual);
+        limparEstilos(elementoAnterior);
+        limparEstilos(elementoSeguinte);
     }
     
     modal.style.background = "";
@@ -1594,8 +1571,10 @@ window.addEventListener("orientationchange", () => {
 });
 
 window.addEventListener("resize", () => {
-    ajustarFullscreenAndroid();
-    ajustarBolinhasIPhone();
+    if (document.getElementById("modal-projeto").style.display === "flex") {
+        ajustarBolinhasIPhone();
+        ajustarFullscreenAndroid();
+    }
 });
 
 if (backToTop) {
@@ -1604,58 +1583,21 @@ if (backToTop) {
     });
 }
 
-// Limpar estilos inline forçados ao sair do modo Fullscreen (corrige imagem colada aos limites)
-document.addEventListener("fullscreenchange", function() {
-    // Verifica se já não estamos em fullscreen
-    if (!document.fullscreenElement) {
-        
-        const limparEstilos = (elemento) => {
-            if (!elemento) return;
-            elemento.style.removeProperty("max-width");
-            elemento.style.removeProperty("max-height");
-            elemento.style.removeProperty("width");
-            elemento.style.removeProperty("height");
-            elemento.style.removeProperty("object-fit");
-        };
-
-        // Remove as propriedades forçadas das imagens carregadas no momento
-        limparEstilos(elementoAtual);
-        limparEstilos(elementoAnterior);
-        limparEstilos(elementoSeguinte);
-    }
-});
-
-// Ouve as rotações/redimensionamentos do dispositivo
-window.addEventListener("resize", () => {
-    // Apenas corre a atualização se o modal estiver aberto
-    if (document.getElementById("modal-projeto").style.display === "flex") {
-        ajustarBolinhasIPhone();
-        ajustarFullscreenAndroid();
-    }
-});
-
-let tutorialTimeout; // IMPORTANTE: Declarar a variável fora para ambas as funções terem acesso
+let tutorialTimeout;
 
 function mostrarTutorialGestos() {
-    // Se a variável estiver false, interrompe e não mostra o tutorial
     if (!ATIVAR_TUTORIAL_GESTOS) return;
 
-    // Verifica se é mobile (faz sentido focar o tutorial em dispositivos touch)
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
     
-    // Verifica se já foi mostrado nesta sessão
     if (isTouch && !sessionStorage.getItem("tutorialVisto")) {
         const tutorial = document.getElementById("tutorial-gestos");
         
-        // Dá um pequeno delay para a imagem carregar antes de mostrar
         setTimeout(() => {
             if (tutorial) {
                 tutorial.classList.add("show");
-                
-                // Marca como visto
                 sessionStorage.setItem("tutorialVisto", "true");
 
-                // Esconde automaticamente passado 4 segundos (4000ms)
                 tutorialTimeout = setTimeout(() => {
                     esconderTutorialGestos();
                 }, 4000);
@@ -1668,14 +1610,12 @@ function esconderTutorialGestos() {
     const tutorial = document.getElementById("tutorial-gestos");
     if (tutorial && tutorial.classList.contains("show")) {
         tutorial.classList.remove("show");
-        clearTimeout(tutorialTimeout); // Cancela o temporizador se o utilizador fechar com o toque
+        clearTimeout(tutorialTimeout);
     }
 }
 
-// Fechar ao mínimo toque no ecrã (se ele estiver ativo)
 document.getElementById("tutorial-gestos").addEventListener("touchstart", esconderTutorialGestos, { passive: true });
 document.getElementById("tutorial-gestos").addEventListener("click", esconderTutorialGestos);
-
 </script>
 </body>
 </html>
