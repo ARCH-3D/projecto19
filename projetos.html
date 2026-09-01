@@ -943,7 +943,7 @@ function mudarMidia(direcao){
         if (!elementoSeguinte) prepararProximaImagem();
         elementoAtual.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
         elementoSeguinte.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1)";
-        elementoAtual.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
+        elementoAtual.style.transform = `translate(calc(-50% - 100vw), -50%)`;
         elementoAtual.style.opacity = "0";
         elementoSeguinte.style.transform = "translate(-50%, -50%)";
         indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
@@ -963,7 +963,7 @@ function mudarMidia(direcao){
         if (!elementoAnterior) prepararImagemAnterior();
         elementoAtual.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
         elementoAnterior.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1)";
-        elementoAtual.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
+        elementoAtual.style.transform = `translate(calc(-50% + 100vw), -50%)`;
         elementoAtual.style.opacity = "0";
         elementoAnterior.style.transform = "translate(-50%, -50%)";
         indiceAtual = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
@@ -1679,6 +1679,31 @@ function esconderTutorialGestos() {
 // Fechar ao mínimo toque no ecrã (se ele estiver ativo)
 document.getElementById("tutorial-gestos").addEventListener("touchstart", esconderTutorialGestos, { passive: true });
 document.getElementById("tutorial-gestos").addEventListener("click", esconderTutorialGestos);
+
+window.addEventListener('resize', () => {
+    const modalProjeto = document.getElementById("modal-projeto");
+    
+    // Só atua se o visualizador de projetos (modal) estiver aberto
+    if (modalProjeto && modalProjeto.style.display === "flex") {
+        
+        // Re-aplica as lógicas de tamanho e orientação
+        if (typeof ajustarBolinhasIPhone === 'function') ajustarBolinhasIPhone();
+        if (typeof ajustarFullscreenAndroid === 'function') ajustarFullscreenAndroid();
+
+        // Volta a centrar a imagem principal nos novos limites
+        if (elementoAtual) {
+            elementoAtual.style.transform = "translate(-50%, -50%)";
+        }
+        
+        // Mantém as imagens laterais escondidas com precisão usando as novas medidas (100vw)
+        if (elementoAnterior) {
+            elementoAnterior.style.transform = "translate(calc(-50% - 100vw), -50%)";
+        }
+        if (elementoSeguinte) {
+            elementoSeguinte.style.transform = "translate(calc(-50% + 100vw), -50%)";
+        }
+    }
+});
 
 </script>
 </body>
