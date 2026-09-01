@@ -615,23 +615,32 @@ footer p{
 
 /* ================== SETAS ================== */
 .prev,
-.next{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    color:var(--c-text);
-    font-size:50px;
-    cursor:pointer;
-    user-select:none;
-    touch-action:manipulation;
-    z-index:10000;
-    transition:var(--trans-main);
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--c-text);
+    font-size: 50px;
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    z-index: 10000;
+    transition: var(--trans-main);
     padding: 20px 10px;
+    
+    /* Remoção do retângulo e estilo base do <button> */
+    background: transparent;
+    border: none;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
 }
-.prev{
+
+.prev {
     left: max(8px, 1vw);
 }
-.next{
+
+.next {
     right: max(8px, 1vw);
 }
 
