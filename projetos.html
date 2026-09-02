@@ -214,7 +214,7 @@ gtag('config','G-JXJP0D464R');
 </section>
 
 <!-- Modal -->
-<div id="modal-projeto" class="modal" role="dialog" aria-modal="true" tabindex="-1">
+<div id="modal-projeto" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
 <div id="tutorial-gestos" class="tutorial-overlay" aria-hidden="true">
     
     <!-- 1. Deslizar para os Lados -->
@@ -1101,6 +1101,7 @@ function criarElementoMidia(midia){
         elemento.autoplay = true;
         elemento.muted = true;
         elemento.loop = true;
+        elemento.playsInline = true;
     }
     configurarElementoMidia(elemento);
     if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
@@ -1198,6 +1199,7 @@ function mostrarMidia(){
         novo.autoplay = true;
         novo.muted = true;
         novo.loop = true;
+        novo.playsInline = true;
     }
     configurarElementoMidia(novo);
     if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
