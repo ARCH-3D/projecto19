@@ -1091,6 +1091,7 @@ function criarElementoMidia(midia){
     if (midia.type === "image") {
         elemento = document.createElement("img");
         elemento.src = midia.src;
+        elemento.alt = projetoAtual.info.nome;
     } else {
         elemento = document.createElement("video");
         elemento.src = midia.src;
@@ -1187,6 +1188,7 @@ function mostrarMidia(){
     if (midia.type === "image") {
         novo = document.createElement("img");
         novo.src = midia.src;
+        novo.alt = projetoAtual.info.nome;
     } else {
         novo = document.createElement("video");
         novo.src = midia.src;
