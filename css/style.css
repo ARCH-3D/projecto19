@@ -812,7 +812,7 @@ footer p{
 }
 
 /* ================= RESPONSIVE GERAL ================= */
-@media (max-width:768px){
+@media (max-width: 768px) and (orientation: portrait) {
     #modal-content img,
     #modal-content video{
         max-width: calc(100vw - 20px) !important;
