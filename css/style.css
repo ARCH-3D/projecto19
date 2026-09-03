@@ -183,12 +183,12 @@ section h3 {
 }
 
 section p {
-    margin-bottom: 16px;
+    margin: 0 auto 16px auto; /* Centraliza o bloco na horizontal e mantém 16px em baixo */
     text-align: justify;
     hyphens: none;
     -webkit-hyphens: none;
-    max-width: 1400px; /* Garante que cada linha de texto tem um comprimento ideal para leitura */
-    line-height: 1.7;  /* Melhora o espaçamento entre linhas */
+    max-width: 1400px;
+    line-height: 1.7;
 }
 
 .team-member-title {
