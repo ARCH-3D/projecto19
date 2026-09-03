@@ -351,6 +351,7 @@ section p{
 /* ================= PROJECT SECTION ================= */
 .projects-section{
     padding-top:0;
+    max-width: 100%;
 }
 
 /* ================== FOOTER ================== */
