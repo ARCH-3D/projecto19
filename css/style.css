@@ -164,26 +164,35 @@ nav a:focus-visible{
 }
 
 /* ================== SECTION ================== */
-section{
-    padding:60px clamp(25px,5vw,80px);
+section {
+    padding: 60px clamp(25px, 5vw, 80px);
+    max-width: 1000px; /* Limita a largura máxima do bloco de conteúdo */
+    margin: 0 auto;    /* Centraliza o bloco na ecrã em monitores grandes */
+    width: 100%;
 }
-section h3{
-    font-size:15px;
-    font-weight:500;
-    letter-spacing:1.2px;
-    margin-bottom:20px;
+
+section h3 {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    margin-bottom: 24px;
 }
-.section-title{
-    font-weight:500;
+
+.section-title {
+    font-weight: 500;
 }
-section p{
-    margin:0;
+
+section p {
+    margin-bottom: 16px;
     text-align: justify;
     hyphens: auto;
-    -webkit-hyphens: auto; 
+    -webkit-hyphens: auto;
+    max-width: 850px; /* Garante que cada linha de texto tem um comprimento ideal para leitura */
+    line-height: 1.7;  /* Melhora o espaçamento entre linhas */
 }
-.team-member-title{
-    margin-top:45px;
+
+.team-member-title {
+    margin-top: 50px;
 }
 
 /* ================== SERVICES ================== */
