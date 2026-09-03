@@ -183,7 +183,7 @@ section h3 {
 }
 
 section p {
-    margin: 0 auto 16px auto; /* Centraliza o bloco na horizontal e mantém 16px em baixo */
+    margin-bottom: 16px; 
     text-align: justify;
     hyphens: none;
     -webkit-hyphens: none;
