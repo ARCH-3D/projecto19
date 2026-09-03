@@ -166,7 +166,7 @@ nav a:focus-visible{
 /* ================== SECTION ================== */
 section {
     padding: 60px clamp(25px, 5vw, 80px);
-    max-width: 2000px; /* Limita a largura máxima do bloco de conteúdo */
+    max-width: 1400px; /* Limita a largura máxima do bloco de conteúdo */
     margin: 0 auto;    /* Centraliza o bloco na ecrã em monitores grandes */
     width: 100%;
 }
