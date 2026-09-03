@@ -166,8 +166,8 @@ nav a:focus-visible{
 /* ================== SECTION ================== */
 section {
     padding: 60px clamp(25px, 5vw, 80px);
-    max-width: 2000px; /* Limita a largura máxima do bloco de conteúdo */
-    margin: 0 auto;    /* Centraliza o bloco na ecrã em monitores grandes */
+    /*max-width: 2000px;*/ /* Limita a largura máxima do bloco de conteúdo */
+    /*margin: 0;*/    /* Centraliza o bloco na ecrã em monitores grandes */
     width: 100%;
 }
 
@@ -187,7 +187,7 @@ section p {
     text-align: justify;
     hyphens: auto;
     -webkit-hyphens: auto;
-    max-width: 1700px; /* Garante que cada linha de texto tem um comprimento ideal para leitura */
+    /*max-width: 1700px;*/ /* Garante que cada linha de texto tem um comprimento ideal para leitura */
     line-height: 1.7;  /* Melhora o espaçamento entre linhas */
 }
 
