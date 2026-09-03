@@ -187,7 +187,7 @@ section p {
     text-align: justify;
     hyphens: auto;
     -webkit-hyphens: auto;
-    max-width: 850px; /* Garante que cada linha de texto tem um comprimento ideal para leitura */
+    max-width: 2000px; /* Garante que cada linha de texto tem um comprimento ideal para leitura */
     line-height: 1.7;  /* Melhora o espaçamento entre linhas */
 }
 
