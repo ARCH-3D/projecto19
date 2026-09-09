@@ -445,9 +445,9 @@ footer p{
     transition:
         transform .45s cubic-bezier(.22,.61,.36,1),
         opacity .45s ease;
-    /*will-change:transform,opacity;
+    /*will-change:transform,opacity;*/
     transform-origin:center center;
-    transform-style:preserve-3d;
+    /*transform-style:preserve-3d;
     backface-visibility:hidden;
     -webkit-backface-visibility:hidden;*/
     user-select:none;
