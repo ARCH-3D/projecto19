@@ -1339,10 +1339,17 @@ html:has(:fullscreen) {
 }
 
 @media (max-width: 768px) and (orientation: portrait) {
+
     #modal-content img.mobile-portrait-render {
+
+        will-change: auto;
+
         transform-style: flat;
+
         backface-visibility: visible;
+
         -webkit-backface-visibility: visible;
-        image-rendering: auto;
+
     }
+
 }
