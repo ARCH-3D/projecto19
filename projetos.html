@@ -649,7 +649,7 @@ function atualizarZoom(){
     const y = Math.round(zoomTargetY);
 
     elementoAtual.style.transform =
-        `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${escalaZoom})`;
+        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${escalaZoom})`;
 }
 
 function forcarRecomposicaoImagem(){
