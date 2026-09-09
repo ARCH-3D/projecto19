@@ -1369,12 +1369,20 @@ document.addEventListener("keydown", function(e){
 });
 
 modal.addEventListener("touchstart", function(e){
+
     if (e.target.closest("button, .close, .zoom-btn, .fullscreen-btn, .media-indicators, .contact-widget")) {
         isDragging = false;
         return;
     }
 
+    // =================================================
+    // PINCH COM DOIS DEDOS
+    // =================================================
     if (e.touches.length === 2) {
+
+        // Um pinch nunca deve ser confundido com duplo toque
+        ultimoToqueZoom = 0;
+
         isPinching = true;
         moverImagem = false;
         isDragging = false;
@@ -1389,35 +1397,105 @@ modal.addEventListener("touchstart", function(e){
             }
         }
 
-        distanciaInicialPinch = distanciaToques(e.touches[0], e.touches[1]);
+        distanciaInicialPinch = distanciaToques(
+            e.touches[0],
+            e.touches[1]
+        );
+
         escalaInicialPinch = escalaZoom;
-        pinchCentroX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-        pinchCentroY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+
+        pinchCentroX =
+            (e.touches[0].clientX + e.touches[1].clientX) / 2;
+
+        pinchCentroY =
+            (e.touches[0].clientY + e.touches[1].clientY) / 2;
+
         pinchImagemX = zoomTargetX;
         pinchImagemY = zoomTargetY;
+
         return;
     }
-    
+
+
+    // =================================================
+    // TOQUE ÚNICO / DUPLO TOQUE
+    // =================================================
     if (e.touches.length === 1) {
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-        if (zoomAtivo) {
-            moverImagem = true;
-            zoomStartX = e.touches[0].clientX - zoomX;
-            zoomStartY = e.touches[0].clientY - zoomY;
-            if (elementoAtual) elementoAtual.style.transition = "none";
+
+        const agora = Date.now();
+
+        // -------------------------------------------------
+        // DETETAR SEGUNDO TOQUE ANTES DE INICIAR O ARRASTO
+        // -------------------------------------------------
+        if (
+            window.matchMedia("(pointer: coarse)").matches &&
+            ultimoToqueZoom !== 0 &&
+            agora - ultimoToqueZoom < DOUBLE_TAP_DELAY
+        ) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            ultimoToqueZoom = 0;
+
+            // Cancelar completamente o gesto normal
+            isPinching = false;
+            isDragging = false;
+            moverImagem = false;
+            isVerticalDrag = false;
+            currentTranslate = 0;
+            currentY = 0;
+
+            // Alternar 100% <-> 200%
+            alternarZoomDuploClique();
+
             return;
         }
+
+
+        // -------------------------------------------------
+        // PRIMEIRO TOQUE
+        // -------------------------------------------------
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+
+        if (zoomAtivo) {
+            moverImagem = true;
+
+            zoomStartX =
+                e.touches[0].clientX - zoomX;
+
+            zoomStartY =
+                e.touches[0].clientY - zoomY;
+
+            if (elementoAtual) {
+                elementoAtual.style.transition = "none";
+            }
+
+            return;
+        }
+
+
+        // Gesto normal
         isVerticalDrag = false;
         currentY = 0;
         currentTranslate = 0;
         isDragging = true;
         previewIndice = indiceAtual;
+
         if (!elementoAtual) return;
+
         elementoAtual.style.transition = "none";
-        if (elementoSeguinte) elementoSeguinte.style.transition = "none";
-        if (elementoAnterior) elementoAnterior.style.transition = "none";
+
+        if (elementoSeguinte) {
+            elementoSeguinte.style.transition = "none";
+        }
+
+        if (elementoAnterior) {
+            elementoAnterior.style.transition = "none";
+        }
     }
+
 }, { passive: false });
 
 modal.addEventListener("touchmove", function(e){
@@ -1595,6 +1673,17 @@ modal.addEventListener("touchend", function(e){
         return;
     }
 
+    const toqueParado =
+        Math.abs(touchEndX - touchStartX) < DRAG_START_THRESHOLD &&
+        Math.abs(touchEndY - touchStartY) < DRAG_START_THRESHOLD;
+
+    if (toqueParado) {
+        // Apenas memoriza o primeiro toque.
+        // Não executa swipe nem qualquer outra ação.
+        ultimoToqueZoom = Date.now();
+        return;
+    }
+
     handleSwipe();
 });
 
@@ -1635,7 +1724,7 @@ document.getElementById("modal-content").addEventListener("click", function(e){
 function alternarZoomDuploClique() {
     if (!elementoAtual) return;
 
-    // Garantir que temos as dimensões BASE da imagem
+    // Garantir que temos sempre as dimensões BASE da imagem
     if (
         zoomBaseElemento !== elementoAtual ||
         !zoomBaseWidth ||
@@ -1649,8 +1738,6 @@ function alternarZoomDuploClique() {
     }
 
     zoomAtivo = !zoomAtivo;
-
-    elementoAtual.style.transition = TRANSITION_FAST;
 
     zoomX = 0;
     zoomY = 0;
@@ -1669,10 +1756,18 @@ function alternarZoomDuploClique() {
         if (zoomBtn) {
             zoomBtn.textContent = "+";
         }
+
+        limiteZoomX = 0;
+        limiteZoomY = 0;
     }
 
     moverImagem = false;
     isDragging = false;
+    isVerticalDrag = false;
+    currentTranslate = 0;
+    currentY = 0;
+
+    elementoAtual.style.transition = TRANSITION_FAST;
 
     if (!rafZoom) {
         rafZoom = requestAnimationFrame(atualizarZoom);
@@ -1686,52 +1781,6 @@ modalContent.addEventListener("dblclick", function(e){
     e.stopPropagation();
 
     alternarZoomDuploClique();
-});
-
-
-// Duplo toque em ecrãs tácteis
-modalContent.addEventListener("touchend", function(e){
-    if (isPinching) return;
-    if (isVerticalDrag) return;
-
-    if (!e.changedTouches || !e.changedTouches[0]) {
-        return;
-    }
-
-    const touch = e.changedTouches[0];
-
-    const dx = Math.abs(touch.clientX - touchStartX);
-    const dy = Math.abs(touch.clientY - touchStartY);
-
-    // Ignorar movimentos/arrastos
-    if (
-        dx >= DRAG_START_THRESHOLD ||
-        dy >= DRAG_START_THRESHOLD
-    ) {
-        return;
-    }
-
-    // Só interessa quando terminou completamente o toque
-    if (e.touches.length !== 0) {
-        return;
-    }
-
-    const agora = Date.now();
-
-    if (
-        window.matchMedia("(pointer: coarse)").matches &&
-        agora - ultimoToqueZoom < DOUBLE_TAP_DELAY
-    ) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        alternarZoomDuploClique();
-
-        ultimoToqueZoom = 0;
-        return;
-    }
-
-    ultimoToqueZoom = agora;
 });
 
 modalContent.addEventListener("mousemove", mostrarBotaoFullscreen);
