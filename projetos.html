@@ -1276,6 +1276,13 @@ function mostrarMidia(){
     
     // Atribui a referência imediatamente para os ajustes de telemóvel funcionarem logo na 1ª imagem
     elementoAtual = novo;
+    if (
+        novo.tagName === "IMG" &&
+        window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches
+    ) {
+        novo.classList.add("mobile-portrait-render");
+    }
+
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
 
