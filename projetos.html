@@ -591,7 +591,7 @@ const FULLSCREEN_TELEMOVEL = true;
 const FULLSCREEN_IPHONE = false;
 const ATIVAR_TUTORIAL_GESTOS = true; // Coloque 'false' se quiser desativar o tutorial
 let projetoAtual = null, midiasAtuais = [], indiceAtual = 0, direcaoSlide = 1;
-let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0, ultimoToque = 0;
+let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0;
 let currentTranslate = 0, isDragging = false, isVerticalDrag = false, currentY = 0;
 let elementoAnterior = null, elementoAtual = null, elementoSeguinte = null;
 let previewIndice = -1, fullscreenTimeout = null;
@@ -603,6 +603,7 @@ let zoomBaseWidth = 0, zoomBaseHeight = 0, zoomBaseElemento = null;
 let distanciaInicialPinch = 0, escalaInicialPinch = 1;
 let pinchCentroX = 0, pinchCentroY = 0, pinchImagemX = 0, pinchImagemY = 0;
 let isPinching = false, ultimoPinch = 0;
+let ultimoToqueZoom = 0;
 let elementoFocadoAnteriormente = null;
 
 const ZOOM_MIN = 1, ZOOM_MAX = 4, DEFAULT_ZOOM = 2;
@@ -1538,84 +1539,6 @@ modal.addEventListener("touchend", function(e){
     if (Date.now() - ultimoPinch < 300) return;
 
     // -------------------------------------------------
-    // DETEÇÃO DE DUPLO TOQUE
-    // -------------------------------------------------
-    if (
-        e.changedTouches &&
-        e.changedTouches[0] &&
-        !isVerticalDrag
-    ) {
-        const toque = e.changedTouches[0];
-
-        const dxToque = Math.abs(toque.clientX - touchStartX);
-        const dyToque = Math.abs(toque.clientY - touchStartY);
-
-        if (
-            dxToque < DRAG_START_THRESHOLD &&
-            dyToque < DRAG_START_THRESHOLD
-        ) {
-            const agora = Date.now();
-
-            if (
-                window.matchMedia("(pointer: coarse)").matches &&
-                agora - ultimoToque < DOUBLE_TAP_DELAY
-            ) {
-                e.preventDefault();
-
-                if (elementoAtual) {
-                    if (!zoomAtivo) {
-                        // Ativar zoom a 200%
-                        zoomAtivo = true;
-                        escalaZoom = DEFAULT_ZOOM;
-
-                        zoomX = 0;
-                        zoomY = 0;
-                        zoomTargetX = 0;
-                        zoomTargetY = 0;
-
-                        if (
-                            zoomBaseElemento !== elementoAtual ||
-                            !zoomBaseWidth ||
-                            !zoomBaseHeight
-                        ) {
-                            zoomBaseWidth = elementoAtual.clientWidth;
-                            zoomBaseHeight = elementoAtual.clientHeight;
-                            zoomBaseElemento = elementoAtual;
-                        }
-
-                        if (zoomBtn) zoomBtn.textContent = "−";
-
-                    } else {
-                        // Voltar ao tamanho normal
-                        zoomAtivo = false;
-                        escalaZoom = ZOOM_MIN;
-
-                        zoomX = 0;
-                        zoomY = 0;
-                        zoomTargetX = 0;
-                        zoomTargetY = 0;
-
-                        if (zoomBtn) zoomBtn.textContent = "+";
-                    }
-
-                    elementoAtual.style.transition = TRANSITION_FAST;
-
-                    if (!rafZoom) {
-                        rafZoom = requestAnimationFrame(atualizarZoom);
-                    }
-                }
-
-                ultimoToque = 0;
-                isDragging = false;
-                moverImagem = false;
-                return;
-            }
-
-            ultimoToque = agora;
-        }
-    }
-
-    // -------------------------------------------------
     // SE ESTÁ AMPLIADA, TERMINA O ARRASTO
     // -------------------------------------------------
     if (zoomAtivo) {
@@ -1707,6 +1630,107 @@ document.getElementById("modal-projeto").addEventListener("click", function(e){
 
 document.getElementById("modal-content").addEventListener("click", function(e){
     e.stopPropagation();
+});
+
+function alternarZoomDuploClique() {
+    if (!elementoAtual) return;
+
+    // Garantir que temos as dimensões BASE da imagem
+    if (
+        zoomBaseElemento !== elementoAtual ||
+        !zoomBaseWidth ||
+        !zoomBaseHeight
+    ) {
+        const rect = elementoAtual.getBoundingClientRect();
+
+        zoomBaseWidth = rect.width;
+        zoomBaseHeight = rect.height;
+        zoomBaseElemento = elementoAtual;
+    }
+
+    zoomAtivo = !zoomAtivo;
+
+    elementoAtual.style.transition = TRANSITION_FAST;
+
+    zoomX = 0;
+    zoomY = 0;
+    zoomTargetX = 0;
+    zoomTargetY = 0;
+
+    if (zoomAtivo) {
+        escalaZoom = DEFAULT_ZOOM;
+
+        if (zoomBtn) {
+            zoomBtn.textContent = "−";
+        }
+    } else {
+        escalaZoom = ZOOM_MIN;
+
+        if (zoomBtn) {
+            zoomBtn.textContent = "+";
+        }
+    }
+
+    moverImagem = false;
+    isDragging = false;
+
+    if (!rafZoom) {
+        rafZoom = requestAnimationFrame(atualizarZoom);
+    }
+}
+
+
+// Duplo clique no rato
+modalContent.addEventListener("dblclick", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+    alternarZoomDuploClique();
+});
+
+
+// Duplo toque em ecrãs tácteis
+modalContent.addEventListener("touchend", function(e){
+    if (isVerticalDrag) return;
+
+    if (!e.changedTouches || !e.changedTouches[0]) {
+        return;
+    }
+
+    const touch = e.changedTouches[0];
+
+    const dx = Math.abs(touch.clientX - touchStartX);
+    const dy = Math.abs(touch.clientY - touchStartY);
+
+    // Ignorar movimentos/arrastos
+    if (
+        dx >= DRAG_START_THRESHOLD ||
+        dy >= DRAG_START_THRESHOLD
+    ) {
+        return;
+    }
+
+    // Só interessa quando terminou completamente o toque
+    if (e.touches.length !== 0) {
+        return;
+    }
+
+    const agora = Date.now();
+
+    if (
+        window.matchMedia("(pointer: coarse)").matches &&
+        agora - ultimoToqueZoom < DOUBLE_TAP_DELAY
+    ) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        alternarZoomDuploClique();
+
+        ultimoToqueZoom = 0;
+        return;
+    }
+
+    ultimoToqueZoom = agora;
 });
 
 modalContent.addEventListener("mousemove", mostrarBotaoFullscreen);
