@@ -1337,3 +1337,12 @@ html:has(:fullscreen) {
         -webkit-backface-visibility: visible;
     }
 }
+
+@media (pointer: coarse) and (orientation: portrait) and (min-width: 769px) {
+    #modal-content img.zoom-render-2d-tablet {
+        will-change: auto;
+        transform-style: flat;
+        backface-visibility: visible;
+        -webkit-backface-visibility: visible;
+    }
+}

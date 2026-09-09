@@ -636,6 +636,7 @@ function resetZoom(){
     if (elementoAtual) {
         elementoAtual.classList.remove("zoom-render-2d");
         elementoAtual.classList.remove("zoom-render-2d-landscape");
+        elementoAtual.classList.remove("zoom-render-2d-tablet");
     }
 
     if (modalContent) modalContent.style.cursor = "";
@@ -664,6 +665,9 @@ function atualizarZoom(){
     const isTouchLandscape =
         window.matchMedia("(pointer: coarse) and (orientation: landscape)").matches;
 
+    const isTouchTabletPortrait =
+        window.matchMedia("(pointer: coarse) and (orientation: portrait) and (min-width: 769px)").matches;
+
     if (elementoAtual.tagName === "IMG") {
         elementoAtual.classList.toggle(
             "zoom-render-2d",
@@ -674,18 +678,27 @@ function atualizarZoom(){
             "zoom-render-2d-landscape",
             isTouchLandscape && zoomAtivo
         );
+
+        elementoAtual.classList.toggle(
+            "zoom-render-2d-tablet",
+            isTouchTabletPortrait && zoomAtivo
+        );
     }
 
     if (isMobilePortrait) {
-        // Mantém exatamente a solução já comprovada no portrait.
+        // Telemóvel portrait — solução já testada e aprovada.
         elementoAtual.style.transform =
             `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
     } else if (isTouchLandscape) {
-        // Nova solução exclusiva para dispositivos touch em landscape.
+        // Touch landscape — solução já testada e aprovada.
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+    } else if (isTouchTabletPortrait) {
+        // Tablet touch portrait — nova aplicação da mesma renderização 2D.
         elementoAtual.style.transform =
             `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
     } else {
-        // Desktop/tablet e restantes situações: comportamento original.
+        // Desktop e restantes dispositivos — comportamento original.
         elementoAtual.style.transform =
             `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
     }
