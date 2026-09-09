@@ -1336,7 +1336,7 @@ modal.addEventListener("touchmove", function(e){
 
         e.preventDefault();
         const distanciaAtual = distanciaToques(e.touches[0], e.touches[1]);
-        const novaEscala = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, Math.round(escalaInicialPinch * (distanciaAtual / distanciaInicialPinch) * 100) / 100));
+        const novaEscala = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, escalaInicialPinch * (distanciaAtual / distanciaInicialPinch)));
     
         // --- NOVO: Cálculo para focar o zoom no local dos dedos ---
         // Encontrar o rácio de crescimento em relação ao tamanho que a imagem tinha no início do gesto
