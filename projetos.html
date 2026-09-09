@@ -1164,12 +1164,6 @@ function criarElementoMidia(midia){
         elemento.playsInline = true;
     }
     configurarElementoMidia(elemento);
-    if (
-        elemento.tagName === "IMG" &&
-        window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches
-    ) {
-        elemento.classList.add("mobile-portrait-render");
-    }
     if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
         elemento.style.setProperty("max-width", "100vw", "important");
         elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
@@ -1282,13 +1276,6 @@ function mostrarMidia(){
     
     // Atribui a referência imediatamente para os ajustes de telemóvel funcionarem logo na 1ª imagem
     elementoAtual = novo;
-    if (
-        novo.tagName === "IMG" &&
-        window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches
-    ) {
-        novo.classList.add("mobile-portrait-render");
-    }
-
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
 
