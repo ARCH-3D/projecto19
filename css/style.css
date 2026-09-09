@@ -435,7 +435,7 @@ footer p{
 /* Imagens/Vídeos no Modal: Com margem de segurança lateral em Desktop para as setas nunca sobreporem */
 #modal-content img,
 #modal-content video{
-    max-width: calc(100vw - 120px); /* Afastamento lateral garantido em Computador */
+    max-width: calc(100vw - 120px); 
     max-height: calc(100dvh - 115px);
     width:auto;
     height:auto;
@@ -445,13 +445,16 @@ footer p{
     transition:
         transform .45s cubic-bezier(.22,.61,.36,1),
         opacity .45s ease;
-    will-change:transform,opacity;
-    transform-origin:center center;
-    transform-style:preserve-3d;
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;
-    user-select:none;
-    -webkit-user-drag:none;
+        
+    will-change: transform, opacity;
+    transform-origin: center center;
+    
+    /* CORREÇÃO: Força o browser a usar um algoritmo de alta qualidade na ampliação */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    
+    user-select: none;
+    -webkit-user-drag: none;
 }
 #modal-content video{
     pointer-events:none;
