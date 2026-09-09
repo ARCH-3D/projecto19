@@ -599,6 +599,7 @@ let zoomAtivo = false, escalaZoom = 2, zoomX = 0, zoomY = 0;
 let zoomStartX = 0, zoomStartY = 0, moverImagem = false;
 let mouseZoomAtivo = false, mouseZoomStartX = 0, mouseZoomStartY = 0, mouseZoomInicioX = 0, mouseZoomInicioY = 0;
 let rafZoom = null, zoomTargetX = 0, zoomTargetY = 0, limiteZoomX = 0, limiteZoomY = 0;
+let zoomBaseWidth = 0, zoomBaseHeight = 0, zoomBaseElemento = null;
 let distanciaInicialPinch = 0, escalaInicialPinch = 1;
 let pinchCentroX = 0, pinchCentroY = 0, pinchImagemX = 0, pinchImagemY = 0;
 let isPinching = false, ultimoPinch = 0;
@@ -625,13 +626,24 @@ const backToTop = document.getElementById("back-to-top");
 const menu = document.getElementById("menu");
 
 function resetZoom(){
+    if (zoomBaseElemento) {
+        zoomBaseElemento.style.removeProperty("width");
+        zoomBaseElemento.style.removeProperty("height");
+        zoomBaseElemento.style.removeProperty("max-width");
+        zoomBaseElemento.style.removeProperty("max-height");
+    }
+
     zoomAtivo = false;
     escalaZoom = ZOOM_MIN;
     zoomX = 0;
     zoomY = 0;
     zoomTargetX = 0;
     zoomTargetY = 0;
+    zoomBaseWidth = 0;
+    zoomBaseHeight = 0;
+    zoomBaseElemento = null;
     mouseZoomAtivo = false;
+
     if (modalContent) modalContent.style.cursor = "";
     if (zoomBtn) zoomBtn.textContent = "+";
 }
@@ -648,18 +660,41 @@ function atualizarZoom(){
     const x = Math.round(zoomTargetX);
     const y = Math.round(zoomTargetY);
 
+    if (escalaZoom <= ZOOM_MIN) {
+        elementoAtual.style.removeProperty("width");
+        elementoAtual.style.removeProperty("height");
+        elementoAtual.style.removeProperty("max-width");
+        elementoAtual.style.removeProperty("max-height");
+
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+
+        return;
+    }
+
+    const larguraZoom = zoomBaseWidth * escalaZoom;
+    const alturaZoom = zoomBaseHeight * escalaZoom;
+
+    elementoAtual.style.setProperty("width", `${larguraZoom}px`, "important");
+    elementoAtual.style.setProperty("height", `${alturaZoom}px`, "important");
+    elementoAtual.style.setProperty("max-width", "none", "important");
+    elementoAtual.style.setProperty("max-height", "none", "important");
+
     elementoAtual.style.transform =
-        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${escalaZoom})`;
+        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 }
 
 function atualizarLimitesZoom(){
     if (!elementoAtual) return;
 
-    const larguraBase = elementoAtual.clientWidth;
-    const alturaBase = elementoAtual.clientHeight;
+    if (zoomBaseElemento !== elementoAtual || !zoomBaseWidth || !zoomBaseHeight) {
+        zoomBaseWidth = elementoAtual.clientWidth;
+        zoomBaseHeight = elementoAtual.clientHeight;
+        zoomBaseElemento = elementoAtual;
+    }
 
-    const larguraZoom = larguraBase * escalaZoom;
-    const alturaZoom = alturaBase * escalaZoom;
+    const larguraZoom = zoomBaseWidth * escalaZoom;
+    const alturaZoom = zoomBaseHeight * escalaZoom;
 
     limiteZoomX = Math.max(0, (larguraZoom - window.innerWidth) / 2);
     limiteZoomY = Math.max(0, (alturaZoom - window.innerHeight) / 2);
@@ -1299,7 +1334,17 @@ modal.addEventListener("touchstart", function(e){
         isPinching = true;
         moverImagem = false;
         isDragging = false;
-        if (elementoAtual) elementoAtual.style.transition = "none";
+
+        if (elementoAtual) {
+            elementoAtual.style.transition = "none";
+
+            if (zoomBaseElemento !== elementoAtual) {
+                zoomBaseWidth = elementoAtual.clientWidth;
+                zoomBaseHeight = elementoAtual.clientHeight;
+                zoomBaseElemento = elementoAtual;
+            }
+        }
+
         distanciaInicialPinch = distanciaToques(e.touches[0], e.touches[1]);
         escalaInicialPinch = escalaZoom;
         pinchCentroX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
