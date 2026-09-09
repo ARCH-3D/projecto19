@@ -1328,3 +1328,12 @@ html:has(:fullscreen) {
         -webkit-backface-visibility: visible;
     }
 }
+
+@media (pointer: coarse) and (orientation: landscape) {
+    #modal-content img.zoom-render-2d-landscape {
+        will-change: auto;
+        transform-style: flat;
+        backface-visibility: visible;
+        -webkit-backface-visibility: visible;
+    }
+}

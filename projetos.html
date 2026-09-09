@@ -635,6 +635,7 @@ function resetZoom(){
 
     if (elementoAtual) {
         elementoAtual.classList.remove("zoom-render-2d");
+        elementoAtual.classList.remove("zoom-render-2d-landscape");
     }
 
     if (modalContent) modalContent.style.cursor = "";
@@ -660,16 +661,31 @@ function atualizarZoom(){
     const isMobilePortrait =
         window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
 
-    if (isMobilePortrait && zoomAtivo && elementoAtual.tagName === "IMG") {
-        elementoAtual.classList.add("zoom-render-2d");
-    } else if (elementoAtual.tagName === "IMG") {
-        elementoAtual.classList.remove("zoom-render-2d");
+    const isTouchLandscape =
+        window.matchMedia("(pointer: coarse) and (orientation: landscape)").matches;
+
+    if (elementoAtual.tagName === "IMG") {
+        elementoAtual.classList.toggle(
+            "zoom-render-2d",
+            isMobilePortrait && zoomAtivo
+        );
+
+        elementoAtual.classList.toggle(
+            "zoom-render-2d-landscape",
+            isTouchLandscape && zoomAtivo
+        );
     }
 
     if (isMobilePortrait) {
+        // Mantém exatamente a solução já comprovada no portrait.
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+    } else if (isTouchLandscape) {
+        // Nova solução exclusiva para dispositivos touch em landscape.
         elementoAtual.style.transform =
             `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
     } else {
+        // Desktop/tablet e restantes situações: comportamento original.
         elementoAtual.style.transform =
             `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
     }
