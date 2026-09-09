@@ -429,7 +429,7 @@ footer p{
     padding: max(20px, 3vw);
     overflow:hidden;
     position:relative;
-    contain:layout paint;
+    contain:layout;
 }
 
 /* Imagens/Vídeos no Modal: Com margem de segurança lateral em Desktop para as setas nunca sobreporem */
