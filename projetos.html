@@ -1519,8 +1519,8 @@ modal.addEventListener("touchmove", function(e){
 
 modal.addEventListener("touchend", function(e){
     if (e.target.closest("button, .close, .zoom-btn, .fullscreen-btn, .media-indicators, .contact-widget")) {
-            return;
-        }
+        return;
+    }
 
     if (isPinching) {
         if (e.touches.length < 2) {
@@ -1528,47 +1528,150 @@ modal.addEventListener("touchend", function(e){
             ultimoPinch = Date.now();
             modal.style.background = "";
 
-            // Volta a ativar a transição apenas depois do pinch
             if (elementoAtual) {
                 elementoAtual.style.transition = TRANSITION_FAST;
             }
         }
         return;
     }
+
     if (Date.now() - ultimoPinch < 300) return;
+
+    // -------------------------------------------------
+    // DETEÇÃO DE DUPLO TOQUE
+    // -------------------------------------------------
+    if (
+        e.changedTouches &&
+        e.changedTouches[0] &&
+        !isVerticalDrag
+    ) {
+        const toque = e.changedTouches[0];
+
+        const dxToque = Math.abs(toque.clientX - touchStartX);
+        const dyToque = Math.abs(toque.clientY - touchStartY);
+
+        if (
+            dxToque < DRAG_START_THRESHOLD &&
+            dyToque < DRAG_START_THRESHOLD
+        ) {
+            const agora = Date.now();
+
+            if (
+                window.matchMedia("(pointer: coarse)").matches &&
+                agora - ultimoToque < DOUBLE_TAP_DELAY
+            ) {
+                e.preventDefault();
+
+                if (elementoAtual) {
+                    if (!zoomAtivo) {
+                        // Ativar zoom a 200%
+                        zoomAtivo = true;
+                        escalaZoom = DEFAULT_ZOOM;
+
+                        zoomX = 0;
+                        zoomY = 0;
+                        zoomTargetX = 0;
+                        zoomTargetY = 0;
+
+                        if (
+                            zoomBaseElemento !== elementoAtual ||
+                            !zoomBaseWidth ||
+                            !zoomBaseHeight
+                        ) {
+                            zoomBaseWidth = elementoAtual.clientWidth;
+                            zoomBaseHeight = elementoAtual.clientHeight;
+                            zoomBaseElemento = elementoAtual;
+                        }
+
+                        if (zoomBtn) zoomBtn.textContent = "−";
+
+                    } else {
+                        // Voltar ao tamanho normal
+                        zoomAtivo = false;
+                        escalaZoom = ZOOM_MIN;
+
+                        zoomX = 0;
+                        zoomY = 0;
+                        zoomTargetX = 0;
+                        zoomTargetY = 0;
+
+                        if (zoomBtn) zoomBtn.textContent = "+";
+                    }
+
+                    elementoAtual.style.transition = TRANSITION_FAST;
+
+                    if (!rafZoom) {
+                        rafZoom = requestAnimationFrame(atualizarZoom);
+                    }
+                }
+
+                ultimoToque = 0;
+                isDragging = false;
+                moverImagem = false;
+                return;
+            }
+
+            ultimoToque = agora;
+        }
+    }
+
+    // -------------------------------------------------
+    // SE ESTÁ AMPLIADA, TERMINA O ARRASTO
+    // -------------------------------------------------
     if (zoomAtivo) {
         moverImagem = false;
         isDragging = false;
         return;
     }
-    
+
+    // -------------------------------------------------
+    // GESTOS NORMAIS / SWIPE
+    // -------------------------------------------------
     if (e.changedTouches && e.changedTouches[0]) {
         touchEndX = e.changedTouches[0].clientX;
         touchEndY = e.changedTouches[0].clientY;
     }
+
     isDragging = false;
+
     const dy = touchEndY - touchStartY;
     const limiteY = window.innerHeight * VERTICAL_CLOSE_THRESHOLD;
-    
+
     if (isVerticalDrag) {
         if (Math.abs(dy) > limiteY) {
             if (!elementoAtual) return;
+
             const destino = dy > 0 ? "100vh" : "-100vh";
-            elementoAtual.style.transition = "transform .25s ease, opacity .25s ease";
-            elementoAtual.style.transform = `translate(-50%, calc(-50% + ${destino}))`;
+
+            elementoAtual.style.transition =
+                "transform .25s ease, opacity .25s ease";
+
+            elementoAtual.style.transform =
+                `translate(-50%, calc(-50% + ${destino}))`;
+
             elementoAtual.style.opacity = "0";
+
             modal.style.transition = "background .25s ease";
             modal.style.background = "rgba(0,0,0,0)";
-            setTimeout(() => { fecharModal(); }, 200);
+
+            setTimeout(() => {
+                fecharModal();
+            }, 200);
+
         } else {
             if (!elementoAtual) return;
+
             centrarElemento(elementoAtual);
+
             modal.style.transition = "background .25s ease";
             modal.style.background = "";
+
             atualizarPreview();
         }
+
         return;
     }
+
     handleSwipe();
 });
 
@@ -1604,53 +1707,6 @@ document.getElementById("modal-projeto").addEventListener("click", function(e){
 
 document.getElementById("modal-content").addEventListener("click", function(e){
     e.stopPropagation();
-});
-
-modalContent.addEventListener("dblclick", function(e){
-    e.stopPropagation();
-    if (!elementoAtual) return;
-    zoomAtivo = !zoomAtivo;
-    if (zoomAtivo) {
-        escalaZoom = DEFAULT_ZOOM;
-        zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
-        zoomBtn.textContent = "−";
-    } else {
-        escalaZoom = ZOOM_MIN;
-        zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
-        zoomBtn.textContent = "+";
-    }
-    elementoAtual.style.transition = TRANSITION_FAST;
-    if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
-});
-
-modalContent.addEventListener("touchend", function(e){
-    if (isVerticalDrag) return;
-    const touch = e.changedTouches[0];
-    const dx = Math.abs(touch.clientX - touchStartX);
-    const dy = Math.abs(touch.clientY - touchStartY);
-    if (dx < DRAG_START_THRESHOLD && dy < DRAG_START_THRESHOLD) {
-        const agora = Date.now();
-        if (agora - ultimoToque < DOUBLE_TAP_DELAY) {
-            e.preventDefault();
-            if (window.matchMedia("(pointer: coarse)").matches) {
-                if (!elementoAtual) return;
-                zoomAtivo = !zoomAtivo;
-                requestAnimationFrame(() => {
-                    elementoAtual.style.transition = TRANSITION_FAST;
-                    if (zoomAtivo) {
-                        escalaZoom = DEFAULT_ZOOM;
-                        zoomBtn.textContent = "−";
-                    } else {
-                        escalaZoom = ZOOM_MIN;
-                        zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
-                        zoomBtn.textContent = "+";
-                    }
-                    if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
-                });
-            }
-        }
-        ultimoToque = agora;
-    }
 });
 
 modalContent.addEventListener("mousemove", mostrarBotaoFullscreen);
