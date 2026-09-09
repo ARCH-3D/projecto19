@@ -1745,16 +1745,15 @@ modal.addEventListener("touchend", function(e){
 
             if (elementoAtual) {
                 elementoAtual.style.transition = TRANSITION_FAST;
-        }
-
-            // Se o pinch terminou no zoom mínimo, repõe o layout especial
-            if (escalaZoom <= ZOOM_MIN) {
-                requestAnimationFrame(() => {
-                    ajustarBolinhasIPhone();
-                    ajustarFullscreenAndroid();
-                    atualizarImagemAposZoom();
-                });
             }
+
+            // Após terminar o pinch, dá tempo ao browser para
+            // aplicar o novo tamanho/rasterização antes de mostrar a imagem.
+            requestAnimationFrame(() => {
+                ajustarBolinhasIPhone();
+                ajustarFullscreenAndroid();
+                atualizarImagemAposZoom();
+            });
 
             return;
         }
