@@ -1609,9 +1609,18 @@ modal.addEventListener("touchend", function(e){
 
             if (elementoAtual) {
                 elementoAtual.style.transition = TRANSITION_FAST;
-            }
         }
-        return;
+
+            // Se o pinch terminou no zoom mínimo, repõe o layout especial
+            if (escalaZoom <= ZOOM_MIN) {
+                requestAnimationFrame(() => {
+                    ajustarBolinhasIPhone();
+                    ajustarFullscreenAndroid();
+                });
+            }
+
+            return;
+        }
     }
 
     if (Date.now() - ultimoPinch < 300) return;
@@ -1787,6 +1796,13 @@ function alternarZoomDuploClique() {
     if (!rafZoom) {
         rafZoom = requestAnimationFrame(atualizarZoom);
     }
+
+    if (!zoomAtivo) {
+        requestAnimationFrame(() => {
+            ajustarBolinhasIPhone();
+            ajustarFullscreenAndroid();
+        });
+    }
 }
 
 
@@ -1829,16 +1845,33 @@ fullscreenBtn.addEventListener("click", function(e){
 zoomBtn.addEventListener("click", function(e){
     e.stopPropagation();
     if (!elementoAtual) return;
+
     zoomAtivo = !zoomAtivo;
     zoomBtn.textContent = zoomAtivo ? "−" : "+";
     elementoAtual.style.transition = TRANSITION_FAST;
+
     if (zoomAtivo) {
         escalaZoom = DEFAULT_ZOOM;
     } else {
         escalaZoom = ZOOM_MIN;
-        zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
+        zoomX = 0;
+        zoomY = 0;
+        zoomTargetX = 0;
+        zoomTargetY = 0;
     }
-    if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
+
+    if (!rafZoom) {
+        rafZoom = requestAnimationFrame(atualizarZoom);
+    }
+
+    // Depois de o atualizarZoom() retirar as dimensões do zoom,
+    // repõe o layout especial de iPhone/Android, quando aplicável.
+    if (!zoomAtivo) {
+        requestAnimationFrame(() => {
+            ajustarBolinhasIPhone();
+            ajustarFullscreenAndroid();
+        });
+    }
 });
 
 document.querySelectorAll(".project").forEach(projeto => {
