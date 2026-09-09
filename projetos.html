@@ -1035,41 +1035,84 @@ function atualizarLaterais(){
 
 function mudarMidia(direcao){
     if (!elementoAtual) return;
+
     const largura = window.innerWidth;
     direcaoSlide = direcao;
+
     if (direcao === 1) {
         if (!elementoSeguinte) prepararProximaImagem();
-        elementoAtual.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
-        elementoSeguinte.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1)";
-        elementoAtual.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
+
+        elementoAtual.style.transition =
+            "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
+
+        elementoSeguinte.style.transition =
+            "transform .35s cubic-bezier(.22,.61,.36,1)";
+
+        elementoAtual.style.transform =
+            `translate(calc(-50% - ${largura}px), -50%)`;
+
         elementoAtual.style.opacity = "0";
-        elementoSeguinte.style.transform = "translate(-50%, -50%)";
+
+        elementoSeguinte.style.transform =
+            "translate(-50%, -50%)";
+
         indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
+
         atualizarPreview();
+
         setTimeout(() => {
             if (elementoAtual) elementoAtual.remove();
+
             elementoAtual = elementoSeguinte;
             elementoSeguinte = null;
+
+            // Reset das dimensões de referência do zoom
+            zoomBaseWidth = 0;
+            zoomBaseHeight = 0;
+            zoomBaseElemento = null;
+
             ajustarBolinhasIPhone();
             ajustarFullscreenAndroid();
             atualizarLaterais();
             preloadImagens();
         }, 350);
+
         return;
     }
+
     if (direcao === -1) {
         if (!elementoAnterior) prepararImagemAnterior();
-        elementoAtual.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
-        elementoAnterior.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1)";
-        elementoAtual.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
+
+        elementoAtual.style.transition =
+            "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
+
+        elementoAnterior.style.transition =
+            "transform .35s cubic-bezier(.22,.61,.36,1)";
+
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${largura}px), -50%)`;
+
         elementoAtual.style.opacity = "0";
-        elementoAnterior.style.transform = "translate(-50%, -50%)";
-        indiceAtual = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+
+        elementoAnterior.style.transform =
+            "translate(-50%, -50%)";
+
+        indiceAtual =
+            (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+
         atualizarPreview();
+
         setTimeout(() => {
             if (elementoAtual) elementoAtual.remove();
+
             elementoAtual = elementoAnterior;
             elementoAnterior = null;
+
+            // Reset das dimensões de referência do zoom
+            zoomBaseWidth = 0;
+            zoomBaseHeight = 0;
+            zoomBaseElemento = null;
+
             ajustarBolinhasIPhone();
             ajustarFullscreenAndroid();
             atualizarLaterais();
