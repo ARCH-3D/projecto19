@@ -434,43 +434,23 @@ footer p{
 
 /* Imagens/Vídeos no Modal: Com margem de segurança lateral em Desktop para as setas nunca sobreporem */
 #modal-content img,
-#modal-content video{
-    max-width: calc(100vw - 120px); /* Afastamento lateral garantido em Computador */
+#modal-content video {
+    max-width: calc(100vw - 120px);
     max-height: calc(100dvh - 115px);
-    width:auto;
-    height:auto;
-    object-fit:contain;
-    display:block;
-    opacity:1;
-    transition:
-        transform .45s cubic-bezier(.22,.61,.36,1),
-        opacity .45s ease;
-    will-change:transform,opacity;
-    transform-origin:center center;
-    transform-style:preserve-3d;
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;
-    user-select:none;
-    -webkit-user-drag:none;
-}
-#modal-content video{
-    pointer-events:none;
-}
-@media (min-width:1600px){
-    #modal-content img,
-    #modal-content video{
-        max-height:calc(100dvh - 130px);
-    }
-}
-/* REGRA DE SEGURANÇA: Aplica a correção APENAS em dispositivos iOS (iPhone/iPad) */
-@supports (-webkit-touch-callout: none) {
-    #modal-content img {
-        will-change: auto !important;
-        -webkit-backface-visibility: visible !important;
-        backface-visibility: visible !important;
-        transform-style: flat !important;
-        image-rendering: -webkit-optimize-contrast;
-    }
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    opacity: 1;
+    transition: transform .45s cubic-bezier(.22,.61,.36,1), opacity .45s ease;
+
+    /* Mantém a suavização e antialiasing nativo do navegador */
+    image-rendering: auto;
+
+    /* Impede que o iOS congele a imagem numa textura fixa de baixa resolução */
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
+    transform-style: flat;
 }
 
 /* ================= PROJECT INFO ================= */
