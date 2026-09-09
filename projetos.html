@@ -632,6 +632,7 @@ function resetZoom(){
         zoomBaseElemento.style.removeProperty("height");
         zoomBaseElemento.style.removeProperty("max-width");
         zoomBaseElemento.style.removeProperty("max-height");
+        zoomBaseElemento.style.visibility = "visible";
     }
 
     zoomAtivo = false;
@@ -1250,6 +1251,31 @@ function preloadImagens(){
     });
 }
 
+function atualizarImagemAposZoom(){
+    if (!elementoAtual || elementoAtual.tagName !== "IMG") return;
+
+    const imagem = elementoAtual;
+
+    imagem.style.visibility = "hidden";
+
+    requestAnimationFrame(() => {
+        if (elementoAtual !== imagem) return;
+
+        // Força o browser a aplicar o novo layout/tamanho.
+        void imagem.offsetWidth;
+
+        requestAnimationFrame(() => {
+            if (elementoAtual !== imagem) return;
+
+            requestAnimationFrame(() => {
+                if (elementoAtual !== imagem) return;
+
+                imagem.style.visibility = "visible";
+            });
+        });
+    });
+}
+
 function prepararImagemAnterior(){
     const conteudo = document.getElementById("modal-content");
     if (elementoAnterior && elementoAnterior.parentNode) elementoAnterior.remove();
@@ -1726,6 +1752,7 @@ modal.addEventListener("touchend", function(e){
                 requestAnimationFrame(() => {
                     ajustarBolinhasIPhone();
                     ajustarFullscreenAndroid();
+                    atualizarImagemAposZoom();
                 });
             }
 
@@ -1911,6 +1938,7 @@ function alternarZoomDuploClique() {
         requestAnimationFrame(() => {
             ajustarBolinhasIPhone();
             ajustarFullscreenAndroid();
+            atualizarImagemAposZoom();
         });
     }
 }
@@ -1980,6 +2008,7 @@ zoomBtn.addEventListener("click", function(e){
         requestAnimationFrame(() => {
             ajustarBolinhasIPhone();
             ajustarFullscreenAndroid();
+            atualizarImagemAposZoom();
         });
     }
 });
