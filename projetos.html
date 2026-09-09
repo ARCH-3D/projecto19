@@ -1295,6 +1295,7 @@ modal.addEventListener("touchstart", function(e){
         moverImagem = false;
         isDragging = false;
         distanciaInicialPinch = distanciaToques(e.touches[0], e.touches[1]);
+        if (elementoAtual) elementoAtual.style.transition = "none";
         escalaInicialPinch = escalaZoom;
         pinchCentroX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
         pinchCentroY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
