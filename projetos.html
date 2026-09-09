@@ -632,7 +632,6 @@ function resetZoom(){
         zoomBaseElemento.style.removeProperty("height");
         zoomBaseElemento.style.removeProperty("max-width");
         zoomBaseElemento.style.removeProperty("max-height");
-        zoomBaseElemento.style.visibility = "visible";
     }
 
     zoomAtivo = false;
@@ -1235,44 +1234,12 @@ function preloadImagens(){
         (indiceAtual + 1) % midiasAtuais.length,
         (indiceAtual + 2) % midiasAtuais.length
     ];
-
     proximas.forEach(i => {
         const media = midiasAtuais[i];
-
         if (media.type === "image") {
             const img = new Image();
-            img.decoding = "async";
             img.src = media.src;
-
-            if (typeof img.decode === "function") {
-                img.decode().catch(() => {});
-            }
         }
-    });
-}
-
-function atualizarImagemAposZoom(){
-    if (!elementoAtual || elementoAtual.tagName !== "IMG") return;
-
-    const imagem = elementoAtual;
-
-    imagem.style.visibility = "hidden";
-
-    requestAnimationFrame(() => {
-        if (elementoAtual !== imagem) return;
-
-        // Força o browser a aplicar o novo layout/tamanho.
-        void imagem.offsetWidth;
-
-        requestAnimationFrame(() => {
-            if (elementoAtual !== imagem) return;
-
-            requestAnimationFrame(() => {
-                if (elementoAtual !== imagem) return;
-
-                imagem.style.visibility = "visible";
-            });
-        });
     });
 }
 
@@ -1318,30 +1285,18 @@ function prepararProximaImagem(){
 
 function mostrarMidia(){
     resetZoom();
-
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
-
     atualizarIndicadores();
-
     conteudo.querySelectorAll("img, video").forEach(el => {
-        if (
-            el !== elementoAtual &&
-            el !== elementoAnterior &&
-            el !== elementoSeguinte
-        ) {
-            el.remove();
-        }
+        if (el !== elementoAtual && el !== elementoAnterior && el !== elementoSeguinte) el.remove();
     });
-
     const antigo = elementoAtual;
     let novo;
-
     if (midia.type === "image") {
         novo = document.createElement("img");
         novo.src = midia.src;
         novo.alt = projetoAtual.info.nome;
-        novo.decoding = "async";
     } else {
         novo = document.createElement("video");
         novo.src = midia.src;
@@ -1351,143 +1306,52 @@ function mostrarMidia(){
         novo.loop = true;
         novo.playsInline = true;
     }
-
     configurarElementoMidia(novo);
-
-    if (
-        isIPhoneSafariOrEdge() &&
-        window.matchMedia("(orientation: landscape)").matches
-    ) {
-        novo.style.setProperty(
-            "max-width",
-            "100vw",
-            "important"
-        );
-        novo.style.setProperty(
-            "max-height",
-            "calc(100dvh - 20px)",
-            "important"
-        );
-        novo.style.setProperty(
-            "width",
-            "100%",
-            "important"
-        );
-        novo.style.setProperty(
-            "height",
-            "100%",
-            "important"
-        );
-        novo.style.setProperty(
-            "object-fit",
-            "contain",
-            "important"
-        );
+    if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
+        novo.style.setProperty("max-width", "100vw", "important");
+        novo.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+        novo.style.setProperty("width", "100%", "important");
+        novo.style.setProperty("height", "100%", "important");
+        novo.style.setProperty("object-fit", "contain", "important");
     }
-
     novo.style.zIndex = "2";
-
-    novo.style.transform =
-        direcaoSlide === 1
-            ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)`
-            : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
-
+    novo.style.transform = direcaoSlide === 1 ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)` : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
     novo.style.opacity = "0";
-    novo.style.visibility = "hidden";
-
     conteudo.appendChild(novo);
-
-    // Atribui imediatamente a nova imagem como elemento atual
-    // para que os ajustes de iPhone/Android funcionem desde o início.
+    
+    // Atribui a referência imediatamente para os ajustes de telemóvel funcionarem logo na 1ª imagem
     elementoAtual = novo;
-
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
 
-    let animacaoIniciada = false;
-
     const iniciarAnimacao = () => {
-        if (animacaoIniciada) return;
-        animacaoIniciada = true;
-
         requestAnimationFrame(() => {
             if (antigo) {
-                antigo.style.transform =
-                    direcaoSlide === 1
-                        ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)`
-                        : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
-
+                antigo.style.transform = direcaoSlide === 1 ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)` : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
                 antigo.style.opacity = "0";
             }
-
-            novo.style.visibility = "visible";
             novo.style.transform = "translate(-50%, -50%)";
             novo.style.opacity = "1";
         });
-
         setTimeout(() => {
-            if (antigo) {
-                antigo.remove();
-            }
-
-            if (midia.type === "video") {
-                const promessa = novo.play();
-
-                if (promessa && typeof promessa.catch === "function") {
-                    promessa.catch(() => {});
-                }
-            }
-
+            if (antigo) antigo.remove();
+            if (midia.type === "video") novo.play();
             elementoAtual = novo;
-
             ajustarBolinhasIPhone();
             ajustarFullscreenAndroid();
-
-            if (elementoSeguinte) {
-                elementoSeguinte.remove();
-                elementoSeguinte = null;
-            }
-
-            if (elementoAnterior) {
-                elementoAnterior.remove();
-                elementoAnterior = null;
-            }
-
+            if (elementoSeguinte) { elementoSeguinte.remove(); elementoSeguinte = null; }
+            if (elementoAnterior) { elementoAnterior.remove(); elementoAnterior = null; }
             atualizarLaterais();
         }, MEDIA_TRANSITION_TIME);
     };
-
-    if (midia.grayscale) {
-        novo.classList.add("grayscale");
-    } else {
-        novo.classList.remove("grayscale");
-    }
-
     if (midia.type === "image") {
-        const prepararImagem = () => {
-            if (typeof novo.decode === "function") {
-                novo.decode()
-                    .then(() => {
-                        iniciarAnimacao();
-                    })
-                    .catch(() => {
-                        iniciarAnimacao();
-                    });
-            } else {
-                iniciarAnimacao();
-            }
-        };
-
-        if (novo.complete) {
-            prepararImagem();
-        } else {
-            novo.onload = prepararImagem;
-            novo.onerror = iniciarAnimacao;
-        }
+        if (novo.complete) iniciarAnimacao();
+        else novo.onload = iniciarAnimacao;
     } else {
         novo.onloadeddata = iniciarAnimacao;
-        novo.onerror = iniciarAnimacao;
     }
+    if (midia.grayscale) novo.classList.add("grayscale");
+    else novo.classList.remove("grayscale");
 }
 
 function toggleMenu(){
@@ -1745,14 +1609,15 @@ modal.addEventListener("touchend", function(e){
 
             if (elementoAtual) {
                 elementoAtual.style.transition = TRANSITION_FAST;
-            }
+        }
 
-            // Após terminar o pinch, dá tempo ao browser para
-            // aplicar o novo tamanho/rasterização antes de mostrar a imagem.
-            requestAnimationFrame(() => {
-                ajustarBolinhasIPhone();
-                ajustarFullscreenAndroid();
-            });
+            // Se o pinch terminou no zoom mínimo, repõe o layout especial
+            if (escalaZoom <= ZOOM_MIN) {
+                requestAnimationFrame(() => {
+                    ajustarBolinhasIPhone();
+                    ajustarFullscreenAndroid();
+                });
+            }
 
             return;
         }
@@ -1936,7 +1801,6 @@ function alternarZoomDuploClique() {
         requestAnimationFrame(() => {
             ajustarBolinhasIPhone();
             ajustarFullscreenAndroid();
-            atualizarImagemAposZoom();
         });
     }
 }
@@ -2006,7 +1870,6 @@ zoomBtn.addEventListener("click", function(e){
         requestAnimationFrame(() => {
             ajustarBolinhasIPhone();
             ajustarFullscreenAndroid();
-            atualizarImagemAposZoom();
         });
     }
 });
