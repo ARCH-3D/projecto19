@@ -657,17 +657,19 @@ function atualizarZoom(){
         Math.min(limiteZoomY, zoomTargetY)
     );
 
-    const isMobile =
-        window.matchMedia("(max-width: 768px)").matches;
+    const isMobilePortrait =
+        window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
 
-    if (isMobile) {
-        // Mobile: usar transformação 2D durante o zoom
-        // para evitar a perda de nitidez associada à composição 3D
-        // em alguns browsers/dispositivos.
+    if (isMobilePortrait && zoomAtivo && elementoAtual.tagName === "IMG") {
+        elementoAtual.classList.add("zoom-render-2d");
+    } else if (elementoAtual.tagName === "IMG") {
+        elementoAtual.classList.remove("zoom-render-2d");
+    }
+
+    if (isMobilePortrait) {
         elementoAtual.style.transform =
             `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
     } else {
-        // Desktop/tablet: mantém o comportamento atual.
         elementoAtual.style.transform =
             `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
     }
