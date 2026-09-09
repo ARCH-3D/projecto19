@@ -1617,11 +1617,26 @@ modal.addEventListener("touchend", function(e){
     if (Date.now() - ultimoPinch < 300) return;
 
     // -------------------------------------------------
-    // SE ESTÁ AMPLIADA, TERMINA O ARRASTO
+    // SE ESTÁ AMPLIADA
     // -------------------------------------------------
     if (zoomAtivo) {
         moverImagem = false;
         isDragging = false;
+
+        // Permitir detetar duplo toque também quando a imagem está ampliada
+        if (e.changedTouches && e.changedTouches[0]) {
+            touchEndX = e.changedTouches[0].clientX;
+            touchEndY = e.changedTouches[0].clientY;
+        }
+
+        const toqueParado =
+            Math.abs(touchEndX - touchStartX) < DRAG_START_THRESHOLD &&
+            Math.abs(touchEndY - touchStartY) < DRAG_START_THRESHOLD;
+
+        if (toqueParado) {
+            ultimoToqueZoom = Date.now();
+        }
+
         return;
     }
 
