@@ -639,10 +639,17 @@ function resetZoom(){
 function atualizarZoom(){
     rafZoom = null;
     if (!elementoAtual) return;
+
     atualizarLimitesZoom();
+
     zoomTargetX = Math.max(-limiteZoomX, Math.min(limiteZoomX, zoomTargetX));
     zoomTargetY = Math.max(-limiteZoomY, Math.min(limiteZoomY, zoomTargetY));
-    elementoAtual.style.transform = `translate(-50%, -50%) translate(${zoomTargetX}px, ${zoomTargetY}px) scale(${escalaZoom})`;
+
+    const x = Math.round(zoomTargetX);
+    const y = Math.round(zoomTargetY);
+
+    elementoAtual.style.transform =
+        `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${escalaZoom})`;
 }
 
 function atualizarLimitesZoom(){
