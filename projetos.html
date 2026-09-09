@@ -1338,18 +1338,8 @@ modal.addEventListener("touchmove", function(e){
         const distanciaAtual = distanciaToques(e.touches[0], e.touches[1]);
         const novaEscala = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, escalaInicialPinch * (distanciaAtual / distanciaInicialPinch)));
     
-        // --- NOVO: Cálculo para focar o zoom no local dos dedos ---
-        // Encontrar o rácio de crescimento em relação ao tamanho que a imagem tinha no início do gesto
-        const razaoEscala = novaEscala / escalaInicialPinch;
-    
-        // O centro visual do ecrã
-        const centroEcraX = window.innerWidth / 2;
-        const centroEcraY = window.innerHeight / 2;
-    
-        // Deslocar o alvo de zoom na direção oposta ao centro da pinça, multiplicando pela diferença de escala
-        zoomTargetX = pinchImagemX - (pinchCentroX - centroEcraX) * (razaoEscala - 1);
-        zoomTargetY = pinchImagemY - (pinchCentroY - centroEcraY) * (razaoEscala - 1);
-        // -----------------------------------------------------------
+        zoomTargetX = pinchImagemX;
+        zoomTargetY = pinchImagemY;
 
         escalaZoom = novaEscala;
         zoomAtivo = escalaZoom > 1.02;
