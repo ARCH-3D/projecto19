@@ -426,8 +426,8 @@ footer p{
     width:100%;
     height:100dvh;
     box-sizing:border-box;
-    padding: max(20px, 3vw);
-    overflow:hidden;
+    padding:max(20px, 3vw);
+    overflow:visible;
     position:relative;
     contain:layout;
 }
