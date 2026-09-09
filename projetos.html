@@ -654,10 +654,15 @@ function atualizarZoom(){
 
 function atualizarLimitesZoom(){
     if (!elementoAtual) return;
-    const larguraImagem = elementoAtual.clientWidth * escalaZoom;
-    const alturaImagem = elementoAtual.clientHeight * escalaZoom;
-    limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
-    limiteZoomY = Math.max(0, (alturaImagem - window.innerHeight) / 2);
+
+    const larguraBase = elementoAtual.clientWidth;
+    const alturaBase = elementoAtual.clientHeight;
+
+    const larguraZoom = larguraBase * escalaZoom;
+    const alturaZoom = alturaBase * escalaZoom;
+
+    limiteZoomX = Math.max(0, (larguraZoom - window.innerWidth) / 2);
+    limiteZoomY = Math.max(0, (alturaZoom - window.innerHeight) / 2);
 }
 
 function distanciaToques(t1, t2){
