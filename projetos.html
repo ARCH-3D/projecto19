@@ -608,7 +608,6 @@ function resetZoom(){
         zoomBaseElemento.style.removeProperty("height");
         zoomBaseElemento.style.removeProperty("max-width");
         zoomBaseElemento.style.removeProperty("max-height");
-        zoomBaseElemento.style.visibility = "visible";
     }
     zoomAtivo = false;
     escalaZoom = ZOOM_MIN;
@@ -632,8 +631,11 @@ function atualizarZoom(){
     const x = Math.round(zoomTargetX);
     const y = Math.round(zoomTargetY);
     if (escalaZoom <= ZOOM_MIN) {
-        elementoAtual.style.transform =
-            `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+        elementoAtual.style.removeProperty("width");
+        elementoAtual.style.removeProperty("height");
+        elementoAtual.style.removeProperty("max-width");
+        elementoAtual.style.removeProperty("max-height");
+        elementoAtual.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
         return;
     }
     const larguraZoom = zoomBaseWidth * escalaZoom;
@@ -642,8 +644,7 @@ function atualizarZoom(){
     elementoAtual.style.setProperty("height", `${alturaZoom}px`, "important");
     elementoAtual.style.setProperty("max-width", "none", "important");
     elementoAtual.style.setProperty("max-height", "none", "important");
-    elementoAtual.style.transform =
-        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+    elementoAtual.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 }
 function atualizarLimitesZoom(){
     if (!elementoAtual) return;
@@ -697,30 +698,21 @@ function abrirProjeto(nomeProjeto){
     if (contactWidget) contactWidget.style.display = "none";
     if (backToTop) backToTop.classList.remove("show");
     mostrarTutorialGestos();
-    // --- CORREÇÃO DE ACESSIBILIDADE E FOCO ---
-    // Guardar a capa do projeto em que se clicou
     elementoFocadoAnteriormente = document.activeElement;
-    // Isolar os elementos de fundo para a navegação por teclado (Tab) ignorá-los
     const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
     elementosFundo.forEach(el => {
         if (el) el.setAttribute('inert', ''); 
     });
-    // Focar no próprio modal para a navegação começar aí dentro
     modalProjeto.focus();
-    // -----------------------------------------
 }
 function fecharModal(){
-    // --- CORREÇÃO DE ACESSIBILIDADE E FOCO ---
-    // Devolver a interatividade aos elementos da página principal
     const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
     elementosFundo.forEach(el => {
         if (el) el.removeAttribute('inert');
     });
-    // Devolver o foco à capa do projeto que o utilizador tinha clicado
     if (elementoFocadoAnteriormente) {
         elementoFocadoAnteriormente.focus();
     }
-    // -----------------------------------------
     resetZoom();
     document.getElementById("modal-projeto").style.display = "none";
     document.getElementById("modal-content").innerHTML = "";
@@ -766,11 +758,9 @@ function ajustarFullscreenAndroid(){
     if (!emAndroid || !landscape || !fullscreen) return;
     function aplicar(){
         const altura = window.innerHeight;
-        // Se for telemóvel (altura <= 550), usa o ecrã todo. Se for Tablet (altura > 550), retira 120px para a legenda.
         const alturaImagem = altura > 550 ? (altura - 120) : altura;
         const aplicarImagem = (elemento) => {
             if (!elemento) return;
-            // Garante margens laterais e resguardo inferior para a legenda/indicadores
             elemento.style.setProperty("max-width", "100vw", "important");
             elemento.style.setProperty("max-height", alturaImagem + "px", "important");
             elemento.style.setProperty("width", "auto", "important");
@@ -810,7 +800,6 @@ function ajustarBolinhasIPhone(){
         if (safariEdgeLandscape) modalContent.classList.add("iphone-safari-edge-landscape");
         else modalContent.classList.remove("iphone-safari-edge-landscape");
     }
-    // NOVA LÓGICA: Aplica ou remove os estilos dependendo da orientação
     const aplicarTamanho = (elemento, isLandscape) => {
         if (!elemento) return;
         if (isLandscape) {
@@ -820,7 +809,6 @@ function ajustarBolinhasIPhone(){
             elemento.style.setProperty("height", "100%", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
         } else {
-            // Remove os inline styles para devolver o controlo ao CSS (modo retrato)
             elemento.style.removeProperty("max-width");
             elemento.style.removeProperty("max-height");
             elemento.style.removeProperty("width");
@@ -837,7 +825,6 @@ function mostrarBotaoFullscreen(){
     if (!btn) return;
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isApple = isAppleMobile();
-    // Determina se o botão deve ser visível no dispositivo atual
     const deveMostrar = (isApple && FULLSCREEN_IPHONE) || 
                           (isAndroid && FULLSCREEN_TELEMOVEL) || 
                           (!isApple && !isAndroid);
@@ -884,24 +871,18 @@ function mostrarBotaoFullscreen(){
 });
 function toggleFullscreen(){
     if (!document.fullscreenElement) {
-        // Tenta entrar em ecrã inteiro
         const requestFS = modal.requestFullscreen || modal.webkitRequestFullscreen;
         if (requestFS) {
             const promise = requestFS.call(modal);
-            // LÓGICA NOVA: Função auxiliar para rodar apenas se for telemóvel padrão
             const tentarRodarEcra = () => {
-                // Telemóveis Android incluem "Mobile" no User-Agent. 
                 const isMobile = /Mobile/i.test(navigator.userAgent);
-                // Deteta Z Fold aberto: ecrã simultaneamente largo e alto
                 const isFoldUnfolded = window.innerWidth > 600 && window.innerHeight > 600;
-                // Só bloqueia para "landscape" se for um dispositivo Mobile E não for um Fold aberto
                 if (isMobile && !isFoldUnfolded && screen.orientation && screen.orientation.lock) {
                     screen.orientation.lock('landscape').catch(err => {
                         console.warn("A rotação automática falhou:", err);
                     });
                 }
             };
-            // Navegadores modernos retornam uma Promise
             if (promise !== undefined) {
                 promise.then(() => {
                     tentarRodarEcra();
@@ -909,14 +890,12 @@ function toggleFullscreen(){
                     console.error("Erro ao entrar em fullscreen:", err);
                 });
             } else {
-                // Fallback para navegadores antigos que não retornam Promise
                 setTimeout(() => {
                     tentarRodarEcra();
                 }, 200);
             }
         }
     } else {
-        // Sai do ecrã inteiro e desbloqueia a rotação
         if (document.exitFullscreen) {
             document.exitFullscreen().then(() => {
                 if (screen.orientation && screen.orientation.unlock) {
@@ -958,22 +937,17 @@ function mudarMidia(direcao){
     direcaoSlide = direcao;
     if (direcao === 1) {
         if (!elementoSeguinte) prepararProximaImagem();
-        elementoAtual.style.transition =
-            "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
-        elementoSeguinte.style.transition =
-            "transform .35s cubic-bezier(.22,.61,.36,1)";
-        elementoAtual.style.transform =
-            `translate(calc(-50% - ${largura}px), -50%)`;
+        elementoAtual.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
+        elementoSeguinte.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1)";
+        elementoAtual.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
         elementoAtual.style.opacity = "0";
-        elementoSeguinte.style.transform =
-            "translate(-50%, -50%)";
+        elementoSeguinte.style.transform = "translate(-50%, -50%)";
         indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
         atualizarPreview();
         setTimeout(() => {
             if (elementoAtual) elementoAtual.remove();
             elementoAtual = elementoSeguinte;
             elementoSeguinte = null;
-            // Reset das dimensões de referência do zoom
             zoomBaseWidth = 0;
             zoomBaseHeight = 0;
             zoomBaseElemento = null;
@@ -986,23 +960,17 @@ function mudarMidia(direcao){
     }
     if (direcao === -1) {
         if (!elementoAnterior) prepararImagemAnterior();
-        elementoAtual.style.transition =
-            "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
-        elementoAnterior.style.transition =
-            "transform .35s cubic-bezier(.22,.61,.36,1)";
-        elementoAtual.style.transform =
-            `translate(calc(-50% + ${largura}px), -50%)`;
+        elementoAtual.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease";
+        elementoAnterior.style.transition = "transform .35s cubic-bezier(.22,.61,.36,1)";
+        elementoAtual.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
         elementoAtual.style.opacity = "0";
-        elementoAnterior.style.transform =
-            "translate(-50%, -50%)";
-        indiceAtual =
-            (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+        elementoAnterior.style.transform = "translate(-50%, -50%)";
+        indiceAtual = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
         atualizarPreview();
         setTimeout(() => {
             if (elementoAtual) elementoAtual.remove();
             elementoAtual = elementoAnterior;
             elementoAnterior = null;
-            // Reset das dimensões de referência do zoom
             zoomBaseWidth = 0;
             zoomBaseHeight = 0;
             zoomBaseElemento = null;
@@ -1129,86 +1097,6 @@ function preloadImagens(){
         }
     });
 }
-function substituirImagemPorVersaoNormal() {
-    if (!elementoAtual || elementoAtual.tagName !== "IMG") return;
-
-    const imagemAntiga = elementoAtual;
-    const src = imagemAntiga.currentSrc || imagemAntiga.src;
-    const alt = imagemAntiga.alt;
-
-    const novaImagem = document.createElement("img");
-
-    novaImagem.src = src;
-    novaImagem.alt = alt;
-    novaImagem.decoding = "async";
-
-    configurarElementoMidia(novaImagem);
-
-    if (isIPhoneSafariOrEdge() &&
-        window.matchMedia("(orientation: landscape)").matches) {
-
-        novaImagem.style.setProperty("max-width", "100vw", "important");
-        novaImagem.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
-        novaImagem.style.setProperty("width", "100%", "important");
-        novaImagem.style.setProperty("height", "100%", "important");
-        novaImagem.style.setProperty("object-fit", "contain", "important");
-    }
-
-    if (projetoAtual.media[indiceAtual].grayscale) {
-        novaImagem.classList.add("grayscale");
-    }
-
-    novaImagem.style.position = "absolute";
-    novaImagem.style.left = "50%";
-    novaImagem.style.top = "50%";
-    novaImagem.style.transform = "translate(-50%, -50%)";
-    novaImagem.style.opacity = "0";
-    novaImagem.style.zIndex = "2";
-
-    modalContent.appendChild(novaImagem);
-
-    const substituir = () => {
-        if (elementoAtual !== imagemAntiga) {
-            novaImagem.remove();
-            return;
-        }
-
-        elementoAtual = novaImagem;
-
-        novaImagem.style.opacity = "1";
-
-        imagemAntiga.remove();
-
-        zoomBaseWidth = novaImagem.clientWidth;
-        zoomBaseHeight = novaImagem.clientHeight;
-        zoomBaseElemento = novaImagem;
-
-        ajustarBolinhasIPhone();
-        ajustarFullscreenAndroid();
-    };
-
-    if (novaImagem.complete) {
-        if (typeof novaImagem.decode === "function") {
-            novaImagem.decode()
-                .then(substituir)
-                .catch(substituir);
-        } else {
-            substituir();
-        }
-    } else {
-        novaImagem.onload = () => {
-            if (typeof novaImagem.decode === "function") {
-                novaImagem.decode()
-                    .then(substituir)
-                    .catch(substituir);
-            } else {
-                substituir();
-            }
-        };
-
-        novaImagem.onerror = substituir;
-    }
-}
 function prepararImagemAnterior(){
     const conteudo = document.getElementById("modal-content");
     if (elementoAnterior && elementoAnterior.parentNode) elementoAnterior.remove();
@@ -1261,7 +1149,6 @@ function mostrarMidia(){
         novo = document.createElement("img");
         novo.src = midia.src;
         novo.alt = projetoAtual.info.nome;
-        novo.decoding = "async";
     } else {
         novo = document.createElement("video");
         novo.src = midia.src;
@@ -1283,7 +1170,6 @@ function mostrarMidia(){
     novo.style.transform = direcaoSlide === 1 ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)` : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
     novo.style.opacity = "0";
     conteudo.appendChild(novo);
-    // Atribui a referência imediatamente para os ajustes de telemóvel funcionarem logo na 1ª imagem
     elementoAtual = novo;
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
@@ -1333,11 +1219,7 @@ modal.addEventListener("touchstart", function(e){
         isDragging = false;
         return;
     }
-    // =================================================
-    // PINCH COM DOIS DEDOS
-    // =================================================
     if (e.touches.length === 2) {
-        // Um pinch nunca deve ser confundido com duplo toque
         ultimoToqueZoom = 0;
         isPinching = true;
         moverImagem = false;
@@ -1350,27 +1232,16 @@ modal.addEventListener("touchstart", function(e){
                 zoomBaseElemento = elementoAtual;
             }
         }
-        distanciaInicialPinch = distanciaToques(
-            e.touches[0],
-            e.touches[1]
-        );
+        distanciaInicialPinch = distanciaToques(e.touches[0], e.touches[1]);
         escalaInicialPinch = escalaZoom;
-        pinchCentroX =
-            (e.touches[0].clientX + e.touches[1].clientX) / 2;
-        pinchCentroY =
-            (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        pinchCentroX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        pinchCentroY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
         pinchImagemX = zoomTargetX;
         pinchImagemY = zoomTargetY;
         return;
     }
-    // =================================================
-    // TOQUE ÚNICO / DUPLO TOQUE
-    // =================================================
     if (e.touches.length === 1) {
         const agora = Date.now();
-        // -------------------------------------------------
-        // DETETAR SEGUNDO TOQUE ANTES DE INICIAR O ARRASTO
-        // -------------------------------------------------
         if (
             window.matchMedia("(pointer: coarse)").matches &&
             ultimoToqueZoom !== 0 &&
@@ -1379,34 +1250,26 @@ modal.addEventListener("touchstart", function(e){
             e.preventDefault();
             e.stopPropagation();
             ultimoToqueZoom = 0;
-            // Cancelar completamente o gesto normal
             isPinching = false;
             isDragging = false;
             moverImagem = false;
             isVerticalDrag = false;
             currentTranslate = 0;
             currentY = 0;
-            // Alternar 100% <-> 200%
             alternarZoomDuploClique();
             return;
         }
-        // -------------------------------------------------
-        // PRIMEIRO TOQUE
-        // -------------------------------------------------
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
         if (zoomAtivo) {
             moverImagem = true;
-            zoomStartX =
-                e.touches[0].clientX - zoomX;
-            zoomStartY =
-                e.touches[0].clientY - zoomY;
+            zoomStartX = e.touches[0].clientX - zoomX;
+            zoomStartY = e.touches[0].clientY - zoomY;
             if (elementoAtual) {
                 elementoAtual.style.transition = "none";
             }
             return;
         }
-        // Gesto normal
         isVerticalDrag = false;
         currentY = 0;
         currentTranslate = 0;
@@ -1431,24 +1294,17 @@ modal.addEventListener("touchmove", function(e){
         e.preventDefault();
         const distanciaAtual = distanciaToques(e.touches[0], e.touches[1]);
         const novaEscala = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, escalaInicialPinch * (distanciaAtual / distanciaInicialPinch)));
-        // --- NOVO: Cálculo para focar o zoom no local dos dedos ---
-        // Encontrar o rácio de crescimento em relação ao tamanho que a imagem tinha no início do gesto
         const razaoEscala = novaEscala / escalaInicialPinch;
-        // O centro visual do ecrã
         const centroEcraX = window.innerWidth / 2;
         const centroEcraY = window.innerHeight / 2;
-        // Deslocar o alvo de zoom na direção oposta ao centro da pinça, multiplicando pela diferença de escala
         zoomTargetX = pinchImagemX - (pinchCentroX - centroEcraX) * (razaoEscala - 1);
         zoomTargetY = pinchImagemY - (pinchCentroY - centroEcraY) * (razaoEscala - 1);
-        // -----------------------------------------------------------
         escalaZoom = novaEscala;
         zoomAtivo = escalaZoom > 1.02;
         if (zoomBtn) zoomBtn.textContent = zoomAtivo ? "−" : "+";
         if (!zoomAtivo) {
             zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
         } else {
-            // NOVO: Sincronizar as variáveis de arrasto simples para que a imagem não dê um salto 
-            // caso o utilizador levante apenas um dedo e continue a arrastar a imagem
             zoomX = zoomTargetX;
             zoomY = zoomTargetY;
         }
@@ -1511,57 +1367,32 @@ modal.addEventListener("touchend", function(e){
             isPinching = false;
             ultimoPinch = Date.now();
             modal.style.background = "";
-
             if (elementoAtual) {
                 elementoAtual.style.transition = TRANSITION_FAST;
             }
-
             if (escalaZoom <= ZOOM_MIN) {
-                escalaZoom = ZOOM_MIN;
-                zoomAtivo = false;
-                zoomX = 0;
-                zoomY = 0;
-                zoomTargetX = 0;
-                zoomTargetY = 0;
-
-                if (zoomBtn) {
-                    zoomBtn.textContent = "+";
-                }
-
-                substituirImagemPorVersaoNormal();
+                requestAnimationFrame(() => {
+                    ajustarBolinhasIPhone();
+                    ajustarFullscreenAndroid();
+                });
             }
-
-            requestAnimationFrame(() => {
-                ajustarBolinhasIPhone();
-                ajustarFullscreenAndroid();
-            });
-
             return;
         }
     }
     if (Date.now() - ultimoPinch < 300) return;
-    // -------------------------------------------------
-    // SE ESTÁ AMPLIADA
-    // -------------------------------------------------
     if (zoomAtivo) {
         moverImagem = false;
         isDragging = false;
-        // Permitir detetar duplo toque também quando a imagem está ampliada
         if (e.changedTouches && e.changedTouches[0]) {
             touchEndX = e.changedTouches[0].clientX;
             touchEndY = e.changedTouches[0].clientY;
         }
-        const toqueParado =
-            Math.abs(touchEndX - touchStartX) < DRAG_START_THRESHOLD &&
-            Math.abs(touchEndY - touchStartY) < DRAG_START_THRESHOLD;
+        const toqueParado = Math.abs(touchEndX - touchStartX) < DRAG_START_THRESHOLD && Math.abs(touchEndY - touchStartY) < DRAG_START_THRESHOLD;
         if (toqueParado) {
             ultimoToqueZoom = Date.now();
         }
         return;
     }
-    // -------------------------------------------------
-    // GESTOS NORMAIS / SWIPE
-    // -------------------------------------------------
     if (e.changedTouches && e.changedTouches[0]) {
         touchEndX = e.changedTouches[0].clientX;
         touchEndY = e.changedTouches[0].clientY;
@@ -1573,10 +1404,8 @@ modal.addEventListener("touchend", function(e){
         if (Math.abs(dy) > limiteY) {
             if (!elementoAtual) return;
             const destino = dy > 0 ? "100vh" : "-100vh";
-            elementoAtual.style.transition =
-                "transform .25s ease, opacity .25s ease";
-            elementoAtual.style.transform =
-                `translate(-50%, calc(-50% + ${destino}))`;
+            elementoAtual.style.transition = "transform .25s ease, opacity .25s ease";
+            elementoAtual.style.transform = `translate(-50%, calc(-50% + ${destino}))`;
             elementoAtual.style.opacity = "0";
             modal.style.transition = "background .25s ease";
             modal.style.background = "rgba(0,0,0,0)";
@@ -1592,12 +1421,8 @@ modal.addEventListener("touchend", function(e){
         }
         return;
     }
-    const toqueParado =
-        Math.abs(touchEndX - touchStartX) < DRAG_START_THRESHOLD &&
-        Math.abs(touchEndY - touchStartY) < DRAG_START_THRESHOLD;
+    const toqueParado = Math.abs(touchEndX - touchStartX) < DRAG_START_THRESHOLD && Math.abs(touchEndY - touchStartY) < DRAG_START_THRESHOLD;
     if (toqueParado) {
-        // Apenas memoriza o primeiro toque.
-        // Não executa swipe nem qualquer outra ação.
         ultimoToqueZoom = Date.now();
         return;
     }
@@ -1634,7 +1459,6 @@ document.getElementById("modal-content").addEventListener("click", function(e){
 });
 function alternarZoomDuploClique() {
     if (!elementoAtual) return;
-    // Garantir que temos sempre as dimensões BASE da imagem
     if (
         zoomBaseElemento !== elementoAtual ||
         !zoomBaseWidth ||
@@ -1679,10 +1503,7 @@ function alternarZoomDuploClique() {
         });
     }
 }
-// Duplo clique no rato / desktop
 modalContent.addEventListener("dblclick", function(e){
-    // Em dispositivos touch, o duplo toque já é tratado pelo touchstart.
-    // Ignorar dblclick evita que o Safari faça um segundo toggle.
     if (window.matchMedia("(pointer: coarse)").matches) {
         return;
     }
@@ -1693,7 +1514,6 @@ modalContent.addEventListener("dblclick", function(e){
 modalContent.addEventListener("mousemove", mostrarBotaoFullscreen);
 modalContent.addEventListener("touchstart", mostrarBotaoFullscreen);
 document.addEventListener("fullscreenchange", () => {
-    // Remove o espaço lateral do scrollbar no HTML durante o fullscreen
     if (document.fullscreenElement) {
         document.documentElement.style.setProperty("scrollbar-gutter", "auto", "important");
     } else {
@@ -1726,8 +1546,6 @@ zoomBtn.addEventListener("click", function(e){
     if (!rafZoom) {
         rafZoom = requestAnimationFrame(atualizarZoom);
     }
-    // Depois de o atualizarZoom() retirar as dimensões do zoom,
-    // repõe o layout especial de iPhone/Android, quando aplicável.
     if (!zoomAtivo) {
         requestAnimationFrame(() => {
             ajustarBolinhasIPhone();
@@ -1805,9 +1623,7 @@ if (backToTop) {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
-// Limpar estilos inline forçados ao sair do modo Fullscreen (corrige imagem colada aos limites)
 document.addEventListener("fullscreenchange", function() {
-    // Verifica se já não estamos em fullscreen
     if (!document.fullscreenElement) {
         const limparEstilos = (elemento) => {
             if (!elemento) return;
@@ -1817,36 +1633,27 @@ document.addEventListener("fullscreenchange", function() {
             elemento.style.removeProperty("height");
             elemento.style.removeProperty("object-fit");
         };
-        // Remove as propriedades forçadas das imagens carregadas no momento
         limparEstilos(elementoAtual);
         limparEstilos(elementoAnterior);
         limparEstilos(elementoSeguinte);
     }
 });
-// Ouve as rotações/redimensionamentos do dispositivo
 window.addEventListener("resize", () => {
-    // Apenas corre a atualização se o modal estiver aberto
     if (document.getElementById("modal-projeto").style.display === "flex") {
         ajustarBolinhasIPhone();
         ajustarFullscreenAndroid();
     }
 });
-let tutorialTimeout; // IMPORTANTE: Declarar a variável fora para ambas as funções terem acesso
+let tutorialTimeout;
 function mostrarTutorialGestos() {
-    // Se a variável estiver false, interrompe e não mostra o tutorial
     if (!ATIVAR_TUTORIAL_GESTOS) return;
-    // Verifica se é mobile (faz sentido focar o tutorial em dispositivos touch)
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
-    // Verifica se já foi mostrado nesta sessão
     if (isTouch && !sessionStorage.getItem("tutorialVisto")) {
         const tutorial = document.getElementById("tutorial-gestos");
-        // Dá um pequeno delay para a imagem carregar antes de mostrar
         setTimeout(() => {
             if (tutorial) {
                 tutorial.classList.add("show");
-                // Marca como visto
                 sessionStorage.setItem("tutorialVisto", "true");
-                // Esconde automaticamente passado 4 segundos (4000ms)
                 tutorialTimeout = setTimeout(() => {
                     esconderTutorialGestos();
                 }, 4000);
@@ -1858,10 +1665,9 @@ function esconderTutorialGestos() {
     const tutorial = document.getElementById("tutorial-gestos");
     if (tutorial && tutorial.classList.contains("show")) {
         tutorial.classList.remove("show");
-        clearTimeout(tutorialTimeout); // Cancela o temporizador se o utilizador fechar com o toque
+        clearTimeout(tutorialTimeout);
     }
 }
-// Fechar ao mínimo toque no ecrã (se ele estiver ativo)
 document.getElementById("tutorial-gestos").addEventListener("touchstart", esconderTutorialGestos, { passive: true });
 document.getElementById("tutorial-gestos").addEventListener("click", esconderTutorialGestos);
 </script>
