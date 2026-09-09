@@ -1775,8 +1775,14 @@ function alternarZoomDuploClique() {
 }
 
 
-// Duplo clique no rato
+// Duplo clique no rato / desktop
 modalContent.addEventListener("dblclick", function(e){
+    // Em dispositivos touch, o duplo toque já é tratado pelo touchstart.
+    // Ignorar dblclick evita que o Safari faça um segundo toggle.
+    if (window.matchMedia("(pointer: coarse)").matches) {
+        return;
+    }
+
     e.preventDefault();
     e.stopPropagation();
 
