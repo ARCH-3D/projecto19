@@ -652,24 +652,6 @@ function atualizarZoom(){
         `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${escalaZoom})`;
 }
 
-function forcarRecomposicaoImagem(){
-    if (!elementoAtual) return;
-
-    const imagem = elementoAtual;
-
-    const transformAtual = imagem.style.transform;
-    const transitionAtual = imagem.style.transition;
-
-    imagem.style.transition = "none";
-    imagem.style.transform = "none";
-
-    // Força o browser a concluir uma nova composição da imagem
-    void imagem.offsetWidth;
-
-    imagem.style.transform = transformAtual;
-    imagem.style.transition = transitionAtual;
-}
-
 function atualizarLimitesZoom(){
     if (!elementoAtual) return;
     const larguraImagem = elementoAtual.clientWidth * escalaZoom;
@@ -1456,7 +1438,6 @@ modal.addEventListener("touchend", function(e){
             // Volta a ativar a transição apenas depois do pinch
             if (elementoAtual) {
                 elementoAtual.style.transition = TRANSITION_FAST;
-                forcarRecomposicaoImagem();
             }
         }
         return;
