@@ -597,9 +597,6 @@ let elementoAnterior = null, elementoAtual = null, elementoSeguinte = null;
 let previewIndice = -1, fullscreenTimeout = null;
 let zoomAtivo = false, escalaZoom = 2, zoomX = 0, zoomY = 0;
 let zoomStartX = 0, zoomStartY = 0, moverImagem = false;
-let zoomBaseWidth = 0;
-let zoomBaseHeight = 0;
-let zoomDimensoesAplicadas = false;
 let mouseZoomAtivo = false, mouseZoomStartX = 0, mouseZoomStartY = 0, mouseZoomInicioX = 0, mouseZoomInicioY = 0;
 let rafZoom = null, zoomTargetX = 0, zoomTargetY = 0, limiteZoomX = 0, limiteZoomY = 0;
 let distanciaInicialPinch = 0, escalaInicialPinch = 1;
@@ -627,22 +624,6 @@ const contactButton = document.querySelector(".contact-trigger");
 const backToTop = document.getElementById("back-to-top");
 const menu = document.getElementById("menu");
 
-function eIPhoneRetrato() {
-    return isAppleMobile() &&
-           window.matchMedia("(orientation: portrait)").matches;
-}
-
-function guardarDimensoesBaseZoom() {
-    if (!elementoAtual) return;
-
-    const rect = elementoAtual.getBoundingClientRect();
-
-    if (rect.width > 0 && rect.height > 0) {
-        zoomBaseWidth = rect.width;
-        zoomBaseHeight = rect.height;
-    }
-}
-
 function resetZoom(){
     zoomAtivo = false;
     escalaZoom = ZOOM_MIN;
@@ -651,153 +632,25 @@ function resetZoom(){
     zoomTargetX = 0;
     zoomTargetY = 0;
     mouseZoomAtivo = false;
-
-    zoomBaseWidth = 0;
-    zoomBaseHeight = 0;
-
-    if (elementoAtual && zoomDimensoesAplicadas) {
-        elementoAtual.style.removeProperty("width");
-        elementoAtual.style.removeProperty("height");
-        elementoAtual.style.removeProperty("max-width");
-        elementoAtual.style.removeProperty("max-height");
-        elementoAtual.style.removeProperty("object-fit");
-
-        zoomDimensoesAplicadas = false;
-    }
-
     if (modalContent) modalContent.style.cursor = "";
     if (zoomBtn) zoomBtn.textContent = "+";
 }
 
 function atualizarZoom(){
     rafZoom = null;
-
     if (!elementoAtual) return;
-
-    /*
-     * iPhone em retrato:
-     * em vez de ampliar uma camada rasterizada com scale(),
-     * aumentamos fisicamente a dimensão CSS da imagem.
-     */
-    if (eIPhoneRetrato() && elementoAtual.tagName === "IMG") {
-
-        if (!zoomBaseWidth || !zoomBaseHeight) {
-            guardarDimensoesBaseZoom();
-        }
-
-        if (zoomAtivo && zoomBaseWidth > 0 && zoomBaseHeight > 0) {
-
-            const novaLargura = zoomBaseWidth * escalaZoom;
-            const novaAltura = zoomBaseHeight * escalaZoom;
-
-            elementoAtual.style.setProperty(
-                "width",
-                `${novaLargura}px`,
-                "important"
-            );
-
-            elementoAtual.style.setProperty(
-                "height",
-                `${novaAltura}px`,
-                "important"
-            );
-
-            elementoAtual.style.setProperty(
-                "max-width",
-                "none",
-                "important"
-            );
-
-            elementoAtual.style.setProperty(
-                "max-height",
-                "none",
-                "important"
-            );
-
-            elementoAtual.style.setProperty(
-                "object-fit",
-                "fill",
-                "important"
-            );
-
-            zoomDimensoesAplicadas = true;
-        } else if (zoomDimensoesAplicadas) {
-
-            elementoAtual.style.removeProperty("width");
-            elementoAtual.style.removeProperty("height");
-            elementoAtual.style.removeProperty("max-width");
-            elementoAtual.style.removeProperty("max-height");
-            elementoAtual.style.removeProperty("object-fit");
-
-            zoomDimensoesAplicadas = false;
-        }
-
-        atualizarLimitesZoom();
-
-        zoomTargetX = Math.max(
-            -limiteZoomX,
-            Math.min(limiteZoomX, zoomTargetX)
-        );
-
-        zoomTargetY = Math.max(
-            -limiteZoomY,
-            Math.min(limiteZoomY, zoomTargetY)
-        );
-
-        elementoAtual.style.transform =
-            `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0)`;
-
-        return;
-    }
-
-    /*
-     * Desktop / Android / landscape:
-     * mantém o sistema atual.
-     */
     atualizarLimitesZoom();
-
-    zoomTargetX = Math.max(
-        -limiteZoomX,
-        Math.min(limiteZoomX, zoomTargetX)
-    );
-
-    zoomTargetY = Math.max(
-        -limiteZoomY,
-        Math.min(limiteZoomY, zoomTargetY)
-    );
-
-    elementoAtual.style.transform =
-        `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
+    zoomTargetX = Math.max(-limiteZoomX, Math.min(limiteZoomX, zoomTargetX));
+    zoomTargetY = Math.max(-limiteZoomY, Math.min(limiteZoomY, zoomTargetY));
+    elementoAtual.style.transform = `translate(-50%, -50%) translate(${zoomTargetX}px, ${zoomTargetY}px) scale(${escalaZoom})`;
 }
 
 function atualizarLimitesZoom(){
     if (!elementoAtual) return;
-
-    let larguraImagem;
-    let alturaImagem;
-
-    if (
-        eIPhoneRetrato() &&
-        elementoAtual.tagName === "IMG" &&
-        zoomBaseWidth > 0 &&
-        zoomBaseHeight > 0
-    ) {
-        larguraImagem = zoomBaseWidth * escalaZoom;
-        alturaImagem = zoomBaseHeight * escalaZoom;
-    } else {
-        larguraImagem = elementoAtual.clientWidth * escalaZoom;
-        alturaImagem = elementoAtual.clientHeight * escalaZoom;
-    }
-
-    limiteZoomX = Math.max(
-        0,
-        (larguraImagem - window.innerWidth) / 2
-    );
-
-    limiteZoomY = Math.max(
-        0,
-        (alturaImagem - window.innerHeight) / 2
-    );
+    const larguraImagem = elementoAtual.clientWidth * escalaZoom;
+    const alturaImagem = elementoAtual.clientHeight * escalaZoom;
+    limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
+    limiteZoomY = Math.max(0, (alturaImagem - window.innerHeight) / 2);
 }
 
 function distanciaToques(t1, t2){
@@ -1382,11 +1235,6 @@ function mostrarMidia(){
 
     const iniciarAnimacao = () => {
         requestAnimationFrame(() => {
-            if (eIPhoneRetrato() && novo.tagName === "IMG") {
-                requestAnimationFrame(() => {
-                    guardarDimensoesBaseZoom();
-                });
-            }  
             if (antigo) {
                 antigo.style.transform = direcaoSlide === 1 ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)` : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
                 antigo.style.opacity = "0";
