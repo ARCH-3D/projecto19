@@ -642,7 +642,16 @@ function atualizarZoom(){
     atualizarLimitesZoom();
     zoomTargetX = Math.max(-limiteZoomX, Math.min(limiteZoomX, zoomTargetX));
     zoomTargetY = Math.max(-limiteZoomY, Math.min(limiteZoomY, zoomTargetY));
-    elementoAtual.style.transform = `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
+    const isMobilePortrait =
+        window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
+
+    if (isMobilePortrait) {
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+    } else {
+        elementoAtual.style.transform =
+            `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
+    }
 }
 
 function atualizarLimitesZoom(){
