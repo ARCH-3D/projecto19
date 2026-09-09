@@ -462,6 +462,16 @@ footer p{
         max-height:calc(100dvh - 130px);
     }
 }
+/* REGRA DE SEGURANÇA: Aplica a correção APENAS em dispositivos iOS (iPhone/iPad) */
+@supports (-webkit-touch-callout: none) {
+    #modal-content img {
+        will-change: auto !important;
+        -webkit-backface-visibility: visible !important;
+        backface-visibility: visible !important;
+        transform-style: flat !important;
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
 
 /* ================= PROJECT INFO ================= */
 .modal-info{
