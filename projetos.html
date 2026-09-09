@@ -1691,6 +1691,7 @@ modalContent.addEventListener("dblclick", function(e){
 
 // Duplo toque em ecrãs tácteis
 modalContent.addEventListener("touchend", function(e){
+    if (isPinching) return;
     if (isVerticalDrag) return;
 
     if (!e.changedTouches || !e.changedTouches[0]) {
