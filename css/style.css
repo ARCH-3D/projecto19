@@ -1319,3 +1319,12 @@ html:has(:fullscreen) {
 .bloquear-animacoes * {
     transition: none !important;
 }
+
+@media (max-width: 768px) and (orientation: portrait) {
+    #modal-content img.zoom-render-2d {
+        will-change: auto;
+        transform-style: flat;
+        backface-visibility: visible;
+        -webkit-backface-visibility: visible;
+    }
+}
