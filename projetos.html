@@ -632,10 +632,6 @@ function atualizarZoom(){
     const x = Math.round(zoomTargetX);
     const y = Math.round(zoomTargetY);
     if (escalaZoom <= ZOOM_MIN) {
-        elementoAtual.style.removeProperty("width");
-        elementoAtual.style.removeProperty("height");
-        elementoAtual.style.removeProperty("max-width");
-        elementoAtual.style.removeProperty("max-height");
         elementoAtual.style.transform =
             `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
         return;
@@ -1133,24 +1129,85 @@ function preloadImagens(){
         }
     });
 }
-function atualizarImagemAposZoom() {
+function substituirImagemPorVersaoNormal() {
     if (!elementoAtual || elementoAtual.tagName !== "IMG") return;
-    const imagem = elementoAtual;
-    // Esconde a imagem enquanto o novo tamanho é aplicado.
-    imagem.style.visibility = "hidden";
-    requestAnimationFrame(() => {
-        if (elementoAtual !== imagem) return;
-        // Força o browser a concluir o novo layout.
-        void imagem.offsetWidth;
-        requestAnimationFrame(() => {
-            if (elementoAtual !== imagem) return;
-            // Dá mais um frame para a rasterização estabilizar.
-            requestAnimationFrame(() => {
-                if (elementoAtual !== imagem) return;
-                imagem.style.visibility = "visible";
-            });
-        });
-    });
+
+    const imagemAntiga = elementoAtual;
+    const src = imagemAntiga.currentSrc || imagemAntiga.src;
+    const alt = imagemAntiga.alt;
+
+    const novaImagem = document.createElement("img");
+
+    novaImagem.src = src;
+    novaImagem.alt = alt;
+    novaImagem.decoding = "async";
+
+    configurarElementoMidia(novaImagem);
+
+    if (isIPhoneSafariOrEdge() &&
+        window.matchMedia("(orientation: landscape)").matches) {
+
+        novaImagem.style.setProperty("max-width", "100vw", "important");
+        novaImagem.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+        novaImagem.style.setProperty("width", "100%", "important");
+        novaImagem.style.setProperty("height", "100%", "important");
+        novaImagem.style.setProperty("object-fit", "contain", "important");
+    }
+
+    if (projetoAtual.media[indiceAtual].grayscale) {
+        novaImagem.classList.add("grayscale");
+    }
+
+    novaImagem.style.position = "absolute";
+    novaImagem.style.left = "50%";
+    novaImagem.style.top = "50%";
+    novaImagem.style.transform = "translate(-50%, -50%)";
+    novaImagem.style.opacity = "0";
+    novaImagem.style.zIndex = "2";
+
+    modalContent.appendChild(novaImagem);
+
+    const substituir = () => {
+        if (elementoAtual !== imagemAntiga) {
+            novaImagem.remove();
+            return;
+        }
+
+        elementoAtual = novaImagem;
+
+        novaImagem.style.opacity = "1";
+
+        imagemAntiga.remove();
+
+        zoomBaseWidth = novaImagem.clientWidth;
+        zoomBaseHeight = novaImagem.clientHeight;
+        zoomBaseElemento = novaImagem;
+
+        ajustarBolinhasIPhone();
+        ajustarFullscreenAndroid();
+    };
+
+    if (novaImagem.complete) {
+        if (typeof novaImagem.decode === "function") {
+            novaImagem.decode()
+                .then(substituir)
+                .catch(substituir);
+        } else {
+            substituir();
+        }
+    } else {
+        novaImagem.onload = () => {
+            if (typeof novaImagem.decode === "function") {
+                novaImagem.decode()
+                    .then(substituir)
+                    .catch(substituir);
+            } else {
+                substituir();
+            }
+        };
+
+        novaImagem.onerror = substituir;
+    }
 }
 function prepararImagemAnterior(){
     const conteudo = document.getElementById("modal-content");
@@ -1454,17 +1511,31 @@ modal.addEventListener("touchend", function(e){
             isPinching = false;
             ultimoPinch = Date.now();
             modal.style.background = "";
+
             if (elementoAtual) {
                 elementoAtual.style.transition = TRANSITION_FAST;
-        }
-            // Se o pinch terminou no zoom mínimo, repõe o layout especial
-            if (escalaZoom <= ZOOM_MIN) {
-                requestAnimationFrame(() => {
-                    ajustarBolinhasIPhone();
-                    ajustarFullscreenAndroid();
-                    atualizarImagemAposZoom();
-                });
             }
+
+            if (escalaZoom <= ZOOM_MIN) {
+                escalaZoom = ZOOM_MIN;
+                zoomAtivo = false;
+                zoomX = 0;
+                zoomY = 0;
+                zoomTargetX = 0;
+                zoomTargetY = 0;
+
+                if (zoomBtn) {
+                    zoomBtn.textContent = "+";
+                }
+
+                substituirImagemPorVersaoNormal();
+            }
+
+            requestAnimationFrame(() => {
+                ajustarBolinhasIPhone();
+                ajustarFullscreenAndroid();
+            });
+
             return;
         }
     }
