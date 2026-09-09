@@ -1234,11 +1234,18 @@ function preloadImagens(){
         (indiceAtual + 1) % midiasAtuais.length,
         (indiceAtual + 2) % midiasAtuais.length
     ];
+
     proximas.forEach(i => {
         const media = midiasAtuais[i];
+
         if (media.type === "image") {
             const img = new Image();
+            img.decoding = "async";
             img.src = media.src;
+
+            if (typeof img.decode === "function") {
+                img.decode().catch(() => {});
+            }
         }
     });
 }
@@ -1285,18 +1292,30 @@ function prepararProximaImagem(){
 
 function mostrarMidia(){
     resetZoom();
+
     const conteudo = document.getElementById("modal-content");
     const midia = midiasAtuais[indiceAtual];
+
     atualizarIndicadores();
+
     conteudo.querySelectorAll("img, video").forEach(el => {
-        if (el !== elementoAtual && el !== elementoAnterior && el !== elementoSeguinte) el.remove();
+        if (
+            el !== elementoAtual &&
+            el !== elementoAnterior &&
+            el !== elementoSeguinte
+        ) {
+            el.remove();
+        }
     });
+
     const antigo = elementoAtual;
     let novo;
+
     if (midia.type === "image") {
         novo = document.createElement("img");
         novo.src = midia.src;
         novo.alt = projetoAtual.info.nome;
+        novo.decoding = "async";
     } else {
         novo = document.createElement("video");
         novo.src = midia.src;
@@ -1306,52 +1325,143 @@ function mostrarMidia(){
         novo.loop = true;
         novo.playsInline = true;
     }
+
     configurarElementoMidia(novo);
-    if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
-        novo.style.setProperty("max-width", "100vw", "important");
-        novo.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
-        novo.style.setProperty("width", "100%", "important");
-        novo.style.setProperty("height", "100%", "important");
-        novo.style.setProperty("object-fit", "contain", "important");
+
+    if (
+        isIPhoneSafariOrEdge() &&
+        window.matchMedia("(orientation: landscape)").matches
+    ) {
+        novo.style.setProperty(
+            "max-width",
+            "100vw",
+            "important"
+        );
+        novo.style.setProperty(
+            "max-height",
+            "calc(100dvh - 20px)",
+            "important"
+        );
+        novo.style.setProperty(
+            "width",
+            "100%",
+            "important"
+        );
+        novo.style.setProperty(
+            "height",
+            "100%",
+            "important"
+        );
+        novo.style.setProperty(
+            "object-fit",
+            "contain",
+            "important"
+        );
     }
+
     novo.style.zIndex = "2";
-    novo.style.transform = direcaoSlide === 1 ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)` : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
+
+    novo.style.transform =
+        direcaoSlide === 1
+            ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)`
+            : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
+
     novo.style.opacity = "0";
+    novo.style.visibility = "hidden";
+
     conteudo.appendChild(novo);
-    
-    // Atribui a referência imediatamente para os ajustes de telemóvel funcionarem logo na 1ª imagem
+
+    // Atribui imediatamente a nova imagem como elemento atual
+    // para que os ajustes de iPhone/Android funcionem desde o início.
     elementoAtual = novo;
+
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
 
+    let animacaoIniciada = false;
+
     const iniciarAnimacao = () => {
+        if (animacaoIniciada) return;
+        animacaoIniciada = true;
+
         requestAnimationFrame(() => {
             if (antigo) {
-                antigo.style.transform = direcaoSlide === 1 ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)` : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
+                antigo.style.transform =
+                    direcaoSlide === 1
+                        ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)`
+                        : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
+
                 antigo.style.opacity = "0";
             }
+
+            novo.style.visibility = "visible";
             novo.style.transform = "translate(-50%, -50%)";
             novo.style.opacity = "1";
         });
+
         setTimeout(() => {
-            if (antigo) antigo.remove();
-            if (midia.type === "video") novo.play();
+            if (antigo) {
+                antigo.remove();
+            }
+
+            if (midia.type === "video") {
+                const promessa = novo.play();
+
+                if (promessa && typeof promessa.catch === "function") {
+                    promessa.catch(() => {});
+                }
+            }
+
             elementoAtual = novo;
+
             ajustarBolinhasIPhone();
             ajustarFullscreenAndroid();
-            if (elementoSeguinte) { elementoSeguinte.remove(); elementoSeguinte = null; }
-            if (elementoAnterior) { elementoAnterior.remove(); elementoAnterior = null; }
+
+            if (elementoSeguinte) {
+                elementoSeguinte.remove();
+                elementoSeguinte = null;
+            }
+
+            if (elementoAnterior) {
+                elementoAnterior.remove();
+                elementoAnterior = null;
+            }
+
             atualizarLaterais();
         }, MEDIA_TRANSITION_TIME);
     };
+
+    if (midia.grayscale) {
+        novo.classList.add("grayscale");
+    } else {
+        novo.classList.remove("grayscale");
+    }
+
     if (midia.type === "image") {
-        if (novo.complete) iniciarAnimacao();
-        else novo.onload = iniciarAnimacao;
+        const prepararImagem = () => {
+            if (typeof novo.decode === "function") {
+                novo.decode()
+                    .then(() => {
+                        iniciarAnimacao();
+                    })
+                    .catch(() => {
+                        iniciarAnimacao();
+                    });
+            } else {
+                iniciarAnimacao();
+            }
+        };
+
+        if (novo.complete) {
+            prepararImagem();
+        } else {
+            novo.onload = prepararImagem;
+            novo.onerror = iniciarAnimacao;
+        }
     } else {
         novo.onloadeddata = iniciarAnimacao;
+        novo.onerror = iniciarAnimacao;
     }
-    if (midia.grayscale) novo.classList.add("grayscale");
-    else novo.classList.remove("grayscale");
 }
 
 function toggleMenu(){
