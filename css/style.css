@@ -434,24 +434,18 @@ footer p{
 
 /* Imagens/Vídeos no Modal: Com margem de segurança lateral em Desktop para as setas nunca sobreporem */
 #modal-content img,
-#modal-content video{
-    max-width: calc(100vw - 120px); /* Afastamento lateral garantido em Computador */
+#modal-content video {
+    max-width: calc(100vw - 120px);
     max-height: calc(100dvh - 115px);
-    width:auto;
-    height:auto;
-    object-fit:contain;
-    display:block;
-    opacity:1;
-    transition:
-        transform .45s cubic-bezier(.22,.61,.36,1),
-        opacity .45s ease;
-    /*will-change:transform,opacity;*/
-    transform-origin:center center;
-    /*transform-style:preserve-3d;
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;*/
-    user-select:none;
-    -webkit-user-drag:none;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    opacity: 1;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
 }
 #modal-content video{
     pointer-events:none;
