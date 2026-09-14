@@ -2275,13 +2275,26 @@ document.addEventListener("touchstart", function(e) {
         return;
     }
 
-    // Dentro do modal, o pinch é controlado pelo nosso JS.
     if (e.target.closest("#modal-projeto")) {
         return;
     }
 
-    // Impede o browser de iniciar o pinch nativo
-    // quando o segundo dedo entra durante o scroll.
+    if (e.touches.length >= 2) {
+        e.preventDefault();
+    }
+
+}, { passive: false, capture: true });
+
+document.addEventListener("touchmove", function(e) {
+
+    if (!document.documentElement.classList.contains("ios-root-scroll")) {
+        return;
+    }
+
+    if (e.target.closest("#modal-projeto")) {
+        return;
+    }
+
     if (e.touches.length >= 2) {
         e.preventDefault();
     }
