@@ -243,18 +243,26 @@ window.addEventListener("scroll", () => {
 }, { passive: true });
 
 // 1. Bloqueia os gestos de pinch (abrir/fechar 2 dedos) específicos do Safari iOS
-document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
-document.addEventListener('gesturechange', function (e) { e.preventDefault(); });
-document.addEventListener('gestureend', function (e) { e.preventDefault(); });
+document.addEventListener('gesturestart', function (e) { 
+    e.preventDefault(); 
+}, { passive: false });
 
-// 2. Bloqueia toques simultâneos com 2 ou mais dedos
+document.addEventListener('gesturechange', function (e) { 
+    e.preventDefault(); 
+}, { passive: false });
+
+document.addEventListener('gestureend', function (e) { 
+    e.preventDefault(); 
+}, { passive: false });
+
+// 2. Bloqueia toques simultâneos com 2 ou mais dedos no arranque do toque
 document.addEventListener('touchstart', function (e) {
     if (e.touches.length > 1) {
         e.preventDefault();
     }
 }, { passive: false });
 
-// 2.5 NOVO: Bloqueia o zoom nativo se o utilizador usar 2 dedos DURANTE o scroll
+// 2.5 Bloqueia o zoom se o utilizador colocar o 2º dedo enquanto a página já está a deslizar (scroll)
 document.addEventListener('touchmove', function (e) {
     if (e.touches.length > 1) {
         e.preventDefault();
