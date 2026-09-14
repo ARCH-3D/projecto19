@@ -960,11 +960,23 @@ const aplicarTamanho = (elemento, isLandscape) => {
 if (!elemento) return;
 
 if (isLandscape) {
+
+const alturaLandscape = window.innerHeight;
+
 elemento.style.setProperty("max-width", "100vw", "important");
-elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+
+elemento.style.setProperty(
+"max-height",
+alturaLandscape > 550
+? "calc(100dvh - 115px)"
+: "calc(100dvh - 20px)",
+"important"
+);
+
 elemento.style.setProperty("width", "100%", "important");
 elemento.style.setProperty("height", "100%", "important");
 elemento.style.setProperty("object-fit", "contain", "important");
+
 } else {
 elemento.style.removeProperty("max-width");
 elemento.style.removeProperty("max-height");
@@ -1300,8 +1312,19 @@ elemento.playsInline = true;
 configurarElementoMidia(elemento);
 
 if (isIOSSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
+
+const alturaLandscape = window.innerHeight;
+
 elemento.style.setProperty("max-width", "100vw", "important");
-elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+
+elemento.style.setProperty(
+"max-height",
+alturaLandscape > 550
+? "calc(100dvh - 115px)"
+: "calc(100dvh - 20px)",
+"important"
+);
+
 elemento.style.setProperty("width", "100%", "important");
 elemento.style.setProperty("height", "100%", "important");
 elemento.style.setProperty("object-fit", "contain", "important");
@@ -1430,8 +1453,19 @@ configurarElementoMidia(novo);
 
 if (isIOSSafariOrEdge() &&
 window.matchMedia("(orientation: landscape)").matches) {
+
+const alturaLandscape = window.innerHeight;
+
 novo.style.setProperty("max-width", "100vw", "important");
-novo.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+
+novo.style.setProperty(
+"max-height",
+alturaLandscape > 550
+? "calc(100dvh - 115px)"
+: "calc(100dvh - 20px)",
+"important"
+);
+
 novo.style.setProperty("width", "100%", "important");
 novo.style.setProperty("height", "100%", "important");
 novo.style.setProperty("object-fit", "contain", "important");
