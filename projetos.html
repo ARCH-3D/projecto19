@@ -1880,13 +1880,21 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// 1. Bloqueia os gestos de pinch (abrir/fechar 2 dedos) específicos do Safari iOS
-document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
-document.addEventListener('gesturechange', function (e) { e.preventDefault(); });
-document.addEventListener('gestureend', function (e) { e.preventDefault(); });
+// 1. Bloqueia os gestos de pinch específicos do Safari iOS
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+});
 
-// Bloqueia pinch/zoom nativo da página,
-// mas mantém intacto o pinch personalizado da galeria.
+document.addEventListener('gesturechange', function (e) {
+    e.preventDefault();
+});
+
+document.addEventListener('gestureend', function (e) {
+    e.preventDefault();
+});
+
+// 2. Impede pinch/zoom nativo da página.
+//    O pinch personalizado da galeria continua intacto.
 document.addEventListener('touchstart', function (e) {
     if (e.touches.length > 1) {
         const dentroDoModal = e.target.closest('#modal-projeto');
@@ -1897,9 +1905,9 @@ document.addEventListener('touchstart', function (e) {
     }
 }, { passive: false });
 
-// iPhone / Safari:
-// impede que o pinch-zoom nativo seja iniciado a meio de um scroll.
-// Mantém intactos os gestos personalizados da galeria.
+// 3. Importante no iPhone:
+//    também bloqueia quando o segundo dedo é colocado
+//    depois de o scroll já ter começado.
 document.addEventListener('touchmove', function (e) {
     if (e.touches.length > 1) {
         const dentroDoModal = e.target.closest('#modal-projeto');
@@ -1910,13 +1918,16 @@ document.addEventListener('touchmove', function (e) {
     }
 }, { passive: false });
 
-// 3. Bloqueia o zoom por duplo toque rápido (double-tap)
+// 4. Bloqueia double-tap zoom nativo
 let lastTouchEnd = 0;
+
 document.addEventListener('touchend', function (e) {
     const now = (new Date()).getTime();
+
     if (now - lastTouchEnd <= 300) {
         e.preventDefault();
     }
+
     lastTouchEnd = now;
 }, false);
 
