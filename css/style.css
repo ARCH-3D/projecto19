@@ -19,9 +19,10 @@
 }
 
 html, body {
-    touch-action: pan-x pan-y !important;
+    touch-action: pan-y !important;
     -webkit-text-size-adjust: 100%;
     overscroll-behavior-y: none;
+    overflow-x: hidden;
 }
 
 /* ================== HTML ================== */
