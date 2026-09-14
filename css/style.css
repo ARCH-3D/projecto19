@@ -17,9 +17,19 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-html, body {
-    touch-action: pan-x pan-y;
+html,
+body {
+    touch-action: none;
     -webkit-text-size-adjust: 100%;
+}
+
+#page-scroll {
+    height: 100dvh;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 /* ================== HTML ================== */
@@ -39,7 +49,7 @@ body{
     color:var(--c-text);
     background:var(--c-bg);
     line-height:1.6;
-    overflow-x:hidden;
+    overflow: hidden;
 }
 body.modal-open{
     overflow:hidden;
@@ -1352,15 +1362,11 @@ html:has(:fullscreen) {
     }
 }
 
-/* Touch normal da página:
-   permite scroll vertical, mas não zoom por gesto */
 @media (pointer: coarse) {
-    html,
-    body {
+    #page-scroll {
         touch-action: pan-y;
     }
 
-    /* A galeria mantém os seus próprios gestos */
     #modal-projeto {
         touch-action: none;
     }

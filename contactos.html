@@ -168,31 +168,6 @@ document.addEventListener('gestureend', function (e) {
     e.preventDefault();
 });
 
-// 2. Impede pinch/zoom nativo da página.
-//    O pinch personalizado da galeria continua intacto.
-document.addEventListener('touchstart', function (e) {
-    if (e.touches.length > 1) {
-        const dentroDoModal = e.target.closest('#modal-projeto');
-
-        if (!dentroDoModal) {
-            e.preventDefault();
-        }
-    }
-}, { passive: false });
-
-// 3. Importante no iPhone:
-//    também bloqueia quando o segundo dedo é colocado
-//    depois de o scroll já ter começado.
-document.addEventListener('touchmove', function (e) {
-    if (e.touches.length > 1) {
-        const dentroDoModal = e.target.closest('#modal-projeto');
-
-        if (!dentroDoModal) {
-            e.preventDefault();
-        }
-    }
-}, { passive: false });
-
 // 4. Bloqueia double-tap zoom nativo
 let lastTouchEnd = 0;
 
