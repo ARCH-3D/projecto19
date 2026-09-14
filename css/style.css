@@ -435,6 +435,7 @@ footer p{
     overflow:hidden;
     position:relative;
     contain:layout paint;
+    touch-action: none;
 }
 
 /* Imagens/Vídeos no Modal: Com margem de segurança lateral em Desktop para as setas nunca sobreporem */
@@ -637,7 +638,7 @@ footer p{
     font-weight: 300;
     cursor: pointer;
     user-select: none;
-    touch-action: manipulation;
+    touch-action: none;
     z-index: 10000;
     transition: opacity 0.2s ease, transform 0.2s ease;
     
@@ -1309,7 +1310,7 @@ html:has(:fullscreen) {
 .close, 
 .zoom-btn, 
 .fullscreen-btn {
-    touch-action: manipulation;
+    touch-action: none;
 }
 
 @media screen and (min-height: 551px) {

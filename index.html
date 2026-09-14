@@ -295,21 +295,28 @@ document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
 document.addEventListener('gesturechange', function (e) { e.preventDefault(); });
 document.addEventListener('gestureend', function (e) { e.preventDefault(); });
 
-// 2. Bloqueia toques simultâneos com 2 ou mais dedos
-document.addEventListener('touchstart', function (e) {
-    if (e.touches.length > 1) {
-        e.preventDefault();
-    }
+// 2. Bloqueia toques simultâneos com 2 ou mais dedos no ecrã
+document.addEventListener('touchstart', function(event) {
+  if (event.touches.length > 1) {
+    event.preventDefault();
+  }
 }, { passive: false });
 
-// 3. Bloqueia o zoom por duplo toque rápido (double-tap)
+// 3. Previne o zoom durante o movimento dos dois dedos
+document.addEventListener('touchmove', function(event) {
+  if (event.touches.length > 1) {
+    event.preventDefault();
+  }
+}, { passive: false });
+
+// 4. Bloqueia o zoom por duplo toque rápido (double-tap)
 let lastTouchEnd = 0;
 document.addEventListener('touchend', function (e) {
-    const now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
-    }
-    lastTouchEnd = now;
+  const now = (new Date()).getTime();
+  if (now - lastTouchEnd <= 300) {
+    e.preventDefault();
+  }
+  lastTouchEnd = now;
 }, false);
 
 </script>
