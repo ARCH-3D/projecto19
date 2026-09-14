@@ -160,30 +160,28 @@ document.querySelectorAll("#menu a").forEach(link => {
     });
 });
 
-// Bloqueio rigoroso de zoom no iOS WebKit (Safari, Chrome, Edge)
-const preventZoomOptions = { passive: false };
+// ================== BLOQUEIO AGRESSIVO DE ZOOM (iOS) ==================
+// Usar capture: true força a interceção do evento ANTES do scroll nativo do iOS o devorar
+const antiZoomOptions = { passive: false, capture: true };
 
-// 1. Bloqueia os gestos nativos de pinch (abrir/fechar 2 dedos) no Safari/iOS
-['gesturestart', 'gesturechange', 'gestureend'].forEach(function (eventType) {
-    window.addEventListener(eventType, function (e) {
-        e.preventDefault();
-    }, preventZoomOptions);
-});
-
-// 2. Bloqueia o 2º dedo no ecrã antes e durante o scroll
-window.addEventListener('touchstart', function (e) {
-    if (e.touches.length > 1) {
+// 1. Interceta múltiplos toques em qualquer fase (mesmo durante o scroll)
+function blockMultiTouch(e) {
+    if (e.touches && e.touches.length > 1) {
         e.preventDefault();
     }
-}, preventZoomOptions);
+}
+window.addEventListener('touchstart', blockMultiTouch, antiZoomOptions);
+window.addEventListener('touchmove', blockMultiTouch, antiZoomOptions);
 
-window.addEventListener('touchmove', function (e) {
-    if (e.touches.length > 1) {
-        e.preventDefault();
-    }
-}, preventZoomOptions);
+// 2. Interceta os gestos proprietários da Apple mal comecem
+function blockAppleGestures(e) {
+    e.preventDefault();
+}
+window.addEventListener('gesturestart', blockAppleGestures, antiZoomOptions);
+window.addEventListener('gesturechange', blockAppleGestures, antiZoomOptions);
+window.addEventListener('gestureend', blockAppleGestures, antiZoomOptions);
 
-// 3. Bloqueia o zoom por duplo toque rápido (double-tap)
+// 3. Bloqueia duplo toque rápido (Double-tap to zoom)
 let lastTouchEnd = 0;
 window.addEventListener('touchend', function (e) {
     const now = Date.now();
@@ -191,7 +189,7 @@ window.addEventListener('touchend', function (e) {
         e.preventDefault();
     }
     lastTouchEnd = now;
-}, false);
+}, antiZoomOptions);
 
 </script>
 <footer>
