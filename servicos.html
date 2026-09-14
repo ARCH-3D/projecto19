@@ -254,6 +254,13 @@ document.addEventListener('touchstart', function (e) {
     }
 }, { passive: false });
 
+// 2.5 NOVO: Bloqueia o zoom nativo se o utilizador usar 2 dedos DURANTE o scroll
+document.addEventListener('touchmove', function (e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
 // 3. Bloqueia o zoom por duplo toque rápido (double-tap)
 let lastTouchEnd = 0;
 document.addEventListener('touchend', function (e) {
@@ -263,33 +270,6 @@ document.addEventListener('touchend', function (e) {
     }
     lastTouchEnd = now;
 }, false);
-
-// ==========================================
-// PREVENÇÃO DE ZOOM ACIDENTAL DA PÁGINA
-// ==========================================
-
-// 1. Evita o zoom da página via Trackpad (pinch-to-zoom) ou Ctrl + Roda do rato no Desktop
-document.addEventListener('wheel', function(e) {
-    if (e.ctrlKey) {
-        e.preventDefault();
-    }
-}, { passive: false });
-
-// 2. Evita o zoom nativo do viewport no Safari iOS ao fazer gesto de pinça na página
-document.addEventListener('gesturestart', function(e) {
-    e.preventDefault();
-}, { passive: false });
-
-document.addEventListener('gesturechange', function(e) {
-    e.preventDefault();
-}, { passive: false });
-
-// 3. Evita zoom por multi-toque ao fazer scroll na página (mantém o zoom interno da modal intacto)
-document.addEventListener('touchmove', function(e) {
-    if (e.touches.length > 1 && !document.body.classList.contains('modal-open')) {
-        e.preventDefault();
-    }
-}, { passive: false });
 
 </script>
 <footer>
