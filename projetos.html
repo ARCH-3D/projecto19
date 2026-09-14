@@ -2,7 +2,7 @@
 <html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -1177,11 +1177,6 @@ function configurarElementoMidia(elemento){
     elemento.style.position = "absolute";
     elemento.style.left = "50%";
     elemento.style.top = "50%";
-    
-    // FIX Safari iOS: Força o hardware a não criar 'rasgos' nas margens escaladas
-    elemento.style.outline = "1px solid transparent";
-    elemento.style.backfaceVisibility = "hidden";
-    elemento.style.WebkitBackfaceVisibility = "hidden";
 }
 
 function criarElementoMidia(midia){
@@ -1880,47 +1875,27 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// ================== BLOQUEIO DEFINITIVO DE ZOOM DA PÁGINA (iOS / WebKit) ==================
-(function() {
-    const antiZoomConfig = { passive: false };
+// 1. Bloqueia os gestos de pinch (abrir/fechar 2 dedos) específicos do Safari iOS
+document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
+document.addEventListener('gesturechange', function (e) { e.preventDefault(); });
+document.addEventListener('gestureend', function (e) { e.preventDefault(); });
 
-    // 1. Bloqueia os gestos nativos de zoom da Apple (gesturestart/change/end) na página principal
-    function bloqGestosNativos(e) {
-        // Se o toque ocorrer dentro do conteúdo do modal, permite a matemática JS do modal
-        if (document.body.classList.contains("modal-open") && e.target.closest("#modal-content")) {
-            return;
-        }
+// 2. Bloqueia toques simultâneos com 2 ou mais dedos
+document.addEventListener('touchstart', function (e) {
+    if (e.touches.length > 1) {
         e.preventDefault();
     }
+}, { passive: false });
 
-    ['gesturestart', 'gesturechange', 'gestureend'].forEach(evt => {
-        document.addEventListener(evt, bloqGestosNativos, antiZoomConfig);
-    });
-
-    // 2. Bloqueia o multi-toque (pinch de 2 dedos) fora do modal na página principal
-    document.addEventListener('touchstart', function(e) {
-        if (e.touches.length > 1 && !e.target.closest('#modal-projeto')) {
-            e.preventDefault();
-        }
-    }, antiZoomConfig);
-
-    document.addEventListener('touchmove', function(e) {
-        if (e.touches.length > 1 && !e.target.closest('#modal-projeto')) {
-            e.preventDefault();
-        }
-    }, antiZoomConfig);
-
-    // 3. Bloqueia o duplo toque rápido para zoom (Double-tap zoom) na página principal
-    let ultimoToqueFim = 0;
-    document.addEventListener('touchend', function(e) {
-        if (e.target.closest('#modal-content')) return;
-        const agora = Date.now();
-        if (agora - ultimoToqueFim <= 300) {
-            e.preventDefault();
-        }
-        ultimoToqueFim = agora;
-    }, antiZoomConfig);
-})();
+// 3. Bloqueia o zoom por duplo toque rápido (double-tap)
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function (e) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
 
 </script>
 </body>
