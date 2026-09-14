@@ -1880,37 +1880,33 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// 1. Bloqueia os gestos de pinch (abrir/fechar 2 dedos) específicos do Safari iOS
-document.addEventListener('gesturestart', function (e) { 
-    e.preventDefault(); 
-}, { passive: false });
+// Bloqueio rigoroso de zoom no iOS WebKit (Safari, Chrome, Edge)
+const preventZoomOptions = { passive: false };
 
-document.addEventListener('gesturechange', function (e) { 
-    e.preventDefault(); 
-}, { passive: false });
+// 1. Bloqueia os gestos nativos de pinch (abrir/fechar 2 dedos) no Safari/iOS
+['gesturestart', 'gesturechange', 'gestureend'].forEach(function (eventType) {
+    window.addEventListener(eventType, function (e) {
+        e.preventDefault();
+    }, preventZoomOptions);
+});
 
-document.addEventListener('gestureend', function (e) { 
-    e.preventDefault(); 
-}, { passive: false });
-
-// 2. Bloqueia toques simultâneos com 2 ou mais dedos no arranque do toque
-document.addEventListener('touchstart', function (e) {
+// 2. Bloqueia o 2º dedo no ecrã antes e durante o scroll
+window.addEventListener('touchstart', function (e) {
     if (e.touches.length > 1) {
         e.preventDefault();
     }
-}, { passive: false });
+}, preventZoomOptions);
 
-// 2.5 Bloqueia o zoom se o utilizador colocar o 2º dedo enquanto a página já está a deslizar (scroll)
-document.addEventListener('touchmove', function (e) {
+window.addEventListener('touchmove', function (e) {
     if (e.touches.length > 1) {
         e.preventDefault();
     }
-}, { passive: false });
+}, preventZoomOptions);
 
 // 3. Bloqueia o zoom por duplo toque rápido (double-tap)
 let lastTouchEnd = 0;
-document.addEventListener('touchend', function (e) {
-    const now = (new Date()).getTime();
+window.addEventListener('touchend', function (e) {
+    const now = Date.now();
     if (now - lastTouchEnd <= 300) {
         e.preventDefault();
     }
