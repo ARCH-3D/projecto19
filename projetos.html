@@ -881,6 +881,20 @@ function isIOSSafariOrEdge(){
   return isIOSDevice && (isSafari || isEdge);
 }
 
+function isEdgeIPad(){
+  const ua = navigator.userAgent;
+
+  const isIPad =
+    /iPad/i.test(ua) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+  return isIPad && /EdgiOS/i.test(ua);
+}
+
+if (isEdgeIPad()) {
+  document.documentElement.classList.add("edge-ipad");
+}
+
 function ajustarFullscreenAndroid(){
 const emAndroid = /Android/i.test(navigator.userAgent);
 const landscape = window.matchMedia("(orientation: landscape)").matches;

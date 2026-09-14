@@ -1427,3 +1427,13 @@ html:has(:fullscreen) {
         bottom: 35px !important;
     }
 }
+
+@media (orientation: portrait) {
+    html.edge-ipad .modal-info {
+        bottom: 90px;
+    }
+
+    html.edge-ipad .media-indicators {
+        bottom: 150px;
+    }
+}
