@@ -637,6 +637,9 @@ function resetZoom(){
         elementoAtual.classList.remove("zoom-render-2d");
         elementoAtual.classList.remove("zoom-render-2d-landscape");
         elementoAtual.classList.remove("zoom-render-2d-tablet");
+        
+        // NOVA LINHA: Limpa completamente o transform para evitar as linhas horizontais
+        elementoAtual.style.transform = "translate(-50%, -50%)"; 
     }
 
     if (modalContent) modalContent.style.cursor = "";
@@ -646,6 +649,12 @@ function resetZoom(){
 function atualizarZoom(){
     rafZoom = null;
     if (!elementoAtual) return;
+
+    // NOVO BLOCO: Se o zoom já não estiver ativo, limpa a transformação imediatamente
+    if (!zoomAtivo) {
+        resetZoom();
+        return;
+    }    
 
     atualizarLimitesZoom();
 
