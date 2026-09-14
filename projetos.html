@@ -637,9 +637,6 @@ function resetZoom(){
         elementoAtual.classList.remove("zoom-render-2d");
         elementoAtual.classList.remove("zoom-render-2d-landscape");
         elementoAtual.classList.remove("zoom-render-2d-tablet");
-        
-        // NOVA LINHA: Limpa completamente o transform para evitar as linhas horizontais
-        elementoAtual.style.transform = "translate(-50%, -50%)"; 
     }
 
     if (modalContent) modalContent.style.cursor = "";
@@ -649,12 +646,6 @@ function resetZoom(){
 function atualizarZoom(){
     rafZoom = null;
     if (!elementoAtual) return;
-
-    // NOVO BLOCO: Se o zoom já não estiver ativo, limpa a transformação imediatamente
-    if (!zoomAtivo) {
-        resetZoom();
-        return;
-    }    
 
     atualizarLimitesZoom();
 
@@ -695,17 +686,17 @@ function atualizarZoom(){
     }
 
     if (isMobilePortrait) {
-        // Telemóvel portrait — solução já testada e aprovada.
+        // Telemóvel portrait — correção WebKit aplicada.
         elementoAtual.style.transform =
-            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+            `translate(-50%, -50%) translate(${zoomTargetX}px, ${zoomTargetY}px) scale(${escalaZoom})`;
     } else if (isTouchLandscape) {
-        // Touch landscape — solução já testada e aprovada.
+        // Touch landscape — correção WebKit aplicada.
         elementoAtual.style.transform =
-            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+            `translate(-50%, -50%) translate(${zoomTargetX}px, ${zoomTargetY}px) scale(${escalaZoom})`;
     } else if (isTouchTabletPortrait) {
-        // Tablet touch portrait — nova aplicação da mesma renderização 2D.
+        // Tablet touch portrait — correção WebKit aplicada.
         elementoAtual.style.transform =
-            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+            `translate(-50%, -50%) translate(${zoomTargetX}px, ${zoomTargetY}px) scale(${escalaZoom})`;
     } else {
         // Desktop e restantes dispositivos — comportamento original.
         elementoAtual.style.transform =
