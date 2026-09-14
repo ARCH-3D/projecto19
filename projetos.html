@@ -2267,6 +2267,18 @@ abrirProjeto(idProjeto);
 
 });
 
+document.addEventListener("touchmove", function(e) {
+
+    if (!document.documentElement.classList.contains("ios-root-scroll")) {
+        return;
+    }
+
+    if (e.touches.length >= 2) {
+        e.preventDefault();
+    }
+
+}, { passive: false });
+
 // Bloqueia os gestos de pinch específicos do Safari iOS
 document.addEventListener('gesturestart', function (e) {
 e.preventDefault();
