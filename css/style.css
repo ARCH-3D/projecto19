@@ -54,7 +54,7 @@ a:active {
 }
 
 button, a {
-    touch-action: manipulation;
+    touch-action: pan-x pan-y;
 }
 
 /* ================== HEADER ================== */
@@ -1309,7 +1309,7 @@ html:has(:fullscreen) {
 .close, 
 .zoom-btn, 
 .fullscreen-btn {
-    touch-action: manipulation;
+    touch-action: pan-x pan-y;
 }
 
 @media screen and (min-height: 551px) {
