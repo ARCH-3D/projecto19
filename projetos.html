@@ -2,7 +2,7 @@
 <html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -11,7 +11,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-192x192.png">
 
 <!-- Apple -->
-<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+<!-- <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png"> -->
 
 <!-- Safari -->
 <link rel="mask-icon" href="/img/favicon-mask.svg" color="#111111">
@@ -632,6 +632,13 @@ function resetZoom(){
     zoomTargetX = 0;
     zoomTargetY = 0;
     mouseZoomAtivo = false;
+
+    if (elementoAtual) {
+        elementoAtual.classList.remove("zoom-render-2d");
+        elementoAtual.classList.remove("zoom-render-2d-landscape");
+        elementoAtual.classList.remove("zoom-render-2d-tablet");
+    }
+
     if (modalContent) modalContent.style.cursor = "";
     if (zoomBtn) zoomBtn.textContent = "+";
 }
@@ -639,10 +646,62 @@ function resetZoom(){
 function atualizarZoom(){
     rafZoom = null;
     if (!elementoAtual) return;
+
     atualizarLimitesZoom();
-    zoomTargetX = Math.max(-limiteZoomX, Math.min(limiteZoomX, zoomTargetX));
-    zoomTargetY = Math.max(-limiteZoomY, Math.min(limiteZoomY, zoomTargetY));
-    elementoAtual.style.transform = `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
+
+    zoomTargetX = Math.max(
+        -limiteZoomX,
+        Math.min(limiteZoomX, zoomTargetX)
+    );
+
+    zoomTargetY = Math.max(
+        -limiteZoomY,
+        Math.min(limiteZoomY, zoomTargetY)
+    );
+
+    const isMobilePortrait =
+        window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
+
+    const isTouchLandscape =
+        window.matchMedia("(pointer: coarse) and (orientation: landscape)").matches;
+
+    const isTouchTabletPortrait =
+        window.matchMedia("(pointer: coarse) and (orientation: portrait) and (min-width: 769px)").matches;
+
+    if (elementoAtual.tagName === "IMG") {
+        elementoAtual.classList.toggle(
+            "zoom-render-2d",
+            isMobilePortrait && zoomAtivo
+        );
+
+        elementoAtual.classList.toggle(
+            "zoom-render-2d-landscape",
+            isTouchLandscape && zoomAtivo
+        );
+
+        elementoAtual.classList.toggle(
+            "zoom-render-2d-tablet",
+            isTouchTabletPortrait && zoomAtivo
+        );
+    }
+
+    if (isMobilePortrait) {
+        // Telemóvel portrait — solução já testada e aprovada.
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+    } else if (isTouchLandscape) {
+        // Touch landscape — solução já testada e aprovada.
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+    } else if (isTouchTabletPortrait) {
+        // Tablet touch portrait — nova aplicação da mesma renderização 2D.
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+    } else {
+        // Desktop e restantes dispositivos — comportamento original.
+        elementoAtual.style.transform =
+            `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
+    }
 }
 
 function atualizarLimitesZoom(){
@@ -668,22 +727,35 @@ function abrirProjeto(nomeProjeto){
             local: projetos[nomeProjeto].info.local
         });
     }
+
+    const modalProjeto = document.getElementById("modal-projeto");
+
+    // 1. Limpar estilos de transição/fundo residuais de gestos anteriores
+    modalProjeto.style.transition = "";
+    modalProjeto.style.background = "";
+
+    // 2. TORNAR O MODAL VISÍVEL PRIMEIRO para garantir que os cálculos de dimensão funcionam
+    modalProjeto.style.display = "flex";
+    document.body.classList.add("modal-open");
+
+    // 3. Configurar os dados do projeto
     projetoAtual = projetos[nomeProjeto];
     midiasAtuais = projetoAtual.media;
     indiceAtual = 0;
     previewIndice = indiceAtual;
     atualizarIndicadores(true);
+
+    // 4. Carregar e animar a mídia com o modal já visível
     mostrarMidia();
     mostrarBotaoFullscreen();
     if (zoomBtn) zoomBtn.textContent = "+";
     preloadImagens();
+
     document.getElementById("modal-title").textContent = projetoAtual.info.nome;
     document.getElementById("modal-year").textContent = projetoAtual.info.ano;
     document.getElementById("modal-area").textContent = projetoAtual.info.area;
     document.getElementById("modal-location").textContent = projetoAtual.info.local;
-    document.getElementById("modal-projeto").style.display = "flex";
-    document.body.classList.add("modal-open");
-    const modalProjeto = document.getElementById("modal-projeto");
+
     if (isIPhoneSafariOrEdge()) {
         modalProjeto.classList.add("iphone-device");
     } else {
@@ -691,41 +763,41 @@ function abrirProjeto(nomeProjeto){
     }
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
+
     if (contactWidget) contactWidget.style.display = "none";
     if (backToTop) backToTop.classList.remove("show");
     mostrarTutorialGestos();
 
-    // --- CORREÇÃO DE ACESSIBILIDADE E FOCO ---
-    // Guardar a capa do projeto em que se clicou
+    // Acessibilidade e foco
     elementoFocadoAnteriormente = document.activeElement;
-    
-    // Isolar os elementos de fundo para a navegação por teclado (Tab) ignorá-los
     const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
     elementosFundo.forEach(el => {
         if (el) el.setAttribute('inert', ''); 
     });
     
-    // Focar no próprio modal para a navegação começar aí dentro
     modalProjeto.focus();
-    // -----------------------------------------
 }
 
 function fecharModal(){
-    // --- CORREÇÃO DE ACESSIBILIDADE E FOCO ---
-    // Devolver a interatividade aos elementos da página principal
+    const modalProjeto = document.getElementById("modal-projeto");
+
+    // Devolver a interatividade aos elementos de fundo
     const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
     elementosFundo.forEach(el => {
         if (el) el.removeAttribute('inert');
     });
 
-    // Devolver o foco à capa do projeto que o utilizador tinha clicado
     if (elementoFocadoAnteriormente) {
         elementoFocadoAnteriormente.focus();
     }
-    // -----------------------------------------
 
     resetZoom();
-    document.getElementById("modal-projeto").style.display = "none";
+
+    // Esconder modal e resetar estilos do fundo e transição
+    modalProjeto.style.display = "none";
+    modalProjeto.style.background = "";
+    modalProjeto.style.transition = "";
+
     document.getElementById("modal-content").innerHTML = "";
     elementoAtual = null;
     elementoAnterior = null;
@@ -735,6 +807,7 @@ function fecharModal(){
     currentTranslate = 0;
     currentY = 0;
     document.body.classList.remove("modal-open");
+
     if (contactWidget) contactWidget.style.display = "";
     if (backToTop) {
         if (window.scrollY > 400) {
@@ -750,7 +823,11 @@ function fecharModal(){
             document.webkitExitFullscreen();
         }
     }
-    document.getElementById("modal-projeto").style.background = "";
+
+    // Limpar parâmetros da URL (?p=...)
+    if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, "", window.location.pathname);
+    }
 }
 
 function isAppleMobile(){
@@ -1584,11 +1661,59 @@ zoomBtn.addEventListener("click", function(e){
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
 });
 
+// Substituição cirúrgica: Controlo dinâmico de toques vs rato (Atualizado)
 document.querySelectorAll(".project").forEach(projeto => {
-    projeto.addEventListener("touchstart", function(){
-        document.querySelectorAll(".project").forEach(p => p.classList.remove("touched"));
-        this.classList.add("touched");
+    const onclickAttr = projeto.getAttribute("onclick"); //[cite: 2]
+    let nomeProjeto = null;
+
+    if (onclickAttr) {
+        const match = onclickAttr.match(/abrirProjeto\(['"]([^'"]+)['"]\)/); //[cite: 2]
+        if (match) nomeProjeto = match[1];
+        projeto.removeAttribute("onclick"); //[cite: 2]
+    }
+
+    // 1. Revelar título ao tocar no ecrã (mesmo ao iniciar scroll)
+    projeto.addEventListener("touchstart", function() {
+        if (!this.classList.contains("touched")) {
+            // Limpa o estado dos restantes projetos
+            document.querySelectorAll(".project").forEach(p => {
+                p.classList.remove("touched"); //[cite: 2]
+                p.dataset.novoToque = "false";
+            });
+            
+            // Revela o título do projeto tocado
+            this.classList.add("touched"); //[cite: 2]
+            
+            // Marca o elemento como recém-tocado para impedir a abertura imediata no mesmo gesto
+            this.dataset.novoToque = "true";
+            setTimeout(() => { this.dataset.novoToque = "false"; }, 500);
+        }
+    }, { passive: true });
+
+    // 2. Gerir a abertura das imagens no segundo toque
+    projeto.addEventListener("click", function(e) {
+        const isTouch = window.matchMedia("(pointer: coarse)").matches || 'ontouchstart' in window; //[cite: 2]
+
+        if (isTouch) {
+            if (this.dataset.novoToque === "true") {
+                // Foi o primeiro toque (apenas para revelar o título), cancela a abertura
+                e.preventDefault(); //[cite: 2]
+            } else {
+                // O título já estava visível, abre a galeria do projeto
+                if (nomeProjeto) abrirProjeto(nomeProjeto); //[cite: 2]
+            }
+        } else {
+            // Navegação com rato (Desktop): abre imediatamente à primeira
+            if (nomeProjeto) abrirProjeto(nomeProjeto); //[cite: 2]
+        }
     });
+});
+
+// 3. Remover o destaque se tocar no fundo da página
+document.addEventListener("click", function(e) {
+    if (!e.target.closest(".project")) {
+        document.querySelectorAll(".project").forEach(p => p.classList.remove("touched")); //[cite: 2]
+    }
 });
 
 contactButton.addEventListener("click", function(e){
@@ -1734,6 +1859,43 @@ function esconderTutorialGestos() {
 // Fechar ao mínimo toque no ecrã (se ele estiver ativo)
 document.getElementById("tutorial-gestos").addEventListener("touchstart", esconderTutorialGestos, { passive: true });
 document.getElementById("tutorial-gestos").addEventListener("click", esconderTutorialGestos);
+
+// Deteta o parâmetro ?p=... na URL e abre o modal automaticamente
+window.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // AQUI: usamos "p" porque no index os links são ?p=projeto168
+    const idProjeto = urlParams.get("p");
+
+    if (idProjeto && projetos[idProjeto]) {
+        // Dá um pequeno atraso (100ms) para garantir o correto carregamento do layout
+        setTimeout(() => {
+            abrirProjeto(idProjeto);
+        }, 100);
+    }
+});
+
+// 1. Bloqueia os gestos de pinch (abrir/fechar 2 dedos) específicos do Safari iOS
+document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
+document.addEventListener('gesturechange', function (e) { e.preventDefault(); });
+document.addEventListener('gestureend', function (e) { e.preventDefault(); });
+
+// 2. Bloqueia toques simultâneos com 2 ou mais dedos
+document.addEventListener('touchstart', function (e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+// 3. Bloqueia o zoom por duplo toque rápido (double-tap)
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function (e) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
 
 </script>
 </body>

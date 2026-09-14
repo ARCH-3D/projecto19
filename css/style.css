@@ -17,6 +17,11 @@
     -webkit-tap-highlight-color:transparent;
 }
 
+html, body {
+    touch-action: pan-x pan-y;
+    -webkit-text-size-adjust: 100%;
+}
+
 /* ================== HTML ================== */
 html{
     scrollbar-gutter:stable;
@@ -1318,4 +1323,31 @@ html:has(:fullscreen) {
 .bloquear-animacoes,
 .bloquear-animacoes * {
     transition: none !important;
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+    #modal-content img.zoom-render-2d {
+        will-change: auto;
+        transform-style: flat;
+        backface-visibility: visible;
+        -webkit-backface-visibility: visible;
+    }
+}
+
+@media (pointer: coarse) and (orientation: landscape) {
+    #modal-content img.zoom-render-2d-landscape {
+        will-change: auto;
+        transform-style: flat;
+        backface-visibility: visible;
+        -webkit-backface-visibility: visible;
+    }
+}
+
+@media (pointer: coarse) and (orientation: portrait) and (min-width: 769px) {
+    #modal-content img.zoom-render-2d-tablet {
+        will-change: auto;
+        transform-style: flat;
+        backface-visibility: visible;
+        -webkit-backface-visibility: visible;
+    }
 }
