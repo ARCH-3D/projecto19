@@ -56,33 +56,61 @@ gtag('config','G-JXJP0D464R');
 
 <body ontouchstart="">
 
-<header>
-    <div class="header-left">
-        <a href="index.html" class="logo-link">
-            <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo" width="42" height="42" decoding="async">
-            <h1>Projecto 19</h1>
-        </a>
-    </div>
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
-    <nav id="menu">
-        <a href="index.html">Home</a>
-        <a href="projetos.html">Projetos</a>
-        <a href="sobre.html">Sobre</a>
-        <a href="servicos.html">Serviços</a>
-        <a href="contactos.html">Contactos</a>
-    </nav>
-</header>
+<div id="page-scroll">
 
-<!-- HERO -->
-<main>
-    <div class="hero">
-        <img id="hero-image" class="hero-image" src="img/hero/hero1.webp" alt="Projecto 19" fetchpriority="high" decoding="async">
-        <div class="hero-text">
-            <h2>Projecto 19</h2>
-            <p>Arquitetura e Design</p>
+    <header>
+        <div class="header-left">
+            <a href="index.html" class="logo-link">
+                <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo" width="42" height="42" decoding="async">
+                <h1>Projecto 19</h1>
+            </a>
         </div>
-    </div>
-</main>
+
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
+
+        <nav id="menu">
+            <a href="index.html">Home</a>
+            <a href="projetos.html">Projetos</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="servicos.html">Serviços</a>
+            <a href="contactos.html">Contactos</a>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <main>
+        <div class="hero">
+            <img id="hero-image"
+                 class="hero-image"
+                 src="img/hero/hero1.webp"
+                 alt="Projecto 19"
+                 fetchpriority="high"
+                 decoding="async">
+
+            <div class="hero-text">
+                <h2>Projecto 19</h2>
+                <p>Arquitetura e Design</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
+                <img src="img/icons/instagram.svg" alt="" class="social-icon" width="24" height="24">
+                <span>Instagram</span>
+            </a>
+
+            <a href="https://www.facebook.com/projecto19" target="_blank" rel="noopener noreferrer">
+                <img src="img/icons/facebook.svg" alt="" class="social-icon" width="24" height="24">
+                <span>Facebook</span>
+            </a>
+        </div>
+
+        <p>© PROJECTO 19</p>
+    </footer>
+
+</div>
 
 <!-- WIDGET CONTACTO -->
 <div class="contact-widget">
@@ -91,30 +119,18 @@ gtag('config','G-JXJP0D464R');
             <img src="img/icons/e-mail.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>Email</span>
         </a>
+
         <a href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer">
             <img src="img/icons/whatsapp.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>WhatsApp</span>
         </a>
     </div>
+
     <button class="contact-trigger" aria-label="Abrir contactos">
         <img src="img/icons/faleconnosco.svg" alt="" class="contact-icon" width="24" height="24">
         <span>Fale Connosco</span>
     </button>
 </div>
-
-<footer>
-    <div class="social-links">
-        <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
-            <img src="img/icons/instagram.svg" alt="" class="social-icon" width="24" height="24">
-            <span>Instagram</span>
-        </a>
-        <a href="https://www.facebook.com/projecto19" target="_blank" rel="noopener noreferrer">
-            <img src="img/icons/facebook.svg" alt="" class="social-icon" width="24" height="24">
-            <span>Facebook</span>
-        </a>
-    </div>
-    <p>© PROJECTO 19</p>
-</footer>
 
 <!-- JAVASCRIPT -->
 <script>
