@@ -961,21 +961,21 @@ if (!elemento) return;
 
 if (isLandscape) {
 
-const alturaLandscape = window.innerHeight;
+    const alturaLandscape = window.innerHeight;
 
-elemento.style.setProperty("max-width", "100vw", "important");
+    elemento.style.setProperty("max-width", "100vw", "important");
 
-elemento.style.setProperty(
-"max-height",
-alturaLandscape > 550
-? "calc(100dvh - 115px)"
-: "calc(100dvh - 20px)",
-"important"
-);
+    elemento.style.setProperty(
+        "max-height",
+        alturaLandscape > 550
+            ? "calc(100dvh - 180px)"
+            : "calc(100dvh - 20px)",
+        "important"
+    );
 
-elemento.style.setProperty("width", "100%", "important");
-elemento.style.setProperty("height", "100%", "important");
-elemento.style.setProperty("object-fit", "contain", "important");
+    elemento.style.setProperty("width", "auto", "important");
+    elemento.style.setProperty("height", "auto", "important");
+    elemento.style.setProperty("object-fit", "contain", "important");
 
 } else {
 elemento.style.removeProperty("max-width");
@@ -1320,13 +1320,13 @@ elemento.style.setProperty("max-width", "100vw", "important");
 elemento.style.setProperty(
 "max-height",
 alturaLandscape > 550
-? "calc(100dvh - 115px)"
+? "calc(100dvh - 180px)"
 : "calc(100dvh - 20px)",
 "important"
 );
 
-elemento.style.setProperty("width", "100%", "important");
-elemento.style.setProperty("height", "100%", "important");
+elemento.style.setProperty("width", "auto", "important");
+elemento.style.setProperty("height", "auto", "important");
 elemento.style.setProperty("object-fit", "contain", "important");
 }
 
@@ -1461,13 +1461,13 @@ novo.style.setProperty("max-width", "100vw", "important");
 novo.style.setProperty(
 "max-height",
 alturaLandscape > 550
-? "calc(100dvh - 115px)"
+? "calc(100dvh - 180px)"
 : "calc(100dvh - 20px)",
 "important"
 );
 
-novo.style.setProperty("width", "100%", "important");
-novo.style.setProperty("height", "100%", "important");
+novo.style.setProperty("width", "auto", "important");
+novo.style.setProperty("height", "auto", "important");
 novo.style.setProperty("object-fit", "contain", "important");
 }
 
