@@ -831,15 +831,26 @@ function fecharModal(){
 }
 
 function isAppleMobile(){
-    return /iPhone|iPod/i.test(navigator.userAgent);
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+           (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 }
 
 function isIPhoneSafariOrEdge(){
     const ua = navigator.userAgent;
-    const isIPhone = /iPhone/i.test(ua);
+
+    const isAppleMobile =
+        /iPhone|iPad|iPod/i.test(ua) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
     const isEdge = /EdgiOS/i.test(ua);
-    const isSafari = /Safari/i.test(ua) && !/CriOS/i.test(ua) && !/FxiOS/i.test(ua) && !/EdgiOS/i.test(ua);
-    return isIPhone && (isSafari || isEdge);
+
+    const isSafari =
+        /Safari/i.test(ua) &&
+        !/CriOS/i.test(ua) &&
+        !/FxiOS/i.test(ua) &&
+        !/EdgiOS/i.test(ua);
+
+    return isAppleMobile && (isSafari || isEdge);
 }
 
 function ajustarFullscreenAndroid(){
