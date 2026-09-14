@@ -2267,17 +2267,26 @@ abrirProjeto(idProjeto);
 
 });
 
-document.addEventListener("touchmove", function(e) {
+// Bloqueia pinch-zoom nativo da página,
+// mas mantém o pinch personalizado dentro da galeria.
+document.addEventListener("touchstart", function(e) {
 
     if (!document.documentElement.classList.contains("ios-root-scroll")) {
         return;
     }
 
+    // Dentro do modal, o pinch é controlado pelo nosso JS.
+    if (e.target.closest("#modal-projeto")) {
+        return;
+    }
+
+    // Impede o browser de iniciar o pinch nativo
+    // quando o segundo dedo entra durante o scroll.
     if (e.touches.length >= 2) {
         e.preventDefault();
     }
 
-}, { passive: false });
+}, { passive: false, capture: true });
 
 // Bloqueia os gestos de pinch específicos do Safari iOS
 document.addEventListener('gesturestart', function (e) {
