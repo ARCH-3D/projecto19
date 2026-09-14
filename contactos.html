@@ -41,63 +41,92 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-JXJP0D464R');
 </script>
+
 <!-- Fontes -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
+
 <!-- CSS -->
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="contact-page" ontouchstart="">
-<header>
-    <div class="header-left">
-        <a href="index.html" class="logo-link">
-            <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo" width="42" height="42" decoding="async">
-            <h1>Projecto 19</h1>
-        </a>
-    </div>
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
-    <nav id="menu">
-        <a href="index.html">Home</a>
-        <a href="projetos.html">Projetos</a>
-        <a href="sobre.html">Sobre</a>
-        <a href="servicos.html">Serviços</a>
-        <a href="contactos.html">Contactos</a>
-    </nav>
-</header>
 
-<main>
-    <section>
-        <h3 class="section-title"><strong>Contactos</strong></h3>
-        <!-- EMAIL -->
-        <a class="service" href="mailto:info.projecto19@gmail.com" aria-label="Enviar email">
-            <div class="service-icon">
-                <img src="img/icons/e-mail.svg" alt="Email" class="contact-service-icon" width="24" height="24" decoding="async">
-            </div>
-            <div class="service-content">
-                <p>info.projecto19@gmail.com</p>
-            </div>
-        </a>
-        <!-- TELEFONE / WHATSAPP -->
-        <a class="service" href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp">
-            <div class="service-icon">
-                <img src="img/icons/telefone.svg" alt="Telefone" class="contact-service-icon" width="24" height="24" decoding="async">
-            </div>
-            <div class="service-content">
-                <p>+351 934 185 719</p>
-            </div>
-        </a>
-        <!-- LOCALIZAÇÃO -->
-        <a class="service" href="https://maps.google.com/?q=Braga,Portugal" target="_blank" rel="noopener noreferrer" aria-label="Ver localização no Google Maps">
-            <div class="service-icon">
-                <img src="img/icons/local.svg" alt="Localização" class="contact-service-icon" width="24" height="24" decoding="async">
-            </div>
-            <div class="service-content">
-                <p>Braga, Portugal</p>
-            </div>
-        </a>
-    </section>
-</main>
+<body class="contact-page" ontouchstart="">
+
+<div id="page-scroll">
+
+    <header>
+        <div class="header-left">
+            <a href="index.html" class="logo-link">
+                <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo" width="42" height="42" decoding="async">
+                <h1>Projecto 19</h1>
+            </a>
+        </div>
+
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
+
+        <nav id="menu">
+            <a href="index.html">Home</a>
+            <a href="projetos.html">Projetos</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="servicos.html">Serviços</a>
+            <a href="contactos.html">Contactos</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h3 class="section-title"><strong>Contactos</strong></h3>
+
+            <!-- EMAIL -->
+            <a class="service" href="mailto:info.projecto19@gmail.com" aria-label="Enviar email">
+                <div class="service-icon">
+                    <img src="img/icons/e-mail.svg" alt="Email" class="contact-service-icon" width="24" height="24" decoding="async">
+                </div>
+                <div class="service-content">
+                    <p>info.projecto19@gmail.com</p>
+                </div>
+            </a>
+
+            <!-- TELEFONE / WHATSAPP -->
+            <a class="service" href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp">
+                <div class="service-icon">
+                    <img src="img/icons/telefone.svg" alt="Telefone" class="contact-service-icon" width="24" height="24" decoding="async">
+                </div>
+                <div class="service-content">
+                    <p>+351 934 185 719</p>
+                </div>
+            </a>
+
+            <!-- LOCALIZAÇÃO -->
+            <a class="service" href="https://maps.google.com/?q=Braga,Portugal" target="_blank" rel="noopener noreferrer" aria-label="Ver localização no Google Maps">
+                <div class="service-icon">
+                    <img src="img/icons/local.svg" alt="Localização" class="contact-service-icon" width="24" height="24" decoding="async">
+                </div>
+                <div class="service-content">
+                    <p>Braga, Portugal</p>
+                </div>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
+                <img src="img/icons/instagram.svg" class="social-icon" alt="" width="24" height="24">
+                <span>Instagram</span>
+            </a>
+
+            <a href="https://www.facebook.com/projecto19" target="_blank" rel="noopener noreferrer">
+                <img src="img/icons/facebook.svg" class="social-icon" alt="" width="24" height="24">
+                <span>Facebook</span>
+            </a>
+        </div>
+
+        <p>© PROJECTO 19</p>
+    </footer>
+
+</div>
 
 <!-- WIDGET CONTACTO -->
 <div class="contact-widget">
@@ -106,16 +135,19 @@ gtag('config', 'G-JXJP0D464R');
             <img src="img/icons/e-mail.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>Email</span>
         </a>
+
         <a href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer">
             <img src="img/icons/whatsapp.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>WhatsApp</span>
         </a>
     </div>
+
     <button class="contact-trigger" aria-label="Abrir contactos">
         <img src="img/icons/faleconnosco.svg" alt="" class="contact-icon" width="24" height="24">
         <span>Fale Connosco</span>
     </button>
 </div>
+
 <script>
 const contactWidget = document.querySelector(".contact-widget");
 const contactButton = document.querySelector(".contact-trigger");
@@ -124,6 +156,7 @@ contactButton.addEventListener("click", function(e){
     e.stopPropagation();
     contactWidget.classList.toggle("active");
 });
+
 contactWidget.addEventListener("click", function(e){
     e.stopPropagation();
 });
@@ -136,13 +169,26 @@ function toggleMenu() {
 }
 
 document.addEventListener("click", function(e) {
-    if (menu.classList.contains("active") && !menu.contains(e.target) && !menuToggle.contains(e.target)) {
+    if (menu.classList.contains("active") &&
+        !menu.contains(e.target) &&
+        !menuToggle.contains(e.target)) {
         menu.classList.remove("active");
     }
-    if (contactWidget.classList.contains("active") && !contactWidget.contains(e.target)) {
+
+    if (contactWidget.classList.contains("active") &&
+        !contactWidget.contains(e.target)) {
         contactWidget.classList.remove("active");
     }
 });
+
+/* CONTENTOR PRINCIPAL DE SCROLL */
+const pageScroll = document.getElementById("page-scroll");
+
+/* Fecha menu/contactos quando a página faz scroll */
+pageScroll.addEventListener("scroll", () => {
+    menu.classList.remove("active");
+    contactWidget.classList.remove("active");
+}, { passive: true });
 
 document.querySelectorAll("#menu a").forEach(link => {
     link.addEventListener("click", () => {
@@ -150,12 +196,7 @@ document.querySelectorAll("#menu a").forEach(link => {
     });
 });
 
-window.addEventListener("scroll", () => {
-    menu.classList.remove("active");
-    contactWidget.classList.remove("active");
-}, { passive: true });
-
-// 1. Bloqueia os gestos de pinch específicos do Safari iOS
+// Bloqueia os gestos de pinch específicos do Safari iOS
 document.addEventListener('gesturestart', function (e) {
     e.preventDefault();
 });
@@ -168,7 +209,7 @@ document.addEventListener('gestureend', function (e) {
     e.preventDefault();
 });
 
-// 4. Bloqueia double-tap zoom nativo
+// Bloqueia double-tap zoom nativo
 let lastTouchEnd = 0;
 
 document.addEventListener('touchend', function (e) {
@@ -180,20 +221,7 @@ document.addEventListener('touchend', function (e) {
 
     lastTouchEnd = now;
 }, false);
-
 </script>
-<footer>
-    <div class="social-links">
-        <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
-            <img src="img/icons/instagram.svg" alt="" class="social-icon" width="24" height="24">
-            <span>Instagram</span>
-        </a>
-        <a href="https://www.facebook.com/projecto19" target="_blank" rel="noopener noreferrer">
-            <img src="img/icons/facebook.svg" alt="" class="social-icon" width="24" height="24">
-            <span>Facebook</span>
-        </a>
-    </div>
-    <p>© PROJECTO 19</p>
-</footer>
+
 </body>
 </html>
