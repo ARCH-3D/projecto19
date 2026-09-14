@@ -776,7 +776,7 @@ document.getElementById("modal-year").textContent = projetoAtual.info.ano;
 document.getElementById("modal-area").textContent = projetoAtual.info.area;
 document.getElementById("modal-location").textContent = projetoAtual.info.local;
 
-if (isIPhoneSafariOrEdge()) {
+if (isIOSSafariOrEdge()) {
 modalProjeto.classList.add("iphone-device");
 } else {
 modalProjeto.classList.remove("iphone-device");
@@ -859,12 +859,26 @@ function isAppleMobile(){
 return /iPhone|iPod/i.test(navigator.userAgent);
 }
 
-function isIPhoneSafariOrEdge(){
-const ua = navigator.userAgent;
-const isIPhone = /iPhone/i.test(ua);
-const isEdge = /EdgiOS/i.test(ua);
-const isSafari = /Safari/i.test(ua) && !/CriOS/i.test(ua) && !/FxiOS/i.test(ua) && !/EdgiOS/i.test(ua);
-return isIPhone && (isSafari || isEdge);
+function isIOSSafariOrEdge(){
+  const ua = navigator.userAgent;
+
+  const isIPad =
+    /iPad/i.test(ua) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+  const isIPhone = /iPhone/i.test(ua);
+
+  const isIOSDevice = isIPhone || isIPad;
+
+  const isEdge = /EdgiOS/i.test(ua);
+
+  const isSafari =
+    /Safari/i.test(ua) &&
+    !/CriOS/i.test(ua) &&
+    !/FxiOS/i.test(ua) &&
+    !/EdgiOS/i.test(ua);
+
+  return isIOSDevice && (isSafari || isEdge);
 }
 
 function ajustarFullscreenAndroid(){
@@ -916,7 +930,7 @@ setTimeout(aplicar, 600);
 function ajustarBolinhasIPhone(){
 const indicadores = document.querySelector(".media-indicators");
 const landscape = window.matchMedia("(orientation: landscape)").matches;
-const safariEdgeLandscape = isIPhoneSafariOrEdge() && landscape;
+const safariEdgeLandscape = isIOSSafariOrEdge() && landscape;
 
 if (indicadores) {
 if (safariEdgeLandscape) indicadores.style.bottom = "60px";
@@ -1271,7 +1285,7 @@ elemento.playsInline = true;
 
 configurarElementoMidia(elemento);
 
-if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
+if (isIOSSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
 elemento.style.setProperty("max-width", "100vw", "important");
 elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
 elemento.style.setProperty("width", "100%", "important");
@@ -1400,7 +1414,7 @@ novo.playsInline = true;
 
 configurarElementoMidia(novo);
 
-if (isIPhoneSafariOrEdge() &&
+if (isIOSSafariOrEdge() &&
 window.matchMedia("(orientation: landscape)").matches) {
 novo.style.setProperty("max-width", "100vw", "important");
 novo.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
