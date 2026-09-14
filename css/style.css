@@ -1437,3 +1437,16 @@ html:has(:fullscreen) {
         bottom: 150px;
     }
 }
+
+/* Edge no iPad — ajustes específicos em landscape */
+@media (orientation: landscape) {
+
+    html.edge-ipad .modal-info {
+        bottom: 60px;
+    }
+
+    html.edge-ipad .media-indicators {
+        bottom: 120px !important;
+    }
+
+}
