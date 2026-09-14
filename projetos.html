@@ -1906,12 +1906,6 @@ document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
 document.addEventListener('gesturechange', function (e) { e.preventDefault(); });
 document.addEventListener('gestureend', function (e) { e.preventDefault(); });
 
-// 2. Bloqueia toques simultâneos com 2 ou mais dedos
-document.addEventListener('touchstart', function (e) {
-    if (e.touches.length > 1) {
-        e.preventDefault();
-    }
-}, { passive: false });
 
 // 3. Bloqueia o zoom por duplo toque rápido (double-tap)
 let lastTouchEnd = 0;
