@@ -900,30 +900,31 @@ function ajustarFullscreenAndroid(){
 
 function ajustarBolinhasIPhone(){
     const indicadores = document.querySelector(".media-indicators");
-    const landscape = window.matchMedia("(orientation: landscape)").matches;
-    const safariEdgeLandscape = isIPhoneSafariOrEdge() && landscape;
+    const safariEdgeLandscape = isTouchTabletLandscape();
 
     if (indicadores) {
         if (safariEdgeLandscape) indicadores.style.bottom = "60px";
         else indicadores.style.bottom = "";
     }
+
     if (modalContent) {
-        if (safariEdgeLandscape) modalContent.classList.add("iphone-safari-edge-landscape");
-        else modalContent.classList.remove("iphone-safari-edge-landscape");
+        if (safariEdgeLandscape) {
+            modalContent.classList.add("iphone-safari-edge-landscape");
+        } else {
+            modalContent.classList.remove("iphone-safari-edge-landscape");
+        }
     }
 
-    // NOVA LÓGICA: Aplica ou remove os estilos dependendo da orientação
     const aplicarTamanho = (elemento, isLandscape) => {
         if (!elemento) return;
-        
+
         if (isLandscape) {
             elemento.style.setProperty("max-width", "100vw", "important");
-            elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important"); 
-            elemento.style.setProperty("width", "100%", "important");
-            elemento.style.setProperty("height", "100%", "important");
+            elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+            elemento.style.setProperty("width", "auto", "important");
+            elemento.style.setProperty("height", "auto", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
         } else {
-            // Remove os inline styles para devolver o controlo ao CSS (modo retrato)
             elemento.style.removeProperty("max-width");
             elemento.style.removeProperty("max-height");
             elemento.style.removeProperty("width");
@@ -1211,11 +1212,11 @@ function criarElementoMidia(midia){
         elemento.playsInline = true;
     }
     configurarElementoMidia(elemento);
-    if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
+    if (isTouchTabletLandscape()) {
         elemento.style.setProperty("max-width", "100vw", "important");
         elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
-        elemento.style.setProperty("width", "100%", "important");
-        elemento.style.setProperty("height", "100%", "important");
+        elemento.style.setProperty("width", "auto", "important");
+        elemento.style.setProperty("height", "auto", "important");
         elemento.style.setProperty("object-fit", "contain", "important");
     }
     if (midia.grayscale) elemento.classList.add("grayscale");
@@ -1309,11 +1310,11 @@ function mostrarMidia(){
         novo.playsInline = true;
     }
     configurarElementoMidia(novo);
-    if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
+    if (isTouchTabletLandscape()) {
         novo.style.setProperty("max-width", "100vw", "important");
         novo.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
-        novo.style.setProperty("width", "100%", "important");
-        novo.style.setProperty("height", "100%", "important");
+        novo.style.setProperty("width", "auto", "important");
+        novo.style.setProperty("height", "auto", "important");
         novo.style.setProperty("object-fit", "contain", "important");
     }
     novo.style.zIndex = "2";
@@ -1676,6 +1677,12 @@ zoomBtn.addEventListener("click", function(e){
     }
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
 });
+
+function isTouchTabletLandscape(){
+    return window.matchMedia(
+        "(pointer: coarse) and (orientation: landscape) and (min-width: 769px)"
+    ).matches;
+}
 
 // Substituição cirúrgica: Controlo dinâmico de toques vs rato (Atualizado)
 document.querySelectorAll(".project").forEach(projeto => {
