@@ -19,9 +19,9 @@
 }
 
 html, body {
-    touch-action: pan-x pan-y;
+    touch-action: pan-x pan-y !important;
     -webkit-text-size-adjust: 100%;
-    overscroll-behavior: none;
+    overscroll-behavior-y: none;
 }
 
 /* ================== HTML ================== */
@@ -56,7 +56,7 @@ a:active {
 }
 
 button, a {
-    touch-action: pan-x pan-y;
+    touch-action: pan-x pan-y !important;
 }
 
 /* ================== HEADER ================== */
@@ -1311,7 +1311,7 @@ html:has(:fullscreen) {
 .close, 
 .zoom-btn, 
 .fullscreen-btn {
-    touch-action: pan-x pan-y;
+    touch-action: pan-x pan-y !important;
 }
 
 @media screen and (min-height: 551px) {

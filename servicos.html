@@ -242,36 +242,47 @@ window.addEventListener("scroll", () => {
     contactWidget.classList.remove("active");
 }, { passive: true });
 
-// ================== BLOQUEIO DEFINITIVO iOS WEBKIT ==================
+// ================== BLOQUEIO MULTI-ALVO WEBKIT (iOS) ==================
+(function() {
+    const antiZoomConfig = { passive: false, capture: true };
 
-// 1. No iOS, os eventos de gesto TÊM de ser associados ao DOCUMENT
-['gesturestart', 'gesturechange', 'gestureend'].forEach(function (eventType) {
-    document.addEventListener(eventType, function (e) {
-        e.preventDefault();
-    }, { passive: false });
-});
-
-// 2. Bloqueia múltiplos dedos diretamente no DOCUMENT durante qualquer fase
-document.addEventListener('touchstart', function (e) {
-    if (e.touches && e.touches.length > 1) {
+    // Bloqueia gestos nativos de pinch da Apple
+    function cancelAppleGesture(e) {
         e.preventDefault();
     }
-}, { passive: false });
 
-document.addEventListener('touchmove', function (e) {
-    if (e.touches && e.touches.length > 1) {
-        e.preventDefault();
-    }
-}, { passive: false });
-
-// 3. Failsafe Visual Viewport: Se o iOS forçar a escala > 1, anula o zoom
-if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', function () {
-        if (window.visualViewport.scale > 1) {
-            document.body.style.zoom = "100%";
+    // Bloqueia a entrada de um 2º dedo antes ou durante o scroll
+    function cancelMultiTouch(e) {
+        if (e.touches && e.touches.length > 1) {
+            e.preventDefault();
         }
+    }
+
+    // Aplica a interceção nos 3 níveis do DOM (window, document e html)
+    const targets = [window, document, document.documentElement];
+
+    targets.forEach(function(target) {
+        if (!target) return;
+        
+        ['gesturestart', 'gesturechange', 'gestureend'].forEach(function(evt) {
+            target.addEventListener(evt, cancelAppleGesture, antiZoomConfig);
+        });
+
+        ['touchstart', 'touchmove'].forEach(function(evt) {
+            target.addEventListener(evt, cancelMultiTouch, antiZoomConfig);
+        });
     });
-}
+
+    // Bloqueia o duplo toque rápido (Double-tap to zoom)
+    let lastTouchEnd = 0;
+    window.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+            e.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, antiZoomConfig);
+})();
 
 </script>
 <footer>
