@@ -900,7 +900,7 @@ function ajustarFullscreenAndroid(){
 
 function ajustarBolinhasIPhone(){
     const indicadores = document.querySelector(".media-indicators");
-    const safariEdgeLandscape = isTouchTabletLandscape();
+    const tabletLandscape = isTouchTabletLandscape();
 
     if (indicadores) {
         if (safariEdgeLandscape) indicadores.style.bottom = "60px";
