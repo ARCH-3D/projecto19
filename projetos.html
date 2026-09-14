@@ -835,10 +835,14 @@ document.body.classList.remove("modal-open");
 if (contactWidget) contactWidget.style.display = "";
 
 if (backToTop) {
-if (pageScroll.scrollTop > 400) {
-backToTop.classList.add("show");
+const scrollTop = document.documentElement.classList.contains("ios-root-scroll")
+  ? window.scrollY
+  : pageScroll.scrollTop;
+
+if (scrollTop > 400) {
+  backToTop.classList.add("show");
 } else {
-backToTop.classList.remove("show");
+  backToTop.classList.remove("show");
 }
 }
 
@@ -889,6 +893,19 @@ function isEdgeIPad(){
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
   return isIPad && /EdgiOS/i.test(ua);
+}
+
+function isIOSDevice(){
+  const ua = navigator.userAgent;
+
+  return (
+    /iPhone|iPad|iPod/i.test(ua) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  );
+}
+
+if (isIOSDevice()) {
+  document.documentElement.classList.add("ios-root-scroll");
 }
 
 if (isEdgeIPad()) {
@@ -967,9 +984,7 @@ if (isLandscape) {
 
     elemento.style.setProperty(
         "max-height",
-        alturaLandscape > 550
-            ? "calc(100dvh - 180px)"
-            : "calc(100dvh - 20px)",
+        "calc(100dvh - 180px)",
         "important"
     );
 
@@ -1319,9 +1334,7 @@ elemento.style.setProperty("max-width", "100vw", "important");
 
 elemento.style.setProperty(
 "max-height",
-alturaLandscape > 550
-? "calc(100dvh - 180px)"
-: "calc(100dvh - 20px)",
+"calc(100dvh - 180px)",
 "important"
 );
 
@@ -1460,9 +1473,7 @@ novo.style.setProperty("max-width", "100vw", "important");
 
 novo.style.setProperty(
 "max-height",
-alturaLandscape > 550
-? "calc(100dvh - 180px)"
-: "calc(100dvh - 20px)",
+"calc(100dvh - 180px)",
 "important"
 );
 
@@ -2108,54 +2119,39 @@ contactWidget.classList.remove("active");
 }
 });
 
-/* SCROLL PRINCIPAL */
-pageScroll.addEventListener("scroll", () => {
+const usarScrollNativoIOS =
+  document.documentElement.classList.contains("ios-root-scroll");
 
-if (contactWidget && contactWidget.classList.contains("active")) {
-contactWidget.classList.remove("active");
-}
+const alvoScroll = usarScrollNativoIOS ? window : pageScroll;
 
-if (document.body.classList.contains("modal-open")) {
+alvoScroll.addEventListener("scroll", () => {
 
-if (backToTop) backToTop.classList.remove("show");
+  if (contactWidget && contactWidget.classList.contains("active")) {
+    contactWidget.classList.remove("active");
+  }
 
-return;
-}
+  if (document.body.classList.contains("modal-open")) {
 
-if (backToTop) {
+    if (backToTop) backToTop.classList.remove("show");
 
-if (pageScroll.scrollTop > 400) {
-backToTop.classList.add("show");
-} else {
-backToTop.classList.remove("show");
-}
+    return;
+  }
 
-}
+  const scrollTop = usarScrollNativoIOS
+    ? window.scrollY
+    : pageScroll.scrollTop;
+
+  if (backToTop) {
+
+    if (scrollTop > 400) {
+      backToTop.classList.add("show");
+    } else {
+      backToTop.classList.remove("show");
+    }
+
+  }
 
 }, { passive: true });
-
-window.addEventListener("orientationchange", () => {
-ajustarBolinhasIPhone();
-ajustarFullscreenAndroid();
-});
-
-window.addEventListener("resize", () => {
-ajustarFullscreenAndroid();
-ajustarBolinhasIPhone();
-});
-
-if (backToTop) {
-
-backToTop.addEventListener("click", () => {
-
-pageScroll.scrollTo({
-top: 0,
-behavior: "smooth"
-});
-
-});
-
-}
 
 // Limpar estilos inline forçados ao sair do modo Fullscreen
 document.addEventListener("fullscreenchange", function(){

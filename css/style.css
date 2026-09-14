@@ -1454,3 +1454,25 @@ html:has(:fullscreen) {
         bottom: 120px !important;
     }
 }
+
+/* =========================================================
+   SCROLL NATIVO DA PÁGINA — iOS / iPadOS
+   Mantém a barra do browser com o comportamento normal
+   ========================================================= */
+
+html.ios-root-scroll,
+html.ios-root-scroll body {
+    touch-action: pan-y;
+}
+
+html.ios-root-scroll body {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+html.ios-root-scroll #page-scroll {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+    touch-action: pan-y;
+}
