@@ -56,61 +56,33 @@ gtag('config','G-JXJP0D464R');
 
 <body ontouchstart="">
 
-<div id="page-scroll">
+<header>
+    <div class="header-left">
+        <a href="index.html" class="logo-link">
+            <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo" width="42" height="42" decoding="async">
+            <h1>Projecto 19</h1>
+        </a>
+    </div>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
+    <nav id="menu">
+        <a href="index.html">Home</a>
+        <a href="projetos.html">Projetos</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="contactos.html">Contactos</a>
+    </nav>
+</header>
 
-    <header>
-        <div class="header-left">
-            <a href="index.html" class="logo-link">
-                <img src="img/Logo.webp" alt="Logo Projecto 19" class="logo" width="42" height="42" decoding="async">
-                <h1>Projecto 19</h1>
-            </a>
+<!-- HERO -->
+<main>
+    <div class="hero">
+        <img id="hero-image" class="hero-image" src="img/hero/hero1.webp" alt="Projecto 19" fetchpriority="high" decoding="async">
+        <div class="hero-text">
+            <h2>Projecto 19</h2>
+            <p>Arquitetura e Design</p>
         </div>
-
-        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
-
-        <nav id="menu">
-            <a href="index.html">Home</a>
-            <a href="projetos.html">Projetos</a>
-            <a href="sobre.html">Sobre</a>
-            <a href="servicos.html">Serviços</a>
-            <a href="contactos.html">Contactos</a>
-        </nav>
-    </header>
-
-    <!-- HERO -->
-    <main>
-        <div class="hero">
-            <img id="hero-image"
-                 class="hero-image"
-                 src="img/hero/hero1.webp"
-                 alt="Projecto 19"
-                 fetchpriority="high"
-                 decoding="async">
-
-            <div class="hero-text">
-                <h2>Projecto 19</h2>
-                <p>Arquitetura e Design</p>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="social-links">
-            <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
-                <img src="img/icons/instagram.svg" alt="" class="social-icon" width="24" height="24">
-                <span>Instagram</span>
-            </a>
-
-            <a href="https://www.facebook.com/projecto19" target="_blank" rel="noopener noreferrer">
-                <img src="img/icons/facebook.svg" alt="" class="social-icon" width="24" height="24">
-                <span>Facebook</span>
-            </a>
-        </div>
-
-        <p>© PROJECTO 19</p>
-    </footer>
-
-</div>
+    </div>
+</main>
 
 <!-- WIDGET CONTACTO -->
 <div class="contact-widget">
@@ -119,18 +91,30 @@ gtag('config','G-JXJP0D464R');
             <img src="img/icons/e-mail.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>Email</span>
         </a>
-
         <a href="https://wa.me/351934185719" target="_blank" rel="noopener noreferrer">
             <img src="img/icons/whatsapp.svg" alt="" class="contact-link-icon" width="24" height="24">
             <span>WhatsApp</span>
         </a>
     </div>
-
     <button class="contact-trigger" aria-label="Abrir contactos">
         <img src="img/icons/faleconnosco.svg" alt="" class="contact-icon" width="24" height="24">
         <span>Fale Connosco</span>
     </button>
 </div>
+
+<footer>
+    <div class="social-links">
+        <a href="https://www.instagram.com/projecto_19/" target="_blank" rel="noopener noreferrer">
+            <img src="img/icons/instagram.svg" alt="" class="social-icon" width="24" height="24">
+            <span>Instagram</span>
+        </a>
+        <a href="https://www.facebook.com/projecto19" target="_blank" rel="noopener noreferrer">
+            <img src="img/icons/facebook.svg" alt="" class="social-icon" width="24" height="24">
+            <span>Facebook</span>
+        </a>
+    </div>
+    <p>© PROJECTO 19</p>
+</footer>
 
 <!-- JAVASCRIPT -->
 <script>
@@ -306,29 +290,25 @@ window.addEventListener("resize", () => {
     }
 });
 
-// 1. Bloqueia os gestos de pinch específicos do Safari iOS
-document.addEventListener('gesturestart', function (e) {
-    e.preventDefault();
-});
+// 1. Bloqueia os gestos de pinch (abrir/fechar 2 dedos) específicos do Safari iOS
+document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
+document.addEventListener('gesturechange', function (e) { e.preventDefault(); });
+document.addEventListener('gestureend', function (e) { e.preventDefault(); });
 
-document.addEventListener('gesturechange', function (e) {
-    e.preventDefault();
-});
+// 2. Bloqueia toques simultâneos com 2 ou mais dedos
+document.addEventListener('touchstart', function (e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
 
-document.addEventListener('gestureend', function (e) {
-    e.preventDefault();
-});
-
-// 4. Bloqueia double-tap zoom nativo
+// 3. Bloqueia o zoom por duplo toque rápido (double-tap)
 let lastTouchEnd = 0;
-
 document.addEventListener('touchend', function (e) {
     const now = (new Date()).getTime();
-
     if (now - lastTouchEnd <= 300) {
         e.preventDefault();
     }
-
     lastTouchEnd = now;
 }, false);
 

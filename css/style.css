@@ -17,19 +17,9 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body {
-    touch-action: none;
+html, body {
+    touch-action: pan-x pan-y;
     -webkit-text-size-adjust: 100%;
-}
-
-#page-scroll {
-    height: 100dvh;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
 }
 
 /* ================== HTML ================== */
@@ -49,7 +39,7 @@ body{
     color:var(--c-text);
     background:var(--c-bg);
     line-height:1.6;
-    overflow: hidden;
+    overflow-x:hidden;
 }
 body.modal-open{
     overflow:hidden;
@@ -1360,119 +1350,4 @@ html:has(:fullscreen) {
         backface-visibility: visible;
         -webkit-backface-visibility: visible;
     }
-}
-
-@media (pointer: coarse) {
-    #page-scroll {
-        touch-action: pan-y;
-    }
-
-    #modal-projeto {
-        touch-action: none;
-    }
-}
-
-/* =========================================================
-   POSIÇÃO ORIGINAL DA INFORMAÇÃO E INDICADORES DA GALERIA
-   Não depende do #page-scroll.
-   ========================================================= */
-
-.modal-info {
-    position: absolute;
-    left: 50%;
-    bottom: 25px;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 700px;
-    padding: 0 25px;
-    z-index: 10002;
-    pointer-events: none;
-}
-
-.media-indicators {
-    position: absolute;
-    left: 50%;
-    bottom: 105px;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 20;
-}
-
-/* Telemóveis em portrait */
-@media (max-width: 768px) and (orientation: portrait) {
-
-    .modal-info {
-        left: 0;
-        transform: none;
-        width: 100%;
-        bottom: 15px;
-        padding: 0 16px;
-    }
-
-    .media-indicators {
-        bottom: 80px;
-    }
-}
-
-/* =========================================================
-   AJUSTES ESPECÍFICOS — EDGE NO IPAD
-   ========================================================= */
-
-/* Edge iPad em portrait */
-@media (orientation: portrait) {
-
-    html.edge-ipad .modal-info {
-        bottom: 90px;
-    }
-
-    html.edge-ipad .media-indicators {
-        bottom: 150px;
-    }
-}
-
-/* Edge iPad em landscape */
-@media (orientation: landscape) {
-
-    html.edge-ipad .modal-info {
-        bottom: 60px;
-    }
-
-    html.edge-ipad .media-indicators {
-        bottom: 120px !important;
-    }
-}
-
-@media screen and (max-height: 550px) and (orientation: landscape) {
-
-    html.edge-ipad .modal-info {
-        display: block !important;
-        bottom: 60px;
-    }
-
-    html.edge-ipad .media-indicators {
-        bottom: 120px !important;
-    }
-}
-
-/* =========================================================
-   SCROLL NATIVO DA PÁGINA — iOS / iPadOS
-   Mantém a barra do browser com o comportamento normal
-   ========================================================= */
-
-html.ios-root-scroll,
-html.ios-root-scroll body {
-    touch-action: pan-y;
-}
-
-html.ios-root-scroll body {
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-html.ios-root-scroll #page-scroll {
-    height: auto;
-    min-height: 100dvh;
-    overflow: visible;
-    touch-action: pan-y;
 }
