@@ -1355,6 +1355,7 @@ html:has(:fullscreen) {
 /* Touch normal da página:
    permite scroll vertical, mas não zoom por gesto */
 @media (pointer: coarse) {
+    html,
     body {
         touch-action: pan-y;
     }
