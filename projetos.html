@@ -686,17 +686,17 @@ function atualizarZoom(){
     }
 
     if (isMobilePortrait) {
-        // Telemóvel portrait — correção WebKit aplicada.
+        // Telemóvel portrait — solução já testada e aprovada.
         elementoAtual.style.transform =
-            `translate(-50%, -50%) translate(${zoomTargetX}px, ${zoomTargetY}px) scale(${escalaZoom})`;
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
     } else if (isTouchLandscape) {
-        // Touch landscape — correção WebKit aplicada.
+        // Touch landscape — solução já testada e aprovada.
         elementoAtual.style.transform =
-            `translate(-50%, -50%) translate(${zoomTargetX}px, ${zoomTargetY}px) scale(${escalaZoom})`;
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
     } else if (isTouchTabletPortrait) {
-        // Tablet touch portrait — correção WebKit aplicada.
+        // Tablet touch portrait — nova aplicação da mesma renderização 2D.
         elementoAtual.style.transform =
-            `translate(-50%, -50%) translate(${zoomTargetX}px, ${zoomTargetY}px) scale(${escalaZoom})`;
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
     } else {
         // Desktop e restantes dispositivos — comportamento original.
         elementoAtual.style.transform =
@@ -736,6 +736,14 @@ function abrirProjeto(nomeProjeto){
 
     // 2. TORNAR O MODAL VISÍVEL PRIMEIRO para garantir que os cálculos de dimensão funcionam
     modalProjeto.style.display = "flex";
+    
+    // FIX Safari iOS: Salvar o scroll e fixar o body para anular o desalinhamento de subpíxeis da GPU
+    window.scrollYAtivo = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${window.scrollYAtivo}px`;
+    document.body.style.width = '100%';
+    document.body.style.left = '0';
+    
     document.body.classList.add("modal-open");
 
     // 3. Configurar os dados do projeto
@@ -770,6 +778,10 @@ function abrirProjeto(nomeProjeto){
 
     // Acessibilidade e foco
     elementoFocadoAnteriormente = document.activeElement;
+    if (elementoFocadoAnteriormente instanceof HTMLElement) {
+        // FIX Safari iOS: Remover foco do elemento para evitar o "ghosting" do outline
+        elementoFocadoAnteriormente.blur(); 
+    }
     const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
     elementosFundo.forEach(el => {
         if (el) el.setAttribute('inert', ''); 
@@ -787,8 +799,15 @@ function fecharModal(){
         if (el) el.removeAttribute('inert');
     });
 
+    // FIX Safari iOS: Restaurar propriedades do body e posição do scroll
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.left = '';
+    window.scrollTo(0, window.scrollYAtivo || 0);
+
     if (elementoFocadoAnteriormente) {
-        elementoFocadoAnteriormente.focus();
+        elementoFocadoAnteriormente.focus({ preventScroll: true });
     }
 
     resetZoom();
@@ -1177,6 +1196,11 @@ function configurarElementoMidia(elemento){
     elemento.style.position = "absolute";
     elemento.style.left = "50%";
     elemento.style.top = "50%";
+    
+    // FIX Safari iOS: Força o hardware a não criar 'rasgos' nas margens escaladas
+    elemento.style.outline = "1px solid transparent";
+    elemento.style.backfaceVisibility = "hidden";
+    elemento.style.WebkitBackfaceVisibility = "hidden";
 }
 
 function criarElementoMidia(midia){
