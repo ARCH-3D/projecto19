@@ -160,10 +160,15 @@ document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
 document.addEventListener('gesturechange', function (e) { e.preventDefault(); });
 document.addEventListener('gestureend', function (e) { e.preventDefault(); });
 
-// 2. Bloqueia toques simultâneos com 2 ou mais dedos
+// Bloqueia pinch/zoom nativo da página,
+// mas mantém intacto o pinch personalizado da galeria.
 document.addEventListener('touchstart', function (e) {
     if (e.touches.length > 1) {
-        e.preventDefault();
+        const dentroDoModal = e.target.closest('#modal-projeto');
+
+        if (!dentroDoModal) {
+            e.preventDefault();
+        }
     }
 }, { passive: false });
 

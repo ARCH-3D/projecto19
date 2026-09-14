@@ -1351,3 +1351,16 @@ html:has(:fullscreen) {
         -webkit-backface-visibility: visible;
     }
 }
+
+/* Touch normal da página:
+   permite scroll vertical, mas não zoom por gesto */
+@media (pointer: coarse) {
+    body {
+        touch-action: pan-y;
+    }
+
+    /* A galeria mantém os seus próprios gestos */
+    #modal-projeto {
+        touch-action: none;
+    }
+}
