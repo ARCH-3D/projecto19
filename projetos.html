@@ -903,12 +903,15 @@ function ajustarBolinhasIPhone(){
     const tabletLandscape = isTouchTabletLandscape();
 
     if (indicadores) {
-        if (safariEdgeLandscape) indicadores.style.bottom = "60px";
-        else indicadores.style.bottom = "";
+        if (tabletLandscape) {
+            indicadores.style.bottom = "60px";
+        } else {
+            indicadores.style.bottom = "";
+        }
     }
 
     if (modalContent) {
-        if (safariEdgeLandscape) {
+        if (tabletLandscape) {
             modalContent.classList.add("iphone-safari-edge-landscape");
         } else {
             modalContent.classList.remove("iphone-safari-edge-landscape");
@@ -919,8 +922,8 @@ function ajustarBolinhasIPhone(){
         if (!elemento) return;
 
         if (isLandscape) {
-            elemento.style.setProperty("max-width", "100vw", "important");
-            elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+            elemento.style.setProperty("max-width", "calc(100vw - 30px)", "important");
+            elemento.style.setProperty("max-height", "calc(100dvh - 115px)", "important");
             elemento.style.setProperty("width", "auto", "important");
             elemento.style.setProperty("height", "auto", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
@@ -933,9 +936,9 @@ function ajustarBolinhasIPhone(){
         }
     };
 
-    aplicarTamanho(elementoAtual, safariEdgeLandscape);
-    aplicarTamanho(elementoAnterior, safariEdgeLandscape);
-    aplicarTamanho(elementoSeguinte, safariEdgeLandscape);
+    aplicarTamanho(elementoAtual, tabletLandscape);
+    aplicarTamanho(elementoAnterior, tabletLandscape);
+    aplicarTamanho(elementoSeguinte, tabletLandscape);
 }
 
 function mostrarBotaoFullscreen(){
@@ -1213,8 +1216,8 @@ function criarElementoMidia(midia){
     }
     configurarElementoMidia(elemento);
     if (isTouchTabletLandscape()) {
-        elemento.style.setProperty("max-width", "100vw", "important");
-        elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+        elemento.style.setProperty("max-width", "calc(100vw - 30px)", "important");
+        elemento.style.setProperty("max-height", "calc(100dvh - 115px)", "important");
         elemento.style.setProperty("width", "auto", "important");
         elemento.style.setProperty("height", "auto", "important");
         elemento.style.setProperty("object-fit", "contain", "important");
@@ -1311,8 +1314,8 @@ function mostrarMidia(){
     }
     configurarElementoMidia(novo);
     if (isTouchTabletLandscape()) {
-        novo.style.setProperty("max-width", "100vw", "important");
-        novo.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+        novo.style.setProperty("max-width", "calc(100vw - 30px)", "important");
+        novo.style.setProperty("max-height", "calc(100dvh - 115px)", "important");
         novo.style.setProperty("width", "auto", "important");
         novo.style.setProperty("height", "auto", "important");
         novo.style.setProperty("object-fit", "contain", "important");
