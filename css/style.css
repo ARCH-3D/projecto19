@@ -17,11 +17,6 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-html, body {
-    touch-action: pan-x pan-y;
-    -webkit-text-size-adjust: 100%;
-}
-
 /* ================== HTML ================== */
 html{
     scrollbar-gutter:stable;

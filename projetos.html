@@ -2,7 +2,7 @@
 <html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -831,26 +831,15 @@ function fecharModal(){
 }
 
 function isAppleMobile(){
-    return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-           (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    return /iPhone|iPod/i.test(navigator.userAgent);
 }
 
 function isIPhoneSafariOrEdge(){
     const ua = navigator.userAgent;
-
-    const isAppleMobile =
-        /iPhone|iPad|iPod/i.test(ua) ||
-        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-
+    const isIPhone = /iPhone/i.test(ua);
     const isEdge = /EdgiOS/i.test(ua);
-
-    const isSafari =
-        /Safari/i.test(ua) &&
-        !/CriOS/i.test(ua) &&
-        !/FxiOS/i.test(ua) &&
-        !/EdgiOS/i.test(ua);
-
-    return isAppleMobile && (isSafari || isEdge);
+    const isSafari = /Safari/i.test(ua) && !/CriOS/i.test(ua) && !/FxiOS/i.test(ua) && !/EdgiOS/i.test(ua);
+    return isIPhone && (isSafari || isEdge);
 }
 
 function ajustarFullscreenAndroid(){
@@ -900,34 +889,30 @@ function ajustarFullscreenAndroid(){
 
 function ajustarBolinhasIPhone(){
     const indicadores = document.querySelector(".media-indicators");
-    const tabletLandscape = isTouchTabletLandscape();
+    const landscape = window.matchMedia("(orientation: landscape)").matches;
+    const safariEdgeLandscape = isIPhoneSafariOrEdge() && landscape;
 
     if (indicadores) {
-        if (tabletLandscape) {
-            indicadores.style.bottom = "60px";
-        } else {
-            indicadores.style.bottom = "";
-        }
+        if (safariEdgeLandscape) indicadores.style.bottom = "60px";
+        else indicadores.style.bottom = "";
     }
-
     if (modalContent) {
-        if (tabletLandscape) {
-            modalContent.classList.add("iphone-safari-edge-landscape");
-        } else {
-            modalContent.classList.remove("iphone-safari-edge-landscape");
-        }
+        if (safariEdgeLandscape) modalContent.classList.add("iphone-safari-edge-landscape");
+        else modalContent.classList.remove("iphone-safari-edge-landscape");
     }
 
+    // NOVA LÓGICA: Aplica ou remove os estilos dependendo da orientação
     const aplicarTamanho = (elemento, isLandscape) => {
         if (!elemento) return;
-
+        
         if (isLandscape) {
-            elemento.style.setProperty("max-width", "calc(100vw - 30px)", "important");
-            elemento.style.setProperty("max-height", "calc(100dvh - 115px)", "important");
-            elemento.style.setProperty("width", "auto", "important");
-            elemento.style.setProperty("height", "auto", "important");
+            elemento.style.setProperty("max-width", "100vw", "important");
+            elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important"); 
+            elemento.style.setProperty("width", "100%", "important");
+            elemento.style.setProperty("height", "100%", "important");
             elemento.style.setProperty("object-fit", "contain", "important");
         } else {
+            // Remove os inline styles para devolver o controlo ao CSS (modo retrato)
             elemento.style.removeProperty("max-width");
             elemento.style.removeProperty("max-height");
             elemento.style.removeProperty("width");
@@ -936,9 +921,9 @@ function ajustarBolinhasIPhone(){
         }
     };
 
-    aplicarTamanho(elementoAtual, tabletLandscape);
-    aplicarTamanho(elementoAnterior, tabletLandscape);
-    aplicarTamanho(elementoSeguinte, tabletLandscape);
+    aplicarTamanho(elementoAtual, safariEdgeLandscape);
+    aplicarTamanho(elementoAnterior, safariEdgeLandscape);
+    aplicarTamanho(elementoSeguinte, safariEdgeLandscape);
 }
 
 function mostrarBotaoFullscreen(){
@@ -1192,11 +1177,6 @@ function configurarElementoMidia(elemento){
     elemento.style.position = "absolute";
     elemento.style.left = "50%";
     elemento.style.top = "50%";
-    
-    // FIX Safari iOS: Força o hardware a não criar 'rasgos' nas margens escaladas
-    elemento.style.outline = "1px solid transparent";
-    elemento.style.backfaceVisibility = "hidden";
-    elemento.style.WebkitBackfaceVisibility = "hidden";
 }
 
 function criarElementoMidia(midia){
@@ -1215,11 +1195,11 @@ function criarElementoMidia(midia){
         elemento.playsInline = true;
     }
     configurarElementoMidia(elemento);
-    if (isTouchTabletLandscape()) {
-        elemento.style.setProperty("max-width", "calc(100vw - 30px)", "important");
-        elemento.style.setProperty("max-height", "calc(100dvh - 115px)", "important");
-        elemento.style.setProperty("width", "auto", "important");
-        elemento.style.setProperty("height", "auto", "important");
+    if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
+        elemento.style.setProperty("max-width", "100vw", "important");
+        elemento.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+        elemento.style.setProperty("width", "100%", "important");
+        elemento.style.setProperty("height", "100%", "important");
         elemento.style.setProperty("object-fit", "contain", "important");
     }
     if (midia.grayscale) elemento.classList.add("grayscale");
@@ -1313,11 +1293,11 @@ function mostrarMidia(){
         novo.playsInline = true;
     }
     configurarElementoMidia(novo);
-    if (isTouchTabletLandscape()) {
-        novo.style.setProperty("max-width", "calc(100vw - 30px)", "important");
-        novo.style.setProperty("max-height", "calc(100dvh - 115px)", "important");
-        novo.style.setProperty("width", "auto", "important");
-        novo.style.setProperty("height", "auto", "important");
+    if (isIPhoneSafariOrEdge() && window.matchMedia("(orientation: landscape)").matches) {
+        novo.style.setProperty("max-width", "100vw", "important");
+        novo.style.setProperty("max-height", "calc(100dvh - 20px)", "important");
+        novo.style.setProperty("width", "100%", "important");
+        novo.style.setProperty("height", "100%", "important");
         novo.style.setProperty("object-fit", "contain", "important");
     }
     novo.style.zIndex = "2";
@@ -1681,12 +1661,6 @@ zoomBtn.addEventListener("click", function(e){
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
 });
 
-function isTouchTabletLandscape(){
-    return window.matchMedia(
-        "(pointer: coarse) and (orientation: landscape) and (min-width: 769px)"
-    ).matches;
-}
-
 // Substituição cirúrgica: Controlo dinâmico de toques vs rato (Atualizado)
 document.querySelectorAll(".project").forEach(projeto => {
     const onclickAttr = projeto.getAttribute("onclick"); //[cite: 2]
@@ -1900,22 +1874,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }, 100);
     }
 });
-
-// 1. Bloqueia os gestos de pinch (abrir/fechar 2 dedos) específicos do Safari iOS
-document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
-document.addEventListener('gesturechange', function (e) { e.preventDefault(); });
-document.addEventListener('gestureend', function (e) { e.preventDefault(); });
-
-
-// 3. Bloqueia o zoom por duplo toque rápido (double-tap)
-let lastTouchEnd = 0;
-document.addEventListener('touchend', function (e) {
-    const now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
-    }
-    lastTouchEnd = now;
-}, false);
 
 </script>
 </body>
