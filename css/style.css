@@ -1415,20 +1415,13 @@ html:has(:fullscreen) {
     }
 }
 
-/* Ecrãs baixos em landscape:
-   a informação desaparece e as bolinhas sobem */
-@media screen and (max-height: 550px) and (orientation: landscape) {
+/* =========================================================
+   AJUSTES ESPECÍFICOS — EDGE NO IPAD
+   ========================================================= */
 
-    .modal-info {
-        display: none !important;
-    }
-
-    .media-indicators {
-        bottom: 35px !important;
-    }
-}
-
+/* Edge iPad em portrait */
 @media (orientation: portrait) {
+
     html.edge-ipad .modal-info {
         bottom: 90px;
     }
@@ -1438,7 +1431,7 @@ html:has(:fullscreen) {
     }
 }
 
-/* Edge no iPad — ajustes específicos em landscape */
+/* Edge iPad em landscape */
 @media (orientation: landscape) {
 
     html.edge-ipad .modal-info {
@@ -1448,5 +1441,16 @@ html:has(:fullscreen) {
     html.edge-ipad .media-indicators {
         bottom: 120px !important;
     }
+}
 
+@media screen and (max-height: 550px) and (orientation: landscape) {
+
+    html.edge-ipad .modal-info {
+        display: block !important;
+        bottom: 60px;
+    }
+
+    html.edge-ipad .media-indicators {
+        bottom: 120px !important;
+    }
 }
