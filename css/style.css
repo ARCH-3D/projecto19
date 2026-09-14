@@ -1372,9 +1372,58 @@ html:has(:fullscreen) {
     }
 }
 
-/* Ajuste da informação do projeto em tablets portrait */
-@media (pointer: coarse) and (orientation: portrait) and (min-width: 769px) {
+/* =========================================================
+   POSIÇÃO ORIGINAL DA INFORMAÇÃO E INDICADORES DA GALERIA
+   Não depende do #page-scroll.
+   ========================================================= */
+
+.modal-info {
+    position: absolute;
+    left: 50%;
+    bottom: 25px;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 700px;
+    padding: 0 25px;
+    z-index: 10002;
+    pointer-events: none;
+}
+
+.media-indicators {
+    position: absolute;
+    left: 50%;
+    bottom: 105px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 20;
+}
+
+/* Telemóveis em portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+
     .modal-info {
-        bottom: 90px;
+        left: 0;
+        transform: none;
+        width: 100%;
+        bottom: 15px;
+        padding: 0 16px;
+    }
+
+    .media-indicators {
+        bottom: 80px;
+    }
+}
+
+/* Ecrãs baixos em landscape:
+   a informação desaparece e as bolinhas sobem */
+@media screen and (max-height: 550px) and (orientation: landscape) {
+
+    .modal-info {
+        display: none !important;
+    }
+
+    .media-indicators {
+        bottom: 35px !important;
     }
 }
