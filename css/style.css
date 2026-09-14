@@ -9,20 +9,29 @@
     --trans-main:.3s ease;
 }
 
-/* ================== RESET ================== */
+/* ================== RESET & TOUCH CONTROL ================== */
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
-    touch-action: pan-x pan-y;
 }
 
 html, body {
-    touch-action: pan-y !important;
+    touch-action: manipulation !important; /* Desativa pinch-zoom e duplo toque nativo no ecrã principal, mantendo o scroll */
     -webkit-text-size-adjust: 100%;
     overscroll-behavior-y: none;
     overflow-x: hidden;
+}
+
+/* O modal precisa de touch-action: none para o zoom customizado via JS funcionar sem interferência do Safari */
+#modal-projeto, 
+#modal-content {
+    touch-action: none !important;
+}
+
+button, a {
+    touch-action: manipulation !important;
 }
 
 /* ================== HTML ================== */

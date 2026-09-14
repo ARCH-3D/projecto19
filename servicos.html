@@ -242,45 +242,45 @@ window.addEventListener("scroll", () => {
     contactWidget.classList.remove("active");
 }, { passive: true });
 
-// ================== BLOQUEIO MULTI-ALVO WEBKIT (iOS) ==================
+// ================== BLOQUEIO DEFINITIVO DE ZOOM DA PÁGINA (iOS / WebKit) ==================
 (function() {
-    const antiZoomConfig = { passive: false, capture: true };
+    const antiZoomConfig = { passive: false };
 
-    // Bloqueia gestos nativos de pinch da Apple
-    function cancelAppleGesture(e) {
+    // 1. Bloqueia os gestos nativos de zoom da Apple (gesturestart/change/end) na página principal
+    function bloqGestosNativos(e) {
+        // Se o toque ocorrer dentro do conteúdo do modal, permite a matemática JS do modal
+        if (document.body.classList.contains("modal-open") && e.target.closest("#modal-content")) {
+            return;
+        }
         e.preventDefault();
     }
 
-    // Bloqueia a entrada de um 2º dedo antes ou durante o scroll
-    function cancelMultiTouch(e) {
-        if (e.touches && e.touches.length > 1) {
-            e.preventDefault();
-        }
-    }
-
-    // Aplica a interceção nos 3 níveis do DOM (window, document e html)
-    const targets = [window, document, document.documentElement];
-
-    targets.forEach(function(target) {
-        if (!target) return;
-        
-        ['gesturestart', 'gesturechange', 'gestureend'].forEach(function(evt) {
-            target.addEventListener(evt, cancelAppleGesture, antiZoomConfig);
-        });
-
-        ['touchstart', 'touchmove'].forEach(function(evt) {
-            target.addEventListener(evt, cancelMultiTouch, antiZoomConfig);
-        });
+    ['gesturestart', 'gesturechange', 'gestureend'].forEach(evt => {
+        document.addEventListener(evt, bloqGestosNativos, antiZoomConfig);
     });
 
-    // Bloqueia o duplo toque rápido (Double-tap to zoom)
-    let lastTouchEnd = 0;
-    window.addEventListener('touchend', function(e) {
-        const now = Date.now();
-        if (now - lastTouchEnd <= 300) {
+    // 2. Bloqueia o multi-toque (pinch de 2 dedos) fora do modal na página principal
+    document.addEventListener('touchstart', function(e) {
+        if (e.touches.length > 1 && !e.target.closest('#modal-projeto')) {
             e.preventDefault();
         }
-        lastTouchEnd = now;
+    }, antiZoomConfig);
+
+    document.addEventListener('touchmove', function(e) {
+        if (e.touches.length > 1 && !e.target.closest('#modal-projeto')) {
+            e.preventDefault();
+        }
+    }, antiZoomConfig);
+
+    // 3. Bloqueia o duplo toque rápido para zoom (Double-tap zoom) na página principal
+    let ultimoToqueFim = 0;
+    document.addEventListener('touchend', function(e) {
+        if (e.target.closest('#modal-content')) return;
+        const agora = Date.now();
+        if (agora - ultimoToqueFim <= 300) {
+            e.preventDefault();
+        }
+        ultimoToqueFim = agora;
     }, antiZoomConfig);
 })();
 
