@@ -1371,3 +1371,10 @@ html:has(:fullscreen) {
         touch-action: none;
     }
 }
+
+/* Ajuste da informação do projeto em tablets portrait */
+@media (pointer: coarse) and (orientation: portrait) and (min-width: 769px) {
+    .modal-info {
+        bottom: 90px;
+    }
+}
