@@ -64,17 +64,6 @@ gtag('config', 'G-JXJP0D464R');
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
 <!-- CSS -->
 <link rel="stylesheet" href="css/style.css">
-
-<style>
-/* iOS — permitir scroll vertical, mas impedir pinch-zoom nativo */
-@supports (touch-action: pan-y) {
-    html,
-    body {
-        touch-action: pan-y;
-    }
-}
-</style>
-
 </head>
 <body ontouchstart="">
 <header>
@@ -271,68 +260,18 @@ window.addEventListener("scroll", () => {
 }, { passive: true });
 
 // ============================================================
-// ANDROID + iOS — Bloquear pinch-zoom nativo da página
-// Não interfere com scroll de um dedo.
+// ANDROID — Bloquear pinch-zoom nativo da página
 // ============================================================
-(function configurarBloqueioZoomPagina() {
-    const ua = navigator.userAgent;
+(function configurarBloqueioZoomAndroid() {
+    const isAndroid = /Android/i.test(navigator.userAgent);
 
-    const isAndroid = /Android/i.test(ua);
-    const isIOS = /iPhone|iPad|iPod/i.test(ua) ||
-                  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    if (!isAndroid) return;
 
-    if (!isAndroid && !isIOS) return;
-
-    // No Android mantém também o bloqueio pelo viewport.
-    if (isAndroid) {
-        const viewport = document.querySelector('meta[name="viewport"]');
-
-        if (viewport) {
-            viewport.setAttribute(
-                "content",
-                "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-            );
-        }
-    }
-
-    // --------------------------------------------------------
-    // BLOQUEAR O PINCH LOGO NO INÍCIO DO GESTO
-    // Importante no iOS quando a página ainda está a fazer scroll.
-    //
-    // Com 1 dedo: não faz nada -> scroll continua normal.
-    // Com 2+ dedos: impede que o Safari assuma o pinch.
-    // --------------------------------------------------------
-    document.addEventListener("touchstart", function (e) {
-        if (e.touches.length < 2) return;
-
-        e.preventDefault();
-    }, { passive: false, capture: true });
-
-    // --------------------------------------------------------
-    // Reforço durante o movimento do pinch.
-    // --------------------------------------------------------
     document.addEventListener("touchmove", function (e) {
         if (e.touches.length < 2) return;
 
         e.preventDefault();
     }, { passive: false, capture: true });
-
-    // --------------------------------------------------------
-    // Reforço específico para Safari/iOS.
-    // --------------------------------------------------------
-    if (isIOS) {
-        document.addEventListener("gesturestart", function (e) {
-            e.preventDefault();
-        }, { passive: false, capture: true });
-
-        document.addEventListener("gesturechange", function (e) {
-            e.preventDefault();
-        }, { passive: false, capture: true });
-
-        document.addEventListener("gestureend", function (e) {
-            e.preventDefault();
-        }, { passive: false, capture: true });
-    }
 })();
 
 </script>
