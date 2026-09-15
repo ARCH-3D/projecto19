@@ -1899,7 +1899,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // ============================================================
 // ANDROID — Bloquear pinch-zoom nativo da página
-// Mantém intacto o pinch-zoom personalizado da galeria.
+// Mantém intacta toda a lógica de gestos da galeria.
 // ============================================================
 (function configurarBloqueioZoomAndroid() {
     const isAndroid = /Android/i.test(navigator.userAgent);
@@ -1910,11 +1910,11 @@ window.addEventListener("DOMContentLoaded", () => {
         // Só interessa bloquear gestos com dois ou mais dedos.
         if (e.touches.length < 2) return;
 
-        // Dentro da galeria, NÃO bloquear:
-        // o zoom por pinch é tratado pela lógica personalizada acima.
-        if (e.target.closest("#modal-content")) return;
+        // Toda a área da galeria fica sob controlo
+        // exclusivo da lógica de gestos já existente.
+        if (e.target.closest("#modal-projeto")) return;
 
-        // Fora da galeria, impedir o pinch-zoom nativo do browser.
+        // Fora da galeria, impedir o pinch-zoom nativo do Android.
         e.preventDefault();
     }, { passive: false, capture: true });
 })();
