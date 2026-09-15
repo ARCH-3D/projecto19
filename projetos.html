@@ -1898,25 +1898,57 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // ============================================================
-// ANDROID — Bloquear pinch-zoom nativo da página
+// ANDROID + iOS — Bloquear pinch-zoom nativo da página
 // Mantém intacta toda a lógica de gestos da galeria.
 // ============================================================
-(function configurarBloqueioZoomAndroid() {
-    const isAndroid = /Android/i.test(navigator.userAgent);
+(function configurarBloqueioZoomPagina() {
+    const ua = navigator.userAgent;
 
-    if (!isAndroid) return;
+    const isAndroid = /Android/i.test(ua);
+    const isIOS = /iPhone|iPad|iPod/i.test(ua) ||
+                  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
+    if (!isAndroid && !isIOS) return;
+
+    // Android: impedir zoom nativo do viewport.
+    if (isAndroid) {
+        const viewport = document.querySelector('meta[name="viewport"]');
+
+        if (viewport) {
+            viewport.setAttribute(
+                "content",
+                "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+            );
+        }
+    }
+
+    // Fora do modal: bloquear pinch nativo da página.
     document.addEventListener("touchmove", function (e) {
-        // Só interessa bloquear gestos com dois ou mais dedos.
         if (e.touches.length < 2) return;
 
-        // Toda a área da galeria fica sob controlo
-        // exclusivo da lógica de gestos já existente.
+        // Dentro da galeria NÃO interferir.
         if (e.target.closest("#modal-projeto")) return;
 
-        // Fora da galeria, impedir o pinch-zoom nativo do Android.
         e.preventDefault();
     }, { passive: false, capture: true });
+
+    // iOS: reforçar o bloqueio do pinch nativo fora da galeria.
+    if (isIOS) {
+        document.addEventListener("gesturestart", function (e) {
+            if (e.target.closest("#modal-projeto")) return;
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener("gesturechange", function (e) {
+            if (e.target.closest("#modal-projeto")) return;
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener("gestureend", function (e) {
+            if (e.target.closest("#modal-projeto")) return;
+            e.preventDefault();
+        }, { passive: false });
+    }
 })();
 
 </script>
