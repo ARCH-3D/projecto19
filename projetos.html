@@ -1922,17 +1922,19 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Fora do modal: bloquear pinch nativo da página.
+    // Bloquear apenas o pinch-zoom NATIVO fora da galeria.
+    // O scroll com 1 dedo continua intacto.
     document.addEventListener("touchmove", function (e) {
         if (e.touches.length < 2) return;
 
-        // Dentro da galeria NÃO interferir.
+        // Dentro da galeria não interferimos.
+        // A tua lógica existente trata o pinch da imagem.
         if (e.target.closest("#modal-projeto")) return;
 
         e.preventDefault();
     }, { passive: false, capture: true });
 
-    // iOS: reforçar o bloqueio do pinch nativo fora da galeria.
+    // Reforço específico para Safari/iOS.
     if (isIOS) {
         document.addEventListener("gesturestart", function (e) {
             if (e.target.closest("#modal-projeto")) return;
