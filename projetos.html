@@ -736,6 +736,7 @@ function abrirProjeto(nomeProjeto){
 
     // 2. TORNAR O MODAL VISÍVEL PRIMEIRO para garantir que os cálculos de dimensão funcionam
     modalProjeto.style.display = "flex";
+    modalProjeto.style.height = `${window.innerHeight}px`;
     document.body.classList.add("modal-open");
 
     // 3. Configurar os dados do projeto
