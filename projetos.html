@@ -785,6 +785,7 @@ function abrirProjeto(nomeProjeto){
     modalProjeto.focus();
 
     if (isEdgeiPad()) {
+        forcarRecalculoViewportEdge();
         corrigirLayoutEdgeiPad();
     }    
 }
