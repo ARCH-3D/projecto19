@@ -1875,6 +1875,17 @@ window.addEventListener("resize", () => {
     ajustarBolinhasIPhone();
 });
 
+// Recuperação específica para Edge no iPad/iOS
+window.addEventListener("pageshow", () => {
+    recuperarModalEdgeIOS();
+});
+
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+        recuperarModalEdgeIOS();
+    }
+});
+
 if (backToTop) {
     backToTop.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
