@@ -860,39 +860,54 @@ function isEdgeiPad(){
     return isEdge && isIPad;
 }
 
-// --- FIX EDGE IPAD: Forçar redraw ao voltar para a app ---
+// Força o Edge a recalcular as dimensões da viewport (simula o scroll de 2px)
+function forcarRecalculoViewportEdge() {
+    if (!isEdgeiPad()) return;
+    
+    const currentY = window.scrollY;
+    window.scrollBy(0, 2);
+    setTimeout(() => {
+        window.scrollTo(0, currentY);
+        window.dispatchEvent(new Event('resize'));
+    }, 30);
+}
+
+// Ajusta a escala e força o reflow no modal e imagens
 function corrigirLayoutEdgeiPad() {
     const modal = document.getElementById("modal-projeto");
-    // Executar apenas se o modal estiver aberto ou se for o Edge no iPad
-    if (modal.style.display !== "flex") return;
     if (!isEdgeiPad()) return;
+
+    if (modal.style.display !== "flex") {
+        forcarRecalculoViewportEdge();
+        return;
+    }
 
     setTimeout(() => {
         const largura = window.innerWidth;
         const altura = window.innerHeight;
         
-        // 1. Forçar as dimensões reais no próprio modal (ignora o 100vh do CSS)
         modal.style.width = `${largura}px`;
         modal.style.height = `${altura}px`;
         
-        // 2. Forçar as dimensões reais em todas as imagens ativas
-        const imagens = modal.querySelectorAll("img");
+        const imagens = modal.querySelectorAll("img, video");
         imagens.forEach(img => {
             img.style.maxWidth = `${largura}px`;
             img.style.maxHeight = `${altura}px`;
-            // Pequeno "truque" para forçar o WebKit a redesenhar a imagem na hora
+            img.style.width = "auto";
+            img.style.height = "auto";
+            img.style.objectFit = "contain";
+            
+            // Força o WebKit a redesenhar o elemento
+            const displayOriginal = img.style.display;
             img.style.display = "none";
-            void img.offsetHeight; // Força o repaint
-            img.style.display = "block";
+            void img.offsetHeight;
+            img.style.display = displayOriginal || "block";
         });
 
-        // 3. Reposicionar e forçar reflow no elemento atual
         if (elementoAtual) {
             elementoAtual.style.transition = "none";
             elementoAtual.style.transform = "translate(-50%, -50%)";
         }
-        
-        // 4. Reposicionar laterais usando px em vez de vw
         if (elementoAnterior) {
             elementoAnterior.style.transition = "none";
             elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
@@ -902,11 +917,29 @@ function corrigirLayoutEdgeiPad() {
             elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
         }
         
-        // Reaplicar outras dimensões específicas
         if (typeof ajustarBolinhasIPhone === "function") ajustarBolinhasIPhone();
         if (typeof ajustarFullscreenAndroid === "function") ajustarFullscreenAndroid();
-    }, 150);
+    }, 100);
 }
+
+// Deteta quando a app volta do segundo plano (minimizar -> maximizar)
+document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "visible" && isEdgeiPad()) {
+        forcarRecalculoViewportEdge();
+        if (document.getElementById("modal-projeto").style.display === "flex") {
+            corrigirLayoutEdgeiPad();
+        }
+    }
+});
+
+window.addEventListener("pageshow", function() {
+    if (isEdgeiPad()) {
+        forcarRecalculoViewportEdge();
+        if (document.getElementById("modal-projeto").style.display === "flex") {
+            corrigirLayoutEdgeiPad();
+        }
+    }
+});
 
 function ajustarFullscreenAndroid(){
     const emAndroid = /Android/i.test(navigator.userAgent);
