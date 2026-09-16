@@ -1880,6 +1880,127 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+/* ==============================================================================
+ * PATCH: Correção de anomalia de viewport no Microsoft Edge em iPadOS
+ * Problema: Ao regressar do background, o WebKit no Edge relata innerWidth/Height corrompidos.
+ * Solução: Guardar dimensões em hidden e forçar mostrarMidia() no regresso se houver anomalia.
+ * ============================================================================== */
+
+// 1. Deteção isolada (apenas Edge no iPadOS)
+function isEdgeIPad() {
+    const isIPad = /Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1;
+    const isEdge = /EdgiOS/i.test(navigator.userAgent);
+    return isIPad && isEdge;
+}
+
+// 2. Variáveis de Estado
+let edgeIPadHealthyWidth = 0;
+let edgeIPadHealthyHeight = 0;
+let edgeIPadHiddenWidth = 0;
+let edgeIPadHiddenHeight = 0;
+
+// 3. Funções para guardar o estado
+function guardarViewportSaudavelEdgeIPad() {
+    if (!isEdgeIPad()) return;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    
+    if (width > 500 && height > 400) {
+        edgeIPadHealthyWidth = width;
+        edgeIPadHealthyHeight = height;
+    }
+}
+
+function guardarViewportAntesDoBackgroundEdgeIPad() {
+    if (!isEdgeIPad()) return;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    
+    if (width > 500 && height > 400) {
+        edgeIPadHiddenWidth = width;
+        edgeIPadHiddenHeight = height;
+    }
+}
+
+// 4. Deteção de Anomalia (com prioridade ao estado antes do background)
+function viewportEdgeIPadAnormal() {
+    if (!isEdgeIPad()) return false;
+
+    // Prioriza o último estado conhecido antes do background
+    const referenciaWidth = edgeIPadHiddenWidth || edgeIPadHealthyWidth;
+    const referenciaHeight = edgeIPadHiddenHeight || edgeIPadHealthyHeight;
+
+    if (!referenciaWidth || !referenciaHeight) return false;
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const diffWidth = Math.abs(width - referenciaWidth);
+    const diffHeight = Math.abs(height - referenciaHeight);
+
+    // Considera anomalia se a diferença for > 150px ou se as dimensões colapsarem
+    return (
+        diffWidth > 150 ||
+        diffHeight > 150 ||
+        width < 300 ||
+        height < 300
+    );
+}
+
+// 5. Função de Recuperação
+function recuperarViewportEdgeIPad() {
+    if (!isEdgeIPad()) return;
+
+    const modalProjeto = document.getElementById("modalProjeto");
+    
+    // Se o modal estiver fechado, não faz nada (e NÃO guarda o viewport para evitar contaminação)
+    if (!modalProjeto || modalProjeto.style.display !== "flex") {
+        return;
+    }
+
+    if (viewportEdgeIPadAnormal()) {
+        console.log("Edge/iPadOS: Anomalia no viewport detetada no regresso. A recuperar geometria da galeria...");
+        // mostrarMidia já limpa o transform/zoom e reconstrói as posições do slide atual, anterior e seguinte
+        mostrarMidia();
+    }
+}
+
+// 6. Listeners Isolados
+if (isEdgeIPad()) {
+    
+    // Registo inicial passados 1s para garantir que o layout estabilizou
+    setTimeout(guardarViewportSaudavelEdgeIPad, 1000);
+
+    // Regista dimensões em resizes normais (apenas se a página estiver visível e sem anomalia)
+    window.addEventListener("resize", () => {
+        if (document.visibilityState === "visible" && !viewportEdgeIPadAnormal()) {
+            guardarViewportSaudavelEdgeIPad();
+        }
+    });
+
+    // Limpa a referência de background em caso de rotação de ecrã para evitar falsos positivos
+    window.addEventListener("orientationchange", () => {
+        setTimeout(() => {
+            guardarViewportSaudavelEdgeIPad();
+            edgeIPadHiddenWidth = 0;
+            edgeIPadHiddenHeight = 0;
+        }, 500);
+    });
+
+    // Ouve as transições de background / foreground
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+            // Guarda a última dimensão seguramente visível e não corrompida
+            guardarViewportAntesDoBackgroundEdgeIPad();
+        } 
+        else if (document.visibilityState === "visible") {
+            // Quando regressa ao foreground, verifica em duas fases (para apanhar o delay do WebKit)
+            setTimeout(recuperarViewportEdgeIPad, 50);
+            setTimeout(recuperarViewportEdgeIPad, 300);
+        }
+    });
+}
+
 </script>
 </body>
 </html>
