@@ -863,49 +863,120 @@ function isEdgeiPad(){
 // --- FIX EDGE IPAD: Forçar redraw ao voltar para a app ---
 function corrigirLayoutEdgeiPad() {
     const modal = document.getElementById("modal-projeto");
-    // Executar apenas se o modal estiver aberto ou se for o Edge no iPad
-    if (modal.style.display !== "flex") return;
-    if (!isEdgeiPad()) return;
 
-    setTimeout(() => {
-        const largura = window.innerWidth;
-        const altura = window.innerHeight;
-        
-        // 1. Forçar as dimensões reais no próprio modal (ignora o 100vh do CSS)
+    if (!modal || modal.style.display !== "flex" || !isEdgeiPad()) return;
+
+    const aplicarCorrecao = () => {
+
+        // Preferir o visualViewport no Edge/iPadOS
+        const viewport = window.visualViewport;
+
+        const largura = viewport
+            ? Math.round(viewport.width)
+            : window.innerWidth;
+
+        const altura = viewport
+            ? Math.round(viewport.height)
+            : window.innerHeight;
+
+        if (!largura || !altura) return;
+
+        const modalContent = document.getElementById("modal-content");
+
+        /*
+         * Forçar o viewport real do modal.
+         */
         modal.style.width = `${largura}px`;
         modal.style.height = `${altura}px`;
-        
-        // 2. Forçar as dimensões reais em todas as imagens ativas
-        const imagens = modal.querySelectorAll("img");
-        imagens.forEach(img => {
-            img.style.maxWidth = `${largura}px`;
-            img.style.maxHeight = `${altura}px`;
-            // Pequeno "truque" para forçar o WebKit a redesenhar a imagem na hora
-            img.style.display = "none";
-            void img.offsetHeight; // Força o repaint
-            img.style.display = "block";
+
+        if (modalContent) {
+            modalContent.style.width = `${largura}px`;
+            modalContent.style.height = `${altura}px`;
+        }
+
+        /*
+         * Forçar novo cálculo de layout.
+         */
+        void modal.offsetWidth;
+        void modal.offsetHeight;
+
+        const imagens = modal.querySelectorAll("img, video");
+
+        imagens.forEach((img) => {
+
+            img.style.setProperty("max-width", `${largura}px`, "important");
+            img.style.setProperty("max-height", `${altura}px`, "important");
+
+            /*
+             * Não usamos display:none/block porque isso pode provocar
+             * outros problemas de renderização no WebKit/Edge.
+             */
+            void img.offsetWidth;
+            void img.offsetHeight;
         });
 
-        // 3. Reposicionar e forçar reflow no elemento atual
+        /*
+         * Reposicionar as imagens de forma explícita.
+         */
         if (elementoAtual) {
             elementoAtual.style.transition = "none";
             elementoAtual.style.transform = "translate(-50%, -50%)";
         }
-        
-        // 4. Reposicionar laterais usando px em vez de vw
+
         if (elementoAnterior) {
             elementoAnterior.style.transition = "none";
-            elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
+            elementoAnterior.style.transform =
+                `translate(calc(-50% - ${largura}px), -50%)`;
         }
+
         if (elementoSeguinte) {
             elementoSeguinte.style.transition = "none";
-            elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
+            elementoSeguinte.style.transform =
+                `translate(calc(-50% + ${largura}px), -50%)`;
         }
-        
-        // Reaplicar outras dimensões específicas
-        if (typeof ajustarBolinhasIPhone === "function") ajustarBolinhasIPhone();
-        if (typeof ajustarFullscreenAndroid === "function") ajustarFullscreenAndroid();
-    }, 150);
+
+        /*
+         * Atualizar limites do zoom depois do novo tamanho.
+         */
+        if (elementoAtual && zoomAtivo) {
+            atualizarLimitesZoom();
+
+            zoomTargetX = Math.max(
+                -limiteZoomX,
+                Math.min(limiteZoomX, zoomTargetX)
+            );
+
+            zoomTargetY = Math.max(
+                -limiteZoomY,
+                Math.min(limiteZoomY, zoomTargetY)
+            );
+
+            atualizarZoom();
+        }
+
+        ajustarBolinhasIPhone();
+        ajustarFullscreenAndroid();
+    };
+
+    /*
+     * O Edge/iPad pode atualizar o viewport em vários momentos
+     * depois de regressar à aplicação.
+     *
+     * Por isso fazemos várias passagens.
+     */
+    requestAnimationFrame(() => {
+
+        aplicarCorrecao();
+
+        requestAnimationFrame(() => {
+            aplicarCorrecao();
+        });
+
+        setTimeout(aplicarCorrecao, 100);
+        setTimeout(aplicarCorrecao, 250);
+        setTimeout(aplicarCorrecao, 500);
+        setTimeout(aplicarCorrecao, 800);
+    });
 }
 
 function ajustarFullscreenAndroid(){
@@ -1851,6 +1922,10 @@ window.addEventListener("orientationchange", () => {
 window.addEventListener("resize", () => {
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
+
+    if (modal.style.display === "flex" && isEdgeiPad()) {
+        corrigirLayoutEdgeiPad();
+    }
 });
 
 if (backToTop) {
@@ -1877,15 +1952,6 @@ document.addEventListener("fullscreenchange", function() {
         limparEstilos(elementoAtual);
         limparEstilos(elementoAnterior);
         limparEstilos(elementoSeguinte);
-    }
-});
-
-// Ouve as rotações/redimensionamentos do dispositivo
-window.addEventListener("resize", () => {
-    // Apenas corre a atualização se o modal estiver aberto
-    if (document.getElementById("modal-projeto").style.display === "flex") {
-        ajustarBolinhasIPhone();
-        ajustarFullscreenAndroid();
     }
 });
 
@@ -1967,9 +2033,34 @@ modal.addEventListener("touchcancel", resetarEstadoGesto);
 // 2. Garante a limpeza do estilo inline assim que o browser volta ao primeiro plano
 document.addEventListener("visibilitychange", function() {
     if (document.visibilityState === "visible" && modal.style.display === "flex") {
+
         resetarEstadoGesto();
+
+        if (isEdgeiPad()) {
+            corrigirLayoutEdgeiPad();
+        }
     }
 });
+
+window.addEventListener("pageshow", function() {
+    if (modal.style.display === "flex" && isEdgeiPad()) {
+        corrigirLayoutEdgeiPad();
+    }
+});
+
+if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", () => {
+        if (modal.style.display === "flex" && isEdgeiPad()) {
+            corrigirLayoutEdgeiPad();
+        }
+    });
+
+    window.visualViewport.addEventListener("scroll", () => {
+        if (modal.style.display === "flex" && isEdgeiPad()) {
+            corrigirLayoutEdgeiPad();
+        }
+    });
+}
 
 </script>
 </body>
