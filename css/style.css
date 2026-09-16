@@ -1349,7 +1349,7 @@ html:has(:fullscreen) {
 
 /* Correção exclusiva para a legenda e bolinhas no Edge no iPad */
 #modal-projeto.edge-ipad-device .media-indicators {
-    bottom: calc(65px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: 80px !important;
 }
 
 #modal-projeto.edge-ipad-device .modal-info {
