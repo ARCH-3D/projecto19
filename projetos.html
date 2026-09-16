@@ -720,6 +720,7 @@ function distanciaToques(t1, t2){
 
 function abrirProjeto(nomeProjeto){
     if (!projetos[nomeProjeto]) return;
+
     if (typeof gtag === "function") {
         gtag("event", "projeto_aberto", {
             projeto: nomeProjeto,
@@ -734,15 +735,9 @@ function abrirProjeto(nomeProjeto){
     modalProjeto.style.transition = "";
     modalProjeto.style.background = "";
 
-    // 2. TORNAR O MODAL VISÍVEL PRIMEIRO para garantir que os cálculos de dimensão funcionam
+    // 2. Tornar o modal visível primeiro
     modalProjeto.style.display = "flex";
     document.body.classList.add("modal-open");
-
-    // Edge iPad: o modal fica visível primeiro e só depois é feita
-    // a correção, para que o motor consiga calcular o tamanho da imagem.
-    if (isEdgeiPad()) {
-        corrigirLayoutEdgeiPad();
-    }
 
     // 3. Configurar os dados do projeto
     projetoAtual = projetos[nomeProjeto];
@@ -753,6 +748,14 @@ function abrirProjeto(nomeProjeto){
 
     // 4. Carregar e animar a mídia com o modal já visível
     mostrarMidia();
+
+    // Edge iPad: agora a imagem já existe no DOM.
+    if (isEdgeiPad()) {
+        requestAnimationFrame(() => {
+            corrigirLayoutEdgeiPad();
+        });
+    }
+
     mostrarBotaoFullscreen();
     if (zoomBtn) zoomBtn.textContent = "+";
     preloadImagens();
@@ -767,6 +770,7 @@ function abrirProjeto(nomeProjeto){
     } else {
         modalProjeto.classList.remove("iphone-device");
     }
+
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
 
@@ -774,13 +778,17 @@ function abrirProjeto(nomeProjeto){
     if (backToTop) backToTop.classList.remove("show");
     mostrarTutorialGestos();
 
-    // Acessibilidade e foco
     elementoFocadoAnteriormente = document.activeElement;
-    const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
+
+    const elementosFundo =
+        document.querySelectorAll(
+            'header, section, footer, .contact-widget, #back-to-top'
+        );
+
     elementosFundo.forEach(el => {
-        if (el) el.setAttribute('inert', ''); 
+        if (el) el.setAttribute('inert', '');
     });
-    
+
     modalProjeto.focus();
 }
 
@@ -1991,18 +1999,6 @@ document.addEventListener("fullscreenchange", function() {
         limparEstilos(elementoAtual);
         limparEstilos(elementoAnterior);
         limparEstilos(elementoSeguinte);
-    }
-});
-
-// Ouve as rotações/redimensionamentos do dispositivo
-window.addEventListener("resize", () => {
-    // Apenas corre a atualização se o modal estiver aberto
-    if (document.getElementById("modal-projeto").style.display === "flex") {
-        ajustarBolinhasIPhone();
-        ajustarFullscreenAndroid();
-        if (isEdgeiPad()) {
-            requestAnimationFrame(() => forcarReflowEdgeiPad());
-        }
     }
 });
 
