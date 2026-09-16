@@ -1882,7 +1882,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
 /* ==============================================================================
  * PATCH — EDGE iPAD / iPadOS
- * Recuperação conservadora de viewport após background/multitarefa
+ * Força o layout do modal a usar dimensões reais em px
+ * após retorno do background / multitarefa.
  * ============================================================================== */
 
 function isEdgeIPad() {
@@ -1897,127 +1898,13 @@ function isEdgeIPad() {
     return isEdge && isIPad && !/iPhone/i.test(ua);
 }
 
-let edgeIPadHealthyWidth = 0;
-let edgeIPadHealthyHeight = 0;
 
-let edgeIPadHiddenWidth = 0;
-let edgeIPadHiddenHeight = 0;
-
-let edgeIPadRecoveryRunning = false;
-
-
-/* =========================================================
-   Guardar viewport saudável
-   ========================================================= */
-
-function guardarViewportSaudavelEdgeIPad() {
+function corrigirLayoutEdgeIPad() {
 
     if (!isEdgeIPad()) return;
 
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    const modalProjeto = document.getElementById("modal-projeto");
 
-    if (width <= 0 || height <= 0) return;
-
-    if (width < 500 || height < 400) return;
-
-    /*
-     * Se já existe um baseline, não aceitar saltos enormes
-     * como sendo uma nova dimensão normal.
-     */
-    if (edgeIPadHealthyWidth && edgeIPadHealthyHeight) {
-
-        const diffWidth =
-            Math.abs(width - edgeIPadHealthyWidth);
-
-        const diffHeight =
-            Math.abs(height - edgeIPadHealthyHeight);
-
-        if (diffWidth > 150 || diffHeight > 150) {
-            return;
-        }
-    }
-
-    edgeIPadHealthyWidth = width;
-    edgeIPadHealthyHeight = height;
-}
-
-
-/* =========================================================
-   Guardar estado imediatamente antes do background
-   ========================================================= */
-
-function guardarViewportAntesDoBackgroundEdgeIPad() {
-
-    if (!isEdgeIPad()) return;
-
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    if (
-        width > 500 &&
-        height > 400
-    ) {
-        edgeIPadHiddenWidth = width;
-        edgeIPadHiddenHeight = height;
-    }
-}
-
-
-/* =========================================================
-   Detetar viewport anormal
-   ========================================================= */
-
-function viewportEdgeIPadAnormal() {
-
-    if (!isEdgeIPad()) return false;
-
-    const referenciaWidth =
-        edgeIPadHiddenWidth ||
-        edgeIPadHealthyWidth;
-
-    const referenciaHeight =
-        edgeIPadHiddenHeight ||
-        edgeIPadHealthyHeight;
-
-    if (!referenciaWidth || !referenciaHeight) {
-        return false;
-    }
-
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    const diffWidth =
-        Math.abs(width - referenciaWidth);
-
-    const diffHeight =
-        Math.abs(height - referenciaHeight);
-
-    return (
-        diffWidth > 150 ||
-        diffHeight > 150 ||
-        width < 300 ||
-        height < 300
-    );
-}
-
-
-/* =========================================================
-   Recuperação
-   ========================================================= */
-
-function recuperarViewportEdgeIPad() {
-
-    if (!isEdgeIPad()) return;
-
-    if (edgeIPadRecoveryRunning) return;
-
-    const modalProjeto =
-        document.getElementById("modal-projeto");
-
-    /*
-     * Modal fechado → não mexer em absolutamente nada.
-     */
     if (
         !modalProjeto ||
         modalProjeto.style.display !== "flex"
@@ -2025,217 +1912,301 @@ function recuperarViewportEdgeIPad() {
         return;
     }
 
-    if (!viewportEdgeIPadAnormal()) {
-        return;
-    }
+    const largura = window.innerWidth;
+    const altura = window.innerHeight;
 
-    /*
-     * Nunca interromper gesto em curso.
-     */
     if (
-        typeof isDragging !== "undefined" &&
-        isDragging
+        !Number.isFinite(largura) ||
+        !Number.isFinite(altura) ||
+        largura < 500 ||
+        altura < 400
     ) {
         return;
     }
 
-    if (
-        typeof isPinching !== "undefined" &&
-        isPinching
-    ) {
-        return;
-    }
+    const landscape =
+        window.matchMedia("(orientation: landscape)").matches;
 
-    if (
-        typeof moverImagem !== "undefined" &&
-        moverImagem
-    ) {
-        return;
-    }
+    const limiteLargura = landscape
+        ? largura - 30
+        : largura - 20;
 
-    const metaViewport =
-        document.querySelector('meta[name="viewport"]');
+    const limiteAltura = altura - 115;
 
-    if (!metaViewport) return;
 
-    const original =
-        metaViewport.getAttribute("content");
+    /* ---------------------------------------------------------
+       1. Forçar o próprio modal às dimensões reais
+       --------------------------------------------------------- */
 
-    edgeIPadRecoveryRunning = true;
-
-    /*
-     * Workaround WebKit.
-     */
-    metaViewport.setAttribute(
-        "content",
-        "width=device-width, initial-scale=1"
+    modalProjeto.style.setProperty(
+        "width",
+        largura + "px",
+        "important"
     );
 
-    requestAnimationFrame(() => {
+    modalProjeto.style.setProperty(
+        "height",
+        altura + "px",
+        "important"
+    );
 
-        requestAnimationFrame(() => {
 
-            metaViewport.setAttribute(
-                "content",
-                original
-            );
+    /* ---------------------------------------------------------
+       2. Forçar o contentor às dimensões reais
+       --------------------------------------------------------- */
 
-            requestAnimationFrame(() => {
+    if (modalContent) {
 
-                /*
-                 * Reconstruir a galeria já com o viewport
-                 * novamente recuperado.
-                 */
-                if (
-                    typeof mostrarMidia === "function" &&
-                    typeof midiasAtuais !== "undefined" &&
-                    midiasAtuais.length > 0
-                ) {
-                    mostrarMidia();
-                }
+        modalContent.style.setProperty(
+            "width",
+            largura + "px",
+            "important"
+        );
 
-                if (
-                    typeof ajustarBolinhasIPhone === "function"
-                ) {
-                    ajustarBolinhasIPhone();
-                }
+        modalContent.style.setProperty(
+            "height",
+            altura + "px",
+            "important"
+        );
 
-                if (
-                    typeof ajustarFullscreenAndroid === "function"
-                ) {
-                    ajustarFullscreenAndroid();
-                }
+        modalContent.style.setProperty(
+            "max-width",
+            largura + "px",
+            "important"
+        );
 
-                setTimeout(() => {
+        modalContent.style.setProperty(
+            "max-height",
+            altura + "px",
+            "important"
+        );
+    }
 
-                    /*
-                     * Só agora consideramos este viewport
-                     * como saudável.
-                     */
-                    guardarViewportSaudavelEdgeIPad();
 
-                    edgeIPadHiddenWidth = 0;
-                    edgeIPadHiddenHeight = 0;
+    /* ---------------------------------------------------------
+       3. Corrigir todas as imagens atualmente carregadas
+       --------------------------------------------------------- */
 
-                    edgeIPadRecoveryRunning = false;
+    const aplicarDimensoes = (elemento) => {
 
-                }, 150);
+        if (!elemento) return;
 
-            });
+        elemento.style.setProperty(
+            "max-width",
+            limiteLargura + "px",
+            "important"
+        );
 
-        });
+        elemento.style.setProperty(
+            "max-height",
+            Math.max(200, limiteAltura) + "px",
+            "important"
+        );
 
-    });
+        elemento.style.setProperty(
+            "width",
+            "auto",
+            "important"
+        );
+
+        elemento.style.setProperty(
+            "height",
+            "auto",
+            "important"
+        );
+
+        elemento.style.setProperty(
+            "object-fit",
+            "contain",
+            "important"
+        );
+
+        elemento.style.left = "50%";
+        elemento.style.top = "50%";
+    };
+
+
+    aplicarDimensoes(elementoAtual);
+    aplicarDimensoes(elementoAnterior);
+    aplicarDimensoes(elementoSeguinte);
+
+
+    /* ---------------------------------------------------------
+       4. Reposicionar legenda e indicadores
+       --------------------------------------------------------- */
+
+    const indicadores =
+        document.getElementById("modal-indicators");
+
+    const modalInfo =
+        document.querySelector(".modal-info");
+
+    if (indicadores) {
+
+        indicadores.style.setProperty(
+            "position",
+            "absolute",
+            "important"
+        );
+
+        indicadores.style.setProperty(
+            "left",
+            "50%",
+            "important"
+        );
+
+        indicadores.style.setProperty(
+            "bottom",
+            landscape ? "80px" : "80px",
+            "important"
+        );
+
+        indicadores.style.setProperty(
+            "transform",
+            "translateX(-50%)",
+            "important"
+        );
+    }
+
+    if (modalInfo) {
+
+        modalInfo.style.setProperty(
+            "position",
+            "absolute",
+            "important"
+        );
+
+        modalInfo.style.setProperty(
+            "left",
+            "50%",
+            "important"
+        );
+
+        modalInfo.style.setProperty(
+            "bottom",
+            landscape ? "25px" : "15px",
+            "important"
+        );
+
+        modalInfo.style.setProperty(
+            "transform",
+            "translateX(-50%)",
+            "important"
+        );
+    }
+
+
+    /* ---------------------------------------------------------
+       5. Forçar o navegador a recalcular o layout
+       --------------------------------------------------------- */
+
+    void modalProjeto.offsetHeight;
+    void modalContent?.offsetHeight;
 }
 
 
 /* =========================================================
-   Inicialização
+   EDGE iPAD — abertura do modal
    ========================================================= */
 
 if (isEdgeIPad()) {
 
-    document.documentElement.classList.add(
-        "edge-ipad"
-    );
+    requestAnimationFrame(() => {
+        corrigirLayoutEdgeIPad();
+    });
 
-    guardarViewportSaudavelEdgeIPad();
+    setTimeout(() => {
+        corrigirLayoutEdgeIPad();
+    }, 100);
+
+    setTimeout(() => {
+        corrigirLayoutEdgeIPad();
+    }, 400);
 }
 
 
 /* =========================================================
-   Background / foreground
+   EDGE iPAD — retorno do background
    ========================================================= */
 
-document.addEventListener(
-    "visibilitychange",
-    () => {
+document.addEventListener("visibilitychange", () => {
 
-        if (!isEdgeIPad()) return;
+    if (!isEdgeIPad()) return;
 
-        if (document.visibilityState === "hidden") {
+    if (document.visibilityState === "visible") {
 
-            /*
-             * Guardar a última dimensão conhecida
-             * antes da suspensão do Edge.
-             */
-            guardarViewportAntesDoBackgroundEdgeIPad();
+        /*
+         * O Edge pode precisar de alguns ciclos de layout
+         * depois de regressar da multitarefa.
+         */
 
-            return;
-        }
-
-        if (document.visibilityState === "visible") {
-
-            setTimeout(
-                recuperarViewportEdgeIPad,
-                50
-            );
-
-            setTimeout(
-                recuperarViewportEdgeIPad,
-                300
-            );
-
-            setTimeout(
-                recuperarViewportEdgeIPad,
-                600
-            );
-        }
-
-    }
-);
-
-
-/* =========================================================
-   pageshow
-   ========================================================= */
-
-window.addEventListener(
-    "pageshow",
-    () => {
-
-        if (!isEdgeIPad()) return;
-
-        setTimeout(
-            recuperarViewportEdgeIPad,
-            50
-        );
-
-        setTimeout(
-            recuperarViewportEdgeIPad,
-            300
-        );
-
-        setTimeout(
-            recuperarViewportEdgeIPad,
-            600
-        );
-
-    }
-);
-
-
-/* =========================================================
-   Rotação
-   ========================================================= */
-
-window.addEventListener(
-    "orientationchange",
-    () => {
-
-        if (!isEdgeIPad()) return;
+        requestAnimationFrame(() => {
+            corrigirLayoutEdgeIPad();
+        });
 
         setTimeout(() => {
+            corrigirLayoutEdgeIPad();
+        }, 100);
 
-            guardarViewportSaudavelEdgeIPad();
+        setTimeout(() => {
+            corrigirLayoutEdgeIPad();
+        }, 300);
 
-            edgeIPadHiddenWidth = 0;
-            edgeIPadHiddenHeight = 0;
-
-        }, 500);
-
+        setTimeout(() => {
+            corrigirLayoutEdgeIPad();
+        }, 600);
     }
-);
+});
+
+
+/* =========================================================
+   EDGE iPAD — pageshow
+   ========================================================= */
+
+window.addEventListener("pageshow", () => {
+
+    if (!isEdgeIPad()) return;
+
+    requestAnimationFrame(() => {
+        corrigirLayoutEdgeIPad();
+    });
+
+    setTimeout(() => {
+        corrigirLayoutEdgeIPad();
+    }, 150);
+
+    setTimeout(() => {
+        corrigirLayoutEdgeIPad();
+    }, 500);
+});
+
+
+/* =========================================================
+   EDGE iPAD — resize / rotação
+   ========================================================= */
+
+window.addEventListener("resize", () => {
+
+    if (!isEdgeIPad()) return;
+
+    if (document.visibilityState !== "visible") return;
+
+    corrigirLayoutEdgeIPad();
+});
+
+
+window.addEventListener("orientationchange", () => {
+
+    if (!isEdgeIPad()) return;
+
+    setTimeout(() => {
+        corrigirLayoutEdgeIPad();
+    }, 100);
+
+    setTimeout(() => {
+        corrigirLayoutEdgeIPad();
+    }, 400);
+});
 
 </script>
 </body>
