@@ -857,38 +857,86 @@ function isEdgeiPad(){
 }
 
 function recuperarEstadoEdgeiPad() {
-    // Aplica apenas ao Edge no iPad
+    // Exclusivo para Edge no iPad
     if (!isEdgeiPad()) return;
 
     const modalProjeto = document.getElementById("modal-projeto");
 
-    // Só interessa quando o modal está aberto e a página está novamente visível
+    // Só atuar se o modal estiver efetivamente aberto
     if (!modalProjeto || modalProjeto.style.display !== "flex") return;
+
+    // Só recuperar quando a página voltou a estar visível
     if (document.visibilityState !== "visible") return;
 
-    const normalizar = () => {
-        // O viewport do iPad pode ainda não estar estabilizado imediatamente
-        // depois de a aplicação voltar para primeiro plano.
+    // Não interferir durante um gesto ativo
+    if (isDragging || isPinching || moverImagem || mouseZoomAtivo) return;
+
+    const viewport = window.visualViewport;
+
+    const larguraViewport = viewport
+        ? viewport.width
+        : window.innerWidth;
+
+    const alturaViewport = viewport
+        ? viewport.height
+        : window.innerHeight;
+
+    const restaurarImagem = (elemento) => {
+        if (!elemento) return;
+
+        // Garantir dimensões calculadas com o viewport atual.
+        // Não alteramos width/height da imagem:
+        // mantemos o comportamento "auto" existente.
+        elemento.style.setProperty(
+            "max-width",
+            Math.max(0, larguraViewport - 20) + "px",
+            "important"
+        );
+
+        elemento.style.setProperty(
+            "max-height",
+            Math.max(0, alturaViewport - 115) + "px",
+            "important"
+        );
+
+        elemento.style.setProperty("width", "auto", "important");
+        elemento.style.setProperty("height", "auto", "important");
+        elemento.style.setProperty("object-fit", "contain", "important");
+        elemento.style.left = "50%";
+        elemento.style.top = "50%";
+    };
+
+    const reconstruirEstado = () => {
         if (document.visibilityState !== "visible") return;
         if (modalProjeto.style.display !== "flex") return;
+        if (isDragging || isPinching || moverImagem || mouseZoomAtivo) return;
 
-        // Remove possíveis estados transitórios deixados pelo congelamento
-        modalProjeto.style.transition = "";
+        // Elimina qualquer transição/interpolação que possa ter ficado
+        // congelada no momento em que o Edge suspendeu a página.
+        modalProjeto.style.transition = "none";
         modalProjeto.style.background = "";
 
-        // Mantém a imagem atual corretamente centrada
+        // Força o browser a recalcular o layout do modal.
+        void modalProjeto.offsetHeight;
+
+        restaurarImagem(elementoAtual);
+        restaurarImagem(elementoAnterior);
+        restaurarImagem(elementoSeguinte);
+
+        // Reposicionar explicitamente a imagem atual
         if (elementoAtual) {
             elementoAtual.style.transition = "none";
             elementoAtual.style.opacity = "1";
 
             if (zoomAtivo) {
+                atualizarLimitesZoom();
                 atualizarZoom();
             } else {
                 elementoAtual.style.transform = "translate(-50%, -50%)";
             }
         }
 
-        // Reposiciona as imagens laterais
+        // Garantir que as imagens laterais voltam às posições corretas
         if (elementoAnterior) {
             elementoAnterior.style.transition = "none";
             elementoAnterior.style.opacity = "1";
@@ -903,27 +951,29 @@ function recuperarEstadoEdgeiPad() {
                 "translate(calc(-50% + 100vw), -50%)";
         }
 
-        // Força o browser a voltar a calcular o layout
-        void modalProjeto.offsetHeight;
-
-        // Reaplica a lógica específica existente
+        // Reaplicar apenas as correções que já existem no teu código
         ajustarBolinhasIPhone();
         ajustarFullscreenAndroid();
 
-        // Se existir zoom, recalcula os limites com o viewport atual
-        if (elementoAtual && zoomAtivo) {
-            atualizarLimitesZoom();
-            atualizarZoom();
+        // Ler novamente as dimensões depois do reflow
+        void modalProjeto.offsetHeight;
+
+        restaurarImagem(elementoAtual);
+        restaurarImagem(elementoAnterior);
+        restaurarImagem(elementoSeguinte);
+
+        if (elementoAtual) {
+            elementoAtual.style.transition = "";
         }
     };
 
-    // A primeira execução pode acontecer antes de o viewport estar estabilizado
+    // O viewport do iPad pode não estar estabilizado no primeiro frame
     requestAnimationFrame(() => {
-        normalizar();
+        reconstruirEstado();
 
-        setTimeout(normalizar, 100);
-        setTimeout(normalizar, 300);
-        setTimeout(normalizar, 600);
+        setTimeout(reconstruirEstado, 100);
+        setTimeout(reconstruirEstado, 300);
+        setTimeout(reconstruirEstado, 600);
     });
 }
 
@@ -1966,7 +2016,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==========================================================
-// RECUPERAÇÃO DO EDGE NO IPAD APÓS RETORNO DE OUTRA APP
+// RECUPERAÇÃO DO EDGE NO IPAD APÓS TROCA DE APLICAÇÃO
 // ==========================================================
 
 document.addEventListener("visibilitychange", () => {
@@ -1983,8 +2033,6 @@ window.addEventListener("focus", () => {
     recuperarEstadoEdgeiPad();
 });
 
-// Em alguns casos o viewport visual do iPad atualiza depois
-// do evento resize normal da janela.
 if (window.visualViewport) {
     window.visualViewport.addEventListener("resize", () => {
         recuperarEstadoEdgeiPad();
