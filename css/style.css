@@ -410,7 +410,6 @@ footer p{
     display:none;
     position:fixed;
     inset:0;
-    background-color: #ffffff;
     background:var(--c-bg);
     z-index:999999;
     justify-content:center;
@@ -418,10 +417,6 @@ footer p{
     flex-direction:column;
     overflow:hidden;
     touch-action: none;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;    
 }
 #modal-content{
     display:flex;
@@ -1359,14 +1354,4 @@ html:has(:fullscreen) {
 
 #modal-projeto.edge-ipad-device .modal-info {
     bottom: calc(25px + env(safe-area-inset-bottom, 0px)) !important;
-}
-
-/* Fix para WebKit/iPadOS: Esconde do engine de pintura o conteúdo por trás do modal */
-body.modal-open header,
-body.modal-open .projects-section,
-body.modal-open section,
-body.modal-open footer,
-body.modal-open .contact-widget,
-body.modal-open #back-to-top {
-    visibility: hidden !important;
 }
