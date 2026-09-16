@@ -762,7 +762,6 @@ function abrirProjeto(nomeProjeto){
         modalProjeto.classList.remove("iphone-device");
     }
 
-    // --- ADICIONAR AQUI ---
     if (isEdgeiPad()) {
         modalProjeto.classList.add("edge-ipad-device");
     } else {
@@ -1892,28 +1891,6 @@ window.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             abrirProjeto(idProjeto);
         }, 100);
-    }
-});
-
-// Força o re-cálculo do layout do Edge no iPad quando o utilizador regressa à aplicação
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-        const modalProjeto = document.getElementById("modal-projeto");
-        if (modalProjeto && modalProjeto.style.display === "flex" && elementoAtual) {
-            requestAnimationFrame(() => {
-                // Força o reflow do WebKit no Edge
-                elementoAtual.style.display = 'none';
-                elementoAtual.offsetHeight; // Força a re-renderização
-                elementoAtual.style.display = '';
-                
-                if (typeof centrarElemento === "function") {
-                    centrarElemento(elementoAtual);
-                }
-                if (typeof ajustarBolinhasIPhone === "function") {
-                    ajustarBolinhasIPhone();
-                }
-            });
-        }
     }
 });
 
