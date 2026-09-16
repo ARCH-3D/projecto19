@@ -1973,12 +1973,18 @@ document.addEventListener("visibilitychange", function() {
 
 document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") {
-        // Provoca o recalculo imediato do layout no WebKit
-        window.scrollBy(0, 1);
-        window.scrollBy(0, -1);
-        document.documentElement.style.display = 'none';
-        document.documentElement.offsetHeight; // Força reflow
-        document.documentElement.style.display = '';
+        // Aguarda 150ms para que o WebKit restaure a janela gráfica
+        setTimeout(() => {
+            const currentScroll = window.scrollY;
+            
+            // Move 10px para forçar o recálculo do layout do Grid
+            window.scrollTo(0, currentScroll + 10);
+            
+            // Repõe a posição exata no frame de renderização seguinte
+            requestAnimationFrame(() => {
+                window.scrollTo(0, currentScroll);
+            });
+        }, 150);
     }
 });
 
