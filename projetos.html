@@ -869,16 +869,8 @@ function corrigirLayoutEdgeiPad() {
     const aplicarCorrecao = () => {
 
         // Preferir o visualViewport no Edge/iPadOS
-        const viewport = window.visualViewport;
-
-        const largura = viewport
-            ? Math.round(viewport.width)
-            : window.innerWidth;
-
-        const altura = viewport
-            ? Math.round(viewport.height)
-            : window.innerHeight;
-
+        const largura = window.innerWidth;
+        const altura = window.innerHeight;
         if (!largura || !altura) return;
 
         const modalContent = document.getElementById("modal-content");
