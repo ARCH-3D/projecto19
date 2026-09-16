@@ -1355,3 +1355,48 @@ html:has(:fullscreen) {
 #modal-projeto.edge-ipad-device .modal-info {
     bottom: calc(25px + env(safe-area-inset-bottom, 0px)) !important;
 }
+
+/* =========================================================
+   CORREÇÃO EDGE iPAD — RESTAURO DO VIEWPORT
+   Evita que a página regresse mais larga depois de
+   alternar entre aplicações.
+   ========================================================= */
+
+@supports (-webkit-touch-callout: none) {
+
+    @media (min-width: 768px) and (max-width: 1366px) {
+
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            overflow-x: clip;
+        }
+
+        body {
+            width: 100%;
+        }
+
+        header,
+        section,
+        footer,
+        .hero {
+            max-width: 100%;
+        }
+
+        .hero {
+            width: 100%;
+        }
+
+        #modal-content {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        #modal-content img,
+        #modal-content video {
+            max-width: 100%;
+        }
+    }
+}
