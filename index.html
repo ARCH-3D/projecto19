@@ -2,7 +2,7 @@
 <html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
 
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -270,63 +270,22 @@ window.addEventListener("scroll",()=>{
 // ALTURA DO HERO — proteção específica para Edge no iPad/iOS
 const heroSection = document.querySelector(".hero");
 const isEdgeIOS = /EdgiOS/i.test(navigator.userAgent);
-let currentWidth = window.innerWidth;
-
-function getHeroViewportHeight() {
-    if (window.visualViewport && window.visualViewport.height) {
-        return Math.round(window.visualViewport.height);
-    }
-
-    return Math.round(window.innerHeight);
-}
 
 function setHeroHeight() {
-    if (!heroSection) return;
-
-    // Apenas Edge no iOS/iPadOS recebe este ajuste cirúrgico.
-    // Nos restantes browsers mantém-se o comportamento CSS existente.
-    if (isEdgeIOS) {
-        heroSection.style.height = `${getHeroViewportHeight()}px`;
-    }
+    if (!heroSection || !isEdgeIOS) return;
+    const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    heroSection.style.height = `${Math.round(height)}px`;
 }
 
-// Primeiro cálculo
+// Inicialização
 setHeroHeight();
 
-// Recalcula apenas quando a largura muda.
-// Mantém a proteção existente contra saltos durante o scroll.
-window.addEventListener("resize", () => {
-    if (window.innerWidth !== currentWidth) {
-        currentWidth = window.innerWidth;
-        setHeroHeight();
-    }
-});
-
-// Ao voltar para o Edge depois de o sistema suspender a página,
-// o viewport pode ter sido recalculado entretanto.
-window.addEventListener("pageshow", () => {
-    if (!isEdgeIOS) return;
-
-    requestAnimationFrame(() => {
-        setHeroHeight();
-
-        setTimeout(setHeroHeight, 100);
-        setTimeout(setHeroHeight, 300);
-        setTimeout(setHeroHeight, 600);
-    });
-});
-
-document.addEventListener("visibilitychange", () => {
-    if (!isEdgeIOS || document.visibilityState !== "visible") return;
-
-    requestAnimationFrame(() => {
-        setHeroHeight();
-
-        setTimeout(setHeroHeight, 100);
-        setTimeout(setHeroHeight, 300);
-        setTimeout(setHeroHeight, 600);
-    });
-});
+// Recalcula apenas em mudanças reais de dimensão (como a rotação do ecrã)
+if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", setHeroHeight);
+} else {
+    window.addEventListener("resize", setHeroHeight);
+}
 </script>
 
 </body>
