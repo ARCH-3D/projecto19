@@ -4,23 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<script>
-(function () {
-    const isAndroid = /Android/i.test(navigator.userAgent);
-
-    if (isAndroid) {
-        const viewport = document.querySelector('meta[name="viewport"]');
-
-        if (viewport) {
-            viewport.setAttribute(
-                "content",
-                "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-            );
-        }
-    }
-})();
-</script>
-
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
@@ -1896,21 +1879,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }, 100);
     }
 });
-
-// ============================================================
-// ANDROID — Bloquear pinch-zoom nativo da página
-// ============================================================
-(function configurarBloqueioZoomAndroid() {
-    const isAndroid = /Android/i.test(navigator.userAgent);
-
-    if (!isAndroid) return;
-
-    document.addEventListener("touchmove", function (e) {
-        if (e.touches.length < 2) return;
-
-        e.preventDefault();
-    }, { passive: false, capture: true });
-})();
 
 </script>
 </body>

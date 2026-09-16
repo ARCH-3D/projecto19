@@ -4,23 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<script>
-(function () {
-    const isAndroid = /Android/i.test(navigator.userAgent);
-
-    if (isAndroid) {
-        const viewport = document.querySelector('meta[name="viewport"]');
-
-        if (viewport) {
-            viewport.setAttribute(
-                "content",
-                "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-            );
-        }
-    }
-})();
-</script>
-
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
@@ -64,16 +47,6 @@ gtag('config', 'G-JXJP0D464R');
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
 <!-- CSS -->
 <link rel="stylesheet" href="css/style.css">
-
-<style>
-@supports (touch-action: pan-x pan-y) {
-    html,
-    body {
-        touch-action: pan-x pan-y;
-    }
-}
-</style>
-
 </head>
 <body ontouchstart="">
 <header>
@@ -268,30 +241,6 @@ window.addEventListener("scroll", () => {
     menu.classList.remove("active");
     contactWidget.classList.remove("active");
 }, { passive: true });
-
-// ============================================================
-// ANDROID — Bloquear pinch-zoom nativo da página
-// ============================================================
-(function configurarBloqueioZoomAndroid() {
-    const isAndroid = /Android/i.test(navigator.userAgent);
-
-    if (!isAndroid) return;
-
-    // Bloqueia o início de um gesto com 2 ou mais dedos.
-    document.addEventListener("touchstart", function (e) {
-        if (e.touches.length < 2) return;
-
-        e.preventDefault();
-    }, { passive: false, capture: true });
-
-    // Bloqueia a continuação do pinch.
-    document.addEventListener("touchmove", function (e) {
-        if (e.touches.length < 2) return;
-
-        e.preventDefault();
-    }, { passive: false, capture: true });
-})();
-
 </script>
 <footer>
     <div class="social-links">
