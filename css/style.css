@@ -1346,3 +1346,19 @@ html:has(:fullscreen) {
         -webkit-backface-visibility: visible;
     }
 }
+
+/* Correção exclusiva para a legenda e bolinhas no Edge no iPad */
+#modal-projeto.edge-ipad-device .media-indicators {
+    bottom: calc(65px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+#modal-projeto.edge-ipad-device .modal-info {
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* Garante que a imagem do modal não colapse no Edge do iPad */
+#modal-projeto.edge-ipad-device #modal-content img {
+    max-width: 90vw !important;
+    max-height: 75vh !important;
+    object-fit: contain !important;
+}
