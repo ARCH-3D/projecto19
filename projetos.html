@@ -856,6 +856,77 @@ function isEdgeiPad(){
     return isEdge && isIPad;
 }
 
+function recuperarEstadoEdgeiPad() {
+    // Aplica apenas ao Edge no iPad
+    if (!isEdgeiPad()) return;
+
+    const modalProjeto = document.getElementById("modal-projeto");
+
+    // Só interessa quando o modal está aberto e a página está novamente visível
+    if (!modalProjeto || modalProjeto.style.display !== "flex") return;
+    if (document.visibilityState !== "visible") return;
+
+    const normalizar = () => {
+        // O viewport do iPad pode ainda não estar estabilizado imediatamente
+        // depois de a aplicação voltar para primeiro plano.
+        if (document.visibilityState !== "visible") return;
+        if (modalProjeto.style.display !== "flex") return;
+
+        // Remove possíveis estados transitórios deixados pelo congelamento
+        modalProjeto.style.transition = "";
+        modalProjeto.style.background = "";
+
+        // Mantém a imagem atual corretamente centrada
+        if (elementoAtual) {
+            elementoAtual.style.transition = "none";
+            elementoAtual.style.opacity = "1";
+
+            if (zoomAtivo) {
+                atualizarZoom();
+            } else {
+                elementoAtual.style.transform = "translate(-50%, -50%)";
+            }
+        }
+
+        // Reposiciona as imagens laterais
+        if (elementoAnterior) {
+            elementoAnterior.style.transition = "none";
+            elementoAnterior.style.opacity = "1";
+            elementoAnterior.style.transform =
+                "translate(calc(-50% - 100vw), -50%)";
+        }
+
+        if (elementoSeguinte) {
+            elementoSeguinte.style.transition = "none";
+            elementoSeguinte.style.opacity = "1";
+            elementoSeguinte.style.transform =
+                "translate(calc(-50% + 100vw), -50%)";
+        }
+
+        // Força o browser a voltar a calcular o layout
+        void modalProjeto.offsetHeight;
+
+        // Reaplica a lógica específica existente
+        ajustarBolinhasIPhone();
+        ajustarFullscreenAndroid();
+
+        // Se existir zoom, recalcula os limites com o viewport atual
+        if (elementoAtual && zoomAtivo) {
+            atualizarLimitesZoom();
+            atualizarZoom();
+        }
+    };
+
+    // A primeira execução pode acontecer antes de o viewport estar estabilizado
+    requestAnimationFrame(() => {
+        normalizar();
+
+        setTimeout(normalizar, 100);
+        setTimeout(normalizar, 300);
+        setTimeout(normalizar, 600);
+    });
+}
+
 function ajustarFullscreenAndroid(){
     const emAndroid = /Android/i.test(navigator.userAgent);
     const landscape = window.matchMedia("(orientation: landscape)").matches;
@@ -1893,6 +1964,32 @@ window.addEventListener("DOMContentLoaded", () => {
         }, 100);
     }
 });
+
+// ==========================================================
+// RECUPERAÇÃO DO EDGE NO IPAD APÓS RETORNO DE OUTRA APP
+// ==========================================================
+
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+        recuperarEstadoEdgeiPad();
+    }
+});
+
+window.addEventListener("pageshow", () => {
+    recuperarEstadoEdgeiPad();
+});
+
+window.addEventListener("focus", () => {
+    recuperarEstadoEdgeiPad();
+});
+
+// Em alguns casos o viewport visual do iPad atualiza depois
+// do evento resize normal da janela.
+if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", () => {
+        recuperarEstadoEdgeiPad();
+    });
+}
 
 </script>
 </body>
