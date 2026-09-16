@@ -2,7 +2,7 @@
 <html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -783,6 +783,10 @@ function abrirProjeto(nomeProjeto){
     });
     
     modalProjeto.focus();
+
+    if (isEdgeiPad()) {
+        corrigirLayoutEdgeiPad();
+    }    
 }
 
 function fecharModal(){
@@ -856,125 +860,52 @@ function isEdgeiPad(){
     return isEdge && isIPad;
 }
 
-function recuperarEstadoEdgeiPad() {
-    // Exclusivo para Edge no iPad
+// --- FIX EDGE IPAD: Forçar redraw ao voltar para a app ---
+function corrigirLayoutEdgeiPad() {
+    const modal = document.getElementById("modal-projeto");
+    // Executar apenas se o modal estiver aberto ou se for o Edge no iPad
+    if (modal.style.display !== "flex") return;
     if (!isEdgeiPad()) return;
 
-    const modalProjeto = document.getElementById("modal-projeto");
+    setTimeout(() => {
+        const largura = window.innerWidth;
+        const altura = window.innerHeight;
+        
+        // 1. Forçar as dimensões reais no próprio modal (ignora o 100vh do CSS)
+        modal.style.width = `${largura}px`;
+        modal.style.height = `${altura}px`;
+        
+        // 2. Forçar as dimensões reais em todas as imagens ativas
+        const imagens = modal.querySelectorAll("img");
+        imagens.forEach(img => {
+            img.style.maxWidth = `${largura}px`;
+            img.style.maxHeight = `${altura}px`;
+            // Pequeno "truque" para forçar o WebKit a redesenhar a imagem na hora
+            img.style.display = "none";
+            void img.offsetHeight; // Força o repaint
+            img.style.display = "block";
+        });
 
-    // Só atuar se o modal estiver efetivamente aberto
-    if (!modalProjeto || modalProjeto.style.display !== "flex") return;
-
-    // Só recuperar quando a página voltou a estar visível
-    if (document.visibilityState !== "visible") return;
-
-    // Não interferir durante um gesto ativo
-    if (isDragging || isPinching || moverImagem || mouseZoomAtivo) return;
-
-    const viewport = window.visualViewport;
-
-    const larguraViewport = viewport
-        ? viewport.width
-        : window.innerWidth;
-
-    const alturaViewport = viewport
-        ? viewport.height
-        : window.innerHeight;
-
-    const restaurarImagem = (elemento) => {
-        if (!elemento) return;
-
-        // Garantir dimensões calculadas com o viewport atual.
-        // Não alteramos width/height da imagem:
-        // mantemos o comportamento "auto" existente.
-        elemento.style.setProperty(
-            "max-width",
-            Math.max(0, larguraViewport - 20) + "px",
-            "important"
-        );
-
-        elemento.style.setProperty(
-            "max-height",
-            Math.max(0, alturaViewport - 115) + "px",
-            "important"
-        );
-
-        elemento.style.setProperty("width", "auto", "important");
-        elemento.style.setProperty("height", "auto", "important");
-        elemento.style.setProperty("object-fit", "contain", "important");
-        elemento.style.left = "50%";
-        elemento.style.top = "50%";
-    };
-
-    const reconstruirEstado = () => {
-        if (document.visibilityState !== "visible") return;
-        if (modalProjeto.style.display !== "flex") return;
-        if (isDragging || isPinching || moverImagem || mouseZoomAtivo) return;
-
-        // Elimina qualquer transição/interpolação que possa ter ficado
-        // congelada no momento em que o Edge suspendeu a página.
-        modalProjeto.style.transition = "none";
-        modalProjeto.style.background = "";
-
-        // Força o browser a recalcular o layout do modal.
-        void modalProjeto.offsetHeight;
-
-        restaurarImagem(elementoAtual);
-        restaurarImagem(elementoAnterior);
-        restaurarImagem(elementoSeguinte);
-
-        // Reposicionar explicitamente a imagem atual
+        // 3. Reposicionar e forçar reflow no elemento atual
         if (elementoAtual) {
             elementoAtual.style.transition = "none";
-            elementoAtual.style.opacity = "1";
-
-            if (zoomAtivo) {
-                atualizarLimitesZoom();
-                atualizarZoom();
-            } else {
-                elementoAtual.style.transform = "translate(-50%, -50%)";
-            }
+            elementoAtual.style.transform = "translate(-50%, -50%)";
         }
-
-        // Garantir que as imagens laterais voltam às posições corretas
+        
+        // 4. Reposicionar laterais usando px em vez de vw
         if (elementoAnterior) {
             elementoAnterior.style.transition = "none";
-            elementoAnterior.style.opacity = "1";
-            elementoAnterior.style.transform =
-                "translate(calc(-50% - 100vw), -50%)";
+            elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
         }
-
         if (elementoSeguinte) {
             elementoSeguinte.style.transition = "none";
-            elementoSeguinte.style.opacity = "1";
-            elementoSeguinte.style.transform =
-                "translate(calc(-50% + 100vw), -50%)";
+            elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
         }
-
-        // Reaplicar apenas as correções que já existem no teu código
-        ajustarBolinhasIPhone();
-        ajustarFullscreenAndroid();
-
-        // Ler novamente as dimensões depois do reflow
-        void modalProjeto.offsetHeight;
-
-        restaurarImagem(elementoAtual);
-        restaurarImagem(elementoAnterior);
-        restaurarImagem(elementoSeguinte);
-
-        if (elementoAtual) {
-            elementoAtual.style.transition = "";
-        }
-    };
-
-    // O viewport do iPad pode não estar estabilizado no primeiro frame
-    requestAnimationFrame(() => {
-        reconstruirEstado();
-
-        setTimeout(reconstruirEstado, 100);
-        setTimeout(reconstruirEstado, 300);
-        setTimeout(reconstruirEstado, 600);
-    });
+        
+        // Reaplicar outras dimensões específicas
+        if (typeof ajustarBolinhasIPhone === "function") ajustarBolinhasIPhone();
+        if (typeof ajustarFullscreenAndroid === "function") ajustarFullscreenAndroid();
+    }, 150);
 }
 
 function ajustarFullscreenAndroid(){
@@ -1251,7 +1182,7 @@ function handleSwipe(){
         if (!elementoSeguinte) return;
         elementoAtual.style.transition = "transform .25s ease-out, opacity .25s ease-out";
         elementoSeguinte.style.transition = TRANSITION_SLIDE;
-        elementoAtual.style.transform = "translate(calc(-50% - 100vw), -50%)";
+        elementoAtual.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
         elementoAtual.style.opacity = "0";
         elementoSeguinte.style.transform = "translate(-50%, -50%)";
         indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
@@ -1269,7 +1200,7 @@ function handleSwipe(){
         if (!elementoAnterior) return;
         elementoAtual.style.transition = "transform .25s ease-out, opacity .25s ease-out";
         elementoAnterior.style.transition = TRANSITION_SLIDE;
-        elementoAtual.style.transform = "translate(calc(-50% + 100vw), -50%)";
+        elementoAtual.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
         elementoAtual.style.opacity = "0";
         elementoAnterior.style.transform = "translate(-50%, -50%)";
         indiceAtual = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
@@ -1288,11 +1219,11 @@ function handleSwipe(){
     elementoAtual.style.transform = "translate(-50%, -50%)";
     if (currentTranslate < 0 && elementoSeguinte) {
         elementoSeguinte.style.transition = TRANSITION_RESET;
-        elementoSeguinte.style.transform = "translate(calc(-50% + 100vw), -50%)";
+        elementoSeguinte.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
     }
     if (currentTranslate > 0 && elementoAnterior) {
         elementoAnterior.style.transition = TRANSITION_RESET;
-        elementoAnterior.style.transform = "translate(calc(-50% - 100vw), -50%)";
+        elementoAnterior.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
     }
     setTimeout(() => {
         if (elementoSeguinte) {
@@ -1382,7 +1313,7 @@ function prepararImagemAnterior(){
         elementoAnterior.style.setProperty("object-fit", "contain", "important");
     }
     elementoAnterior.style.zIndex = "1";
-    elementoAnterior.style.transform = "translate(calc(-50% - 100vw), -50%)";
+    elementoAnterior.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
     elementoAnterior.style.opacity = "1";
     conteudo.appendChild(elementoAnterior);
     ajustarBolinhasIPhone();
@@ -1402,7 +1333,7 @@ function prepararProximaImagem(){
         elementoSeguinte.style.setProperty("object-fit", "contain", "important");
     }
     elementoSeguinte.style.zIndex = "1";
-    elementoSeguinte.style.transform = "translate(calc(-50% + 100vw), -50%)";
+    elementoSeguinte.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
     elementoSeguinte.style.opacity = "1";
     conteudo.appendChild(elementoSeguinte);
     ajustarBolinhasIPhone();
@@ -2014,30 +1945,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }, 100);
     }
 });
-
-// ==========================================================
-// RECUPERAÇÃO DO EDGE NO IPAD APÓS TROCA DE APLICAÇÃO
-// ==========================================================
-
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-        recuperarEstadoEdgeiPad();
-    }
-});
-
-window.addEventListener("pageshow", () => {
-    recuperarEstadoEdgeiPad();
-});
-
-window.addEventListener("focus", () => {
-    recuperarEstadoEdgeiPad();
-});
-
-if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", () => {
-        recuperarEstadoEdgeiPad();
-    });
-}
 
 </script>
 </body>
