@@ -267,10 +267,9 @@ window.addEventListener("scroll",()=>{
     contactWidget.classList.remove("active");
 },{passive:true});
 
-// ALTURA / VIEWPORT — proteção específica para Edge no iPad/iOS
+// ALTURA DO HERO — proteção específica para Edge no iPad/iOS
 const heroSection = document.querySelector(".hero");
 const isEdgeIOS = /EdgiOS/i.test(navigator.userAgent);
-
 let currentWidth = window.innerWidth;
 
 function getHeroViewportHeight() {
@@ -281,79 +280,52 @@ function getHeroViewportHeight() {
     return Math.round(window.innerHeight);
 }
 
-function refreshEdgeViewport() {
-    if (!isEdgeIOS) return;
+function setHeroHeight() {
+    if (!heroSection) return;
 
-    const width = window.innerWidth;
-    const height = getHeroViewportHeight();
-
-    // Atualiza as dimensões atuais do viewport
-    document.documentElement.style.setProperty(
-        "--edge-viewport-width",
-        `${width}px`
-    );
-
-    document.documentElement.style.setProperty(
-        "--edge-viewport-height",
-        `${height}px`
-    );
-
-    // Mantém a altura correta do Hero
-    if (heroSection) {
-        heroSection.style.height = `${height}px`;
+    // Apenas Edge no iOS/iPadOS recebe este ajuste cirúrgico.
+    // Nos restantes browsers mantém-se o comportamento CSS existente.
+    if (isEdgeIOS) {
+        heroSection.style.height = `${getHeroViewportHeight()}px`;
     }
-
-    // Força o browser a concluir o recálculo do layout
-    document.documentElement.offsetHeight;
 }
 
-
 // Primeiro cálculo
-refreshEdgeViewport();
+setHeroHeight();
 
-
-// Resize
+// Recalcula apenas quando a largura muda.
+// Mantém a proteção existente contra saltos durante o scroll.
 window.addEventListener("resize", () => {
-
-    if (!isEdgeIOS) return;
-
     if (window.innerWidth !== currentWidth) {
         currentWidth = window.innerWidth;
-        refreshEdgeViewport();
+        setHeroHeight();
     }
+});
 
-}, { passive: true });
-
-
-// Ao regressar à página depois de trocar de aplicação
+// Ao voltar para o Edge depois de o sistema suspender a página,
+// o viewport pode ter sido recalculado entretanto.
 window.addEventListener("pageshow", () => {
-
     if (!isEdgeIOS) return;
 
     requestAnimationFrame(() => {
-        refreshEdgeViewport();
+        setHeroHeight();
 
-        requestAnimationFrame(() => {
-            refreshEdgeViewport();
-        });
+        setTimeout(setHeroHeight, 100);
+        setTimeout(setHeroHeight, 300);
+        setTimeout(setHeroHeight, 600);
     });
-
 });
 
-
-// Quando o Edge volta a ficar visível
 document.addEventListener("visibilitychange", () => {
-
     if (!isEdgeIOS || document.visibilityState !== "visible") return;
 
     requestAnimationFrame(() => {
-        refreshEdgeViewport();
+        setHeroHeight();
 
-        requestAnimationFrame(() => {
-            refreshEdgeViewport();
-        });
+        setTimeout(setHeroHeight, 100);
+        setTimeout(setHeroHeight, 300);
+        setTimeout(setHeroHeight, 600);
     });
-
 });
 </script>
 
