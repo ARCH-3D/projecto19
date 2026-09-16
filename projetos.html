@@ -1971,44 +1971,6 @@ document.addEventListener("visibilitychange", function() {
     }
 });
 
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-        // Aguarda 150ms para que o WebKit restaure a janela gráfica
-        setTimeout(() => {
-            const currentScroll = window.scrollY;
-            
-            // Move 10px para forçar o recálculo do layout do Grid
-            window.scrollTo(0, currentScroll + 10);
-            
-            // Repõe a posição exata no frame de renderização seguinte
-            requestAnimationFrame(() => {
-                window.scrollTo(0, currentScroll);
-            });
-        }, 150);
-    }
-});
-
-function forcarRecalculoEdge() {
-    // Dispara o evento de resize que o Edge aguarda para atualizar o viewport
-    window.dispatchEvent(new Event('resize'));
-
-    // Força um repaint na árvore de renderização do WebKit
-    document.body.style.opacity = '0.999';
-    requestAnimationFrame(() => {
-        document.body.style.opacity = '1';
-    });
-}
-
-// Intercepta a reativação da página em múltiplos eventos do sistema
-window.addEventListener('pageshow', forcarRecalculoEdge);
-window.addEventListener('focus', forcarRecalculoEdge);
-
-document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-        setTimeout(forcarRecalculoEdge, 100);
-    }
-});
-
 </script>
 </body>
 </html>
