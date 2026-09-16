@@ -761,6 +761,14 @@ function abrirProjeto(nomeProjeto){
     } else {
         modalProjeto.classList.remove("iphone-device");
     }
+
+    // --- ADICIONAR AQUI ---
+    if (isEdgeiPad()) {
+        modalProjeto.classList.add("edge-ipad-device");
+    } else {
+        modalProjeto.classList.remove("edge-ipad-device");
+    }
+
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
 
