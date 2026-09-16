@@ -1973,9 +1973,12 @@ document.addEventListener("visibilitychange", function() {
 
 document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") {
-        window.scrollTo(0, window.scrollY);
-        document.documentElement.scrollLeft = 0;
-        document.body.scrollLeft = 0;
+        // Provoca o recalculo imediato do layout no WebKit
+        window.scrollBy(0, 1);
+        window.scrollBy(0, -1);
+        document.documentElement.style.display = 'none';
+        document.documentElement.offsetHeight; // Força reflow
+        document.documentElement.style.display = '';
     }
 });
 

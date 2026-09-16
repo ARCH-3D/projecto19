@@ -297,9 +297,11 @@ section p {
 .project{
     position:relative;
     width:100%;
+    min-width: 0;
     aspect-ratio:4/5;
     overflow:hidden;
     cursor:pointer;
+    transform: translateZ(0);
 }
 .project img,
 .project video{
