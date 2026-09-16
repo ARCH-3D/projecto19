@@ -728,6 +728,13 @@ function abrirProjeto(nomeProjeto){
         });
     }
 
+    // Forçar o Edge no iPad a reativar a viewport caso tenha vindo do segundo plano
+    if (isEdgeiPad()) {
+        window.scrollBy(0, 1);
+        window.scrollBy(0, -1);
+        window.dispatchEvent(new Event("resize"));
+    }
+
     const modalProjeto = document.getElementById("modal-projeto");
 
     // 1. Limpar estilos de transição/fundo residuais de gestos anteriores
