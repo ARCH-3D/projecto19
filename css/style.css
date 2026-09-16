@@ -1346,3 +1346,12 @@ html:has(:fullscreen) {
         -webkit-backface-visibility: visible;
     }
 }
+
+/* Correção exclusiva para a legenda e bolinhas no Edge no iPad */
+#modal-projeto.edge-ipad-device .media-indicators {
+    bottom: calc(105px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+#modal-projeto.edge-ipad-device .modal-info {
+    bottom: calc(25px + env(safe-area-inset-bottom, 0px)) !important;
+}
