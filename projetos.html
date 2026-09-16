@@ -2,7 +2,7 @@
 <html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -1130,7 +1130,7 @@ function handleSwipe(){
         if (!elementoSeguinte) return;
         elementoAtual.style.transition = "transform .25s ease-out, opacity .25s ease-out";
         elementoSeguinte.style.transition = TRANSITION_SLIDE;
-        elementoAtual.style.transform = "translate(calc(-50% - 100vw), -50%)";
+        elementoAtual.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
         elementoAtual.style.opacity = "0";
         elementoSeguinte.style.transform = "translate(-50%, -50%)";
         indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
@@ -1148,7 +1148,7 @@ function handleSwipe(){
         if (!elementoAnterior) return;
         elementoAtual.style.transition = "transform .25s ease-out, opacity .25s ease-out";
         elementoAnterior.style.transition = TRANSITION_SLIDE;
-        elementoAtual.style.transform = "translate(calc(-50% + 100vw), -50%)";
+        elementoAtual.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
         elementoAtual.style.opacity = "0";
         elementoAnterior.style.transform = "translate(-50%, -50%)";
         indiceAtual = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
@@ -1167,11 +1167,11 @@ function handleSwipe(){
     elementoAtual.style.transform = "translate(-50%, -50%)";
     if (currentTranslate < 0 && elementoSeguinte) {
         elementoSeguinte.style.transition = TRANSITION_RESET;
-        elementoSeguinte.style.transform = "translate(calc(-50% + 100vw), -50%)";
+        elementoSeguinte.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
     }
     if (currentTranslate > 0 && elementoAnterior) {
         elementoAnterior.style.transition = TRANSITION_RESET;
-        elementoAnterior.style.transform = "translate(calc(-50% - 100vw), -50%)";
+        elementoAnterior.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
     }
     setTimeout(() => {
         if (elementoSeguinte) {
@@ -1261,7 +1261,7 @@ function prepararImagemAnterior(){
         elementoAnterior.style.setProperty("object-fit", "contain", "important");
     }
     elementoAnterior.style.zIndex = "1";
-    elementoAnterior.style.transform = "translate(calc(-50% - 100vw), -50%)";
+    elementoAnterior.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
     elementoAnterior.style.opacity = "1";
     conteudo.appendChild(elementoAnterior);
     ajustarBolinhasIPhone();
@@ -1281,7 +1281,7 @@ function prepararProximaImagem(){
         elementoSeguinte.style.setProperty("object-fit", "contain", "important");
     }
     elementoSeguinte.style.zIndex = "1";
-    elementoSeguinte.style.transform = "translate(calc(-50% + 100vw), -50%)";
+    elementoSeguinte.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
     elementoSeguinte.style.opacity = "1";
     conteudo.appendChild(elementoSeguinte);
     ajustarBolinhasIPhone();
@@ -1893,6 +1893,42 @@ window.addEventListener("DOMContentLoaded", () => {
         }, 100);
     }
 });
+
+// --- FIX EDGE IPAD: Forçar redraw ao voltar para a app ---
+function corrigirLayoutEdgeiPad() {
+    if (document.getElementById("modal-projeto").style.display !== "flex") return;
+    if (!isEdgeiPad()) return;
+
+    setTimeout(() => {
+        const largura = window.innerWidth;
+        
+        // Reposicionar e forçar reflow no elemento atual
+        if (elementoAtual) {
+            elementoAtual.style.transition = "none";
+            elementoAtual.style.transform = "translate(-50%, -50%)";
+            void elementoAtual.offsetWidth; // Força repaint do WebKit
+        }
+        
+        // Reposicionar laterais usando px em vez de vw
+        if (elementoAnterior) {
+            elementoAnterior.style.transition = "none";
+            elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
+        }
+        if (elementoSeguinte) {
+            elementoSeguinte.style.transition = "none";
+            elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
+        }
+        
+        // Reaplicar dimensões
+        ajustarBolinhasIPhone();
+        ajustarFullscreenAndroid();
+    }, 150); // Timeout ligeiro para garantir que o Edge já atualizou as dimensões
+}
+
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") corrigirLayoutEdgeiPad();
+});
+window.addEventListener("focus", corrigirLayoutEdgeiPad);
 
 </script>
 </body>
