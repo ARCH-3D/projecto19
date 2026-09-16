@@ -1988,6 +1988,27 @@ document.addEventListener("visibilitychange", () => {
     }
 });
 
+function forcarRecalculoEdge() {
+    // Dispara o evento de resize que o Edge aguarda para atualizar o viewport
+    window.dispatchEvent(new Event('resize'));
+
+    // Força um repaint na árvore de renderização do WebKit
+    document.body.style.opacity = '0.999';
+    requestAnimationFrame(() => {
+        document.body.style.opacity = '1';
+    });
+}
+
+// Intercepta a reativação da página em múltiplos eventos do sistema
+window.addEventListener('pageshow', forcarRecalculoEdge);
+window.addEventListener('focus', forcarRecalculoEdge);
+
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+        setTimeout(forcarRecalculoEdge, 100);
+    }
+});
+
 </script>
 </body>
 </html>
