@@ -1946,6 +1946,31 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+// Função de segurança para restaurar o fundo e o estado dos gestos
+function resetarEstadoGesto() {
+    isDragging = false;
+    isVerticalDrag = false;
+    isPinching = false;
+    currentY = 0;
+    currentTranslate = 0;
+    modal.style.background = ""; // Remove o estilo inline e devolve ao CSS opaco
+    
+    if (elementoAtual) {
+        elementoAtual.style.transition = TRANSITION_RESET;
+        elementoAtual.style.transform = "translate(-50%, -50%)";
+    }
+}
+
+// 1. Escuta a interrupção de gestos promovida pelo iPadOS ao mudar de app
+modal.addEventListener("touchcancel", resetarEstadoGesto);
+
+// 2. Garante a limpeza do estilo inline assim que o browser volta ao primeiro plano
+document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "visible" && modal.style.display === "flex") {
+        resetarEstadoGesto();
+    }
+});
+
 </script>
 </body>
 </html>
