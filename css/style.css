@@ -1360,3 +1360,13 @@ html:has(:fullscreen) {
 #modal-projeto.edge-ipad-device .modal-info {
     bottom: calc(25px + env(safe-area-inset-bottom, 0px)) !important;
 }
+
+/* Fix para WebKit/iPadOS: Esconde do engine de pintura o conteúdo por trás do modal */
+body.modal-open header,
+body.modal-open .projects-section,
+body.modal-open section,
+body.modal-open footer,
+body.modal-open .contact-widget,
+body.modal-open #back-to-top {
+    visibility: hidden !important;
+}
