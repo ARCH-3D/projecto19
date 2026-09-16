@@ -2,7 +2,7 @@
 <html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
-<meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -720,7 +720,6 @@ function distanciaToques(t1, t2){
 
 function abrirProjeto(nomeProjeto){
     if (!projetos[nomeProjeto]) return;
-
     if (typeof gtag === "function") {
         gtag("event", "projeto_aberto", {
             projeto: nomeProjeto,
@@ -735,7 +734,7 @@ function abrirProjeto(nomeProjeto){
     modalProjeto.style.transition = "";
     modalProjeto.style.background = "";
 
-    // 2. Tornar o modal visível primeiro
+    // 2. TORNAR O MODAL VISÍVEL PRIMEIRO para garantir que os cálculos de dimensão funcionam
     modalProjeto.style.display = "flex";
     document.body.classList.add("modal-open");
 
@@ -748,14 +747,6 @@ function abrirProjeto(nomeProjeto){
 
     // 4. Carregar e animar a mídia com o modal já visível
     mostrarMidia();
-
-    // Edge iPad: agora a imagem já existe no DOM.
-    if (isEdgeiPad()) {
-        requestAnimationFrame(() => {
-            corrigirLayoutEdgeiPad();
-        });
-    }
-
     mostrarBotaoFullscreen();
     if (zoomBtn) zoomBtn.textContent = "+";
     preloadImagens();
@@ -771,6 +762,12 @@ function abrirProjeto(nomeProjeto){
         modalProjeto.classList.remove("iphone-device");
     }
 
+    if (isEdgeiPad()) {
+        modalProjeto.classList.add("edge-ipad-device");
+    } else {
+        modalProjeto.classList.remove("edge-ipad-device");
+    }
+
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
 
@@ -778,18 +775,18 @@ function abrirProjeto(nomeProjeto){
     if (backToTop) backToTop.classList.remove("show");
     mostrarTutorialGestos();
 
+    // Acessibilidade e foco
     elementoFocadoAnteriormente = document.activeElement;
-
-    const elementosFundo =
-        document.querySelectorAll(
-            'header, section, footer, .contact-widget, #back-to-top'
-        );
-
+    const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
     elementosFundo.forEach(el => {
-        if (el) el.setAttribute('inert', '');
+        if (el) el.setAttribute('inert', ''); 
     });
-
+    
     modalProjeto.focus();
+
+    if (isEdgeiPad()) {
+        corrigirLayoutEdgeiPad();
+    }    
 }
 
 function fecharModal(){
@@ -856,161 +853,59 @@ function isIPhoneSafariOrEdge(){
     return isIPhone && (isSafari || isEdge);
 }
 
-/* ============================================================
-   CORREÇÃO ESPECÍFICA — EDGE NO iPAD APÓS VOLTAR DE OUTRA APP
-   ============================================================ */
 function isEdgeiPad(){
     const ua = navigator.userAgent;
     const isEdge = /EdgiOS/i.test(ua);
-    const isIPad = /iPad/i.test(ua) ||
-        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const isIPad = /iPad/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     return isEdge && isIPad;
 }
 
-let edgeIpadViewportTimer = null;
-let edgeIpadResumeEmCurso = false;
-
-function forcarReflowEdgeiPad(){
+// --- FIX EDGE IPAD: Forçar redraw ao voltar para a app ---
+function corrigirLayoutEdgeiPad() {
+    const modal = document.getElementById("modal-projeto");
+    // Executar apenas se o modal estiver aberto ou se for o Edge no iPad
+    if (modal.style.display !== "flex") return;
     if (!isEdgeiPad()) return;
 
-    const doc = document.documentElement;
-    const body = document.body;
-    const modalProjeto = document.getElementById("modal-projeto");
-    const modalContent = document.getElementById("modal-content");
-
-    // Retira temporariamente a contenção do #modal-content.
-    // Isto obriga o WebKit/Edge a recalcular o tamanho interno da galeria.
-    if (modalContent) {
-        modalContent.style.contain = "none";
-    }
-
-    void doc.offsetWidth;
-    void doc.offsetHeight;
-    void body.offsetWidth;
-    void body.offsetHeight;
-
-    if (modalProjeto) {
-        void modalProjeto.offsetWidth;
-        void modalProjeto.offsetHeight;
-    }
-    if (modalContent) {
-        void modalContent.offsetWidth;
-        void modalContent.offsetHeight;
-    }
-
-    if (elementoAtual) {
-        void elementoAtual.offsetWidth;
-        void elementoAtual.offsetHeight;
-    }
-
-    if (modalContent) {
-        // Devolve exatamente a contenção original usada pelo site.
-        modalContent.style.contain = "layout paint";
-        void modalContent.offsetWidth;
-        void modalContent.offsetHeight;
-    }
-
-    if (elementoAtual) {
-        elementoAtual.style.transition = "none";
-        elementoAtual.style.left = "50%";
-        elementoAtual.style.top = "50%";
-        elementoAtual.style.transform = "translate(-50%, -50%)";
-        void elementoAtual.offsetWidth;
-        void elementoAtual.offsetHeight;
-    }
-
-    if (elementoAnterior) {
-        elementoAnterior.style.transition = "none";
-        elementoAnterior.style.left = "50%";
-        elementoAnterior.style.top = "50%";
-    }
-
-    if (elementoSeguinte) {
-        elementoSeguinte.style.transition = "none";
-        elementoSeguinte.style.left = "50%";
-        elementoSeguinte.style.top = "50%";
-    }
-
-    ajustarBolinhasIPhone();
-    ajustarFullscreenAndroid();
-}
-
-function atualizarViewportEdgeiPad(){
-    if (!isEdgeiPad()) return;
-
-    const meta = document.getElementById("viewport-meta") ||
-        document.querySelector('meta[name="viewport"]');
-
-    if (meta) {
-        const normal =
-            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover";
-
-        // A alteração temporária do content força o motor do iPad/Edge
-        // a reprocessar o viewport quando a app regressa do background.
-        meta.setAttribute("content", "width=device-width, initial-scale=1.0, viewport-fit=cover");
-
-        clearTimeout(edgeIpadViewportTimer);
-        edgeIpadViewportTimer = setTimeout(() => {
-            meta.setAttribute("content", normal);
-            void document.documentElement.offsetWidth;
-            void document.documentElement.offsetHeight;
-            void document.body.offsetWidth;
-            void document.body.offsetHeight;
-        }, 80);
-    }
-
-    // Faz vários ciclos apenas na retoma da app. Não fica a correr
-    // continuamente durante o uso normal/scroll.
-    requestAnimationFrame(() => {
-        forcarReflowEdgeiPad();
-        requestAnimationFrame(() => {
-            forcarReflowEdgeiPad();
+    setTimeout(() => {
+        const largura = window.innerWidth;
+        const altura = window.innerHeight;
+        
+        // 1. Forçar as dimensões reais no próprio modal (ignora o 100vh do CSS)
+        modal.style.width = `${largura}px`;
+        modal.style.height = `${altura}px`;
+        
+        // 2. Forçar as dimensões reais em todas as imagens ativas
+        const imagens = modal.querySelectorAll("img");
+        imagens.forEach(img => {
+            img.style.maxWidth = `${largura}px`;
+            img.style.maxHeight = `${altura}px`;
+            // Pequeno "truque" para forçar o WebKit a redesenhar a imagem na hora
+            img.style.display = "none";
+            void img.offsetHeight; // Força o repaint
+            img.style.display = "block";
         });
-    });
 
-    [120, 300, 600, 900].forEach(delay => {
-        setTimeout(() => {
-            if (isEdgeiPad()) forcarReflowEdgeiPad();
-        }, delay);
-    });
-}
-
-function corrigirLayoutEdgeiPad(){
-    if (!isEdgeiPad()) return;
-
-    const modalProjeto = document.getElementById("modal-projeto");
-
-    // Mesmo com o modal fechado, esta função é útil porque prepara o
-    // viewport antes de o utilizador abrir novamente uma imagem.
-    atualizarViewportEdgeiPad();
-
-    if (!modalProjeto || modalProjeto.style.display !== "flex") return;
-
-    // Se o modal já estiver aberto, garante também uma nova leitura do
-    // tamanho real da imagem atual depois da reconstrução do viewport.
-    [150, 350, 700].forEach(delay => {
-        setTimeout(() => {
-            if (!isEdgeiPad()) return;
-            if (modalProjeto.style.display !== "flex") return;
-            forcarReflowEdgeiPad();
-            if (elementoAtual) {
-                ajustarZoomEdgeiPad();
-            }
-        }, delay);
-    });
-}
-
-function ajustarZoomEdgeiPad(){
-    if (!elementoAtual || !isEdgeiPad()) return;
-
-    if (zoomAtivo) {
-        atualizarLimitesZoom();
-        zoomTargetX = Math.max(-limiteZoomX, Math.min(limiteZoomX, zoomTargetX));
-        zoomTargetY = Math.max(-limiteZoomY, Math.min(limiteZoomY, zoomTargetY));
-        if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
-    } else {
-        elementoAtual.style.transform = "translate(-50%, -50%)";
-    }
+        // 3. Reposicionar e forçar reflow no elemento atual
+        if (elementoAtual) {
+            elementoAtual.style.transition = "none";
+            elementoAtual.style.transform = "translate(-50%, -50%)";
+        }
+        
+        // 4. Reposicionar laterais usando px em vez de vw
+        if (elementoAnterior) {
+            elementoAnterior.style.transition = "none";
+            elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
+        }
+        if (elementoSeguinte) {
+            elementoSeguinte.style.transition = "none";
+            elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
+        }
+        
+        // Reaplicar outras dimensões específicas
+        if (typeof ajustarBolinhasIPhone === "function") ajustarBolinhasIPhone();
+        if (typeof ajustarFullscreenAndroid === "function") ajustarFullscreenAndroid();
+    }, 150);
 }
 
 function ajustarFullscreenAndroid(){
@@ -1287,7 +1182,7 @@ function handleSwipe(){
         if (!elementoSeguinte) return;
         elementoAtual.style.transition = "transform .25s ease-out, opacity .25s ease-out";
         elementoSeguinte.style.transition = TRANSITION_SLIDE;
-        elementoAtual.style.transform = "translate(calc(-50% - 100vw), -50%)";
+        elementoAtual.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
         elementoAtual.style.opacity = "0";
         elementoSeguinte.style.transform = "translate(-50%, -50%)";
         indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
@@ -1305,7 +1200,7 @@ function handleSwipe(){
         if (!elementoAnterior) return;
         elementoAtual.style.transition = "transform .25s ease-out, opacity .25s ease-out";
         elementoAnterior.style.transition = TRANSITION_SLIDE;
-        elementoAtual.style.transform = "translate(calc(-50% + 100vw), -50%)";
+        elementoAtual.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
         elementoAtual.style.opacity = "0";
         elementoAnterior.style.transform = "translate(-50%, -50%)";
         indiceAtual = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
@@ -1324,11 +1219,11 @@ function handleSwipe(){
     elementoAtual.style.transform = "translate(-50%, -50%)";
     if (currentTranslate < 0 && elementoSeguinte) {
         elementoSeguinte.style.transition = TRANSITION_RESET;
-        elementoSeguinte.style.transform = "translate(calc(-50% + 100vw), -50%)";
+        elementoSeguinte.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
     }
     if (currentTranslate > 0 && elementoAnterior) {
         elementoAnterior.style.transition = TRANSITION_RESET;
-        elementoAnterior.style.transform = "translate(calc(-50% - 100vw), -50%)";
+        elementoAnterior.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
     }
     setTimeout(() => {
         if (elementoSeguinte) {
@@ -1418,7 +1313,7 @@ function prepararImagemAnterior(){
         elementoAnterior.style.setProperty("object-fit", "contain", "important");
     }
     elementoAnterior.style.zIndex = "1";
-    elementoAnterior.style.transform = "translate(calc(-50% - 100vw), -50%)";
+    elementoAnterior.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
     elementoAnterior.style.opacity = "1";
     conteudo.appendChild(elementoAnterior);
     ajustarBolinhasIPhone();
@@ -1438,7 +1333,7 @@ function prepararProximaImagem(){
         elementoSeguinte.style.setProperty("object-fit", "contain", "important");
     }
     elementoSeguinte.style.zIndex = "1";
-    elementoSeguinte.style.transform = "translate(calc(-50% + 100vw), -50%)";
+    elementoSeguinte.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
     elementoSeguinte.style.opacity = "1";
     conteudo.appendChild(elementoSeguinte);
     ajustarBolinhasIPhone();
@@ -1951,28 +1846,11 @@ window.addEventListener("scroll", () => {
 window.addEventListener("orientationchange", () => {
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
-
-    if (isEdgeiPad()) {
-        setTimeout(() => {
-            if (document.visibilityState === "visible") {
-                forcarReflowEdgeiPad();
-                if (modal.style.display === "flex") corrigirLayoutEdgeiPad();
-            }
-        }, 250);
-    }
 });
 
 window.addEventListener("resize", () => {
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
-
-    // O resize normal não reconstrói o viewport; apenas força um reflow
-    // se o Edge iPad estiver efetivamente com o modal aberto.
-    if (isEdgeiPad() && modal.style.display === "flex") {
-        requestAnimationFrame(() => {
-            forcarReflowEdgeiPad();
-        });
-    }
 });
 
 if (backToTop) {
@@ -1999,6 +1877,15 @@ document.addEventListener("fullscreenchange", function() {
         limparEstilos(elementoAtual);
         limparEstilos(elementoAnterior);
         limparEstilos(elementoSeguinte);
+    }
+});
+
+// Ouve as rotações/redimensionamentos do dispositivo
+window.addEventListener("resize", () => {
+    // Apenas corre a atualização se o modal estiver aberto
+    if (document.getElementById("modal-projeto").style.display === "flex") {
+        ajustarBolinhasIPhone();
+        ajustarFullscreenAndroid();
     }
 });
 
@@ -2044,44 +1931,6 @@ function esconderTutorialGestos() {
 document.getElementById("tutorial-gestos").addEventListener("touchstart", esconderTutorialGestos, { passive: true });
 document.getElementById("tutorial-gestos").addEventListener("click", esconderTutorialGestos);
 
-/* ============================================================
-   RETOMA DA APP — EDGE iPAD
-   Importante: a correção corre mesmo com o modal FECHADO.
-   Esse é o caso em que o viewport pode ficar incorreto depois
-   de o utilizador sair do Edge, abrir outra app e regressar.
-   ============================================================ */
-document.addEventListener("visibilitychange", () => {
-    if (!isEdgeiPad()) return;
-    if (document.visibilityState !== "visible") return;
-
-    clearTimeout(edgeIpadViewportTimer);
-
-    // Aguarda o Edge terminar a restauração da janela antes de
-    // reconstruir o viewport.
-    setTimeout(() => {
-        if (document.visibilityState !== "visible") return;
-        if (edgeIpadResumeEmCurso) return;
-
-        edgeIpadResumeEmCurso = true;
-        try {
-            corrigirLayoutEdgeiPad();
-        } finally {
-            setTimeout(() => {
-                edgeIpadResumeEmCurso = false;
-            }, 1000);
-        }
-    }, 60);
-});
-
-window.addEventListener("pageshow", () => {
-    if (!isEdgeiPad()) return;
-    setTimeout(() => {
-        if (document.visibilityState === "visible") {
-            corrigirLayoutEdgeiPad();
-        }
-    }, 60);
-});
-
 // Deteta o parâmetro ?p=... na URL e abre o modal automaticamente
 window.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -2097,27 +1946,30 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// 1. Bloqueia os gestos de pinch (abrir/fechar 2 dedos) específicos do Safari iOS
-document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
-document.addEventListener('gesturechange', function (e) { e.preventDefault(); });
-document.addEventListener('gestureend', function (e) { e.preventDefault(); });
-
-// 2. Bloqueia toques simultâneos com 2 ou mais dedos
-document.addEventListener('touchstart', function (e) {
-    if (e.touches.length > 1) {
-        e.preventDefault();
+// Função de segurança para restaurar o fundo e o estado dos gestos
+function resetarEstadoGesto() {
+    isDragging = false;
+    isVerticalDrag = false;
+    isPinching = false;
+    currentY = 0;
+    currentTranslate = 0;
+    modal.style.background = ""; // Remove o estilo inline e devolve ao CSS opaco
+    
+    if (elementoAtual) {
+        elementoAtual.style.transition = TRANSITION_RESET;
+        elementoAtual.style.transform = "translate(-50%, -50%)";
     }
-}, { passive: false });
+}
 
-// 3. Bloqueia o zoom por duplo toque rápido (double-tap)
-let lastTouchEnd = 0;
-document.addEventListener('touchend', function (e) {
-    const now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
+// 1. Escuta a interrupção de gestos promovida pelo iPadOS ao mudar de app
+modal.addEventListener("touchcancel", resetarEstadoGesto);
+
+// 2. Garante a limpeza do estilo inline assim que o browser volta ao primeiro plano
+document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "visible" && modal.style.display === "flex") {
+        resetarEstadoGesto();
     }
-    lastTouchEnd = now;
-}, false);
+});
 
 </script>
 </body>
