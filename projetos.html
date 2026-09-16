@@ -908,6 +908,28 @@ function corrigirLayoutEdgeiPad() {
     }, 150);
 }
 
+// --- FIX EDGE IPAD: Reativar viewport ao regressar de outra aplicação ---
+document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "visible" && isEdgeiPad()) {
+        window.scrollBy(0, 1);
+        window.scrollBy(0, -1);
+        window.dispatchEvent(new Event("resize"));
+        
+        const modalProjeto = document.getElementById("modal-projeto");
+        if (modalProjeto && modalProjeto.style.display === "flex") {
+            corrigirLayoutEdgeiPad();
+        }
+    }
+});
+
+window.addEventListener("pageshow", function() {
+    if (isEdgeiPad()) {
+        window.scrollBy(0, 1);
+        window.scrollBy(0, -1);
+        window.dispatchEvent(new Event("resize"));
+    }
+});
+
 function ajustarFullscreenAndroid(){
     const emAndroid = /Android/i.test(navigator.userAgent);
     const landscape = window.matchMedia("(orientation: landscape)").matches;
