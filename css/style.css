@@ -410,6 +410,7 @@ footer p{
     display:none;
     position:fixed;
     inset:0;
+    background-color: #ffffff;
     background:var(--c-bg);
     z-index:999999;
     justify-content:center;
@@ -417,6 +418,10 @@ footer p{
     flex-direction:column;
     overflow:hidden;
     touch-action: none;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;    
 }
 #modal-content{
     display:flex;
