@@ -1971,26 +1971,11 @@ document.addEventListener("visibilitychange", function() {
     }
 });
 
-// =========================================
-// CORREÇÃO EDGE iPAD AO VOLTAR À APP
-// =========================================
-
-document.addEventListener("visibilitychange", function () {
-    if (document.visibilityState === "visible" && isEdgeiPad()) {
-
-        // Força o Edge a recalcular o layout da página
-        requestAnimationFrame(() => {
-            void document.documentElement.offsetHeight;
-
-            setTimeout(() => {
-                void document.body.offsetHeight;
-
-                // Se o modal estiver aberto, mantém também a correção existente
-                if (modal.style.display === "flex") {
-                    corrigirLayoutEdgeiPad();
-                }
-            }, 100);
-        });
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+        window.scrollTo(0, window.scrollY);
+        document.documentElement.scrollLeft = 0;
+        document.body.scrollLeft = 0;
     }
 });
 
