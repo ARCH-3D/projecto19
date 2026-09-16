@@ -646,40 +646,31 @@ function recuperarModalEdgeIOS() {
         if (!larguraViewport || !alturaViewport) return;
 
         /*
-         * Força o contentor principal a acompanhar novamente
-         * o viewport real após o regresso da aplicação.
-         *
-         * Isto é aplicado apenas durante a recuperação do Edge/iOS.
+         * Recuperação temporária do viewport no Edge/iPad.
+         * Apenas é aplicada quando a página regressa do estado oculto.
          */
         modalContent.style.setProperty(
             "width",
-            larguraViewport + "px",
+            `${larguraViewport}px`,
             "important"
         );
 
         modalContent.style.setProperty(
             "height",
-            alturaViewport + "px",
+            `${alturaViewport}px`,
             "important"
         );
 
-        /*
-         * Obriga o browser a recalcular o layout antes
-         * de reposicionar a imagem.
-         */
+        // Força o browser a recalcular o layout.
         void modalContent.offsetHeight;
 
         if (elementoAtual) {
+            elementoAtual.style.transition = "none";
 
             if (!zoomAtivo) {
-                elementoAtual.style.transition = "none";
-                elementoAtual.style.transform = "translate(-50%, -50%)";
-            }
-
-            ajustarBolinhasIPhone();
-            ajustarFullscreenAndroid();
-
-            if (zoomAtivo) {
+                elementoAtual.style.transform =
+                    "translate(-50%, -50%)";
+            } else {
                 atualizarLimitesZoom();
 
                 if (!rafZoom) {
@@ -688,25 +679,25 @@ function recuperarModalEdgeIOS() {
             }
         }
 
-        if (elementoAnterior) {
-            if (!zoomAtivo) {
-                elementoAnterior.style.transform =
-                    "translate(calc(-50% - 100vw), -50%)";
-            }
+        if (elementoAnterior && !zoomAtivo) {
+            elementoAnterior.style.transform =
+                "translate(calc(-50% - 100vw), -50%)";
         }
 
-        if (elementoSeguinte) {
-            if (!zoomAtivo) {
-                elementoSeguinte.style.transform =
-                    "translate(calc(-50% + 100vw), -50%)";
-            }
+        if (elementoSeguinte && !zoomAtivo) {
+            elementoSeguinte.style.transform =
+                "translate(calc(-50% + 100vw), -50%)";
         }
+
+        ajustarBolinhasIPhone();
+        ajustarFullscreenAndroid();
     };
 
-    recalcular();
-
+    /*
+     * Vários ciclos porque o Edge/iPad pode terminar
+     * a restauração do viewport depois do evento inicial.
+     */
     requestAnimationFrame(recalcular);
-
     setTimeout(recalcular, 100);
     setTimeout(recalcular, 300);
     setTimeout(recalcular, 600);
@@ -887,6 +878,10 @@ function fecharModal(){
     modalProjeto.style.transition = "";
 
     document.getElementById("modal-content").innerHTML = "";
+
+    modalContent.style.removeProperty("width");
+    modalContent.style.removeProperty("height");
+
     elementoAtual = null;
     elementoAnterior = null;
     elementoSeguinte = null;
