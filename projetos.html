@@ -624,85 +624,6 @@ const contactButton = document.querySelector(".contact-trigger");
 const backToTop = document.getElementById("back-to-top");
 const menu = document.getElementById("menu");
 
-function recuperarModalEdgeIOS() {
-    const isEdgeIOS = /EdgiOS/i.test(navigator.userAgent);
-
-    if (!isEdgeIOS) return;
-    if (!modal || modal.style.display !== "flex") return;
-
-    const recalcular = () => {
-        if (!modal || modal.style.display !== "flex") return;
-
-        const viewport = window.visualViewport;
-
-        const larguraViewport = Math.round(
-            viewport?.width || window.innerWidth
-        );
-
-        const alturaViewport = Math.round(
-            viewport?.height || window.innerHeight
-        );
-
-        if (!larguraViewport || !alturaViewport) return;
-
-        /*
-         * Recuperação temporária do viewport no Edge/iPad.
-         * Apenas é aplicada quando a página regressa do estado oculto.
-         */
-        modalContent.style.setProperty(
-            "width",
-            `${larguraViewport}px`,
-            "important"
-        );
-
-        modalContent.style.setProperty(
-            "height",
-            `${alturaViewport}px`,
-            "important"
-        );
-
-        // Força o browser a recalcular o layout.
-        void modalContent.offsetHeight;
-
-        if (elementoAtual) {
-            elementoAtual.style.transition = "none";
-
-            if (!zoomAtivo) {
-                elementoAtual.style.transform =
-                    "translate(-50%, -50%)";
-            } else {
-                atualizarLimitesZoom();
-
-                if (!rafZoom) {
-                    rafZoom = requestAnimationFrame(atualizarZoom);
-                }
-            }
-        }
-
-        if (elementoAnterior && !zoomAtivo) {
-            elementoAnterior.style.transform =
-                "translate(calc(-50% - 100vw), -50%)";
-        }
-
-        if (elementoSeguinte && !zoomAtivo) {
-            elementoSeguinte.style.transform =
-                "translate(calc(-50% + 100vw), -50%)";
-        }
-
-        ajustarBolinhasIPhone();
-        ajustarFullscreenAndroid();
-    };
-
-    /*
-     * Vários ciclos porque o Edge/iPad pode terminar
-     * a restauração do viewport depois do evento inicial.
-     */
-    requestAnimationFrame(recalcular);
-    setTimeout(recalcular, 100);
-    setTimeout(recalcular, 300);
-    setTimeout(recalcular, 600);
-}
-
 function resetZoom(){
     zoomAtivo = false;
     escalaZoom = ZOOM_MIN;
@@ -878,10 +799,6 @@ function fecharModal(){
     modalProjeto.style.transition = "";
 
     document.getElementById("modal-content").innerHTML = "";
-
-    modalContent.style.removeProperty("width");
-    modalContent.style.removeProperty("height");
-
     elementoAtual = null;
     elementoAnterior = null;
     elementoSeguinte = null;
@@ -1868,17 +1785,6 @@ window.addEventListener("orientationchange", () => {
 window.addEventListener("resize", () => {
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
-});
-
-// Recuperação específica para Edge no iPad/iOS
-window.addEventListener("pageshow", () => {
-    recuperarModalEdgeIOS();
-});
-
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-        recuperarModalEdgeIOS();
-    }
 });
 
 if (backToTop) {

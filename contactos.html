@@ -154,6 +154,144 @@ window.addEventListener("scroll", () => {
     menu.classList.remove("active");
     contactWidget.classList.remove("active");
 }, { passive: true });
+
+/* =========================================================
+   EDGE iPAD — DETEÇÃO E RECUPERAÇÃO CONSERVADORA
+   ========================================================= */
+function isEdgeIPad() {
+    const ua = navigator.userAgent;
+    const isEdge = /EdgiOS/i.test(ua);
+    const isIPad = (/iPad/i.test(ua) || 
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) && 
+        !/iPhone/i.test(ua);
+
+    return isEdge && isIPad;
+}
+
+let edgeIPadHealthyWidth = 0;
+let edgeIPadHealthyHeight = 0;
+let edgeIPadRecoveryRunning = false;
+
+function guardarViewportSaudavelEdgeIPad() {
+    if (!isEdgeIPad()) return;
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    if (width <= 0 || height <= 0) return;
+
+    // Definição do primeiro baseline saudável
+    if (!edgeIPadHealthyWidth || !edgeIPadHealthyHeight) {
+        if (width > 500 && height > 400) {
+            edgeIPadHealthyWidth = width;
+            edgeIPadHealthyHeight = height;
+        }
+        return;
+    }
+
+    // Recusa saltos massivos súbitos como novos baselines
+    const diffWidth = Math.abs(width - edgeIPadHealthyWidth);
+    const diffHeight = Math.abs(height - edgeIPadHealthyHeight);
+
+    if (diffWidth > 150 || diffHeight > 150) {
+        return;
+    }
+
+    if (width > 500 && height > 400) {
+        edgeIPadHealthyWidth = width;
+        edgeIPadHealthyHeight = height;
+    }
+}
+
+function viewportEdgeIPadAnormal() {
+    if (!isEdgeIPad() || !edgeIPadHealthyWidth || !edgeIPadHealthyHeight) return false;
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const diffWidth = Math.abs(width - edgeIPadHealthyWidth);
+    const diffHeight = Math.abs(height - edgeIPadHealthyHeight);
+
+    return (diffWidth > 150 || diffHeight > 150 || width < 300 || height < 300);
+}
+
+function recuperarViewportEdgeIPad() {
+    if (!isEdgeIPad() || edgeIPadRecoveryRunning) return;
+
+    const modalProjeto = document.getElementById("modal-projeto");
+    if (!modalProjeto || modalProjeto.style.display !== "flex") {
+        guardarViewportSaudavelEdgeIPad();
+        return;
+    }
+
+    if (!viewportEdgeIPadAnormal()) return;
+
+    // Proteção contra gestos e transições em curso
+    if (typeof isDragging !== "undefined" && isDragging) return;
+    if (typeof isPinching !== "undefined" && isPinching) return;
+    if (typeof moverImagem !== "undefined" && moverImagem) return;
+
+    edgeIPadRecoveryRunning = true;
+    const metaViewport = document.querySelector('meta[name="viewport"]');
+    if (!metaViewport) {
+        edgeIPadRecoveryRunning = false;
+        return;
+    }
+
+    const original = metaViewport.getAttribute("content");
+
+    // Workaround do WebKit para redefinir a geometria
+    metaViewport.setAttribute("content", "width=device-width, initial-scale=1");
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            metaViewport.setAttribute("content", original);
+
+            requestAnimationFrame(() => {
+                if (typeof mostrarMidia === "function" && typeof midiasAtuais !== "undefined" && midiasAtuais.length > 0) {
+                    mostrarMidia();
+                }
+
+                if (typeof ajustarBolinhasIPhone === "function") ajustarBolinhasIPhone();
+                if (typeof ajustarFullscreenAndroid === "function") ajustarFullscreenAndroid();
+
+                setTimeout(() => {
+                    guardarViewportSaudavelEdgeIPad();
+                    edgeIPadRecoveryRunning = false;
+                }, 150);
+            });
+        });
+    });
+}
+
+/* =========================================================
+   LISTENERS DE INICIALIZAÇÃO E EVENTOS
+   ========================================================= */
+if (isEdgeIPad()) {
+    document.documentElement.classList.add("edge-ipad");
+    guardarViewportSaudavelEdgeIPad();
+}
+
+document.addEventListener("visibilitychange", () => {
+    if (!isEdgeIPad()) return;
+    if (document.visibilityState === "visible") {
+        setTimeout(recuperarViewportEdgeIPad, 50);
+        setTimeout(recuperarViewportEdgeIPad, 300);
+    }
+});
+
+window.addEventListener("pageshow", () => {
+    if (!isEdgeIPad()) return;
+    setTimeout(recuperarViewportEdgeIPad, 50);
+    setTimeout(recuperarViewportEdgeIPad, 300);
+});
+
+window.addEventListener("orientationchange", () => {
+    if (!isEdgeIPad()) return;
+    setTimeout(guardarViewportSaudavelEdgeIPad, 500);
+});
+
+
 </script>
 <footer>
     <div class="social-links">
