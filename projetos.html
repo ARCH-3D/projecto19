@@ -1846,11 +1846,13 @@ window.addEventListener("scroll", () => {
 window.addEventListener("orientationchange", () => {
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
+    corrigirLayoutEdgeiPad();
 });
 
 window.addEventListener("resize", () => {
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
+    corrigirLayoutEdgeiPad();
 });
 
 if (backToTop) {
@@ -1886,6 +1888,7 @@ window.addEventListener("resize", () => {
     if (document.getElementById("modal-projeto").style.display === "flex") {
         ajustarBolinhasIPhone();
         ajustarFullscreenAndroid();
+        corrigirLayoutEdgeiPad();
     }
 });
 
