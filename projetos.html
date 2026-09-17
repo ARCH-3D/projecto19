@@ -720,6 +720,7 @@ function distanciaToques(t1, t2){
 
 function abrirProjeto(nomeProjeto){
     if (!projetos[nomeProjeto]) return;
+
     if (typeof gtag === "function") {
         gtag("event", "projeto_aberto", {
             projeto: nomeProjeto,
@@ -728,34 +729,50 @@ function abrirProjeto(nomeProjeto){
         });
     }
 
-    const modalProjeto = document.getElementById("modal-projeto");
+    const modalProjeto =
+        document.getElementById("modal-projeto");
 
-    // 1. Limpar estilos de transição/fundo residuais de gestos anteriores
+    // Limpar estilos residuais
     modalProjeto.style.transition = "";
     modalProjeto.style.background = "";
 
-    // 2. TORNAR O MODAL VISÍVEL PRIMEIRO para garantir que os cálculos de dimensão funcionam
+    // Mostrar primeiro o modal
     modalProjeto.style.display = "flex";
     document.body.classList.add("modal-open");
 
-    // 3. Configurar os dados do projeto
+    // Configurar projeto
     projetoAtual = projetos[nomeProjeto];
     midiasAtuais = projetoAtual.media;
     indiceAtual = 0;
     previewIndice = indiceAtual;
+
     atualizarIndicadores(true);
 
-    // 4. Carregar e animar a mídia com o modal já visível
+    // Carregar a primeira mídia
     mostrarMidia();
+
     mostrarBotaoFullscreen();
-    if (zoomBtn) zoomBtn.textContent = "+";
+
+    if (zoomBtn) {
+        zoomBtn.textContent = "+";
+    }
+
     preloadImagens();
 
-    document.getElementById("modal-title").textContent = projetoAtual.info.nome;
-    document.getElementById("modal-year").textContent = projetoAtual.info.ano;
-    document.getElementById("modal-area").textContent = projetoAtual.info.area;
-    document.getElementById("modal-location").textContent = projetoAtual.info.local;
+    // Informação do projeto
+    document.getElementById("modal-title").textContent =
+        projetoAtual.info.nome;
 
+    document.getElementById("modal-year").textContent =
+        projetoAtual.info.ano;
+
+    document.getElementById("modal-area").textContent =
+        projetoAtual.info.area;
+
+    document.getElementById("modal-location").textContent =
+        projetoAtual.info.local;
+
+    // Classes específicas dos dispositivos
     if (isIPhoneSafariOrEdge()) {
         modalProjeto.classList.add("iphone-device");
     } else {
@@ -771,22 +788,35 @@ function abrirProjeto(nomeProjeto){
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
 
-    if (contactWidget) contactWidget.style.display = "none";
-    if (backToTop) backToTop.classList.remove("show");
+    if (contactWidget) {
+        contactWidget.style.display = "none";
+    }
+
+    if (backToTop) {
+        backToTop.classList.remove("show");
+    }
+
     mostrarTutorialGestos();
 
     // Acessibilidade e foco
-    elementoFocadoAnteriormente = document.activeElement;
-    const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
+    elementoFocadoAnteriormente =
+        document.activeElement;
+
+    const elementosFundo =
+        document.querySelectorAll(
+            "header, section, footer, .contact-widget, #back-to-top"
+        );
+
     elementosFundo.forEach(el => {
-        if (el) el.setAttribute('inert', ''); 
+        if (el) {
+            el.setAttribute("inert", "");
+        }
     });
-    
+
     modalProjeto.focus();
 
-    if (isEdgeiPad()) {
-        corrigirLayoutEdgeiPad();
-    }    
+    // IMPORTANTE:
+    // Não chamar corrigirLayoutEdgeiPad() aqui.
 }
 
 function fecharModal(){
@@ -871,74 +901,36 @@ function isEdgeiPad(){
 function corrigirLayoutEdgeiPad() {
     const modal = document.getElementById("modal-projeto");
 
+    if (!modal) return;
     if (modal.style.display !== "flex") return;
     if (!isEdgeiPad()) return;
 
-    const ajustarInstantaneamente = () => {
+    const largura = window.innerWidth;
+    const altura = window.innerHeight;
 
-        // NUNCA interferir durante um gesto ou durante a animação de fecho
-        if (isDragging || isVerticalDrag) return;
+    // Corrigir apenas as dimensões do modal
+    modal.style.width = `${largura}px`;
+    modal.style.height = `${altura}px`;
 
-        const largura = window.innerWidth;
-        const altura = window.innerHeight;
+    // Corrigir apenas as dimensões das imagens
+    const imagens = modal.querySelectorAll("img");
 
-        // 1. Forçar as dimensões reais do modal
-        modal.style.width = `${largura}px`;
-        modal.style.height = `${altura}px`;
+    imagens.forEach(img => {
+        img.style.maxWidth = `${largura}px`;
+        img.style.maxHeight = `${altura}px`;
+    });
 
-        // 2. Ajustar as imagens sem as esconder
-        const imagens = modal.querySelectorAll("img");
+    // NÃO alterar:
+    // - transform
+    // - opacity
+    // - transition
+    //
+    // O transform da imagem é controlado exclusivamente
+    // pelos gestos e pelas animações da galeria.
 
-        imagens.forEach(img => {
-            img.style.maxWidth = `${largura}px`;
-            img.style.maxHeight = `${altura}px`;
-
-            img.style.opacity = "0.99";
-            void img.offsetHeight;
-            img.style.opacity = "1";
-        });
-
-        // 3. Só reposicionar quando não existe nenhum gesto ativo
-        if (elementoAtual) {
-            elementoAtual.style.transition = "none";
-            elementoAtual.style.transform =
-                "translate(-50%, -50%)";
-        }
-
-        if (elementoAnterior) {
-            elementoAnterior.style.transition = "none";
-            elementoAnterior.style.transform =
-                `translate(calc(-50% - ${largura}px), -50%)`;
-        }
-
-        if (elementoSeguinte) {
-            elementoSeguinte.style.transition = "none";
-            elementoSeguinte.style.transform =
-                `translate(calc(-50% + ${largura}px), -50%)`;
-        }
-
-        if (typeof ajustarBolinhasIPhone === "function") {
-            ajustarBolinhasIPhone();
-        }
-
-        if (typeof ajustarFullscreenAndroid === "function") {
-            ajustarFullscreenAndroid();
-        }
-    };
-
-    ajustarInstantaneamente();
-
-    setTimeout(() => {
-        if (!isDragging && !isVerticalDrag) {
-            ajustarInstantaneamente();
-        }
-    }, 150);
-
-    setTimeout(() => {
-        if (!isDragging && !isVerticalDrag) {
-            ajustarInstantaneamente();
-        }
-    }, 300);
+    if (typeof ajustarBolinhasIPhone === "function") {
+        ajustarBolinhasIPhone();
+    }
 }
 
 function ajustarFullscreenAndroid(){
@@ -1522,118 +1514,265 @@ modal.addEventListener("touchstart", function(e){
 }, { passive: false });
 
 modal.addEventListener("touchmove", function(e){
-    if (e.target.closest("button, .close, .zoom-btn, .fullscreen-btn")) return;
 
-    if (e.touches.length === 2 && elementoAtual) {
+    if (
+        e.target.closest(
+            "button, .close, .zoom-btn, .fullscreen-btn"
+        )
+    ) {
+        return;
+    }
+
+    // =========================
+    // PINCH
+    // =========================
+    if (
+        e.touches.length === 2 &&
+        elementoAtual
+    ) {
         isPinching = true;
         isVerticalDrag = false;
+
         modal.style.background = "";
 
         e.preventDefault();
-        const distanciaAtual = distanciaToques(e.touches[0], e.touches[1]);
-        const novaEscala = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, escalaInicialPinch * (distanciaAtual / distanciaInicialPinch)));
-    
-        // --- NOVO: Cálculo para focar o zoom no local dos dedos ---
-        // Encontrar o rácio de crescimento em relação ao tamanho que a imagem tinha no início do gesto
-        const razaoEscala = novaEscala / escalaInicialPinch;
-    
-        // O centro visual do ecrã
-        const centroEcraX = window.innerWidth / 2;
-        const centroEcraY = window.innerHeight / 2;
-    
-        // Deslocar o alvo de zoom na direção oposta ao centro da pinça, multiplicando pela diferença de escala
-        zoomTargetX = pinchImagemX - (pinchCentroX - centroEcraX) * (razaoEscala - 1);
-        zoomTargetY = pinchImagemY - (pinchCentroY - centroEcraY) * (razaoEscala - 1);
-        // -----------------------------------------------------------
+
+        const distanciaAtual =
+            distanciaToques(
+                e.touches[0],
+                e.touches[1]
+            );
+
+        const novaEscala = Math.max(
+            ZOOM_MIN,
+            Math.min(
+                ZOOM_MAX,
+                escalaInicialPinch *
+                (
+                    distanciaAtual /
+                    distanciaInicialPinch
+                )
+            )
+        );
+
+        const razaoEscala =
+            novaEscala /
+            escalaInicialPinch;
+
+        const centroEcraX =
+            window.innerWidth / 2;
+
+        const centroEcraY =
+            window.innerHeight / 2;
+
+        zoomTargetX =
+            pinchImagemX -
+            (pinchCentroX - centroEcraX) *
+            (razaoEscala - 1);
+
+        zoomTargetY =
+            pinchImagemY -
+            (pinchCentroY - centroEcraY) *
+            (razaoEscala - 1);
 
         escalaZoom = novaEscala;
         zoomAtivo = escalaZoom > 1.02;
-    
-        if (zoomBtn) zoomBtn.textContent = zoomAtivo ? "−" : "+";
-    
+
+        if (zoomBtn) {
+            zoomBtn.textContent =
+                zoomAtivo ? "−" : "+";
+        }
+
         if (!zoomAtivo) {
-            zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
+            zoomX = 0;
+            zoomY = 0;
+            zoomTargetX = 0;
+            zoomTargetY = 0;
         } else {
-            // NOVO: Sincronizar as variáveis de arrasto simples para que a imagem não dê um salto 
-            // caso o utilizador levante apenas um dedo e continue a arrastar a imagem
             zoomX = zoomTargetX;
             zoomY = zoomTargetY;
         }
-    
-        if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
+
+        if (!rafZoom) {
+            rafZoom =
+                requestAnimationFrame(atualizarZoom);
+        }
+
         return;
     }
 
-    if (zoomAtivo && moverImagem && elementoAtual) {
+    // =========================
+    // MOVER COM ZOOM
+    // =========================
+    if (
+        zoomAtivo &&
+        moverImagem &&
+        elementoAtual
+    ) {
         e.preventDefault();
-        zoomX = e.touches[0].clientX - zoomStartX;
-        zoomY = e.touches[0].clientY - zoomStartY;
+
+        zoomX =
+            e.touches[0].clientX -
+            zoomStartX;
+
+        zoomY =
+            e.touches[0].clientY -
+            zoomStartY;
+
         zoomTargetX = zoomX;
         zoomTargetY = zoomY;
-        if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
+
+        if (!rafZoom) {
+            rafZoom =
+                requestAnimationFrame(atualizarZoom);
+        }
+
         return;
     }
 
-    if (!isDragging || !elementoAtual) return;
+    // =========================
+    // GESTO NORMAL
+    // =========================
+    if (!isDragging || !elementoAtual) {
+        return;
+    }
+
     e.preventDefault();
-    const touchX = e.touches[0].clientX, touchY = e.touches[0].clientY;
-    const dx = touchX - touchStartX, dy = touchY - touchStartY;
+
+    const touchX =
+        e.touches[0].clientX;
+
+    const touchY =
+        e.touches[0].clientY;
+
+    const dx =
+        touchX - touchStartX;
+
+    const dy =
+        touchY - touchStartY;
+
     currentTranslate = dx;
     currentY = dy;
-    
-    if (!isVerticalDrag) {
-        isVerticalDrag = Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > DRAG_START_THRESHOLD;
-    }
-    
-    if (isVerticalDrag) {
-        // Revelar a página por baixo enquanto a imagem é arrastada
-        document.body.classList.add("modal-vertical-drag");
 
-        // A imagem acompanha exatamente o dedo
+    // Detetar direção do gesto
+    if (!isVerticalDrag) {
+        isVerticalDrag =
+            Math.abs(dy) >
+            Math.abs(dx) &&
+            Math.abs(dy) >
+            DRAG_START_THRESHOLD;
+    }
+
+    // =========================
+    // VERTICAL = FECHAR
+    // =========================
+    if (isVerticalDrag) {
+
+        elementoAtual.style.transition =
+            "none";
+
         elementoAtual.style.transform =
             `translate(-50%, calc(-50% + ${currentY}px))`;
 
-        // Quanto mais a imagem se afasta, mais o fundo branco desaparece
-        const progresso = Math.min(
-            Math.abs(currentY) / MODAL_FADE_DISTANCE,
-            1
-        );
+        // Manter a imagem visível durante o arrasto
+        elementoAtual.style.opacity = "1";
 
-        const opacidadeFundo = 1 - progresso;
+        // Fundo acompanha o movimento
+        const progresso =
+            Math.min(
+                Math.abs(currentY) /
+                MODAL_FADE_DISTANCE,
+                1
+            );
 
-        // Sem transição durante o arrasto para acompanhar o dedo em tempo real
-        modal.style.transition = "none";
+        const opacidade =
+            1 - progresso;
+
+        modal.style.transition =
+            "none";
+
         modal.style.background =
-            `rgba(255, 255, 255, ${opacidadeFundo})`;
+            `rgba(255,255,255,${opacidade})`;
+
+        document.body.classList.add(
+            "modal-vertical-drag"
+        );
 
         return;
     }
-    
-    elementoAtual.style.transform = `translate(calc(-50% + ${currentTranslate}px), -50%)`;
-    const largura = window.innerWidth, limitePreview = PREVIEW_THRESHOLD;
-    let novoIndice = indiceAtual;
-    
-    if (currentTranslate < -limitePreview) {
-        novoIndice = (indiceAtual + 1) % midiasAtuais.length;
-    } else if (currentTranslate > limitePreview) {
-        novoIndice = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
+
+    // =========================
+    // HORIZONTAL = MUDAR IMAGEM
+    // =========================
+    elementoAtual.style.transform =
+        `translate(calc(-50% + ${currentTranslate}px), -50%)`;
+
+    const largura =
+        window.innerWidth;
+
+    let novoIndice =
+        indiceAtual;
+
+    if (
+        currentTranslate <
+        -PREVIEW_THRESHOLD
+    ) {
+        novoIndice =
+            (indiceAtual + 1) %
+            midiasAtuais.length;
+
+    } else if (
+        currentTranslate >
+        PREVIEW_THRESHOLD
+    ) {
+        novoIndice =
+            (
+                indiceAtual - 1 +
+                midiasAtuais.length
+            ) %
+            midiasAtuais.length;
     }
-    
+
     if (novoIndice !== previewIndice) {
-        previewIndice = novoIndice;
-        const barras = document.querySelectorAll("#modal-indicators span");
-        barras.forEach(b => b.classList.remove("active"));
-        barras[previewIndice]?.classList.add("active");
+
+        previewIndice =
+            novoIndice;
+
+        const barras =
+            document.querySelectorAll(
+                "#modal-indicators span"
+            );
+
+        barras.forEach(b =>
+            b.classList.remove("active")
+        );
+
+        barras[previewIndice]
+            ?.classList.add("active");
     }
-    
-    if (currentTranslate < 0 && elementoSeguinte) {
-        const entrada = largura + currentTranslate;
-        elementoSeguinte.style.transform = `translate(calc(-50% + ${entrada}px), -50%)`;
+
+    if (
+        currentTranslate < 0 &&
+        elementoSeguinte
+    ) {
+        elementoSeguinte.style.transform =
+            `translate(
+                calc(-50% + ${largura + currentTranslate}px),
+                -50%
+            )`;
     }
-    if (currentTranslate > 0 && elementoAnterior) {
-        const entrada = -largura + currentTranslate;
-        elementoAnterior.style.transform = `translate(calc(-50% + ${entrada}px), -50%)`;
+
+    if (
+        currentTranslate > 0 &&
+        elementoAnterior
+    ) {
+        elementoAnterior.style.transform =
+            `translate(
+                calc(-50% + ${-largura + currentTranslate}px),
+                -50%
+            )`;
     }
+
 }, { passive: false });
 
 modal.addEventListener("touchend", function(e){
@@ -1932,16 +2071,27 @@ window.addEventListener("scroll", () => {
 window.addEventListener("orientationchange", () => {
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
-    corrigirLayoutEdgeiPad();
+
+    if (!isDragging && !isVerticalDrag) {
+        corrigirLayoutEdgeiPad();
+    }
 });
 
 window.addEventListener("resize", () => {
+
+    if (
+        document.getElementById("modal-projeto").style.display !== "flex"
+    ) {
+        return;
+    }
+
+    if (isDragging || isVerticalDrag) {
+        return;
+    }
+
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
-
-    if (!isDragging) {
-        corrigirLayoutEdgeiPad();
-    }
+    corrigirLayoutEdgeiPad();
 });
 
 if (backToTop) {
@@ -1968,18 +2118,6 @@ document.addEventListener("fullscreenchange", function() {
         limparEstilos(elementoAtual);
         limparEstilos(elementoAnterior);
         limparEstilos(elementoSeguinte);
-    }
-});
-
-// Ouve as rotações/redimensionamentos do dispositivo
-window.addEventListener("resize", () => {
-    if (document.getElementById("modal-projeto").style.display === "flex") {
-        ajustarBolinhasIPhone();
-        ajustarFullscreenAndroid();
-
-        if (!isDragging) {
-            corrigirLayoutEdgeiPad();
-        }
     }
 });
 
