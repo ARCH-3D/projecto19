@@ -809,6 +809,9 @@ function fecharModal(){
     modalProjeto.style.background = "";
     modalProjeto.style.transition = "";
 
+    modalProjeto.classList.remove("is-closing");
+    document.body.classList.remove("modal-closing");    
+
     document.getElementById("modal-content").innerHTML = "";
     elementoAtual = null;
     elementoAnterior = null;
@@ -1614,20 +1617,41 @@ modal.addEventListener("touchend", function(e){
     if (isVerticalDrag) {
         if (Math.abs(dy) > limiteY) {
             if (!elementoAtual) return;
+
             const destino = dy > 0 ? "100vh" : "-100vh";
-            elementoAtual.style.transition = "transform .25s ease, opacity .25s ease";
-            elementoAtual.style.transform = `translate(-50%, calc(-50% + ${destino}))`;
+
+            // Inicia o fecho visual:
+            // - revela a página que está por baixo
+            // - torna o fundo do modal transparente
+            // - faz desaparecer o modal em simultâneo com a imagem
+            document.body.classList.add("modal-closing");
+            modal.classList.add("is-closing");
+
+            // A imagem continua o movimento do dedo até sair do ecrã
+            elementoAtual.style.transition =
+                "transform .25s ease, opacity .25s ease";
+
+            elementoAtual.style.transform =
+                `translate(-50%, calc(-50% + ${destino}))`;
+
             elementoAtual.style.opacity = "0";
-            modal.style.transition = "background .25s ease";
-            modal.style.background = "rgba(0,0,0,0)";
-            setTimeout(() => { fecharModal(); }, 200);
+
+            // Fecha definitivamente depois da animação
+            setTimeout(() => {
+                fecharModal();
+            }, 280);
+
         } else {
             if (!elementoAtual) return;
+
             centrarElemento(elementoAtual);
+
             modal.style.transition = "background .25s ease";
             modal.style.background = "";
+
             atualizarPreview();
         }
+
         return;
     }
     handleSwipe();
