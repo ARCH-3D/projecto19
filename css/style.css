@@ -21,7 +21,6 @@
 html{
     scrollbar-gutter:stable;
     -webkit-text-size-adjust:100%;
-    background-color:var(--c-bg);
 }
 
 /* ================== BODY ================== */
@@ -33,17 +32,16 @@ body{
     font-family:var(--font-main);
     font-weight:300;
     color:var(--c-text);
-    background-color:var(--c-bg);
+    background:var(--c-bg);
     line-height:1.6;
     overflow-x:hidden;
 }
-
 body.modal-open{
     overflow:hidden;
-    background-color:var(--c-bg);
 }
 
-body.modal-open .grid{
+/* Garante fundo 100% sólido sob as barras translúcidas do Firefox/iOS ocultando o canvas de fundo */
+body.modal-open > *:not(#modal-projeto){
     visibility:hidden !important;
 }
 
