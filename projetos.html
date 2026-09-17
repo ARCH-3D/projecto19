@@ -589,7 +589,6 @@ media: [
 
 const FULLSCREEN_TELEMOVEL = true;
 const FULLSCREEN_IPHONE = false;
-const FULLSCREEN_IPAD = false;
 const ATIVAR_TUTORIAL_GESTOS = true; // Coloque 'false' se quiser desativar o tutorial
 let projetoAtual = null, midiasAtuais = [], indiceAtual = 0, direcaoSlide = 1;
 let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0, ultimoToque = 0;
@@ -1054,15 +1053,11 @@ function mostrarBotaoFullscreen(){
     
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isApple = isAppleMobile();
-    const isPad = isIPad();
 
-    // iPhone e iPad seguem a mesma lógica:
-    // fullscreen desativado e zoom reposicionado.
     const deveMostrar =
-        (!isApple && !isPad && isAndroid && FULLSCREEN_TELEMOVEL) ||
-        (!isApple && !isPad && !isAndroid) ||
         (isApple && FULLSCREEN_IPHONE) ||
-        (isPad && FULLSCREEN_IPAD);
+        (isAndroid && FULLSCREEN_TELEMOVEL) ||
+        (!isApple && !isAndroid);
 
     if (deveMostrar) {
         btn.style.display = "";
@@ -1125,15 +1120,23 @@ function toggleFullscreen(){
             
             // LÓGICA NOVA: Função auxiliar para rodar apenas se for telemóvel padrão
             const tentarRodarEcra = () => {
-                // Telemóveis Android incluem "Mobile" no User-Agent. 
+                // Telemóveis Android incluem "Mobile" no User-Agent.
                 const isMobile = /Mobile/i.test(navigator.userAgent);
                 
                 // Deteta Z Fold aberto: ecrã simultaneamente largo e alto
-                const isFoldUnfolded = window.innerWidth > 600 && window.innerHeight > 600;
+                const isFoldUnfolded =
+                    window.innerWidth > 600 &&
+                    window.innerHeight > 600;
                 
-                // Só bloqueia para "landscape" se for um dispositivo Mobile E não for um Fold aberto
-                if (isMobile && !isFoldUnfolded && screen.orientation && screen.orientation.lock) {
-                    screen.orientation.lock('landscape').catch(err => {
+                // Só bloqueia para "landscape" se for um dispositivo Mobile
+                // e não for um Fold aberto
+                if (
+                    isMobile &&
+                    !isFoldUnfolded &&
+                    screen.orientation &&
+                    screen.orientation.lock
+                ) {
+                    screen.orientation.lock("landscape").catch(err => {
                         console.warn("A rotação automática falhou:", err);
                     });
                 }
@@ -1144,13 +1147,38 @@ function toggleFullscreen(){
                 promise.then(() => {
                     tentarRodarEcra();
                 }).catch(err => {
-                    console.error("Erro ao entrar em fullscreen:", err);
+                    console.warn(
+                        "Fullscreen não suportado neste navegador:",
+                        err
+                    );
+
+                    // Se o pedido de fullscreen for rejeitado
+                    // (ex.: Firefox no iPad), esconde o botão
+                    // e reposiciona o botão de zoom.
+                    if (fullscreenBtn) {
+                        fullscreenBtn.style.display = "none";
+                        fullscreenBtn.classList.remove("show");
+                    }
+
+                    if (zoomBtn) {
+                        zoomBtn.style.right = "78px";
+                    }
                 });
             } else {
                 // Fallback para navegadores antigos que não retornam Promise
                 setTimeout(() => {
                     tentarRodarEcra();
                 }, 200);
+            }
+        } else {
+            // Fullscreen API não disponível
+            if (fullscreenBtn) {
+                fullscreenBtn.style.display = "none";
+                fullscreenBtn.classList.remove("show");
+            }
+
+            if (zoomBtn) {
+                zoomBtn.style.right = "78px";
             }
         }
     } else {
@@ -1163,7 +1191,11 @@ function toggleFullscreen(){
             });
         } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
-            if (screen.orientation && screen.orientation.unlock) {
+
+            if (
+                screen.orientation &&
+                screen.orientation.unlock
+            ) {
                 screen.orientation.unlock();
             }
         }
@@ -1818,7 +1850,6 @@ fullscreenBtn.addEventListener("click", function(e){
     e.stopPropagation();
 
     if (isAppleMobile() && !FULLSCREEN_IPHONE) return;
-    if (isIPad() && !FULLSCREEN_IPAD) return;
 
     toggleFullscreen();
 });
