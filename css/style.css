@@ -40,9 +40,11 @@ body.modal-open{
     overflow:hidden;
 }
 
-/* Garante fundo 100% sólido sob as barras translúcidas do Firefox/iOS ocultando o canvas de fundo */
-body.modal-open > *:not(#modal-projeto){
-    visibility:hidden !important;
+/* Quando o modal abre, em vez de visibility: hidden (ou display: none), usa: */
+body.modal-open > *:not(#modal-projeto) {
+    opacity: 0;
+    pointer-events: none; /* Impede cliques acidentais no fundo invisível */
+    transition: opacity 0.2s ease; /* Transição suave opcional */
 }
 
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
@@ -1363,6 +1365,10 @@ html:has(:fullscreen) {
 
 /* ================== FUNDO DA PÁGINA DURANTE FECHO POR SWIPE ================== */
 
-/*body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
-    visibility: visible !important;
-}*/
+body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
+    opacity: 1 !important;
+    /* Se precisares muito do visibility, usa com aceleração por hardware: */
+    visibility: visible !important; 
+    transform: translateZ(0); 
+    -webkit-transform: translateZ(0);
+}

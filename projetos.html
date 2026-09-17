@@ -1583,11 +1583,13 @@ modal.addEventListener("touchmove", function(e){
     
     if (!isVerticalDrag) {
         isVerticalDrag = Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > DRAG_START_THRESHOLD;
+
+        if (isVerticalDrag) {
+            document.body.classList.add("modal-vertical-drag");
+        }        
     }
     
     if (isVerticalDrag) {
-        // Revelar a página por baixo enquanto a imagem é arrastada
-        document.body.classList.add("modal-vertical-drag");
 
         // A imagem acompanha exatamente o dedo
         elementoAtual.style.transform =
