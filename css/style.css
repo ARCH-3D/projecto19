@@ -21,6 +21,7 @@
 html{
     scrollbar-gutter:stable;
     -webkit-text-size-adjust:100%;
+    background-color:var(--c-bg);
 }
 
 /* ================== BODY ================== */
@@ -32,12 +33,18 @@ body{
     font-family:var(--font-main);
     font-weight:300;
     color:var(--c-text);
-    background:var(--c-bg);
+    background-color:var(--c-bg);
     line-height:1.6;
     overflow-x:hidden;
 }
+
 body.modal-open{
     overflow:hidden;
+    background-color:var(--c-bg);
+}
+
+body.modal-open .grid{
+    visibility:hidden !important;
 }
 
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
@@ -412,7 +419,6 @@ footer p{
     inset:0;
     background:var(--c-bg);
     z-index:999999;
-    isolation:isolate;
     justify-content:center;
     align-items:center;
     flex-direction:column;
@@ -1355,15 +1361,4 @@ html:has(:fullscreen) {
 
 #modal-projeto.edge-ipad-device .modal-info {
     bottom: calc(25px + env(safe-area-inset-bottom, 0px)) !important;
-}
-
-body.modal-open::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--c-bg);
-    z-index: 999998;
-    pointer-events: none;
 }
