@@ -863,8 +863,9 @@ function isIPhoneSafariOrEdge(){
 function isEdgeiPad(){
     const ua = navigator.userAgent;
     const isEdge = /EdgiOS/i.test(ua);
+    const isFirefox = /FxiOS/i.test(ua); // Adiciona suporte para Firefox no iOS
     const isIPad = /iPad/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    return isEdge && isIPad;
+    return (isEdge || isFirefox) && isIPad;
 }
 
 // --- FIX EDGE IPAD: Forçar redraw imediato sem piscar ---
@@ -875,12 +876,14 @@ function corrigirLayoutEdgeiPad() {
     if (!isEdgeiPad()) return;
 
     const ajustarInstantaneamente = () => {
-
         // NUNCA interferir durante um gesto ou durante a animação de fecho
         if (isDragging || isVerticalDrag) return;
 
         const largura = window.innerWidth;
         const altura = window.innerHeight;
+
+        // NOVA LINHA DE SEGURANÇA: Cancela se as dimensões ainda não tiverem recuperado
+        if (largura === 0 || altura === 0) return;
 
         // 1. Forçar as dimensões reais do modal
         modal.style.width = `${largura}px`;
@@ -2064,13 +2067,6 @@ function resetarEstadoGesto() {
 // 1. Escuta a interrupção de gestos promovida pelo iPadOS ao mudar de app
 modal.addEventListener("touchcancel", resetarEstadoGesto);
 
-// 2. Garante a limpeza do estilo inline assim que o browser volta ao primeiro plano
-document.addEventListener("visibilitychange", function() {
-    if (document.visibilityState === "visible" && modal.style.display === "flex") {
-        resetarEstadoGesto();
-    }
-});
-
 // Ouve a rotação do dispositivo e reposiciona as imagens escondidas instantaneamente
 window.addEventListener('resize', () => {
     const modal = document.getElementById("modal-projeto");
@@ -2104,14 +2100,27 @@ window.addEventListener('resize', () => {
     }
 });
 
+// Ouve o regresso à aplicação e força o redimensionamento do layout
 document.addEventListener("visibilitychange", function() {
     if (document.visibilityState === "visible") {
-        // O setTimeout dá tempo ao iPad para restaurar a janela antes de recalcular
-        setTimeout(function() {
-            window.dispatchEvent(new Event('resize'));
-        }, 150);
+        
+        if (modal && modal.style.display === "flex") {
+            resetarEstadoGesto();
+        }
+        
+        // Múltiplos disparos para compensar o atraso da UI no Edge/Firefox do iPad
+        const delays = [50, 150, 350, 650];
+        delays.forEach(delay => {
+            setTimeout(function() {
+                // Apenas dispara o evento de resize se o ecrã já for detetável
+                if (window.innerWidth > 0 && window.innerHeight > 0) {
+                    window.dispatchEvent(new Event('resize'));
+                }
+            }, delay);
+        });
     }
 });
+
 </script>
 </body>
 </html>
