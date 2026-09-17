@@ -2034,20 +2034,31 @@ document.addEventListener("visibilitychange", function() {
 // Ouve a rotação do dispositivo e reposiciona as imagens escondidas instantaneamente
 window.addEventListener('resize', () => {
     const modal = document.getElementById("modal-projeto");
-    if (modal && modal.style.display === "flex") {
+
+    // Não interferir enquanto o utilizador está a fazer
+    // o gesto vertical de fechar a imagem.
+    if (
+        modal &&
+        modal.style.display === "flex" &&
+        !isVerticalDrag
+    ) {
         const largura = window.innerWidth;
-        
+
         if (elementoAtual) {
-            elementoAtual.style.transition = "none"; // Impede que a imagem deslize visualmente durante a rotação
+            elementoAtual.style.transition = "none";
             elementoAtual.style.transform = "translate(-50%, -50%)";
         }
+
         if (elementoAnterior) {
             elementoAnterior.style.transition = "none";
-            elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
+            elementoAnterior.style.transform =
+                `translate(calc(-50% - ${largura}px), -50%)`;
         }
+
         if (elementoSeguinte) {
             elementoSeguinte.style.transition = "none";
-            elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
+            elementoSeguinte.style.transform =
+                `translate(calc(-50% + ${largura}px), -50%)`;
         }
     }
 });
