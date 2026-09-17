@@ -1859,18 +1859,6 @@ window.addEventListener("scroll", () => {
     }
 });
 
-window.addEventListener("orientationchange", () => {
-    ajustarBolinhasIPhone();
-    ajustarFullscreenAndroid();
-    corrigirLayoutEdgeiPad();
-});
-
-window.addEventListener("resize", () => {
-    ajustarFullscreenAndroid();
-    ajustarBolinhasIPhone();
-    corrigirLayoutEdgeiPad();
-});
-
 if (backToTop) {
     backToTop.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1895,16 +1883,6 @@ document.addEventListener("fullscreenchange", function() {
         limparEstilos(elementoAtual);
         limparEstilos(elementoAnterior);
         limparEstilos(elementoSeguinte);
-    }
-});
-
-// Ouve as rotações/redimensionamentos do dispositivo
-window.addEventListener("resize", () => {
-    // Apenas corre a atualização se o modal estiver aberto
-    if (document.getElementById("modal-projeto").style.display === "flex") {
-        ajustarBolinhasIPhone();
-        ajustarFullscreenAndroid();
-        corrigirLayoutEdgeiPad();
     }
 });
 
@@ -2011,31 +1989,44 @@ window.addEventListener('resize', () => {
     }
 });
 
-/* =========================================
-   CORRIGIR TRANSIÇÃO DURANTE A ROTAÇÃO (RESIZE)
-   ========================================= */
-let resizeTimeoutRota;
-
-window.addEventListener('resize', () => {
+// --- CORREÇÃO DE ROTAÇÃO E LAYOUT (IPHONE SAFARI / EDGE / IPAD) ---
+function reposicionarAoRodar() {
     const modalProjeto = document.getElementById("modal-projeto");
-    
-    // Só queremos atuar se o modal estiver aberto (visível)
-    if (modalProjeto && document.body.classList.contains("modal-open")) {
+    if (modalProjeto && modalProjeto.style.display === "flex") {
+        const largura = window.innerWidth;
         
-        // 1. Aplica a classe que desativa o CSS "transition" temporariamente
-        modalProjeto.classList.add('bloquear-animacoes');
+        // Corta as transições temporariamente para a imagem não "escorregar" e centra imediatamente
+        if (elementoAtual) {
+            elementoAtual.style.transition = "none";
+            elementoAtual.style.transform = "translate(-50%, -50%)";
+        }
+        if (elementoAnterior) {
+            elementoAnterior.style.transition = "none";
+            elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
+        }
+        if (elementoSeguinte) {
+            elementoSeguinte.style.transition = "none";
+            elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
+        }
         
-        /* NOTA: Se no seu código JS houver uma função que atualiza a posição das imagens
-           quando se faz swipe (ex: algo que calcule o translate), o ideal é chamá-la 
-           aqui para reposicionar as margens para a nova largura do ecrã. */
-        
-        // 2. Aguarda que o telemóvel termine a animação física de rodar o ecrã
-        clearTimeout(resizeTimeoutRota);
-        resizeTimeoutRota = setTimeout(() => {
-            // 3. Devolve a fluidez às imagens para os próximos swipes ou zooms
-            modalProjeto.classList.remove('bloquear-animacoes');
-        }, 300); // 300 milissegundos é o tempo ideal para o iOS assentar o layout
+        // Reaplica as dimensões de ecrã atualizadas para todos os dispositivos
+        if (typeof ajustarBolinhasIPhone === 'function') ajustarBolinhasIPhone();
+        if (typeof ajustarFullscreenAndroid === 'function') ajustarFullscreenAndroid();
+        if (typeof corrigirLayoutEdgeiPad === 'function') corrigirLayoutEdgeiPad();
     }
+}
+
+// Ouvintes únicos consolidados para mudanças de orientação e redimensionamento
+window.addEventListener("resize", () => {
+    requestAnimationFrame(reposicionarAoRodar);
+    setTimeout(reposicionarAoRodar, 150);
+    setTimeout(reposicionarAoRodar, 300);
+});
+
+window.addEventListener("orientationchange", () => {
+    requestAnimationFrame(reposicionarAoRodar);
+    setTimeout(reposicionarAoRodar, 150);
+    setTimeout(reposicionarAoRodar, 300);
 });
 
 </script>
