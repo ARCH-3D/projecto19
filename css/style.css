@@ -40,13 +40,6 @@ body.modal-open{
     overflow:hidden;
 }
 
-/* Quando o modal abre, em vez de visibility: hidden (ou display: none), usa: */
-body.modal-open > *:not(#modal-projeto) {
-    opacity: 0;
-    pointer-events: none; /* Impede cliques acidentais no fundo invisível */
-    transition: opacity 0.2s ease; /* Transição suave opcional */
-}
-
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
 button:active,
 a:active {
@@ -1352,29 +1345,4 @@ html:has(:fullscreen) {
         backface-visibility: visible;
         -webkit-backface-visibility: visible;
     }
-}
-
-/* Correção exclusiva para a legenda e bolinhas no Edge no iPad */
-#modal-projeto.edge-ipad-device .media-indicators {
-    bottom: calc(105px + env(safe-area-inset-bottom, 0px)) !important;
-}
-
-#modal-projeto.edge-ipad-device .modal-info {
-    bottom: calc(25px + env(safe-area-inset-bottom, 0px)) !important;
-}
-
-/* ================== FUNDO DA PÁGINA DURANTE FECHO POR SWIPE ================== */
-
-body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
-    opacity: 1 !important;
-    /* Se precisares muito do visibility, usa com aceleração por hardware: */
-    visibility: visible !important; 
-    transform: translateZ(0); 
-    -webkit-transform: translateZ(0);
-}
-
-html, body {
-    width: 100%;
-    overflow-x: hidden;
-    -webkit-text-size-adjust: 100%; /* Impede que o iPadOS altere as proporções nativamente */
 }
