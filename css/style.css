@@ -1361,31 +1361,6 @@ html:has(:fullscreen) {
     bottom: calc(25px + env(safe-area-inset-bottom, 0px)) !important;
 }
 
-/* ================== FECHO DO MODAL POR SWIPE ================== */
-
-.modal {
-    transition: opacity .28s cubic-bezier(.22,.61,.36,1);
-}
-
-/* Durante o fecho, o fundo branco do modal desaparece */
-.modal.is-closing {
-    background: transparent !important;
-    opacity: 0;
-    transition: opacity .28s cubic-bezier(.22,.61,.36,1);
-}
-
-/* Permite que a página por baixo volte a ficar visível
-   enquanto a imagem está a sair do ecrã */
-body.modal-open.modal-closing > *:not(#modal-projeto) {
-    visibility: visible !important;
-}
-
-/* Evita que a transição fique demasiado pesada */
-.modal.is-closing #modal-content img,
-.modal.is-closing #modal-content video {
-    will-change: transform, opacity;
-}
-
 /* ================== FUNDO DA PÁGINA DURANTE FECHO POR SWIPE ================== */
 
 body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {

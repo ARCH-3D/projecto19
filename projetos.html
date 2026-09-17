@@ -820,7 +820,11 @@ function fecharModal(){
     isVerticalDrag = false;
     currentTranslate = 0;
     currentY = 0;
-    document.body.classList.remove("modal-open");
+    document.body.classList.remove(
+        "modal-open",
+        "modal-vertical-drag",
+        "modal-closing"
+    );
 
     if (contactWidget) contactWidget.style.display = "";
     if (backToTop) {
