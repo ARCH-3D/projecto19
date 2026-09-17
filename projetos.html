@@ -1668,16 +1668,13 @@ modal.addEventListener("touchmove", function(e){
     // =========================
     if (isVerticalDrag) {
 
-        elementoAtual.style.transition =
-            "none";
+        elementoAtual.style.transition = "none";
 
         elementoAtual.style.transform =
             `translate(-50%, calc(-50% + ${currentY}px))`;
 
-        // Manter a imagem visível durante o arrasto
         elementoAtual.style.opacity = "1";
 
-        // Fundo acompanha o movimento
         const progresso =
             Math.min(
                 Math.abs(currentY) /
@@ -1688,15 +1685,10 @@ modal.addEventListener("touchmove", function(e){
         const opacidade =
             1 - progresso;
 
-        modal.style.transition =
-            "none";
+        modal.style.transition = "none";
 
         modal.style.background =
             `rgba(255,255,255,${opacidade})`;
-
-        document.body.classList.add(
-            "modal-vertical-drag"
-        );
 
         return;
     }
