@@ -2011,6 +2011,33 @@ window.addEventListener('resize', () => {
     }
 });
 
+/* =========================================
+   CORRIGIR TRANSIÇÃO DURANTE A ROTAÇÃO (RESIZE)
+   ========================================= */
+let resizeTimeoutRota;
+
+window.addEventListener('resize', () => {
+    const modalProjeto = document.getElementById("modal-projeto");
+    
+    // Só queremos atuar se o modal estiver aberto (visível)
+    if (modalProjeto && document.body.classList.contains("modal-open")) {
+        
+        // 1. Aplica a classe que desativa o CSS "transition" temporariamente
+        modalProjeto.classList.add('bloquear-animacoes');
+        
+        /* NOTA: Se no seu código JS houver uma função que atualiza a posição das imagens
+           quando se faz swipe (ex: algo que calcule o translate), o ideal é chamá-la 
+           aqui para reposicionar as margens para a nova largura do ecrã. */
+        
+        // 2. Aguarda que o telemóvel termine a animação física de rodar o ecrã
+        clearTimeout(resizeTimeoutRota);
+        resizeTimeoutRota = setTimeout(() => {
+            // 3. Devolve a fluidez às imagens para os próximos swipes ou zooms
+            modalProjeto.classList.remove('bloquear-animacoes');
+        }, 300); // 300 milissegundos é o tempo ideal para o iOS assentar o layout
+    }
+});
+
 </script>
 </body>
 </html>
