@@ -1047,10 +1047,10 @@ function mostrarBotaoFullscreen(){
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isApple = isAppleMobile();
 
-    const deveMostrar =
-        (isApple && FULLSCREEN_IPHONE) ||
-        (isAndroid && FULLSCREEN_TELEMOVEL) ||
-        (!isApple && !isAndroid);
+    // Determina se o botão deve ser visível no dispositivo atual
+    const deveMostrar = (isApple && FULLSCREEN_IPHONE) || 
+                          (isAndroid && FULLSCREEN_TELEMOVEL) || 
+                          (!isApple && !isAndroid);
 
     if (deveMostrar) {
         btn.style.display = "";
@@ -1072,12 +1072,7 @@ function mostrarBotaoFullscreen(){
 
     clearTimeout(fullscreenTimeout);
     fullscreenTimeout = setTimeout(() => {
-        if (
-            (btn && btn.matches(":hover")) ||
-            (close && close.matches(":hover")) ||
-            (zoom && zoom.matches(":hover"))
-        ) return;
-
+        if ((btn && btn.matches(":hover")) || (close && close.matches(":hover")) || (zoom && zoom.matches(":hover"))) return;
         btn.classList.remove("show");
         if (close) close.classList.remove("show-controls");
         if (zoom) zoom.classList.remove("show");
@@ -1111,25 +1106,17 @@ function toggleFullscreen(){
         if (requestFS) {
             const promise = requestFS.call(modal);
             
-            // Função auxiliar para rodar apenas se for telemóvel padrão
+            // LÓGICA NOVA: Função auxiliar para rodar apenas se for telemóvel padrão
             const tentarRodarEcra = () => {
-                // Telemóveis Android incluem "Mobile" no User-Agent.
+                // Telemóveis Android incluem "Mobile" no User-Agent. 
                 const isMobile = /Mobile/i.test(navigator.userAgent);
                 
                 // Deteta Z Fold aberto: ecrã simultaneamente largo e alto
-                const isFoldUnfolded =
-                    window.innerWidth > 600 &&
-                    window.innerHeight > 600;
+                const isFoldUnfolded = window.innerWidth > 600 && window.innerHeight > 600;
                 
-                // Só bloqueia para "landscape" se for um dispositivo Mobile
-                // e não for um Fold aberto
-                if (
-                    isMobile &&
-                    !isFoldUnfolded &&
-                    screen.orientation &&
-                    screen.orientation.lock
-                ) {
-                    screen.orientation.lock("landscape").catch(err => {
+                // Só bloqueia para "landscape" se for um dispositivo Mobile E não for um Fold aberto
+                if (isMobile && !isFoldUnfolded && screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape').catch(err => {
                         console.warn("A rotação automática falhou:", err);
                     });
                 }
@@ -1140,37 +1127,13 @@ function toggleFullscreen(){
                 promise.then(() => {
                     tentarRodarEcra();
                 }).catch(err => {
-                    console.warn(
-                        "Fullscreen não suportado neste navegador:",
-                        err
-                    );
-
-                    // Se o pedido for rejeitado
-                    // (ex.: Firefox no iPad), esconde o botão
-                    // e reposiciona o zoom.
-                    if (fullscreenBtn) {
-                        fullscreenBtn.style.display = "none";
-                        fullscreenBtn.classList.remove("show");
-                    }
-
-                    if (zoomBtn) {
-                        zoomBtn.style.right = "78px";
-                    }
+                    console.error("Erro ao entrar em fullscreen:", err);
                 });
             } else {
+                // Fallback para navegadores antigos que não retornam Promise
                 setTimeout(() => {
                     tentarRodarEcra();
                 }, 200);
-            }
-        } else {
-            // Fullscreen não disponível neste navegador
-            if (fullscreenBtn) {
-                fullscreenBtn.style.display = "none";
-                fullscreenBtn.classList.remove("show");
-            }
-
-            if (zoomBtn) {
-                zoomBtn.style.right = "78px";
             }
         }
     } else {
@@ -1183,11 +1146,7 @@ function toggleFullscreen(){
             });
         } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
-
-            if (
-                screen.orientation &&
-                screen.orientation.unlock
-            ) {
+            if (screen.orientation && screen.orientation.unlock) {
                 screen.orientation.unlock();
             }
         }
@@ -1840,9 +1799,7 @@ document.addEventListener("fullscreenchange", () => {
 
 fullscreenBtn.addEventListener("click", function(e){
     e.stopPropagation();
-
-    if (isAppleMobile() && !FULLSCREEN_IPHONE) return;
-
+    if (isAppleMobile() && !FULLSCREEN_IPHONE) return; 
     toggleFullscreen();
 });
 
