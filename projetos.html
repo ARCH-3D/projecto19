@@ -1296,6 +1296,14 @@ function configurarElementoMidia(elemento){
     elemento.style.outline = "1px solid transparent";
     elemento.style.backfaceVisibility = "hidden";
     elemento.style.WebkitBackfaceVisibility = "hidden";
+
+    // FIX iPad: Forçar comportamento tátil mobile desde o 1º movimento
+    // (Impede scroll nativo, drag de imagem e seleção de texto em modo desktop)
+    elemento.style.touchAction = "none";
+    elemento.style.userSelect = "none";
+    elemento.style.webkitUserSelect = "none";
+    elemento.style.webkitTouchCallout = "none";
+    elemento.setAttribute("draggable", "false");
 }
 
 function criarElementoMidia(midia){
@@ -1435,24 +1443,18 @@ function mostrarMidia(){
                 antigo.style.transform = direcaoSlide === 1 ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)` : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
                 antigo.style.opacity = "0";
             }
-            if (!isVerticalDrag) {
-                novo.style.transform = "translate(-50%, -50%)";
-            }
+            novo.style.transform = "translate(-50%, -50%)";
             novo.style.opacity = "1";
         });
         setTimeout(() => {
             if (antigo) antigo.remove();
             if (midia.type === "video") novo.play();
             elementoAtual = novo;
-            if (!isVerticalDrag) {
-                ajustarBolinhasIPhone();
-                ajustarFullscreenAndroid();
-            }
+            ajustarBolinhasIPhone();
+            ajustarFullscreenAndroid();
             if (elementoSeguinte) { elementoSeguinte.remove(); elementoSeguinte = null; }
             if (elementoAnterior) { elementoAnterior.remove(); elementoAnterior = null; }
-            if (!isVerticalDrag) {
-                atualizarLaterais();
-            }
+            atualizarLaterais();
         }, MEDIA_TRANSITION_TIME);
     };
     if (midia.type === "image") {
@@ -1594,10 +1596,6 @@ modal.addEventListener("touchmove", function(e){
     if (isVerticalDrag) {
         // Revelar a página por baixo enquanto a imagem é arrastada
         document.body.classList.add("modal-vertical-drag");
-
-        // Garantir visibilidade imediata e remover transições no arranque do gesto
-        elementoAtual.style.opacity = "1";
-        elementoAtual.style.transition = "none";
 
         // A imagem acompanha exatamente o dedo
         elementoAtual.style.transform =
