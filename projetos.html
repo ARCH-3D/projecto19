@@ -1435,32 +1435,24 @@ function mostrarMidia(){
                 antigo.style.transform = direcaoSlide === 1 ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)` : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
                 antigo.style.opacity = "0";
             }
-            
-            // CORREÇÃO: Respeita o gesto se o utilizador começou a arrastar durante o carregamento
-            if (isVerticalDrag) {
-                novo.style.transform = `translate(-50%, calc(-50% + ${currentY}px))`;
-            } else if (isDragging) {
-                novo.style.transform = `translate(calc(-50% + ${currentTranslate}px), -50%)`;
-            } else {
+            if (!isVerticalDrag) {
                 novo.style.transform = "translate(-50%, -50%)";
             }
-            
             novo.style.opacity = "1";
         });
         setTimeout(() => {
             if (antigo) antigo.remove();
             if (midia.type === "video") novo.play();
             elementoAtual = novo;
-            ajustarBolinhasIPhone();
-            
-            // PRECAUÇÃO: Evitar que o reajuste sobrescreva o transform a meio de um gesto
-            if (!isDragging && !isVerticalDrag) {
+            if (!isVerticalDrag) {
+                ajustarBolinhasIPhone();
                 ajustarFullscreenAndroid();
             }
-            
             if (elementoSeguinte) { elementoSeguinte.remove(); elementoSeguinte = null; }
             if (elementoAnterior) { elementoAnterior.remove(); elementoAnterior = null; }
-            atualizarLaterais();
+            if (!isVerticalDrag) {
+                atualizarLaterais();
+            }
         }, MEDIA_TRANSITION_TIME);
     };
     if (midia.type === "image") {
@@ -1602,6 +1594,10 @@ modal.addEventListener("touchmove", function(e){
     if (isVerticalDrag) {
         // Revelar a página por baixo enquanto a imagem é arrastada
         document.body.classList.add("modal-vertical-drag");
+
+        // Garantir visibilidade imediata e remover transições no arranque do gesto
+        elementoAtual.style.opacity = "1";
+        elementoAtual.style.transition = "none";
 
         // A imagem acompanha exatamente o dedo
         elementoAtual.style.transform =
