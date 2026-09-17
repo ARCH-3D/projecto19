@@ -1296,14 +1296,6 @@ function configurarElementoMidia(elemento){
     elemento.style.outline = "1px solid transparent";
     elemento.style.backfaceVisibility = "hidden";
     elemento.style.WebkitBackfaceVisibility = "hidden";
-
-    // FIX iPad: Forçar comportamento tátil mobile desde o 1º movimento
-    // (Impede scroll nativo, drag de imagem e seleção de texto em modo desktop)
-    elemento.style.touchAction = "none";
-    elemento.style.userSelect = "none";
-    elemento.style.webkitUserSelect = "none";
-    elemento.style.webkitTouchCallout = "none";
-    elemento.setAttribute("draggable", "false");
 }
 
 function criarElementoMidia(midia){
