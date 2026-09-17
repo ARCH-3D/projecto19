@@ -2138,6 +2138,47 @@ window.addEventListener('resize', () => {
         }
     }
 });
+
+// Função que aplica as dimensões diretamente em píxeis
+function forcarTamanhoReal() {
+    const modal = document.getElementById("modal-projeto");
+    if (!modal || modal.style.display !== "flex") return;
+
+    const largura = window.innerWidth;
+    const altura = window.innerHeight;
+
+    // Abortar se o iOS ainda estiver a reportar 0
+    if (largura === 0 || altura === 0) return;
+
+    // 1. Obrigar o modal a ocupar o ecrã inteiro
+    modal.style.width = `${largura}px`;
+    modal.style.height = `${altura}px`;
+
+    // 2. Hard Override nas imagens: aplicar limites exatos baseados no ecrã real
+    const imagens = modal.querySelectorAll('img');
+    imagens.forEach(img => {
+        img.style.width = '100%';
+        // Forçar limites máximos absolutos em píxeis para impedir que fiquem presas em tamanhos pequenos
+        img.style.maxWidth = `${largura}px`; 
+        img.style.maxHeight = `${altura}px`;
+    });
+
+    if (typeof resetarEstadoGesto === "function") {
+        resetarEstadoGesto();
+    }
+}
+
+// Intercetar TODOS os eventos possíveis de regresso à janela no iPadOS
+['visibilitychange', 'pageshow', 'focus', 'orientationchange'].forEach(evento => {
+    window.addEventListener(evento, function(e) {
+        if (evento === 'visibilitychange' && document.visibilityState !== 'visible') return;
+        
+        // Disparar a correção em cascata para garantir que apanhamos o momento exato em que o browser acorda
+        setTimeout(forcarTamanhoReal, 50);
+        setTimeout(forcarTamanhoReal, 300);
+        setTimeout(forcarTamanhoReal, 800);
+    });
+});
 </script>
 </body>
 </html>
