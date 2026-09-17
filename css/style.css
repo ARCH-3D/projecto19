@@ -17,15 +17,10 @@
     -webkit-tap-highlight-color:transparent;
 }
 
+/* ================== HTML ================== */
 html, body {
     touch-action: pan-x pan-y;
     -webkit-text-size-adjust: 100%;
-}
-
-/* ================== HTML ================== */
-html{
-    scrollbar-gutter:stable;
-    -webkit-text-size-adjust:100%;
 }
 
 /* ================== BODY ================== */
@@ -43,6 +38,11 @@ body{
 }
 body.modal-open{
     overflow:hidden;
+}
+
+/* Garante fundo 100% sólido sob as barras translúcidas do Firefox/iOS ocultando o canvas de fundo */
+body.modal-open > *:not(#modal-projeto){
+    visibility:hidden !important;
 }
 
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
@@ -1350,4 +1350,19 @@ html:has(:fullscreen) {
         backface-visibility: visible;
         -webkit-backface-visibility: visible;
     }
+}
+
+/* Correção exclusiva para a legenda e bolinhas no Edge no iPad */
+#modal-projeto.edge-ipad-device .media-indicators {
+    bottom: calc(105px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+#modal-projeto.edge-ipad-device .modal-info {
+    bottom: calc(25px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* ================== FUNDO DA PÁGINA DURANTE FECHO POR SWIPE ================== */
+
+body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
+    visibility: visible !important;
 }
