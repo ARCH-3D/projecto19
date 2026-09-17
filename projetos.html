@@ -919,6 +919,9 @@ function ajustarFullscreenAndroid(){
     if (!emAndroid || !landscape || !fullscreen) return;
     
     function aplicar(){
+        // CORREÇÃO CIRÚRGICA: Se o zoom estiver ativo, não sobrescrever os estilos de dimensão/transformação em fullscreen
+        if (zoomAtivo) return;
+
         const altura = window.innerHeight;
         const largura = window.innerWidth; // Obtém a nova largura do ecrã
         
@@ -2010,7 +2013,6 @@ window.addEventListener('resize', () => {
         }
     }
 });
-
 </script>
 </body>
 </html>
