@@ -40,11 +40,6 @@ body.modal-open{
     overflow:hidden;
 }
 
-/* Garante fundo 100% sólido sob as barras translúcidas do Firefox/iOS ocultando o canvas de fundo */
-body.modal-open > *:not(#modal-projeto){
-    visibility:hidden !important;
-}
-
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
 button:active,
 a:active {
@@ -1359,10 +1354,4 @@ html:has(:fullscreen) {
 
 #modal-projeto.edge-ipad-device .modal-info {
     bottom: calc(25px + env(safe-area-inset-bottom, 0px)) !important;
-}
-
-/* ================== FUNDO DA PÁGINA DURANTE FECHO POR SWIPE ================== */
-
-body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
-    visibility: visible !important;
 }
