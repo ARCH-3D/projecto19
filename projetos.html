@@ -867,18 +867,6 @@ function isEdgeiPad(){
     return isEdge && isIPad;
 }
 
-function isFirefoxiPad(){
-    const ua = navigator.userAgent;
-
-    const isFirefox = /FxiOS/i.test(ua);
-
-    const isIPad =
-        /iPad/i.test(ua) ||
-        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-
-    return isFirefox && isIPad;
-}
-
 // --- FIX EDGE IPAD: Forçar redraw imediato sem piscar ---
 function corrigirLayoutEdgeiPad() {
     const modal = document.getElementById("modal-projeto");
@@ -1060,10 +1048,10 @@ function mostrarBotaoFullscreen(){
     const isApple = isAppleMobile();
 
     // Determina se o botão deve ser visível no dispositivo atual
-    const deveMostrar =
-            (isApple && FULLSCREEN_IPHONE) ||
-            (isAndroid && FULLSCREEN_TELEMOVEL) ||
-            (!isApple && !isAndroid);
+    const deveMostrar = (isApple && FULLSCREEN_IPHONE) || 
+                          (isAndroid && FULLSCREEN_TELEMOVEL) || 
+                          (!isApple && !isAndroid);
+
     if (deveMostrar) {
         btn.style.display = "";
         btn.classList.add("show");
@@ -1112,93 +1100,53 @@ function mostrarBotaoFullscreen(){
 
 function toggleFullscreen(){
     if (!document.fullscreenElement) {
-
-        const requestFS =
-            modal.requestFullscreen ||
-            modal.webkitRequestFullscreen;
-
-        if (!requestFS) {
-            if (fullscreenBtn) {
-                fullscreenBtn.style.display = "none";
-                fullscreenBtn.classList.remove("show");
-            }
-            return;
-        }
-
-        const tentarRodarEcra = () => {
-            const isMobile = /Mobile/i.test(navigator.userAgent);
-            const isFoldUnfolded =
-                window.innerWidth > 600 &&
-                window.innerHeight > 600;
-
-            if (
-                isMobile &&
-                !isFoldUnfolded &&
-                screen.orientation &&
-                screen.orientation.lock
-            ) {
-                screen.orientation.lock("landscape").catch(err => {
-                    console.warn("A rotação automática falhou:", err);
-                });
-            }
-        };
-
-        try {
+        // Tenta entrar em ecrã inteiro
+        const requestFS = modal.requestFullscreen || modal.webkitRequestFullscreen;
+        
+        if (requestFS) {
             const promise = requestFS.call(modal);
-
+            
+            // LÓGICA NOVA: Função auxiliar para rodar apenas se for telemóvel padrão
+            const tentarRodarEcra = () => {
+                // Telemóveis Android incluem "Mobile" no User-Agent. 
+                const isMobile = /Mobile/i.test(navigator.userAgent);
+                
+                // Deteta Z Fold aberto: ecrã simultaneamente largo e alto
+                const isFoldUnfolded = window.innerWidth > 600 && window.innerHeight > 600;
+                
+                // Só bloqueia para "landscape" se for um dispositivo Mobile E não for um Fold aberto
+                if (isMobile && !isFoldUnfolded && screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape').catch(err => {
+                        console.warn("A rotação automática falhou:", err);
+                    });
+                }
+            };
+            
+            // Navegadores modernos retornam uma Promise
             if (promise !== undefined) {
                 promise.then(() => {
                     tentarRodarEcra();
                 }).catch(err => {
-                    console.warn(
-                        "Fullscreen nativo não suportado neste navegador:",
-                        err
-                    );
-
-                    if (fullscreenBtn) {
-                        fullscreenBtn.style.display = "none";
-                        fullscreenBtn.classList.remove("show");
-                    }
+                    console.error("Erro ao entrar em fullscreen:", err);
                 });
             } else {
+                // Fallback para navegadores antigos que não retornam Promise
                 setTimeout(() => {
                     tentarRodarEcra();
                 }, 200);
             }
-
-        } catch (err) {
-            console.warn(
-                "Fullscreen nativo não suportado neste navegador:",
-                err
-            );
-
-            if (fullscreenBtn) {
-                fullscreenBtn.style.display = "none";
-                fullscreenBtn.classList.remove("show");
-            }
         }
-
     } else {
-
+        // Sai do ecrã inteiro e desbloqueia a rotação
         if (document.exitFullscreen) {
-
             document.exitFullscreen().then(() => {
-                if (
-                    screen.orientation &&
-                    screen.orientation.unlock
-                ) {
+                if (screen.orientation && screen.orientation.unlock) {
                     screen.orientation.unlock();
                 }
             });
-
         } else if (document.webkitExitFullscreen) {
-
             document.webkitExitFullscreen();
-
-            if (
-                screen.orientation &&
-                screen.orientation.unlock
-            ) {
+            if (screen.orientation && screen.orientation.unlock) {
                 screen.orientation.unlock();
             }
         }
@@ -1851,9 +1799,7 @@ document.addEventListener("fullscreenchange", () => {
 
 fullscreenBtn.addEventListener("click", function(e){
     e.stopPropagation();
-
-    if (isAppleMobile() && !FULLSCREEN_IPHONE) return;
-
+    if (isAppleMobile() && !FULLSCREEN_IPHONE) return; 
     toggleFullscreen();
 });
 
