@@ -2066,43 +2066,8 @@ modal.addEventListener("touchcancel", resetarEstadoGesto);
 
 // 2. Garante a limpeza do estilo inline assim que o browser volta ao primeiro plano
 document.addEventListener("visibilitychange", function() {
-    if (document.visibilityState === "visible") {
-        const modal = document.getElementById("modal-projeto");
-        
-        if (modal && modal.style.display === "flex") {
-            if (typeof resetarEstadoGesto === "function") {
-                resetarEstadoGesto();
-            }
-            
-            // Disparamos em várias fases porque o iOS demora a devolver a resolução real do ecrã
-            const delays = [50, 200, 500, 1000]; 
-            
-            delays.forEach(delay => {
-                setTimeout(function() {
-                    if (window.innerWidth > 0 && window.innerHeight > 0) {
-                        
-                        // 1. Dispara o redimensionamento normal do seu código
-                        window.dispatchEvent(new Event('resize'));
-                        
-                        // 2. BRUTE FORCE REFLOW (O truque para contornar o bug do WebKit)
-                        // Forçamos o modal a recalcular
-                        modal.style.display = 'none';
-                        void modal.offsetHeight; // Lemos esta propriedade para obrigar o browser a agir imediatamente
-                        modal.style.display = 'flex';
-                        
-                        // 3. Forçar o redesenho individual de cada imagem presa
-                        const imagens = modal.querySelectorAll('img');
-                        imagens.forEach(img => {
-                            const displayOriginal = img.style.display;
-                            img.style.display = 'none';
-                            void img.offsetHeight; // Força a imagem a recalcular o tamanho real
-                            img.style.display = displayOriginal === 'none' ? '' : displayOriginal; 
-                        });
-                        
-                    }
-                }, delay);
-            });
-        }
+    if (document.visibilityState === "visible" && modal.style.display === "flex") {
+        resetarEstadoGesto();
     }
 });
 
@@ -2137,47 +2102,6 @@ window.addEventListener('resize', () => {
                 `translate(calc(-50% + ${largura}px), -50%)`;
         }
     }
-});
-
-// Função que aplica as dimensões diretamente em píxeis
-function forcarTamanhoReal() {
-    const modal = document.getElementById("modal-projeto");
-    if (!modal || modal.style.display !== "flex") return;
-
-    const largura = window.innerWidth;
-    const altura = window.innerHeight;
-
-    // Abortar se o iOS ainda estiver a reportar 0
-    if (largura === 0 || altura === 0) return;
-
-    // 1. Obrigar o modal a ocupar o ecrã inteiro
-    modal.style.width = `${largura}px`;
-    modal.style.height = `${altura}px`;
-
-    // 2. Hard Override nas imagens: aplicar limites exatos baseados no ecrã real
-    const imagens = modal.querySelectorAll('img');
-    imagens.forEach(img => {
-        img.style.width = '100%';
-        // Forçar limites máximos absolutos em píxeis para impedir que fiquem presas em tamanhos pequenos
-        img.style.maxWidth = `${largura}px`; 
-        img.style.maxHeight = `${altura}px`;
-    });
-
-    if (typeof resetarEstadoGesto === "function") {
-        resetarEstadoGesto();
-    }
-}
-
-// Intercetar TODOS os eventos possíveis de regresso à janela no iPadOS
-['visibilitychange', 'pageshow', 'focus', 'orientationchange'].forEach(evento => {
-    window.addEventListener(evento, function(e) {
-        if (evento === 'visibilitychange' && document.visibilityState !== 'visible') return;
-        
-        // Disparar a correção em cascata para garantir que apanhamos o momento exato em que o browser acorda
-        setTimeout(forcarTamanhoReal, 50);
-        setTimeout(forcarTamanhoReal, 300);
-        setTimeout(forcarTamanhoReal, 800);
-    });
 });
 </script>
 </body>

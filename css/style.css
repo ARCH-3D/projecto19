@@ -1372,7 +1372,3 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
     transform: translateZ(0); 
     -webkit-transform: translateZ(0);
 }
-
-#modal-projeto img {
-    flex-shrink: 0 !important; /* Impede que a imagem encolha por erros de layout do iOS */
-}
