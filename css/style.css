@@ -41,9 +41,9 @@ body.modal-open{
 }
 
 /* Garante fundo 100% sólido sob as barras translúcidas do Firefox/iOS ocultando o canvas de fundo */
-/*body.modal-open > *:not(#modal-projeto){
+body.modal-open > *:not(#modal-projeto){
     visibility:hidden !important;
-}*/
+}
 
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
 button:active,
@@ -1366,21 +1366,3 @@ html:has(:fullscreen) {
 /*body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
     visibility: visible !important;
 }*/
-
-#modal-projeto {
-    background: transparent;
-}
-
-#modal-projeto::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: #fff;
-    z-index: 0;
-    pointer-events: none;
-}
-
-#modal-content {
-    position: relative;
-    z-index: 1;
-}
