@@ -457,6 +457,9 @@ footer p{
     -webkit-backface-visibility:hidden;
     user-select:none;
     -webkit-user-drag:none;
+    touch-action: none !important;
+    -webkit-touch-callout: none;
+    pointer-events: auto;
 }
 #modal-content video{
     pointer-events:none;
