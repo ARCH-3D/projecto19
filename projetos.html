@@ -1431,22 +1431,59 @@ function mostrarMidia(){
 
     const iniciarAnimacao = () => {
         requestAnimationFrame(() => {
+
+            // Se o utilizador já iniciou o gesto vertical,
+            // a animação de entrada não pode voltar a reposicionar a imagem.
+            if (isVerticalDrag) {
+                novo.style.transition = "none";
+                novo.style.opacity = "1";
+                return;
+            }
+
             if (antigo) {
-                antigo.style.transform = direcaoSlide === 1 ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)` : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
+                antigo.style.transform =
+                    direcaoSlide === 1
+                        ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)`
+                        : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
+
                 antigo.style.opacity = "0";
             }
+
             novo.style.transform = "translate(-50%, -50%)";
             novo.style.opacity = "1";
         });
+
         setTimeout(() => {
+
+            // Se o modal já foi fechado, não deixar esta animação
+            // alterar novamente o estado das referências.
+            if (modal.style.display !== "flex") return;
+
+            // Nunca finalizar/reorganizar a animação enquanto
+            // o utilizador está a fazer o gesto vertical de fechar.
+            if (isVerticalDrag) return;
+
             if (antigo) antigo.remove();
+
             if (midia.type === "video") novo.play();
+
             elementoAtual = novo;
+
             ajustarBolinhasIPhone();
             ajustarFullscreenAndroid();
-            if (elementoSeguinte) { elementoSeguinte.remove(); elementoSeguinte = null; }
-            if (elementoAnterior) { elementoAnterior.remove(); elementoAnterior = null; }
+
+            if (elementoSeguinte) {
+                elementoSeguinte.remove();
+                elementoSeguinte = null;
+            }
+
+            if (elementoAnterior) {
+                elementoAnterior.remove();
+                elementoAnterior = null;
+            }
+
             atualizarLaterais();
+
         }, MEDIA_TRANSITION_TIME);
     };
     if (midia.type === "image") {
