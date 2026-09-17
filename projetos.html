@@ -1553,9 +1553,26 @@ modal.addEventListener("touchmove", function(e){
     }
     
     if (isVerticalDrag) {
-        elementoAtual.style.transform = `translate(-50%, calc(-50% + ${currentY}px))`;
-        const opacity = Math.max(1 - Math.abs(currentY) / MODAL_FADE_DISTANCE, 0.3);
-        modal.style.background = `rgba(0,0,0,${opacity})`;
+        // Revelar a página por baixo enquanto a imagem é arrastada
+        document.body.classList.add("modal-vertical-drag");
+
+        // A imagem acompanha exatamente o dedo
+        elementoAtual.style.transform =
+            `translate(-50%, calc(-50% + ${currentY}px))`;
+
+        // Quanto mais a imagem se afasta, mais o fundo branco desaparece
+        const progresso = Math.min(
+            Math.abs(currentY) / MODAL_FADE_DISTANCE,
+            1
+        );
+
+        const opacidadeFundo = 1 - progresso;
+
+        // Sem transição durante o arrasto para acompanhar o dedo em tempo real
+        modal.style.transition = "none";
+        modal.style.background =
+            `rgba(255, 255, 255, ${opacidadeFundo})`;
+
         return;
     }
     
@@ -1620,14 +1637,6 @@ modal.addEventListener("touchend", function(e){
 
             const destino = dy > 0 ? "100vh" : "-100vh";
 
-            // Inicia o fecho visual:
-            // - revela a página que está por baixo
-            // - torna o fundo do modal transparente
-            // - faz desaparecer o modal em simultâneo com a imagem
-            document.body.classList.add("modal-closing");
-            modal.classList.add("is-closing");
-
-            // A imagem continua o movimento do dedo até sair do ecrã
             elementoAtual.style.transition =
                 "transform .25s ease, opacity .25s ease";
 
@@ -1636,18 +1645,25 @@ modal.addEventListener("touchend", function(e){
 
             elementoAtual.style.opacity = "0";
 
-            // Fecha definitivamente depois da animação
+            // O fundo já está transparente graças ao arrasto.
+            // Mantemos a página visível durante a saída da imagem.
+            modal.style.transition = "background .25s ease";
+            modal.style.background = "rgba(255,255,255,0)";
+
             setTimeout(() => {
                 fecharModal();
-            }, 280);
+            }, 250);
 
         } else {
             if (!elementoAtual) return;
 
+            // Gesto cancelado: volta tudo ao estado normal
             centrarElemento(elementoAtual);
 
             modal.style.transition = "background .25s ease";
             modal.style.background = "";
+
+            document.body.classList.remove("modal-vertical-drag");
 
             atualizarPreview();
         }

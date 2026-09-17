@@ -1385,3 +1385,9 @@ body.modal-open.modal-closing > *:not(#modal-projeto) {
 .modal.is-closing #modal-content video {
     will-change: transform, opacity;
 }
+
+/* ================== FUNDO DA PÁGINA DURANTE FECHO POR SWIPE ================== */
+
+body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
+    visibility: visible !important;
+}
