@@ -860,39 +860,37 @@ function isEdgeiPad(){
     return isEdge && isIPad;
 }
 
-// --- FIX EDGE IPAD: Forçar redraw ao voltar para a app ---
+// --- FIX EDGE IPAD: Forçar redraw imediato sem piscar ---
 function corrigirLayoutEdgeiPad() {
     const modal = document.getElementById("modal-projeto");
-    // Executar apenas se o modal estiver aberto ou se for o Edge no iPad
     if (modal.style.display !== "flex") return;
     if (!isEdgeiPad()) return;
 
-    setTimeout(() => {
+    // Função que recalcula e reposiciona tudo sem atraso
+    const ajustarInstantaneamente = () => {
         const largura = window.innerWidth;
         const altura = window.innerHeight;
         
-        // 1. Forçar as dimensões reais no próprio modal (ignora o 100vh do CSS)
+        // 1. Forçar as dimensões reais no próprio modal imediatamente
         modal.style.width = `${largura}px`;
         modal.style.height = `${altura}px`;
         
-        // 2. Forçar as dimensões reais em todas as imagens ativas
+        // 2. Ajustar as imagens ativas sem usar display:none (evita o "piscar" visual)
         const imagens = modal.querySelectorAll("img");
         imagens.forEach(img => {
             img.style.maxWidth = `${largura}px`;
             img.style.maxHeight = `${altura}px`;
-            // Pequeno "truque" para forçar o WebKit a redesenhar a imagem na hora
-            img.style.display = "none";
-            void img.offsetHeight; // Força o repaint
-            img.style.display = "block";
+            // Truque suave de repaint que não esconde a imagem
+            img.style.opacity = "0.99";
+            void img.offsetHeight; 
+            img.style.opacity = "1";
         });
 
-        // 3. Reposicionar e forçar reflow no elemento atual
+        // 3. Reposicionar cortando as transições para a imagem não "escorregar"
         if (elementoAtual) {
             elementoAtual.style.transition = "none";
             elementoAtual.style.transform = "translate(-50%, -50%)";
         }
-        
-        // 4. Reposicionar laterais usando px em vez de vw
         if (elementoAnterior) {
             elementoAnterior.style.transition = "none";
             elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
@@ -902,10 +900,16 @@ function corrigirLayoutEdgeiPad() {
             elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
         }
         
-        // Reaplicar outras dimensões específicas
         if (typeof ajustarBolinhasIPhone === "function") ajustarBolinhasIPhone();
         if (typeof ajustarFullscreenAndroid === "function") ajustarFullscreenAndroid();
-    }, 150);
+    };
+
+    // Executa IMEDIATAMENTE no exato milissegundo em que o ecrã roda
+    ajustarInstantaneamente();
+    
+    // Repete por precaução caso o interface nativo do Edge atrase a atualização da barra superior
+    setTimeout(ajustarInstantaneamente, 150);
+    setTimeout(ajustarInstantaneamente, 300);
 }
 
 function ajustarFullscreenAndroid(){
@@ -1993,12 +1997,15 @@ window.addEventListener('resize', () => {
         const largura = window.innerWidth;
         
         if (elementoAtual) {
+            elementoAtual.style.transition = "none"; // Impede que a imagem deslize visualmente durante a rotação
             elementoAtual.style.transform = "translate(-50%, -50%)";
         }
         if (elementoAnterior) {
+            elementoAnterior.style.transition = "none";
             elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
         }
         if (elementoSeguinte) {
+            elementoSeguinte.style.transition = "none";
             elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
         }
     }
