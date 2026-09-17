@@ -867,6 +867,18 @@ function isEdgeiPad(){
     return isEdge && isIPad;
 }
 
+function isFirefoxiPad(){
+    const ua = navigator.userAgent;
+
+    const isFirefox = /FxiOS/i.test(ua);
+
+    const isIPad =
+        /iPad/i.test(ua) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    return isFirefox && isIPad;
+}
+
 // --- FIX EDGE IPAD: Forçar redraw imediato sem piscar ---
 function corrigirLayoutEdgeiPad() {
     const modal = document.getElementById("modal-projeto");
@@ -1048,10 +1060,13 @@ function mostrarBotaoFullscreen(){
     const isApple = isAppleMobile();
 
     // Determina se o botão deve ser visível no dispositivo atual
-    const deveMostrar = (isApple && FULLSCREEN_IPHONE) || 
-                          (isAndroid && FULLSCREEN_TELEMOVEL) || 
-                          (!isApple && !isAndroid);
-
+    const deveMostrar =
+        !isFirefoxiPad() &&
+        (
+            (isApple && FULLSCREEN_IPHONE) ||
+            (isAndroid && FULLSCREEN_TELEMOVEL) ||
+            (!isApple && !isAndroid)
+        );
     if (deveMostrar) {
         btn.style.display = "";
         btn.classList.add("show");
@@ -1799,7 +1814,10 @@ document.addEventListener("fullscreenchange", () => {
 
 fullscreenBtn.addEventListener("click", function(e){
     e.stopPropagation();
-    if (isAppleMobile() && !FULLSCREEN_IPHONE) return; 
+
+    if (isFirefoxiPad()) return;
+    if (isAppleMobile() && !FULLSCREEN_IPHONE) return;
+
     toggleFullscreen();
 });
 
