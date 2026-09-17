@@ -876,8 +876,8 @@ function corrigirLayoutEdgeiPad() {
 
     const ajustarInstantaneamente = () => {
 
-        // Nunca interferir enquanto existir qualquer gesto em curso.
-        if (isDragging) return;
+        // NUNCA interferir durante um gesto ou durante a animação de fecho
+        if (isDragging || isVerticalDrag) return;
 
         const largura = window.innerWidth;
         const altura = window.innerHeight;
@@ -926,16 +926,18 @@ function corrigirLayoutEdgeiPad() {
         }
     };
 
-    // Executar imediatamente
     ajustarInstantaneamente();
 
-    // Repetir apenas se não houver gesto ativo
     setTimeout(() => {
-        if (!isDragging) ajustarInstantaneamente();
+        if (!isDragging && !isVerticalDrag) {
+            ajustarInstantaneamente();
+        }
     }, 150);
 
     setTimeout(() => {
-        if (!isDragging) ajustarInstantaneamente();
+        if (!isDragging && !isVerticalDrag) {
+            ajustarInstantaneamente();
+        }
     }, 300);
 }
 
@@ -2076,6 +2078,7 @@ window.addEventListener('resize', () => {
     if (
         modal &&
         modal.style.display === "flex" &&
+        !isDragging &&
         !isVerticalDrag
     ) {
         const largura = window.innerWidth;
