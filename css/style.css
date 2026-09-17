@@ -40,6 +40,11 @@ body.modal-open{
     overflow:hidden;
 }
 
+/* Garante fundo 100% sólido sob as barras translúcidas do Firefox/iOS ocultando o canvas de fundo */
+body.modal-open > *:not(#modal-projeto){
+    visibility:hidden !important;
+}
+
 /* ================== EFEITO GLOBAL DE PRESSÃO ================== */
 button:active,
 a:active {
@@ -415,16 +420,8 @@ footer p{
     justify-content:center;
     align-items:center;
     flex-direction:column;
-    overflow:visible;
+    overflow:hidden;
     touch-action: none;
-}
-.modal::before{
-    content:"";
-    position:absolute;
-    inset:-100vh -100vw;
-    background:inherit;
-    z-index:-1;
-    pointer-events:none;
 }
 #modal-content{
     display:flex;
