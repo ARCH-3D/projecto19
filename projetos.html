@@ -852,13 +852,6 @@ function isAppleMobile(){
     return /iPhone|iPod/i.test(navigator.userAgent);
 }
 
-function isIPad(){
-    const ua = navigator.userAgent;
-
-    return /iPad/i.test(ua) ||
-        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-}
-
 function isIPhoneSafariOrEdge(){
     const ua = navigator.userAgent;
     const isIPhone = /iPhone/i.test(ua);
@@ -1118,7 +1111,7 @@ function toggleFullscreen(){
         if (requestFS) {
             const promise = requestFS.call(modal);
             
-            // LÓGICA NOVA: Função auxiliar para rodar apenas se for telemóvel padrão
+            // Função auxiliar para rodar apenas se for telemóvel padrão
             const tentarRodarEcra = () => {
                 // Telemóveis Android incluem "Mobile" no User-Agent.
                 const isMobile = /Mobile/i.test(navigator.userAgent);
@@ -1152,9 +1145,9 @@ function toggleFullscreen(){
                         err
                     );
 
-                    // Se o pedido de fullscreen for rejeitado
+                    // Se o pedido for rejeitado
                     // (ex.: Firefox no iPad), esconde o botão
-                    // e reposiciona o botão de zoom.
+                    // e reposiciona o zoom.
                     if (fullscreenBtn) {
                         fullscreenBtn.style.display = "none";
                         fullscreenBtn.classList.remove("show");
@@ -1165,13 +1158,12 @@ function toggleFullscreen(){
                     }
                 });
             } else {
-                // Fallback para navegadores antigos que não retornam Promise
                 setTimeout(() => {
                     tentarRodarEcra();
                 }, 200);
             }
         } else {
-            // Fullscreen API não disponível
+            // Fullscreen não disponível neste navegador
             if (fullscreenBtn) {
                 fullscreenBtn.style.display = "none";
                 fullscreenBtn.classList.remove("show");
