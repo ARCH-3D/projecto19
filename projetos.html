@@ -2,15 +2,24 @@
 <html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
-<!-- Favicon -->
-<link rel="shortcut icon" href="https://projecto19.pt/favicon.ico">
-<link rel="icon" type="image/svg+xml" href="https://projecto19.pt/img/favicon.svg">
-<link rel="icon" type="image/png" sizes="192x192" href="https://projecto19.pt/img/favicon-192x192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://projecto19.pt/img/favicon-32x32.png">
-<link rel="mask-icon" href="https://projecto19.pt/img/favicon-mask.svg" color="#111111">
-<link rel="apple-touch-icon" sizes="180x180" href="https://projecto19.pt/img/apple-touch-icon.png">
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-192x192.png">
+
+<!-- Apple -->
+<!-- <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png"> -->
+
+<!-- Safari -->
+<link rel="mask-icon" href="/img/favicon-mask.svg" color="#111111">
+
+<!-- Web App -->
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- Theme -->
 <meta name="theme-color" content="#ffffff">
 
 <meta name="description" content="Projetos do atelier Projecto 19 — Portfólio de arquitetura, reabilitação e design de interiores.">
@@ -623,6 +632,13 @@ function resetZoom(){
     zoomTargetX = 0;
     zoomTargetY = 0;
     mouseZoomAtivo = false;
+
+    if (elementoAtual) {
+        elementoAtual.classList.remove("zoom-render-2d");
+        elementoAtual.classList.remove("zoom-render-2d-landscape");
+        elementoAtual.classList.remove("zoom-render-2d-tablet");
+    }
+
     if (modalContent) modalContent.style.cursor = "";
     if (zoomBtn) zoomBtn.textContent = "+";
 }
@@ -630,10 +646,62 @@ function resetZoom(){
 function atualizarZoom(){
     rafZoom = null;
     if (!elementoAtual) return;
+
     atualizarLimitesZoom();
-    zoomTargetX = Math.max(-limiteZoomX, Math.min(limiteZoomX, zoomTargetX));
-    zoomTargetY = Math.max(-limiteZoomY, Math.min(limiteZoomY, zoomTargetY));
-    elementoAtual.style.transform = `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
+
+    zoomTargetX = Math.max(
+        -limiteZoomX,
+        Math.min(limiteZoomX, zoomTargetX)
+    );
+
+    zoomTargetY = Math.max(
+        -limiteZoomY,
+        Math.min(limiteZoomY, zoomTargetY)
+    );
+
+    const isMobilePortrait =
+        window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
+
+    const isTouchLandscape =
+        window.matchMedia("(pointer: coarse) and (orientation: landscape)").matches;
+
+    const isTouchTabletPortrait =
+        window.matchMedia("(pointer: coarse) and (orientation: portrait) and (min-width: 769px)").matches;
+
+    if (elementoAtual.tagName === "IMG") {
+        elementoAtual.classList.toggle(
+            "zoom-render-2d",
+            isMobilePortrait && zoomAtivo
+        );
+
+        elementoAtual.classList.toggle(
+            "zoom-render-2d-landscape",
+            isTouchLandscape && zoomAtivo
+        );
+
+        elementoAtual.classList.toggle(
+            "zoom-render-2d-tablet",
+            isTouchTabletPortrait && zoomAtivo
+        );
+    }
+
+    if (isMobilePortrait) {
+        // Telemóvel portrait — solução já testada e aprovada.
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+    } else if (isTouchLandscape) {
+        // Touch landscape — solução já testada e aprovada.
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+    } else if (isTouchTabletPortrait) {
+        // Tablet touch portrait — nova aplicação da mesma renderização 2D.
+        elementoAtual.style.transform =
+            `translate(calc(-50% + ${zoomTargetX}px), calc(-50% + ${zoomTargetY}px)) scale(${escalaZoom})`;
+    } else {
+        // Desktop e restantes dispositivos — comportamento original.
+        elementoAtual.style.transform =
+            `translate(-50%, -50%) translate3d(${zoomTargetX}px, ${zoomTargetY}px, 0) scale(${escalaZoom})`;
+    }
 }
 
 function atualizarLimitesZoom(){
@@ -659,64 +727,91 @@ function abrirProjeto(nomeProjeto){
             local: projetos[nomeProjeto].info.local
         });
     }
+
+    const modalProjeto = document.getElementById("modal-projeto");
+
+    // 1. Limpar estilos de transição/fundo residuais de gestos anteriores
+    modalProjeto.style.transition = "";
+    modalProjeto.style.background = "";
+
+    // 2. TORNAR O MODAL VISÍVEL PRIMEIRO para garantir que os cálculos de dimensão funcionam
+    modalProjeto.style.display = "flex";
+    document.body.classList.add("modal-open");
+
+    // 3. Configurar os dados do projeto
     projetoAtual = projetos[nomeProjeto];
     midiasAtuais = projetoAtual.media;
     indiceAtual = 0;
     previewIndice = indiceAtual;
     atualizarIndicadores(true);
+
+    // 4. Carregar e animar a mídia com o modal já visível
     mostrarMidia();
     mostrarBotaoFullscreen();
     if (zoomBtn) zoomBtn.textContent = "+";
     preloadImagens();
+
     document.getElementById("modal-title").textContent = projetoAtual.info.nome;
     document.getElementById("modal-year").textContent = projetoAtual.info.ano;
     document.getElementById("modal-area").textContent = projetoAtual.info.area;
     document.getElementById("modal-location").textContent = projetoAtual.info.local;
-    document.getElementById("modal-projeto").style.display = "flex";
-    document.body.classList.add("modal-open");
-    const modalProjeto = document.getElementById("modal-projeto");
+
     if (isIPhoneSafariOrEdge()) {
         modalProjeto.classList.add("iphone-device");
     } else {
         modalProjeto.classList.remove("iphone-device");
     }
+
+    if (isEdgeiPad()) {
+        modalProjeto.classList.add("edge-ipad-device");
+    } else {
+        modalProjeto.classList.remove("edge-ipad-device");
+    }
+
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
+
     if (contactWidget) contactWidget.style.display = "none";
     if (backToTop) backToTop.classList.remove("show");
     mostrarTutorialGestos();
 
-    // --- CORREÇÃO DE ACESSIBILIDADE E FOCO ---
-    // Guardar a capa do projeto em que se clicou
+    // Acessibilidade e foco
     elementoFocadoAnteriormente = document.activeElement;
-    
-    // Isolar os elementos de fundo para a navegação por teclado (Tab) ignorá-los
     const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
     elementosFundo.forEach(el => {
         if (el) el.setAttribute('inert', ''); 
     });
     
-    // Focar no próprio modal para a navegação começar aí dentro
     modalProjeto.focus();
-    // -----------------------------------------
+
+    if (isEdgeiPad()) {
+        corrigirLayoutEdgeiPad();
+    }    
 }
 
 function fecharModal(){
-    // --- CORREÇÃO DE ACESSIBILIDADE E FOCO ---
-    // Devolver a interatividade aos elementos da página principal
+    const modalProjeto = document.getElementById("modal-projeto");
+
+    // Devolver a interatividade aos elementos de fundo
     const elementosFundo = document.querySelectorAll('header, section, footer, .contact-widget, #back-to-top');
     elementosFundo.forEach(el => {
         if (el) el.removeAttribute('inert');
     });
 
-    // Devolver o foco à capa do projeto que o utilizador tinha clicado
     if (elementoFocadoAnteriormente) {
         elementoFocadoAnteriormente.focus();
     }
-    // -----------------------------------------
 
     resetZoom();
-    document.getElementById("modal-projeto").style.display = "none";
+
+    // Esconder modal e resetar estilos do fundo e transição
+    modalProjeto.style.display = "none";
+    modalProjeto.style.background = "";
+    modalProjeto.style.transition = "";
+
+    modalProjeto.classList.remove("is-closing");
+    document.body.classList.remove("modal-closing");    
+
     document.getElementById("modal-content").innerHTML = "";
     elementoAtual = null;
     elementoAnterior = null;
@@ -725,7 +820,12 @@ function fecharModal(){
     isVerticalDrag = false;
     currentTranslate = 0;
     currentY = 0;
-    document.body.classList.remove("modal-open");
+    document.body.classList.remove(
+        "modal-open",
+        "modal-vertical-drag",
+        "modal-closing"
+    );
+
     if (contactWidget) contactWidget.style.display = "";
     if (backToTop) {
         if (window.scrollY > 400) {
@@ -741,7 +841,11 @@ function fecharModal(){
             document.webkitExitFullscreen();
         }
     }
-    document.getElementById("modal-projeto").style.background = "";
+
+    // Limpar parâmetros da URL (?p=...)
+    if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, "", window.location.pathname);
+    }
 }
 
 function isAppleMobile(){
@@ -756,6 +860,87 @@ function isIPhoneSafariOrEdge(){
     return isIPhone && (isSafari || isEdge);
 }
 
+function isEdgeiPad(){
+    const ua = navigator.userAgent;
+    const isEdge = /EdgiOS/i.test(ua);
+    const isIPad = /iPad/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    return isEdge && isIPad;
+}
+
+// --- FIX EDGE IPAD: Forçar redraw imediato sem piscar ---
+function corrigirLayoutEdgeiPad() {
+    const modal = document.getElementById("modal-projeto");
+
+    if (modal.style.display !== "flex") return;
+    if (!isEdgeiPad()) return;
+
+    const ajustarInstantaneamente = () => {
+
+        // NUNCA interferir durante um gesto ou durante a animação de fecho
+        if (isDragging || isVerticalDrag) return;
+
+        const largura = window.innerWidth;
+        const altura = window.innerHeight;
+
+        // 1. Forçar as dimensões reais do modal
+        modal.style.width = `${largura}px`;
+        modal.style.height = `${altura}px`;
+
+        // 2. Ajustar as imagens sem as esconder
+        const imagens = modal.querySelectorAll("img");
+
+        imagens.forEach(img => {
+            img.style.maxWidth = `${largura}px`;
+            img.style.maxHeight = `${altura}px`;
+
+            img.style.opacity = "0.99";
+            void img.offsetHeight;
+            img.style.opacity = "1";
+        });
+
+        // 3. Só reposicionar quando não existe nenhum gesto ativo
+        if (elementoAtual) {
+            elementoAtual.style.transition = "none";
+            elementoAtual.style.transform =
+                "translate(-50%, -50%)";
+        }
+
+        if (elementoAnterior) {
+            elementoAnterior.style.transition = "none";
+            elementoAnterior.style.transform =
+                `translate(calc(-50% - ${largura}px), -50%)`;
+        }
+
+        if (elementoSeguinte) {
+            elementoSeguinte.style.transition = "none";
+            elementoSeguinte.style.transform =
+                `translate(calc(-50% + ${largura}px), -50%)`;
+        }
+
+        if (typeof ajustarBolinhasIPhone === "function") {
+            ajustarBolinhasIPhone();
+        }
+
+        if (typeof ajustarFullscreenAndroid === "function") {
+            ajustarFullscreenAndroid();
+        }
+    };
+
+    ajustarInstantaneamente();
+
+    setTimeout(() => {
+        if (!isDragging && !isVerticalDrag) {
+            ajustarInstantaneamente();
+        }
+    }, 150);
+
+    setTimeout(() => {
+        if (!isDragging && !isVerticalDrag) {
+            ajustarInstantaneamente();
+        }
+    }, 300);
+}
+
 function ajustarFullscreenAndroid(){
     const emAndroid = /Android/i.test(navigator.userAgent);
     const landscape = window.matchMedia("(orientation: landscape)").matches;
@@ -763,14 +948,17 @@ function ajustarFullscreenAndroid(){
     if (!emAndroid || !landscape || !fullscreen) return;
     
     function aplicar(){
+        // CORREÇÃO CIRÚRGICA: Se o zoom estiver ativo, não sobrescrever os estilos de dimensão/transformação em fullscreen
+        if (zoomAtivo) return;
+
         const altura = window.innerHeight;
+        const largura = window.innerWidth; // Obtém a nova largura do ecrã
         
-        // Se for telemóvel (altura <= 550), usa o ecrã todo. Se for Tablet (altura > 550), retira 120px para a legenda.
+        // Se for Tablet (altura > 550), retira 120px para a legenda.
         const alturaImagem = altura > 550 ? (altura - 120) : altura;
         
         const aplicarImagem = (elemento) => {
             if (!elemento) return;
-            // Garante margens laterais e resguardo inferior para a legenda/indicadores
             elemento.style.setProperty("max-width", "100vw", "important");
             elemento.style.setProperty("max-height", alturaImagem + "px", "important");
             elemento.style.setProperty("width", "auto", "important");
@@ -779,9 +967,21 @@ function ajustarFullscreenAndroid(){
             elemento.style.left = "50%";
             elemento.style.top = "50%";
         };
+        
         aplicarImagem(elementoAtual);
         aplicarImagem(elementoAnterior);
         aplicarImagem(elementoSeguinte);
+        
+        // Recalcula o afastamento dinâmico para garantir que os elementos ficam ocultos
+        if (elementoAtual) {
+            elementoAtual.style.transform = "translate(-50%, -50%)";
+        }
+        if (elementoAnterior) {
+            elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
+        }
+        if (elementoSeguinte) {
+            elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
+        }
         
         const indicadores = document.querySelector(".media-indicators");
         if (indicadores) {
@@ -1030,7 +1230,7 @@ function handleSwipe(){
         if (!elementoSeguinte) return;
         elementoAtual.style.transition = "transform .25s ease-out, opacity .25s ease-out";
         elementoSeguinte.style.transition = TRANSITION_SLIDE;
-        elementoAtual.style.transform = "translate(calc(-50% - 100vw), -50%)";
+        elementoAtual.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
         elementoAtual.style.opacity = "0";
         elementoSeguinte.style.transform = "translate(-50%, -50%)";
         indiceAtual = (indiceAtual + 1) % midiasAtuais.length;
@@ -1048,7 +1248,7 @@ function handleSwipe(){
         if (!elementoAnterior) return;
         elementoAtual.style.transition = "transform .25s ease-out, opacity .25s ease-out";
         elementoAnterior.style.transition = TRANSITION_SLIDE;
-        elementoAtual.style.transform = "translate(calc(-50% + 100vw), -50%)";
+        elementoAtual.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
         elementoAtual.style.opacity = "0";
         elementoAnterior.style.transform = "translate(-50%, -50%)";
         indiceAtual = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
@@ -1067,11 +1267,11 @@ function handleSwipe(){
     elementoAtual.style.transform = "translate(-50%, -50%)";
     if (currentTranslate < 0 && elementoSeguinte) {
         elementoSeguinte.style.transition = TRANSITION_RESET;
-        elementoSeguinte.style.transform = "translate(calc(-50% + 100vw), -50%)";
+        elementoSeguinte.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
     }
     if (currentTranslate > 0 && elementoAnterior) {
         elementoAnterior.style.transition = TRANSITION_RESET;
-        elementoAnterior.style.transform = "translate(calc(-50% - 100vw), -50%)";
+        elementoAnterior.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
     }
     setTimeout(() => {
         if (elementoSeguinte) {
@@ -1091,6 +1291,11 @@ function configurarElementoMidia(elemento){
     elemento.style.position = "absolute";
     elemento.style.left = "50%";
     elemento.style.top = "50%";
+    
+    // FIX Safari iOS: Força o hardware a não criar 'rasgos' nas margens escaladas
+    elemento.style.outline = "1px solid transparent";
+    elemento.style.backfaceVisibility = "hidden";
+    elemento.style.WebkitBackfaceVisibility = "hidden";
 }
 
 function criarElementoMidia(midia){
@@ -1156,7 +1361,7 @@ function prepararImagemAnterior(){
         elementoAnterior.style.setProperty("object-fit", "contain", "important");
     }
     elementoAnterior.style.zIndex = "1";
-    elementoAnterior.style.transform = "translate(calc(-50% - 100vw), -50%)";
+    elementoAnterior.style.transform = `translate(calc(-50% - ${window.innerWidth}px), -50%)`;
     elementoAnterior.style.opacity = "1";
     conteudo.appendChild(elementoAnterior);
     ajustarBolinhasIPhone();
@@ -1176,7 +1381,7 @@ function prepararProximaImagem(){
         elementoSeguinte.style.setProperty("object-fit", "contain", "important");
     }
     elementoSeguinte.style.zIndex = "1";
-    elementoSeguinte.style.transform = "translate(calc(-50% + 100vw), -50%)";
+    elementoSeguinte.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
     elementoSeguinte.style.opacity = "1";
     conteudo.appendChild(elementoSeguinte);
     ajustarBolinhasIPhone();
@@ -1290,6 +1495,12 @@ modal.addEventListener("touchstart", function(e){
     if (e.touches.length === 1) {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
+
+        document.body.classList.remove("modal-vertical-drag");
+        
+        modal.style.transition = "none";
+        modal.style.background = "";
+
         if (zoomAtivo) {
             moverImagem = true;
             zoomStartX = e.touches[0].clientX - zoomX;
@@ -1297,6 +1508,7 @@ modal.addEventListener("touchstart", function(e){
             if (elementoAtual) elementoAtual.style.transition = "none";
             return;
         }
+
         isVerticalDrag = false;
         currentY = 0;
         currentTranslate = 0;
@@ -1371,12 +1583,31 @@ modal.addEventListener("touchmove", function(e){
     
     if (!isVerticalDrag) {
         isVerticalDrag = Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > DRAG_START_THRESHOLD;
+
+        if (isVerticalDrag) {
+            document.body.classList.add("modal-vertical-drag");
+        }        
     }
     
     if (isVerticalDrag) {
-        elementoAtual.style.transform = `translate(-50%, calc(-50% + ${currentY}px))`;
-        const opacity = Math.max(1 - Math.abs(currentY) / MODAL_FADE_DISTANCE, 0.3);
-        modal.style.background = `rgba(0,0,0,${opacity})`;
+
+        // A imagem acompanha exatamente o dedo
+        elementoAtual.style.transform =
+            `translate(-50%, calc(-50% + ${currentY}px))`;
+
+        // Quanto mais a imagem se afasta, mais o fundo branco desaparece
+        const progresso = Math.min(
+            Math.abs(currentY) / MODAL_FADE_DISTANCE,
+            1
+        );
+
+        const opacidadeFundo = 1 - progresso;
+
+        // Sem transição durante o arrasto para acompanhar o dedo em tempo real
+        modal.style.transition = "none";
+        modal.style.background =
+            `rgba(255, 255, 255, ${opacidadeFundo})`;
+
         return;
     }
     
@@ -1438,20 +1669,34 @@ modal.addEventListener("touchend", function(e){
     if (isVerticalDrag) {
         if (Math.abs(dy) > limiteY) {
             if (!elementoAtual) return;
+
             const destino = dy > 0 ? "100vh" : "-100vh";
-            elementoAtual.style.transition = "transform .25s ease, opacity .25s ease";
-            elementoAtual.style.transform = `translate(-50%, calc(-50% + ${destino}))`;
+
+            elementoAtual.style.transition =
+                "transform .25s ease, opacity .25s ease";
+
+            elementoAtual.style.transform =
+                `translate(-50%, calc(-50% + ${destino}))`;
+
             elementoAtual.style.opacity = "0";
-            modal.style.transition = "background .25s ease";
-            modal.style.background = "rgba(0,0,0,0)";
-            setTimeout(() => { fecharModal(); }, 200);
+
+            setTimeout(() => {
+                fecharModal();
+            }, 250);
+
         } else {
             if (!elementoAtual) return;
+
             centrarElemento(elementoAtual);
+
             modal.style.transition = "background .25s ease";
             modal.style.background = "";
+
+            document.body.classList.remove("modal-vertical-drag");
+
             atualizarPreview();
         }
+
         return;
     }
     handleSwipe();
@@ -1575,11 +1820,59 @@ zoomBtn.addEventListener("click", function(e){
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
 });
 
+// Substituição cirúrgica: Controlo dinâmico de toques vs rato (Atualizado)
 document.querySelectorAll(".project").forEach(projeto => {
-    projeto.addEventListener("touchstart", function(){
-        document.querySelectorAll(".project").forEach(p => p.classList.remove("touched"));
-        this.classList.add("touched");
+    const onclickAttr = projeto.getAttribute("onclick"); //[cite: 2]
+    let nomeProjeto = null;
+
+    if (onclickAttr) {
+        const match = onclickAttr.match(/abrirProjeto\(['"]([^'"]+)['"]\)/); //[cite: 2]
+        if (match) nomeProjeto = match[1];
+        projeto.removeAttribute("onclick"); //[cite: 2]
+    }
+
+    // 1. Revelar título ao tocar no ecrã (mesmo ao iniciar scroll)
+    projeto.addEventListener("touchstart", function() {
+        if (!this.classList.contains("touched")) {
+            // Limpa o estado dos restantes projetos
+            document.querySelectorAll(".project").forEach(p => {
+                p.classList.remove("touched"); //[cite: 2]
+                p.dataset.novoToque = "false";
+            });
+            
+            // Revela o título do projeto tocado
+            this.classList.add("touched"); //[cite: 2]
+            
+            // Marca o elemento como recém-tocado para impedir a abertura imediata no mesmo gesto
+            this.dataset.novoToque = "true";
+            setTimeout(() => { this.dataset.novoToque = "false"; }, 500);
+        }
+    }, { passive: true });
+
+    // 2. Gerir a abertura das imagens no segundo toque
+    projeto.addEventListener("click", function(e) {
+        const isTouch = window.matchMedia("(pointer: coarse)").matches || 'ontouchstart' in window; //[cite: 2]
+
+        if (isTouch) {
+            if (this.dataset.novoToque === "true") {
+                // Foi o primeiro toque (apenas para revelar o título), cancela a abertura
+                e.preventDefault(); //[cite: 2]
+            } else {
+                // O título já estava visível, abre a galeria do projeto
+                if (nomeProjeto) abrirProjeto(nomeProjeto); //[cite: 2]
+            }
+        } else {
+            // Navegação com rato (Desktop): abre imediatamente à primeira
+            if (nomeProjeto) abrirProjeto(nomeProjeto); //[cite: 2]
+        }
     });
+});
+
+// 3. Remover o destaque se tocar no fundo da página
+document.addEventListener("click", function(e) {
+    if (!e.target.closest(".project")) {
+        document.querySelectorAll(".project").forEach(p => p.classList.remove("touched")); //[cite: 2]
+    }
 });
 
 contactButton.addEventListener("click", function(e){
@@ -1641,11 +1934,16 @@ window.addEventListener("scroll", () => {
 window.addEventListener("orientationchange", () => {
     ajustarBolinhasIPhone();
     ajustarFullscreenAndroid();
+    corrigirLayoutEdgeiPad();
 });
 
 window.addEventListener("resize", () => {
     ajustarFullscreenAndroid();
     ajustarBolinhasIPhone();
+
+    if (!isDragging) {
+        corrigirLayoutEdgeiPad();
+    }
 });
 
 if (backToTop) {
@@ -1677,10 +1975,13 @@ document.addEventListener("fullscreenchange", function() {
 
 // Ouve as rotações/redimensionamentos do dispositivo
 window.addEventListener("resize", () => {
-    // Apenas corre a atualização se o modal estiver aberto
     if (document.getElementById("modal-projeto").style.display === "flex") {
         ajustarBolinhasIPhone();
         ajustarFullscreenAndroid();
+
+        if (!isDragging) {
+            corrigirLayoutEdgeiPad();
+        }
     }
 });
 
@@ -1726,6 +2027,117 @@ function esconderTutorialGestos() {
 document.getElementById("tutorial-gestos").addEventListener("touchstart", esconderTutorialGestos, { passive: true });
 document.getElementById("tutorial-gestos").addEventListener("click", esconderTutorialGestos);
 
+// Deteta o parâmetro ?p=... na URL e abre o modal automaticamente
+window.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // AQUI: usamos "p" porque no index os links são ?p=projeto168
+    const idProjeto = urlParams.get("p");
+
+    if (idProjeto && projetos[idProjeto]) {
+        // Dá um pequeno atraso (100ms) para garantir o correto carregamento do layout
+        setTimeout(() => {
+            abrirProjeto(idProjeto);
+        }, 100);
+    }
+});
+
+// Função de segurança para restaurar o fundo e o estado dos gestos
+function resetarEstadoGesto() {
+    isDragging = false;
+    isVerticalDrag = false;
+    isPinching = false;
+    currentY = 0;
+    currentTranslate = 0;
+
+    modal.style.background = "";
+    modal.style.transition = "";
+
+    document.body.classList.remove("modal-vertical-drag");
+
+    if (elementoAtual) {
+        elementoAtual.style.transition = TRANSITION_RESET;
+        elementoAtual.style.transform = "translate(-50%, -50%)";
+    }
+}
+
+// 1. Escuta a interrupção de gestos promovida pelo iPadOS ao mudar de app
+modal.addEventListener("touchcancel", resetarEstadoGesto);
+
+// 2. Garante a limpeza do estilo inline assim que o browser volta ao primeiro plano
+document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "visible") {
+        const modal = document.getElementById("modal-projeto");
+        
+        if (modal && modal.style.display === "flex") {
+            if (typeof resetarEstadoGesto === "function") {
+                resetarEstadoGesto();
+            }
+            
+            // Disparamos em várias fases porque o iOS demora a devolver a resolução real do ecrã
+            const delays = [50, 200, 500, 1000]; 
+            
+            delays.forEach(delay => {
+                setTimeout(function() {
+                    if (window.innerWidth > 0 && window.innerHeight > 0) {
+                        
+                        // 1. Dispara o redimensionamento normal do seu código
+                        window.dispatchEvent(new Event('resize'));
+                        
+                        // 2. BRUTE FORCE REFLOW (O truque para contornar o bug do WebKit)
+                        // Forçamos o modal a recalcular
+                        modal.style.display = 'none';
+                        void modal.offsetHeight; // Lemos esta propriedade para obrigar o browser a agir imediatamente
+                        modal.style.display = 'flex';
+                        
+                        // 3. Forçar o redesenho individual de cada imagem presa
+                        const imagens = modal.querySelectorAll('img');
+                        imagens.forEach(img => {
+                            const displayOriginal = img.style.display;
+                            img.style.display = 'none';
+                            void img.offsetHeight; // Força a imagem a recalcular o tamanho real
+                            img.style.display = displayOriginal === 'none' ? '' : displayOriginal; 
+                        });
+                        
+                    }
+                }, delay);
+            });
+        }
+    }
+});
+
+// Ouve a rotação do dispositivo e reposiciona as imagens escondidas instantaneamente
+window.addEventListener('resize', () => {
+    const modal = document.getElementById("modal-projeto");
+
+    // Não interferir enquanto o utilizador está a fazer
+    // o gesto vertical de fechar a imagem.
+    if (
+        modal &&
+        modal.style.display === "flex" &&
+        !isDragging &&
+        !isVerticalDrag
+    ) {
+        const largura = window.innerWidth;
+
+        if (elementoAtual) {
+            elementoAtual.style.transition = "none";
+            elementoAtual.style.transform = "translate(-50%, -50%)";
+        }
+
+        if (elementoAnterior) {
+            elementoAnterior.style.transition = "none";
+            elementoAnterior.style.transform =
+                `translate(calc(-50% - ${largura}px), -50%)`;
+        }
+
+        if (elementoSeguinte) {
+            elementoSeguinte.style.transition = "none";
+            elementoSeguinte.style.transform =
+                `translate(calc(-50% + ${largura}px), -50%)`;
+        }
+    }
+});
 </script>
 </body>
 </html>

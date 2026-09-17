@@ -4,13 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<!-- Favicon -->
-<link rel="shortcut icon" href="https://projecto19.pt/favicon.ico">
-<link rel="icon" type="image/svg+xml" href="https://projecto19.pt/img/favicon.svg">
-<link rel="icon" type="image/png" sizes="192x192" href="https://projecto19.pt/img/favicon-192x192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://projecto19.pt/img/favicon-32x32.png">
-<link rel="mask-icon" href="https://projecto19.pt/img/favicon-mask.svg" color="#111111">
-<link rel="apple-touch-icon" sizes="180x180" href="https://projecto19.pt/img/apple-touch-icon.png">
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-192x192.png">
+
+<!-- Apple -->
+<!-- <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png"> -->
+
+<!-- Safari -->
+<link rel="mask-icon" href="/img/favicon-mask.svg" color="#111111">
+
+<!-- Web App -->
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- Theme -->
 <meta name="theme-color" content="#ffffff">
 
 <meta name="description" content="Projecto 19 — Atelier de arquitetura dedicado ao desenvolvimento de projetos de arquitetura, reabilitação e interiores.">
@@ -109,8 +118,10 @@ gtag('config','G-JXJP0D464R');
 
 <!-- JAVASCRIPT -->
 <script>
-const hero=document.getElementById("hero-image");
-const imagens=[
+const hero = document.getElementById("hero-image");
+const heroWrapper = document.querySelector(".hero"); // Necessário para detetar os toques
+
+const imagens = [
     "img/hero/hero1.webp","img/hero/hero2.webp","img/hero/hero3.webp",
     "img/hero/hero4.webp","img/hero/hero5.webp","img/hero/hero6.webp",
     "img/hero/hero7.webp","img/hero/hero8.webp","img/hero/hero9.webp",
@@ -122,26 +133,98 @@ const imagens=[
     "img/hero/hero25.webp","img/hero/hero26.webp"
 ];
 
-let indice=0;
-let preload=new Image();
-preload.src=imagens[1];
+// 1. MAPEAMENTO DE LINKS DOS PROJETOS
+// Este array tem de ter exatamente 26 links (um para cada imagem acima).
+// Substitua "projetos.html" pelo URL do projeto correto, ex: "projetos.html?id=nome-do-projeto"
+const linksProjetos = [
+    "projetos.html?p=projeto168", "projetos.html?p=projeto146", "projetos.html?p=projeto85", 
+    "projetos.html?p=projeto181", "projetos.html?p=projeto45", "projetos.html?p=projeto7", 
+    "projetos.html?p=projeto156", "projetos.html?p=projeto18", "projetos.html?p=projeto158", 
+    "projetos.html?p=projeto98", "projetos.html?p=projeto176", "projetos.html?p=projeto187",
+    "projetos.html?p=projeto56", "projetos.html?p=projeto168", "projetos.html?p=projeto146",
+    "projetos.html?p=projeto85", "projetos.html?p=projeto181", "projetos.html?p=projeto45",
+    "projetos.html?p=projeto7", "projetos.html?p=projeto156", "projetos.html?p=projeto18",
+    "projetos.html?p=projeto158", "projetos.html?p=projeto98", "projetos.html?p=projeto176",
+    "projetos.html?p=projeto187", "projetos.html?p=projeto56"
+];
 
-setInterval(()=>{
-    indice=(indice+1)%imagens.length;
-    hero.style.opacity=0;
-    setTimeout(()=>{
-        hero.src=imagens[indice];
-        hero.onload=()=>{
-            hero.style.opacity=1;
-            preload=new Image();
-            preload.src=imagens[(indice+1)%imagens.length];
+let indice = 0;
+let isTransitioning = false; // Impede bugs se o utilizador deslizar muito rápido
+let timerId;
+let preload = new Image();
+preload.src = imagens[1];
+
+hero.style.cursor = "pointer"; // Transforma o rato numa "mão" indicando que é clicável
+
+// Função que gere a troca de imagens com segurança
+function irParaImagem(novoIndice) {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    
+    indice = novoIndice;
+    if (indice < 0) indice = imagens.length - 1;
+    if (indice >= imagens.length) indice = 0;
+
+    hero.style.opacity = 0;
+    setTimeout(() => {
+        hero.src = imagens[indice];
+        hero.onload = () => {
+            hero.style.opacity = 1;
+            isTransitioning = false;
+            preload = new Image();
+            preload.src = imagens[(indice + 1) % imagens.length];
         };
-        hero.onerror=()=>{
-            hero.style.opacity=1;
+        hero.onerror = () => {
+            hero.style.opacity = 1;
+            isTransitioning = false;
             console.warn("Falha ao carregar a imagem: " + imagens[indice]);
         };
-    },400);
-},5000);
+    }, 400);
+}
+
+// Função que arranca o modo automático
+function iniciarTimer() {
+    clearInterval(timerId); // Limpa o timer anterior (importante para quando se desliza o dedo)
+    timerId = setInterval(() => {
+        irParaImagem(indice + 1);
+    }, 5000);
+}
+iniciarTimer(); // Arranca o timer inicial
+
+// 2. ABRIR PROJETO AO CLICAR NA IMAGEM
+hero.addEventListener("click", () => {
+    const linkDestino = linksProjetos[indice];
+    if (linkDestino && linkDestino !== "") {
+        window.location.href = linkDestino;
+    }
+});
+
+// 3. CONTROLOS DE DESLIZE (SWIPE) PARA DISPOSITIVOS MÓVEIS
+let touchStartX = 0;
+let touchStartY = 0;
+
+heroWrapper.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+
+heroWrapper.addEventListener('touchend', e => {
+    let touchEndX = e.changedTouches[0].screenX;
+    let touchEndY = e.changedTouches[0].screenY;
+    
+    let deltaX = touchEndX - touchStartX;
+    let deltaY = touchEndY - touchStartY;
+    
+    // Verifica se o movimento foi predominantemente horizontal e superior a 50px
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX < 0) {
+            irParaImagem(indice + 1); // Deslize para a esquerda -> Próxima imagem
+        } else {
+            irParaImagem(indice - 1); // Deslize para a direita -> Imagem anterior
+        }
+        iniciarTimer(); // Reinicia a contagem dos 5 segundos
+    }
+}, { passive: true });
 
 // WIDGET DE CONTACTO
 const contactWidget=document.querySelector(".contact-widget");
@@ -184,28 +267,66 @@ window.addEventListener("scroll",()=>{
     contactWidget.classList.remove("active");
 },{passive:true});
 
-// ALTURA FIXA DO HERO NO MOBILE (Correção Cross-browser)
+// ALTURA DO HERO — proteção estendida para todos os browsers no iOS/iPadOS (Safari, Chrome, Edge)
 const heroSection = document.querySelector(".hero");
+// Deteta iPhone, iPod, iPad (incluindo as versões iPadOS que se identificam como Mac)
+const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 let currentWidth = window.innerWidth;
 
-// 1. Função que aplica a altura estática em píxeis
+function getHeroViewportHeight() {
+    if (window.visualViewport && window.visualViewport.height) {
+        return Math.round(window.visualViewport.height);
+    }
+    return Math.round(window.innerHeight);
+}
+
 function setHeroHeight() {
-    if (heroSection) {
-        heroSection.style.height = `${window.innerHeight}px`;
+    if (!heroSection) return;
+
+    // Apenas dispositivos Apple (iOS/iPadOS) recebem este ajuste cirúrgico.
+    // Congela a altura em píxeis para que o 100dvh não cause zoom na imagem durante o scroll.
+    // Nos restantes dispositivos (ex: Android, PC) mantém-se o comportamento CSS nativo.
+    if (isIOS) {
+        heroSection.style.height = `${getHeroViewportHeight()}px`;
     }
 }
 
-// 2. Aplica a altura assim que a página carrega
+// Primeiro cálculo
 setHeroHeight();
 
-// 3. Atualiza a altura APENAS se a largura mudar (ex: rodar o telemóvel),
-// bloqueando completamente o redimensionamento ao fazer scroll vertical.
+// Recalcula apenas quando a largura muda (ex: rodar telemóvel portrait/landscape).
+// Mantém a proteção existente contra saltos durante o scroll.
 window.addEventListener("resize", () => {
     if (window.innerWidth !== currentWidth) {
         currentWidth = window.innerWidth;
         setHeroHeight();
     }
 });
+
+// Ao voltar para o browser depois de o sistema suspender a página,
+// o viewport pode ter sido recalculado entretanto.
+window.addEventListener("pageshow", () => {
+    if (!isIOS) return;
+
+    requestAnimationFrame(() => {
+        setHeroHeight();
+        setTimeout(setHeroHeight, 100);
+        setTimeout(setHeroHeight, 300);
+        setTimeout(setHeroHeight, 600);
+    });
+});
+
+document.addEventListener("visibilitychange", () => {
+    if (!isIOS || document.visibilityState !== "visible") return;
+
+    requestAnimationFrame(() => {
+        setHeroHeight();
+        setTimeout(setHeroHeight, 100);
+        setTimeout(setHeroHeight, 300);
+        setTimeout(setHeroHeight, 600);
+    });
+});
+
 </script>
 
 </body>
