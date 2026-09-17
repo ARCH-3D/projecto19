@@ -412,6 +412,7 @@ footer p{
     inset:0;
     background:var(--c-bg);
     z-index:999999;
+    isolation:isolate;
     justify-content:center;
     align-items:center;
     flex-direction:column;
