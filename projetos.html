@@ -868,8 +868,6 @@ function isEdgeiPad(){
 }
 
 // --- FIX EDGE IPAD: Forçar redraw imediato sem piscar ---
-let touchAtivo = false;
-
 function corrigirLayoutEdgeiPad() {
     const modal = document.getElementById("modal-projeto");
 
@@ -878,8 +876,8 @@ function corrigirLayoutEdgeiPad() {
 
     const ajustarInstantaneamente = () => {
 
-        // NUNCA interferir se houver toques, gestos ativos ou fecho
-        if (touchAtivo || isDragging || isVerticalDrag) return;
+        // NUNCA interferir durante um gesto ou durante a animação de fecho
+        if (isDragging || isVerticalDrag) return;
 
         const largura = window.innerWidth;
         const altura = window.innerHeight;
@@ -931,13 +929,13 @@ function corrigirLayoutEdgeiPad() {
     ajustarInstantaneamente();
 
     setTimeout(() => {
-        if (!touchAtivo && !isDragging && !isVerticalDrag) {
+        if (!isDragging && !isVerticalDrag) {
             ajustarInstantaneamente();
         }
     }, 150);
 
     setTimeout(() => {
-        if (!touchAtivo && !isDragging && !isVerticalDrag) {
+        if (!isDragging && !isVerticalDrag) {
             ajustarInstantaneamente();
         }
     }, 300);
@@ -1437,7 +1435,16 @@ function mostrarMidia(){
                 antigo.style.transform = direcaoSlide === 1 ? `translate(calc(-50% + ${MEDIA_ENTRY_OFFSET}px), -50%)` : `translate(calc(-50% - ${MEDIA_ENTRY_OFFSET}px), -50%)`;
                 antigo.style.opacity = "0";
             }
-            novo.style.transform = "translate(-50%, -50%)";
+            
+            // CORREÇÃO: Respeita o gesto se o utilizador começou a arrastar durante o carregamento
+            if (isVerticalDrag) {
+                novo.style.transform = `translate(-50%, calc(-50% + ${currentY}px))`;
+            } else if (isDragging) {
+                novo.style.transform = `translate(calc(-50% + ${currentTranslate}px), -50%)`;
+            } else {
+                novo.style.transform = "translate(-50%, -50%)";
+            }
+            
             novo.style.opacity = "1";
         });
         setTimeout(() => {
@@ -1445,7 +1452,12 @@ function mostrarMidia(){
             if (midia.type === "video") novo.play();
             elementoAtual = novo;
             ajustarBolinhasIPhone();
-            ajustarFullscreenAndroid();
+            
+            // PRECAUÇÃO: Evitar que o reajuste sobrescreva o transform a meio de um gesto
+            if (!isDragging && !isVerticalDrag) {
+                ajustarFullscreenAndroid();
+            }
+            
             if (elementoSeguinte) { elementoSeguinte.remove(); elementoSeguinte = null; }
             if (elementoAnterior) { elementoAnterior.remove(); elementoAnterior = null; }
             atualizarLaterais();
@@ -1476,8 +1488,6 @@ document.addEventListener("keydown", function(e){
 });
 
 modal.addEventListener("touchstart", function(e){
-    touchAtivo = true;
-
     if (e.target.closest("button, .close, .zoom-btn, .fullscreen-btn, .media-indicators, .contact-widget")) {
         isDragging = false;
         return;
@@ -1641,8 +1651,6 @@ modal.addEventListener("touchmove", function(e){
 }, { passive: false });
 
 modal.addEventListener("touchend", function(e){
-    touchAtivo = false;
-
     if (e.target.closest("button, .close, .zoom-btn, .fullscreen-btn, .media-indicators, .contact-widget")) {
             return;
         }
