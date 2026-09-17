@@ -267,25 +267,26 @@ window.addEventListener("scroll",()=>{
     contactWidget.classList.remove("active");
 },{passive:true});
 
-// ALTURA DO HERO — proteção específica para Edge no iPad/iOS
+// ALTURA DO HERO — proteção estendida para todos os browsers no iOS/iPadOS (Safari, Chrome, Edge)
 const heroSection = document.querySelector(".hero");
-const isEdgeIOS = /EdgiOS/i.test(navigator.userAgent);
+// Deteta iPhone, iPod, iPad (incluindo as versões iPadOS que se identificam como Mac)
+const isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 let currentWidth = window.innerWidth;
 
 function getHeroViewportHeight() {
     if (window.visualViewport && window.visualViewport.height) {
         return Math.round(window.visualViewport.height);
     }
-
     return Math.round(window.innerHeight);
 }
 
 function setHeroHeight() {
     if (!heroSection) return;
 
-    // Apenas Edge no iOS/iPadOS recebe este ajuste cirúrgico.
-    // Nos restantes browsers mantém-se o comportamento CSS existente.
-    if (isEdgeIOS) {
+    // Apenas dispositivos Apple (iOS/iPadOS) recebem este ajuste cirúrgico.
+    // Congela a altura em píxeis para que o 100dvh não cause zoom na imagem durante o scroll.
+    // Nos restantes dispositivos (ex: Android, PC) mantém-se o comportamento CSS nativo.
+    if (isIOS) {
         heroSection.style.height = `${getHeroViewportHeight()}px`;
     }
 }
@@ -293,7 +294,7 @@ function setHeroHeight() {
 // Primeiro cálculo
 setHeroHeight();
 
-// Recalcula apenas quando a largura muda.
+// Recalcula apenas quando a largura muda (ex: rodar telemóvel portrait/landscape).
 // Mantém a proteção existente contra saltos durante o scroll.
 window.addEventListener("resize", () => {
     if (window.innerWidth !== currentWidth) {
@@ -302,14 +303,13 @@ window.addEventListener("resize", () => {
     }
 });
 
-// Ao voltar para o Edge depois de o sistema suspender a página,
+// Ao voltar para o browser depois de o sistema suspender a página,
 // o viewport pode ter sido recalculado entretanto.
 window.addEventListener("pageshow", () => {
-    if (!isEdgeIOS) return;
+    if (!isIOS) return;
 
     requestAnimationFrame(() => {
         setHeroHeight();
-
         setTimeout(setHeroHeight, 100);
         setTimeout(setHeroHeight, 300);
         setTimeout(setHeroHeight, 600);
@@ -317,16 +317,16 @@ window.addEventListener("pageshow", () => {
 });
 
 document.addEventListener("visibilitychange", () => {
-    if (!isEdgeIOS || document.visibilityState !== "visible") return;
+    if (!isIOS || document.visibilityState !== "visible") return;
 
     requestAnimationFrame(() => {
         setHeroHeight();
-
         setTimeout(setHeroHeight, 100);
         setTimeout(setHeroHeight, 300);
         setTimeout(setHeroHeight, 600);
     });
 });
+
 </script>
 
 </body>
