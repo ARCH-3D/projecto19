@@ -166,8 +166,8 @@ nav a:focus-visible{
 /* ================== SECTION ================== */
 section {
     padding: 60px clamp(25px, 5vw, 80px);
-    max-width: 1600px;
-    margin: 0 auto;
+    max-width: 1600px; /* Limita a largura máxima do bloco de conteúdo */
+    margin: 0 auto;    /* Centraliza o bloco na ecrã em monitores grandes */
     width: 100%;
 }
 
@@ -432,10 +432,10 @@ footer p{
     contain:layout paint;
 }
 
-/* Mantido intacto o cálculo defensivo com fallbacks */
+/* Imagens/Vídeos no Modal: Com margem de segurança lateral em Desktop para as setas nunca sobreporem */
 #modal-content img,
 #modal-content video{
-    max-width: calc(100vw - 120px); 
+    max-width: calc(100vw - 120px); /* Afastamento lateral garantido em Computador */
     max-height: calc(100dvh - 115px);
     width:auto;
     height:auto;
@@ -649,6 +649,7 @@ footer p{
     -webkit-appearance: none;
 }
 
+/* Posicionadas nas margens laterais criadas, descansando sobre o fundo branco */
 .prev {
     left: 20px;
 }
@@ -1230,19 +1231,33 @@ footer p{
    ========================================= */
 
 @keyframes swipeLeftLoop {
-    0% { transform: translateX(12px); opacity: 0; }
-    30% { opacity: 1; }
-    70% { opacity: 1; }
-    100% { transform: translateX(-12px); opacity: 0; }
+    0% {
+        transform: translateX(12px);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-12px);
+        opacity: 0;
+    }
 }
+
 .anim-swipe-left {
     animation: swipeLeftLoop 2s infinite ease-in-out;
 }
 
 @keyframes efeitoPinch {
-    0% { transform: scale(0.85); opacity: 0; }
-    30% { opacity: 1; }
-    70% { opacity: 1; }
+    0% { 
+        transform: scale(0.85); 
+        opacity: 0;
+    }
+    30% {opacity: 1;}
+    70% {opacity: 1;}
     100% { transform: scale(1.35); opacity: 0; }
 }
 .anim-pinch {
@@ -1250,11 +1265,22 @@ footer p{
 }
 
 @keyframes deslizaBaixo {
-    0% { transform: translateY(-12px); opacity: 0; }
-    30% { opacity: 1; }
-    70% { opacity: 1; }
-    100% { transform: translateY(12px); opacity: 0; }
+    0% {
+        transform: translateY(-12px);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(12px);
+        opacity: 0;
+    }
 }
+
 .anim-swipe-down {
     animation: deslizaBaixo 2s infinite ease-in-out;
 }
