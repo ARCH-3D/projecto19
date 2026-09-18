@@ -1356,11 +1356,11 @@ html:has(:fullscreen) {
 
 /* Correção exclusiva para a legenda e bolinhas no Edge no iPad */
 #modal-projeto.edge-ipad-device .media-indicators {
-    bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
 }
 
 #modal-projeto.edge-ipad-device .modal-info {
-    bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: calc(0px + env(safe-area-inset-bottom, 0px)) !important;
 }
 
 /* ================== FUNDO DA PÁGINA DURANTE FECHO POR SWIPE ================== */
