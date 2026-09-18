@@ -874,9 +874,10 @@ function corrigirLayoutEdgeiPad() {
     if (modal.style.display !== "flex") return;
     if (!isEdgeiPad()) return;
 
-    const ajustar = () => {
-        // NUNCA interferir durante um gesto, arrasto, fecho, ou qualquer ação de zoom ativa
-        if (isDragging || isVerticalDrag || zoomAtivo || isPinching || moverImagem) return;
+    const ajustarInstantaneamente = () => {
+
+        // NUNCA interferir durante um gesto ou durante a animação de fecho
+        if (isDragging || isVerticalDrag) return;
 
         const largura = window.innerWidth;
         const altura = window.innerHeight;
@@ -885,40 +886,59 @@ function corrigirLayoutEdgeiPad() {
         modal.style.width = `${largura}px`;
         modal.style.height = `${altura}px`;
 
-        // 2. Ajustar a mídia sem esconder
-        const imagens = modal.querySelectorAll("img, video");
+        // 2. Ajustar as imagens sem as esconder
+        const imagens = modal.querySelectorAll("img");
 
-        imagens.forEach(media => {
-            media.style.maxWidth = `${largura}px`;
-            media.style.maxHeight = `${altura}px`;
+        imagens.forEach(img => {
+            img.style.maxWidth = `${largura}px`;
+            img.style.maxHeight = `${altura}px`;
 
-            media.style.opacity = "0.99";
-            void media.offsetHeight;
-            media.style.opacity = "1";
+            img.style.opacity = "0.99";
+            void img.offsetHeight;
+            img.style.opacity = "1";
         });
 
-        // 3. Reposicionar apenas os elementos que não estão sob interação
+        // 3. Só reposicionar quando não existe nenhum gesto ativo
         if (elementoAtual) {
             elementoAtual.style.transition = "none";
-            elementoAtual.style.transform = "translate(-50%, -50%)";
+            elementoAtual.style.transform =
+                "translate(-50%, -50%)";
         }
 
         if (elementoAnterior) {
             elementoAnterior.style.transition = "none";
-            elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
+            elementoAnterior.style.transform =
+                `translate(calc(-50% - ${largura}px), -50%)`;
         }
 
         if (elementoSeguinte) {
             elementoSeguinte.style.transition = "none";
-            elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
+            elementoSeguinte.style.transform =
+                `translate(calc(-50% + ${largura}px), -50%)`;
         }
 
-        if (typeof ajustarBolinhasIPhone === "function") ajustarBolinhasIPhone();
-        if (typeof ajustarFullscreenAndroid === "function") ajustarFullscreenAndroid();
+        if (typeof ajustarBolinhasIPhone === "function") {
+            ajustarBolinhasIPhone();
+        }
+
+        if (typeof ajustarFullscreenAndroid === "function") {
+            ajustarFullscreenAndroid();
+        }
     };
 
-    // Eliminamos os timeouts repetitivos e baseamos a atualização apenas na frame do motor.
-    requestAnimationFrame(ajustar);
+    ajustarInstantaneamente();
+
+    setTimeout(() => {
+        if (!isDragging && !isVerticalDrag) {
+            ajustarInstantaneamente();
+        }
+    }, 150);
+
+    setTimeout(() => {
+        if (!isDragging && !isVerticalDrag) {
+            ajustarInstantaneamente();
+        }
+    }, 300);
 }
 
 function ajustarFullscreenAndroid(){
@@ -1961,30 +1981,6 @@ window.addEventListener("resize", () => {
 
         if (!isDragging) {
             corrigirLayoutEdgeiPad();
-        }
-    }
-});
-
-window.addEventListener("visibilitychange", () => {
-    // Apenas executar quando a aplicação regressa ao foreground
-    if (document.visibilityState === "visible") {
-        if (isEdgeiPad()) {
-            // O Duplo requestAnimationFrame é estritamente necessário aqui.
-            // O 1º frame acorda a renderização após o background.
-            // O 2º frame garante que o motor WKWebView já atualizou as variáveis de hardware (innerWidth/Height).
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    // 1. Corrige a PÁGINA PROJETOS:
-                    // Ler esta propriedade obriga o browser a executar um Force Reflow imediato,
-                    // reavaliando todo o CSS (vh, dvh, grid) exatamente como um scroll faria.
-                    void document.body.offsetHeight;
-
-                    // 2. Corrige o MODAL:
-                    if (document.body.classList.contains("modal-open")) {
-                        corrigirLayoutEdgeiPad();
-                    }
-                });
-            });
         }
     }
 });
