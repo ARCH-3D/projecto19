@@ -874,8 +874,6 @@ function corrigirLayoutEdgeiPad() {
     if (modal.style.display !== "flex") return;
     if (!isEdgeiPad()) return;
 
-    if (typeof isDragging !== 'undefined' && (isDragging || isVerticalDrag || isPinching || moverImagem)) return;
-
     const ajustarInstantaneamente = () => {
 
         // NUNCA interferir durante um gesto ou durante a animação de fecho
@@ -2067,40 +2065,9 @@ function resetarEstadoGesto() {
 modal.addEventListener("touchcancel", resetarEstadoGesto);
 
 // 2. Garante a limpeza do estilo inline assim que o browser volta ao primeiro plano
-// e força a atualização do Layout no Edge iPad sem causar saltos
 document.addEventListener("visibilitychange", function() {
-    if (document.visibilityState === "visible") {
-        
-        const modal = document.getElementById("modal-projeto");
-        if (modal && modal.style.display === "flex" && typeof resetarEstadoGesto === "function") {
-            resetarEstadoGesto();
-        }
-
-        // Restringir recalculo exclusivamente ao Edge no iPad
-        if (typeof isEdgeiPad === "function" && isEdgeiPad()) {
-            
-            // Esperar 2 frames garante que o JS apenas lê o window.innerHeight 
-            // DEPOIS de o iOS ter estabilizado as dimensões do regresso à app.
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    
-                    // 1. CORREÇÃO DO MODAL
-                    if (modal && modal.style.display === "flex") {
-                        // Chamada única e direta. Sem dispatchEvent('resize').
-                        corrigirLayoutEdgeiPad(); 
-                    }
-                    
-                    // 2. CORREÇÃO DA PÁGINA PROJETOS
-                    // Substitui "tuaFuncaoDeLayoutProjetos" pelo nome exato da função 
-                    // JS que já tens e que recalcula a grelha/scroll dessa página.
-                    // Se a página usa uma biblioteca de scroll suave, deves chamar o 
-                    // método de update aqui (ex: scroll.update() ou ScrollTrigger.refresh()).
-                    if (typeof tuaFuncaoDeLayoutProjetos === "function") {
-                        tuaFuncaoDeLayoutProjetos();
-                    }
-                });
-            });
-        }
+    if (document.visibilityState === "visible" && modal.style.display === "flex") {
+        resetarEstadoGesto();
     }
 });
 
