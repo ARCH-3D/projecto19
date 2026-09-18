@@ -874,57 +874,73 @@ function corrigirLayoutEdgeiPad() {
     if (modal.style.display !== "flex") return;
     if (!isEdgeiPad()) return;
 
-    const ajustarInstantaneamente = () => {
-        // NUNCA interferir durante nenhum gesto (Adicionado isPinching e moverImagem)
-        if (isDragging || isVerticalDrag || isPinching || moverImagem) return;
+    if (typeof isDragging !== 'undefined' && (isDragging || isVerticalDrag || isPinching || moverImagem)) return;
 
-        // Privilegiar o visualViewport, que é mais fiável no iPad ao voltar do background
-        const vv = window.visualViewport;
-        const largura = vv ? vv.width : window.innerWidth;
-        const altura = vv ? vv.height : window.innerHeight;
+    const ajustarInstantaneamente = () => {
+
+        // NUNCA interferir durante um gesto ou durante a animação de fecho
+        if (isDragging || isVerticalDrag) return;
+
+        const largura = window.innerWidth;
+        const altura = window.innerHeight;
 
         // 1. Forçar as dimensões reais do modal
         modal.style.width = `${largura}px`;
         modal.style.height = `${altura}px`;
 
-        // 2. Ajustar as imagens sem as esconder (incluído video por precaução)
-        const imagens = modal.querySelectorAll("img, video");
+        // 2. Ajustar as imagens sem as esconder
+        const imagens = modal.querySelectorAll("img");
 
         imagens.forEach(img => {
             img.style.maxWidth = `${largura}px`;
             img.style.maxHeight = `${altura}px`;
 
             img.style.opacity = "0.99";
-            void img.offsetHeight; // força o recalculo no momento
+            void img.offsetHeight;
             img.style.opacity = "1";
         });
 
         // 3. Só reposicionar quando não existe nenhum gesto ativo
         if (elementoAtual) {
             elementoAtual.style.transition = "none";
-            elementoAtual.style.transform = "translate(-50%, -50%)";
+            elementoAtual.style.transform =
+                "translate(-50%, -50%)";
         }
 
         if (elementoAnterior) {
             elementoAnterior.style.transition = "none";
-            elementoAnterior.style.transform = `translate(calc(-50% - ${largura}px), -50%)`;
+            elementoAnterior.style.transform =
+                `translate(calc(-50% - ${largura}px), -50%)`;
         }
 
         if (elementoSeguinte) {
             elementoSeguinte.style.transition = "none";
-            elementoSeguinte.style.transform = `translate(calc(-50% + ${largura}px), -50%)`;
+            elementoSeguinte.style.transform =
+                `translate(calc(-50% + ${largura}px), -50%)`;
         }
 
-        if (typeof ajustarBolinhasIPhone === "function") ajustarBolinhasIPhone();
-        if (typeof ajustarFullscreenAndroid === "function") ajustarFullscreenAndroid();
+        if (typeof ajustarBolinhasIPhone === "function") {
+            ajustarBolinhasIPhone();
+        }
+
+        if (typeof ajustarFullscreenAndroid === "function") {
+            ajustarFullscreenAndroid();
+        }
     };
 
-    // Usar requestAnimationFrame substitui os setTimeout arbitrários por uma sincronização nativa
-    requestAnimationFrame(() => {
-        ajustarInstantaneamente();
-        // Um frame extra assegura que o Edge já atualizou os valores de hardware
-        requestAnimationFrame(ajustarInstantaneamente);
-    });
+    ajustarInstantaneamente();
+
+    setTimeout(() => {
+        if (!isDragging && !isVerticalDrag) {
+            ajustarInstantaneamente();
+        }
+    }, 150);
+
+    setTimeout(() => {
+        if (!isDragging && !isVerticalDrag) {
+            ajustarInstantaneamente();
+        }
+    }, 300);
 }
 
 function ajustarFullscreenAndroid(){
@@ -1938,22 +1954,6 @@ if (backToTop) {
     });
 }
 
-// Adicionar escuta ao visualViewport para máxima precisão nos iOS/iPadOS
-if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", () => {
-        const modalProjeto = document.getElementById("modal-projeto");
-        if (modalProjeto && modalProjeto.style.display === "flex") {
-            ajustarBolinhasIPhone();
-            ajustarFullscreenAndroid();
-            
-            // Garantir que não quebra o layout se o utilizador estiver ativamente a fazer zoom ou swipes
-            if (!isDragging && !isVerticalDrag && !isPinching && !moverImagem) {
-                corrigirLayoutEdgeiPad();
-            }
-        }
-    });
-}
-
 // Limpar estilos inline forçados ao sair do modo Fullscreen (corrige imagem colada aos limites)
 document.addEventListener("fullscreenchange", function() {
     // Verifica se já não estamos em fullscreen
@@ -2067,32 +2067,39 @@ function resetarEstadoGesto() {
 modal.addEventListener("touchcancel", resetarEstadoGesto);
 
 // 2. Garante a limpeza do estilo inline assim que o browser volta ao primeiro plano
-// e resolve o reflow pendente no Edge/iPad
+// e força a atualização do Layout no Edge iPad sem causar saltos
 document.addEventListener("visibilitychange", function() {
     if (document.visibilityState === "visible") {
         
-        if (modal.style.display === "flex") {
+        const modal = document.getElementById("modal-projeto");
+        if (modal && modal.style.display === "flex" && typeof resetarEstadoGesto === "function") {
             resetarEstadoGesto();
         }
 
-        // CORREÇÃO PÁGINA PROJETOS E MODAL (Específico para Edge iPad)
-        if (isEdgeiPad()) {
+        // Correção isolada para o Edge no iPadOS
+        if (typeof isEdgeiPad === "function" && isEdgeiPad()) {
+            
+            // Sincronização rigorosa: esperar 2 frames garante que o 
+            // motor WebKit já processou as verdadeiras dimensões de regresso do SO
             requestAnimationFrame(() => {
-                // Truque cirúrgico: força o WebKit a fazer reflow das unidades 'vh/dvh'
-                // Isto faz exatamente o mesmo que um "scroll" faria, mas silenciosamente
-                const alturaOriginal = document.documentElement.style.height;
-                document.documentElement.style.height = '100.01%';
-                
-                // Ler o offsetHeight é o que força o motor do browser a recalcular a página AGORA
-                void document.documentElement.offsetHeight; 
-                
-                // Repõe o estilo original limpo imediatamente
-                document.documentElement.style.height = alturaOriginal || ''; 
+                requestAnimationFrame(() => {
+                    
+                    // Não interferir se o utilizador já agarrou a imagem
+                    if (typeof isDragging !== 'undefined' && (isDragging || isVerticalDrag || isPinching || moverImagem)) return;
 
-                // Se o modal estiver aberto, atualiza também a imagem
-                if (modal.style.display === "flex") {
-                    corrigirLayoutEdgeiPad();
-                }
+                    // A forma mais conservadora de resolver o problema da página Projetos
+                    // e do Modal sem adulterar o HTML: disparar um evento de resize nativo.
+                    // Isto obriga o WebKit a reavaliar as unidades 'vh', 'dvh' e 
+                    // aciona naturalmente a tua função corrigirLayoutEdgeiPad() 
+                    // (caso a tenhas associada ao window.onresize, como é habitual).
+                    window.dispatchEvent(new Event('resize'));
+                    
+                    // Opcional/Redundância: Se a tua função corrigirLayoutEdgeiPad não estiver
+                    // ligada ao window.resize global, chamamo-la aqui diretamente.
+                    if (modal && modal.style.display === "flex") {
+                        corrigirLayoutEdgeiPad();
+                    }
+                });
             });
         }
     }
