@@ -2076,28 +2076,27 @@ document.addEventListener("visibilitychange", function() {
             resetarEstadoGesto();
         }
 
-        // Correção isolada para o Edge no iPadOS
+        // Restringir recalculo exclusivamente ao Edge no iPad
         if (typeof isEdgeiPad === "function" && isEdgeiPad()) {
             
-            // Sincronização rigorosa: esperar 2 frames garante que o 
-            // motor WebKit já processou as verdadeiras dimensões de regresso do SO
+            // Esperar 2 frames garante que o JS apenas lê o window.innerHeight 
+            // DEPOIS de o iOS ter estabilizado as dimensões do regresso à app.
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     
-                    // Não interferir se o utilizador já agarrou a imagem
-                    if (typeof isDragging !== 'undefined' && (isDragging || isVerticalDrag || isPinching || moverImagem)) return;
-
-                    // A forma mais conservadora de resolver o problema da página Projetos
-                    // e do Modal sem adulterar o HTML: disparar um evento de resize nativo.
-                    // Isto obriga o WebKit a reavaliar as unidades 'vh', 'dvh' e 
-                    // aciona naturalmente a tua função corrigirLayoutEdgeiPad() 
-                    // (caso a tenhas associada ao window.onresize, como é habitual).
-                    window.dispatchEvent(new Event('resize'));
-                    
-                    // Opcional/Redundância: Se a tua função corrigirLayoutEdgeiPad não estiver
-                    // ligada ao window.resize global, chamamo-la aqui diretamente.
+                    // 1. CORREÇÃO DO MODAL
                     if (modal && modal.style.display === "flex") {
-                        corrigirLayoutEdgeiPad();
+                        // Chamada única e direta. Sem dispatchEvent('resize').
+                        corrigirLayoutEdgeiPad(); 
+                    }
+                    
+                    // 2. CORREÇÃO DA PÁGINA PROJETOS
+                    // Substitui "tuaFuncaoDeLayoutProjetos" pelo nome exato da função 
+                    // JS que já tens e que recalcula a grelha/scroll dessa página.
+                    // Se a página usa uma biblioteca de scroll suave, deves chamar o 
+                    // método de update aqui (ex: scroll.update() ou ScrollTrigger.refresh()).
+                    if (typeof tuaFuncaoDeLayoutProjetos === "function") {
+                        tuaFuncaoDeLayoutProjetos();
                     }
                 });
             });
