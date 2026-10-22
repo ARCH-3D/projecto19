@@ -81,6 +81,17 @@ gtag('config','G-JXJP0D464R');
             <h2>Projecto 19</h2>
             <p>Arquitetura e Design</p>
         </div>
+        <!-- Navegação por rato e teclado, apenas em computador -->
+        <button class="hero-nav hero-nav--prev" type="button" aria-label="Imagem anterior" aria-controls="hero-image">
+            <svg class="hero-nav__icon" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+                <path d="M32 20H8m10-10L8 20l10 10"/>
+            </svg>
+        </button>
+        <button class="hero-nav hero-nav--next" type="button" aria-label="Imagem seguinte" aria-controls="hero-image">
+            <svg class="hero-nav__icon" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+                <path d="M8 20h24M22 10l10 10-10 10"/>
+            </svg>
+        </button>
     </div>
 </main>
 
@@ -190,6 +201,47 @@ function iniciarTimer() {
     }, 5000);
 }
 iniciarTimer(); // Arranca o timer inicial
+
+// SETAS NO COMPUTADOR — o centro da imagem continua a abrir o projeto
+const heroMouse = window.matchMedia("(min-width: 769px) and (hover: hover) and (pointer: fine)");
+const heroReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const heroNavButtons = heroWrapper.querySelectorAll(".hero-nav");
+
+heroNavButtons.forEach(button => {
+    const direcao = button.classList.contains("hero-nav--prev") ? -1 : 1;
+
+    function reporSeta() {
+        button.classList.remove("is-following");
+        button.style.removeProperty("--hero-arrow-x");
+        button.style.removeProperty("--hero-arrow-y");
+    }
+
+    function acompanharRato(event) {
+        if (!heroMouse.matches || heroReducedMotion.matches || event.pointerType !== "mouse") return;
+        const bounds = button.getBoundingClientRect();
+        const margem = 24;
+        const x = Math.max(margem, Math.min(bounds.width - margem, event.clientX - bounds.left));
+        const y = Math.max(margem, Math.min(bounds.height - margem, event.clientY - bounds.top));
+        button.style.setProperty("--hero-arrow-x", x + "px");
+        button.style.setProperty("--hero-arrow-y", y + "px");
+        button.classList.add("is-following");
+    }
+
+    button.addEventListener("pointerenter", acompanharRato);
+    button.addEventListener("pointermove", acompanharRato);
+    button.addEventListener("pointerleave", reporSeta);
+    button.addEventListener("pointercancel", reporSeta);
+    button.addEventListener("keydown", reporSeta);
+
+    button.addEventListener("click", event => {
+        event.stopPropagation();
+        irParaImagem(indice + direcao);
+        iniciarTimer();
+    });
+
+    heroMouse.addEventListener("change", reporSeta);
+    heroReducedMotion.addEventListener("change", reporSeta);
+});
 
 // 2. ABRIR PROJETO AO CLICAR NA IMAGEM
 hero.addEventListener("click", () => {
