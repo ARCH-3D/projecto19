@@ -162,82 +162,108 @@ const linksProjetos = [
 ];
 
 let indice = 0;
-let isTransitioning = false; // Impede bugs se o utilizador deslizar muito rápido
+let isTransitioning = false; // Impede trocas simultâneas
+let gestoHero = null;
 let timerId;
 let ignorarCliqueHeroAte = 0;
 const heroSlideReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let preload = new Image();
-preload.src = imagens[1];
+let preloadAnterior = new Image();
 
-// Carrega a imagem seguinte antes de deslizar as duas, como na galeria dos projetos.
+function preloadImagensHero() {
+    preload.src = imagens[(indice + 1) % imagens.length];
+    preloadAnterior.src = imagens[(indice - 1 + imagens.length) % imagens.length];
+}
+preloadImagensHero();
+
+function criarImagemHero(novoIndice) {
+    const destino = ((novoIndice % imagens.length) + imagens.length) % imagens.length;
+    const elemento = hero.cloneNode(false);
+    elemento.removeAttribute("id");
+    elemento.removeAttribute("fetchpriority");
+    elemento.setAttribute("aria-hidden", "true");
+    elemento.style.pointerEvents = "none";
+    elemento.style.transition = "none";
+    const pronta = new Promise((resolve, reject) => {
+        elemento.onload = resolve;
+        elemento.onerror = () => reject(new Error("Falha ao carregar a imagem: " + imagens[destino]));
+        elemento.src = imagens[destino];
+    }).then(async () => {
+        if (elemento.decode) await elemento.decode();
+    }).finally(() => {
+        elemento.onload = null;
+        elemento.onerror = null;
+    });
+    // Uma pré-visualização pode falhar mesmo quando o gesto usa a outra direção.
+    pronta.catch(() => {});
+    return { elemento, destino, pronta };
+}
+
+function animarHero(elementos, aplicarDestino, duracao = 350, curva = "cubic-bezier(.22,.61,.36,1)") {
+    if (heroSlideReducedMotion.matches) {
+        elementos.forEach(elemento => elemento.style.transition = "none");
+        aplicarDestino();
+        return Promise.resolve();
+    }
+    elementos.forEach(elemento => elemento.classList.add("is-sliding"));
+    void heroWrapper.offsetWidth;
+    return new Promise(resolve => {
+        let timeout;
+        const alvo = elementos[0];
+        function terminar(event) {
+            if (event && (event.target !== alvo || event.propertyName !== "transform")) return;
+            clearTimeout(timeout);
+            alvo.removeEventListener("transitionend", terminar);
+            resolve();
+        }
+        alvo.addEventListener("transitionend", terminar);
+        elementos.forEach(elemento => elemento.style.transition = "transform " + duracao + "ms " + curva);
+        aplicarDestino();
+        timeout = setTimeout(terminar, duracao + 100);
+    });
+}
+
+function ativarImagemHero(imagem) {
+    const seguinte = imagem.elemento;
+    hero.remove();
+    seguinte.style.transition = "none";
+    seguinte.style.transform = "translateX(0)";
+    seguinte.style.removeProperty("pointer-events");
+    seguinte.removeAttribute("aria-hidden");
+    seguinte.classList.remove("is-sliding");
+    seguinte.id = "hero-image";
+    hero = seguinte;
+    indice = imagem.destino;
+    void seguinte.offsetWidth;
+    seguinte.style.removeProperty("transition");
+    preloadImagensHero();
+}
+
+// Usa o mesmo deslizar nas trocas automáticas e nas setas do computador.
 async function irParaImagem(novoIndice) {
-    if (isTransitioning) return;
+    if (isTransitioning || gestoHero) return;
     const destino = ((novoIndice % imagens.length) + imagens.length) % imagens.length;
     if (destino === indice) return;
     const direcao = novoIndice > indice ? 1 : -1;
     isTransitioning = true;
-
     const anterior = hero;
-    const seguinte = anterior.cloneNode(false);
-    seguinte.removeAttribute("id");
-    seguinte.removeAttribute("fetchpriority");
-    seguinte.setAttribute("aria-hidden", "true");
-    seguinte.style.pointerEvents = "none";
-    seguinte.style.transition = "none";
-    seguinte.style.transform = "translateX(" + (direcao * 100) + "%)";
-
+    const seguinte = criarImagemHero(destino);
+    seguinte.elemento.style.transform = "translateX(" + (direcao * 100) + "%)";
     try {
-        await new Promise((resolve, reject) => {
-            seguinte.onload = resolve;
-            seguinte.onerror = () => reject(new Error("Falha ao carregar a imagem: " + imagens[destino]));
-            seguinte.src = imagens[destino];
+        await seguinte.pronta;
+        anterior.after(seguinte.elemento);
+        await animarHero([anterior, seguinte.elemento], () => {
+            anterior.style.transform = "translateX(" + (-direcao * 100) + "%)";
+            seguinte.elemento.style.transform = "translateX(0)";
         });
-        if (seguinte.decode) await seguinte.decode();
-        anterior.after(seguinte);
-
-        if (!heroSlideReducedMotion.matches) {
-            anterior.classList.add("is-sliding");
-            seguinte.classList.add("is-sliding");
-            // Garante a posição inicial fora do enquadramento antes de iniciar a transição.
-            void seguinte.offsetWidth;
-            await new Promise(resolve => {
-                let timeout;
-                function terminar(event) {
-                    if (event && (event.target !== seguinte || event.propertyName !== "transform")) return;
-                    clearTimeout(timeout);
-                    seguinte.removeEventListener("transitionend", terminar);
-                    resolve();
-                }
-                seguinte.addEventListener("transitionend", terminar);
-                seguinte.style.removeProperty("transition");
-                anterior.style.transform = "translateX(" + (-direcao * 100) + "%)";
-                seguinte.style.transform = "translateX(0)";
-                // Também conclui quando o browser interrompe a animação ou suspende a página.
-                timeout = setTimeout(terminar, 450);
-            });
-        }
-
-        anterior.remove();
-        seguinte.style.transition = "none";
-        seguinte.style.transform = "translateX(0)";
-        seguinte.style.removeProperty("pointer-events");
-        seguinte.removeAttribute("aria-hidden");
-        seguinte.classList.remove("is-sliding");
-        seguinte.id = "hero-image";
-        hero = seguinte;
-        indice = destino;
-        void seguinte.offsetWidth;
-        seguinte.style.removeProperty("transition");
-        preload = new Image();
-        preload.src = imagens[(indice + 1) % imagens.length];
+        ativarImagemHero(seguinte);
     } catch (error) {
-        seguinte.remove();
+        seguinte.elemento.remove();
         anterior.classList.remove("is-sliding");
         anterior.style.removeProperty("transform");
+        anterior.style.removeProperty("transition");
         console.warn(error.message);
     } finally {
-        seguinte.onload = null;
-        seguinte.onerror = null;
         isTransitioning = false;
     }
 }
@@ -266,40 +292,149 @@ heroNavButtons.forEach(button => {
 
 // 2. ABRIR PROJETO AO CLICAR NA IMAGEM
 heroWrapper.addEventListener("click", event => {
-    if (event.target !== hero || isTransitioning || performance.now() < ignorarCliqueHeroAte) return;
+    if (event.target !== hero || isTransitioning || gestoHero || performance.now() < ignorarCliqueHeroAte) return;
     const linkDestino = linksProjetos[indice];
     if (linkDestino && linkDestino !== "") {
         window.location.href = linkDestino;
     }
 });
 
-// 3. CONTROLOS DE DESLIZE (SWIPE) PARA DISPOSITIVOS MÓVEIS
-let touchStartX = 0;
-let touchStartY = 0;
+// 3. DESLIZE TÁTIL: a imagem acompanha o dedo, com avanço ou regresso ao largar.
+function limparGestoHero(gesto) {
+    if (gestoHero !== gesto) return;
+    gestoHero = null;
+    [gesto.anterior, gesto.seguinte].forEach(imagem => {
+        if (imagem && imagem.elemento !== hero) imagem.elemento.remove();
+    });
+    hero.style.transition = "none";
+    hero.style.transform = "translateX(0)";
+    hero.classList.remove("is-sliding");
+    void hero.offsetWidth;
+    hero.style.removeProperty("transition");
+    isTransitioning = false;
+    if (gesto.eixo === "x") ignorarCliqueHeroAte = performance.now() + 500;
+    iniciarTimer();
+}
 
-heroWrapper.addEventListener('touchstart', e => {
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-}, { passive: true });
+function cancelarGestoHero() {
+    if (gestoHero) limparGestoHero(gestoHero);
+}
 
-heroWrapper.addEventListener('touchend', e => {
-    let touchEndX = e.changedTouches[0].screenX;
-    let touchEndY = e.changedTouches[0].screenY;
-    
-    let deltaX = touchEndX - touchStartX;
-    let deltaY = touchEndY - touchStartY;
-    
-    // Verifica se o movimento foi predominantemente horizontal e superior a 50px
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
-        ignorarCliqueHeroAte = performance.now() + 500;
-        if (deltaX < 0) {
-            irParaImagem(indice + 1); // Deslize para a esquerda -> Próxima imagem
-        } else {
-            irParaImagem(indice - 1); // Deslize para a direita -> Imagem anterior
+function moverGestoHero(gesto, toque) {
+    const dx = toque.clientX - gesto.inicioX;
+    const dy = toque.clientY - gesto.inicioY;
+    if (!gesto.eixo) {
+        if (Math.max(Math.abs(dx), Math.abs(dy)) < 10) return false;
+        gesto.eixo = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+        if (gesto.eixo === "x") {
+            gesto.anterior = criarImagemHero(indice - 1);
+            gesto.seguinte = criarImagemHero(indice + 1);
+            [hero, gesto.anterior.elemento, gesto.seguinte.elemento].forEach(elemento => {
+                elemento.style.transition = "none";
+                elemento.classList.add("is-sliding");
+            });
+            hero.after(gesto.anterior.elemento, gesto.seguinte.elemento);
         }
-        iniciarTimer(); // Reinicia a contagem dos 5 segundos
     }
+    if (gesto.eixo !== "x") return false;
+    gesto.dx = Math.max(-gesto.largura, Math.min(gesto.largura, dx));
+    hero.style.transform = "translateX(" + gesto.dx + "px)";
+    gesto.anterior.elemento.style.transform = "translateX(calc(-100% + " + gesto.dx + "px))";
+    gesto.seguinte.elemento.style.transform = "translateX(calc(100% + " + gesto.dx + "px))";
+    ignorarCliqueHeroAte = performance.now() + 500;
+    return true;
+}
+
+async function concluirGestoHero(gesto) {
+    let confirmar = Math.abs(gesto.dx) > gesto.largura * .15;
+    const direcao = gesto.dx < 0 ? 1 : -1;
+    const destino = direcao === 1 ? gesto.seguinte : gesto.anterior;
+    if (confirmar) {
+        try {
+            await destino.pronta;
+        } catch (error) {
+            confirmar = false;
+            console.warn(error.message);
+        }
+    }
+    // O gesto pode ter sido cancelado entretanto por rotação, multitouch ou suspensão.
+    if (gestoHero !== gesto) return;
+    try {
+        if (confirmar) {
+            await animarHero([hero, destino.elemento], () => {
+                hero.style.transform = "translateX(" + (-direcao * 100) + "%)";
+                destino.elemento.style.transform = "translateX(0)";
+            }, 250, "ease-out");
+            if (gestoHero !== gesto) return;
+            ativarImagemHero(destino);
+        } else {
+            await animarHero([hero, gesto.anterior.elemento, gesto.seguinte.elemento], () => {
+                hero.style.transform = "translateX(0)";
+                gesto.anterior.elemento.style.transform = "translateX(-100%)";
+                gesto.seguinte.elemento.style.transform = "translateX(100%)";
+            }, 300, "ease");
+        }
+    } finally {
+        limparGestoHero(gesto);
+    }
+}
+
+heroWrapper.addEventListener("touchstart", event => {
+    if (event.touches.length !== 1) {
+        if (gestoHero) ignorarCliqueHeroAte = performance.now() + 500;
+        cancelarGestoHero();
+        return;
+    }
+    if (isTransitioning || gestoHero || event.target.closest("button, a")) return;
+    const toque = event.touches[0];
+    gestoHero = {
+        identificador: toque.identifier,
+        inicioX: toque.clientX,
+        inicioY: toque.clientY,
+        largura: heroWrapper.clientWidth,
+        eixo: null,
+        dx: 0,
+        aConcluir: false,
+        anterior: null,
+        seguinte: null
+    };
+    clearInterval(timerId);
 }, { passive: true });
+
+heroWrapper.addEventListener("touchmove", event => {
+    const gesto = gestoHero;
+    if (!gesto || gesto.aConcluir) return;
+    if (event.touches.length !== 1) {
+        ignorarCliqueHeroAte = performance.now() + 500;
+        cancelarGestoHero();
+        return;
+    }
+    const toque = Array.from(event.touches).find(item => item.identifier === gesto.identificador);
+    if (!toque) { cancelarGestoHero(); return; }
+    if (moverGestoHero(gesto, toque) && event.cancelable) event.preventDefault();
+}, { passive: false });
+
+heroWrapper.addEventListener("touchend", event => {
+    const gesto = gestoHero;
+    if (!gesto || gesto.aConcluir) return;
+    const toque = Array.from(event.changedTouches).find(item => item.identifier === gesto.identificador);
+    if (!toque || event.touches.length) { cancelarGestoHero(); return; }
+    if (!moverGestoHero(gesto, toque)) {
+        if (gesto.eixo === "y") ignorarCliqueHeroAte = performance.now() + 500;
+        limparGestoHero(gesto);
+        return;
+    }
+    gesto.aConcluir = true;
+    isTransitioning = true;
+    void concluirGestoHero(gesto);
+}, { passive: true });
+
+heroWrapper.addEventListener("touchcancel", cancelarGestoHero, { passive: true });
+window.addEventListener("resize", cancelarGestoHero);
+window.addEventListener("pagehide", cancelarGestoHero);
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "visible") cancelarGestoHero();
+});
 
 // WIDGET DE CONTACTO
 const contactWidget=document.querySelector(".contact-widget");

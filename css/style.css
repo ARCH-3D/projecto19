@@ -134,6 +134,7 @@ nav a:focus-visible{
     height: 100vh;
     height: 100dvh;
     overflow:hidden;
+    touch-action:pan-y pinch-zoom;
 }
 .hero-image{
     position:absolute;
