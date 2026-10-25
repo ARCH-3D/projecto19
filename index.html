@@ -84,12 +84,14 @@ gtag('config','G-JXJP0D464R');
         <!-- Navegação por rato e teclado, apenas em computador -->
         <button class="hero-nav hero-nav--prev" type="button" aria-label="Imagem anterior" aria-controls="hero-image">
             <svg class="hero-nav__icon" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
-                <path d="M32 20H8m10-10L8 20l10 10"/>
+                <circle cx="20" cy="20" r="19"/>
+                <path d="M25 10L15 20l10 10"/>
             </svg>
         </button>
         <button class="hero-nav hero-nav--next" type="button" aria-label="Imagem seguinte" aria-controls="hero-image">
             <svg class="hero-nav__icon" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
-                <path d="M8 20h24M22 10l10 10-10 10"/>
+                <circle cx="20" cy="20" r="19"/>
+                <path d="M15 10l10 10-10 10"/>
             </svg>
         </button>
     </div>
@@ -129,7 +131,7 @@ gtag('config','G-JXJP0D464R');
 
 <!-- JAVASCRIPT -->
 <script>
-const hero = document.getElementById("hero-image");
+let hero = document.getElementById("hero-image");
 const heroWrapper = document.querySelector(".hero"); // Necessário para detetar os toques
 
 const imagens = [
@@ -162,35 +164,82 @@ const linksProjetos = [
 let indice = 0;
 let isTransitioning = false; // Impede bugs se o utilizador deslizar muito rápido
 let timerId;
+let ignorarCliqueHeroAte = 0;
+const heroSlideReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let preload = new Image();
 preload.src = imagens[1];
 
-hero.style.cursor = "pointer"; // Transforma o rato numa "mão" indicando que é clicável
-
-// Função que gere a troca de imagens com segurança
-function irParaImagem(novoIndice) {
+// Carrega a imagem seguinte antes de deslizar as duas, como na galeria dos projetos.
+async function irParaImagem(novoIndice) {
     if (isTransitioning) return;
+    const destino = ((novoIndice % imagens.length) + imagens.length) % imagens.length;
+    if (destino === indice) return;
+    const direcao = novoIndice > indice ? 1 : -1;
     isTransitioning = true;
-    
-    indice = novoIndice;
-    if (indice < 0) indice = imagens.length - 1;
-    if (indice >= imagens.length) indice = 0;
 
-    hero.style.opacity = 0;
-    setTimeout(() => {
-        hero.src = imagens[indice];
-        hero.onload = () => {
-            hero.style.opacity = 1;
-            isTransitioning = false;
-            preload = new Image();
-            preload.src = imagens[(indice + 1) % imagens.length];
-        };
-        hero.onerror = () => {
-            hero.style.opacity = 1;
-            isTransitioning = false;
-            console.warn("Falha ao carregar a imagem: " + imagens[indice]);
-        };
-    }, 400);
+    const anterior = hero;
+    const seguinte = anterior.cloneNode(false);
+    seguinte.removeAttribute("id");
+    seguinte.removeAttribute("fetchpriority");
+    seguinte.setAttribute("aria-hidden", "true");
+    seguinte.style.pointerEvents = "none";
+    seguinte.style.transition = "none";
+    seguinte.style.transform = "translateX(" + (direcao * 100) + "%)";
+
+    try {
+        await new Promise((resolve, reject) => {
+            seguinte.onload = resolve;
+            seguinte.onerror = () => reject(new Error("Falha ao carregar a imagem: " + imagens[destino]));
+            seguinte.src = imagens[destino];
+        });
+        if (seguinte.decode) await seguinte.decode();
+        anterior.after(seguinte);
+
+        if (!heroSlideReducedMotion.matches) {
+            anterior.classList.add("is-sliding");
+            seguinte.classList.add("is-sliding");
+            // Garante a posição inicial fora do enquadramento antes de iniciar a transição.
+            void seguinte.offsetWidth;
+            await new Promise(resolve => {
+                let timeout;
+                function terminar(event) {
+                    if (event && (event.target !== seguinte || event.propertyName !== "transform")) return;
+                    clearTimeout(timeout);
+                    seguinte.removeEventListener("transitionend", terminar);
+                    resolve();
+                }
+                seguinte.addEventListener("transitionend", terminar);
+                seguinte.style.removeProperty("transition");
+                anterior.style.transform = "translateX(" + (-direcao * 100) + "%)";
+                seguinte.style.transform = "translateX(0)";
+                // Também conclui quando o browser interrompe a animação ou suspende a página.
+                timeout = setTimeout(terminar, 450);
+            });
+        }
+
+        anterior.remove();
+        seguinte.style.transition = "none";
+        seguinte.style.transform = "translateX(0)";
+        seguinte.style.removeProperty("pointer-events");
+        seguinte.removeAttribute("aria-hidden");
+        seguinte.classList.remove("is-sliding");
+        seguinte.id = "hero-image";
+        hero = seguinte;
+        indice = destino;
+        void seguinte.offsetWidth;
+        seguinte.style.removeProperty("transition");
+        preload = new Image();
+        preload.src = imagens[(indice + 1) % imagens.length];
+    } catch (error) {
+        seguinte.remove();
+        anterior.classList.remove("is-sliding");
+        anterior.style.removeProperty("transform");
+        console.warn(error.message);
+    } finally {
+        seguinte.onload = null;
+        seguinte.onerror = null;
+        isTransitioning = false;
+    }
 }
 
 // Função que arranca o modo automático
@@ -202,49 +251,22 @@ function iniciarTimer() {
 }
 iniciarTimer(); // Arranca o timer inicial
 
-// SETAS NO COMPUTADOR — o centro da imagem continua a abrir o projeto
-const heroMouse = window.matchMedia("(min-width: 769px) and (hover: hover) and (pointer: fine)");
-const heroReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+// SETAS FIXAS NO COMPUTADOR — o centro da imagem continua a abrir o projeto
 const heroNavButtons = heroWrapper.querySelectorAll(".hero-nav");
 
 heroNavButtons.forEach(button => {
     const direcao = button.classList.contains("hero-nav--prev") ? -1 : 1;
-
-    function reporSeta() {
-        button.classList.remove("is-following");
-        button.style.removeProperty("--hero-arrow-x");
-        button.style.removeProperty("--hero-arrow-y");
-    }
-
-    function acompanharRato(event) {
-        if (!heroMouse.matches || heroReducedMotion.matches || event.pointerType !== "mouse") return;
-        const bounds = button.getBoundingClientRect();
-        const margem = 24;
-        const x = Math.max(margem, Math.min(bounds.width - margem, event.clientX - bounds.left));
-        const y = Math.max(margem, Math.min(bounds.height - margem, event.clientY - bounds.top));
-        button.style.setProperty("--hero-arrow-x", x + "px");
-        button.style.setProperty("--hero-arrow-y", y + "px");
-        button.classList.add("is-following");
-    }
-
-    button.addEventListener("pointerenter", acompanharRato);
-    button.addEventListener("pointermove", acompanharRato);
-    button.addEventListener("pointerleave", reporSeta);
-    button.addEventListener("pointercancel", reporSeta);
-    button.addEventListener("keydown", reporSeta);
 
     button.addEventListener("click", event => {
         event.stopPropagation();
         irParaImagem(indice + direcao);
         iniciarTimer();
     });
-
-    heroMouse.addEventListener("change", reporSeta);
-    heroReducedMotion.addEventListener("change", reporSeta);
 });
 
 // 2. ABRIR PROJETO AO CLICAR NA IMAGEM
-hero.addEventListener("click", () => {
+heroWrapper.addEventListener("click", event => {
+    if (event.target !== hero || isTransitioning || performance.now() < ignorarCliqueHeroAte) return;
     const linkDestino = linksProjetos[indice];
     if (linkDestino && linkDestino !== "") {
         window.location.href = linkDestino;
@@ -269,6 +291,7 @@ heroWrapper.addEventListener('touchend', e => {
     
     // Verifica se o movimento foi predominantemente horizontal e superior a 50px
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        ignorarCliqueHeroAte = performance.now() + 500;
         if (deltaX < 0) {
             irParaImagem(indice + 1); // Deslize para a esquerda -> Próxima imagem
         } else {

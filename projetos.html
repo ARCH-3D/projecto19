@@ -294,8 +294,16 @@ gtag('config','G-JXJP0D464R');
 </div>
 </div>
 </div>
-<button class="prev" onclick="mudarMidia(-1)" aria-label="Imagem anterior">‹</button>
-<button class="next" onclick="mudarMidia(1)" aria-label="Imagem seguinte">›</button>
+<button class="prev hero-nav hero-nav--prev modal-nav" type="button" aria-label="Imagem anterior" aria-controls="modal-content">
+    <svg class="hero-nav__icon" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+        <path d="M25 10L15 20l10 10"/>
+    </svg>
+</button>
+<button class="next hero-nav hero-nav--next modal-nav" type="button" aria-label="Imagem seguinte" aria-controls="modal-content">
+    <svg class="hero-nav__icon" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+        <path d="M15 10l10 10-10 10"/>
+    </svg>
+</button>
 </div>
 
 <footer>
@@ -613,8 +621,27 @@ const contactButton = document.querySelector(".contact-trigger");
 const backToTop = document.getElementById("back-to-top");
 const menu = document.getElementById("menu");
 
+// Mesmas setas da página inicial, fixas nas laterais da galeria.
+const modalNavButtons = modal.querySelectorAll(".modal-nav");
+let modalNavBloqueadaAte = 0;
+
+modalNavButtons.forEach(button => {
+    const direcao = button.classList.contains("prev") ? -1 : 1;
+
+    button.addEventListener("pointerenter", mostrarBotaoFullscreen);
+    button.addEventListener("pointermove", mostrarBotaoFullscreen);
+    button.addEventListener("click", event => {
+        event.stopPropagation();
+        if (performance.now() < modalNavBloqueadaAte) return;
+        modalNavBloqueadaAte = performance.now() + 400;
+        if (zoomAtivo) resetZoom();
+        mudarMidia(direcao);
+    });
+});
+
 function resetZoom(){
     zoomAtivo = false;
+    modal.classList.remove("is-zoomed");
     escalaZoom = ZOOM_MIN;
     zoomX = 0;
     zoomY = 0;
@@ -634,6 +661,7 @@ function resetZoom(){
 
 function atualizarZoom(){
     rafZoom = null;
+    modal.classList.toggle("is-zoomed", zoomAtivo);
     if (!elementoAtual) return;
 
     atualizarLimitesZoom();
@@ -697,8 +725,8 @@ function atualizarLimitesZoom(){
     if (!elementoAtual) return;
     const larguraImagem = elementoAtual.clientWidth * escalaZoom;
     const alturaImagem = elementoAtual.clientHeight * escalaZoom;
-    limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
-    limiteZoomY = Math.max(0, (alturaImagem - window.innerHeight) / 2);
+    limiteZoomX = Math.max(0, (larguraImagem - modalContent.clientWidth) / 2);
+    limiteZoomY = Math.max(0, (alturaImagem - modalContent.clientHeight) / 2);
 }
 
 function distanciaToques(t1, t2){

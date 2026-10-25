@@ -141,15 +141,24 @@ nav a:focus-visible{
     width:100%;
     height:100%;
     object-fit:cover;
-    opacity:1;
-    transition:opacity .8s ease;
+    cursor:pointer;
+    transform:translateX(0);
+    transition:transform .35s cubic-bezier(.22,.61,.36,1);
+}
+.hero-image.is-sliding{
+    will-change:transform;
+}
+@media (prefers-reduced-motion:reduce){
+    .hero-image{
+        transition:none;
+    }
 }
 
 /* ================== NAVEGAÇÃO DO HERO EM COMPUTADOR ================== */
 .hero-nav{
     display:none;
 }
-@media (min-width:769px) and (hover:hover) and (pointer:fine){
+@media (hover:hover) and (pointer:fine){
     .hero-nav{
         position:absolute;
         top:0;
@@ -181,10 +190,13 @@ nav a:focus-visible{
         top:var(--hero-arrow-y,50%);
         width:40px;
         height:40px;
+        border:0;
+        border-radius:50%;
+        background:transparent;
         transform:translate(-50%,-50%);
         fill:none;
         stroke:currentColor;
-        stroke-width:1.25;
+        stroke-width:1.75;
         stroke-linecap:round;
         stroke-linejoin:round;
         filter:drop-shadow(0 1px 2px rgba(0,0,0,.8));
@@ -675,11 +687,6 @@ footer p{
     .close:hover{
         opacity:.5;
     }
-    .prev:hover,
-    .next:hover{
-        opacity:.5;
-        transform: translateY(-50%) scale(1.08);
-    }
 }
 @media (pointer:coarse){
     .close{
@@ -696,54 +703,39 @@ footer p{
     }
 }
 
-/* ================== SETAS ================== */
-.prev,
-.next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--c-text);
-    font-size: 42px;
-    font-weight: 300;
-    cursor: pointer;
-    user-select: none;
-    touch-action: manipulation;
-    z-index: 10000;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    
-    width: 60px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    background: transparent;
-    border: none;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-}
-
-/* Posicionadas nas margens laterais criadas, descansando sobre o fundo branco */
-.prev {
-    left: 20px;
-}
-
-.next {
-    right: 20px;
-}
-
-.prev:focus-visible,
-.next:focus-visible {
-    outline: 2px solid var(--c-text);
-    outline-offset: 4px;
-}
-
-.prev:active,
-.next:active {
-    transform: translateY(-50%) scale(0.92) !important;
-    opacity: 0.4 !important;
-    transition: transform 0.08s ease, opacity 0.08s ease !important;
+/* ================== SETAS DO MODAL ================== */
+/* Controlos fixos nas margens reservadas, sempre fora da fotografia. */
+@media (hover:hover) and (pointer:fine){
+    #modal-projeto{
+        --modal-nav-gutter:clamp(56px,5vw,80px);
+    }
+    .modal-nav{
+        top:calc(50% - 24px);
+        bottom:auto;
+        width:48px;
+        height:48px;
+        color:#fff;
+        --hero-arrow-rest:50%;
+        z-index:10000;
+    }
+    .modal-nav.prev{
+        left:calc(var(--modal-nav-gutter) / 2 - 24px);
+    }
+    .modal-nav.next{
+        left:auto;
+        right:calc(var(--modal-nav-gutter) / 2 - 24px);
+    }
+    .modal-nav .hero-nav__icon{
+        color:var(--c-text);
+        border:0;
+        border-radius:0;
+        background:transparent;
+        stroke-width:1.75;
+        filter:none;
+    }
+    .modal-nav:focus-visible .hero-nav__icon{
+        outline-offset:3px;
+    }
 }
 
 /* ================= CONTACT WIDGET ================= */
@@ -1439,4 +1431,36 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
     visibility: visible !important; 
     transform: translateZ(0); 
     -webkit-transform: translateZ(0);
+}
+/* Margens para os controlos também em ecrã inteiro e durante o zoom. */
+@media (hover:hover) and (pointer:fine){
+    #modal-projeto.modal #modal-content{
+        width:calc(100% - 2 * var(--modal-nav-gutter));
+        padding-left:0;
+        padding-right:0;
+    }
+    #modal-projeto.modal #modal-content img,
+    #modal-projeto.modal #modal-content video{
+        max-width:100% !important;
+        width:auto !important;
+        height:auto !important;
+    }
+}
+
+/* No PC, evita que os controlos de topo tapem as setas em janelas baixas. */
+@media (max-height:550px) and (hover:hover) and (pointer:fine){
+    .modal .close,
+    .modal .fullscreen-btn,
+    .modal .zoom-btn{
+        top:12px !important;
+    }
+    .modal .close{
+        right:20px !important;
+    }
+    .modal .fullscreen-btn{
+        right:68px !important;
+    }
+    .modal .zoom-btn{
+        right:116px !important;
+    }
 }
