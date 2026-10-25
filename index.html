@@ -167,37 +167,66 @@ let gestoHero = null;
 let timerId;
 let ignorarCliqueHeroAte = 0;
 const heroSlideReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-let preload = new Image();
-let preloadAnterior = new Image();
-
-function preloadImagensHero() {
-    preload.src = imagens[(indice + 1) % imagens.length];
-    preloadAnterior.src = imagens[(indice - 1 + imagens.length) % imagens.length];
-}
-preloadImagensHero();
+// Conserva apenas a fotografia atual e as duas vizinhas já preparadas.
+const cacheImagensHero = new Map();
 
 function criarImagemHero(novoIndice) {
     const destino = ((novoIndice % imagens.length) + imagens.length) % imagens.length;
-    const elemento = hero.cloneNode(false);
-    elemento.removeAttribute("id");
-    elemento.removeAttribute("fetchpriority");
-    elemento.setAttribute("aria-hidden", "true");
-    elemento.style.pointerEvents = "none";
-    elemento.style.transition = "none";
-    const pronta = new Promise((resolve, reject) => {
-        elemento.onload = resolve;
-        elemento.onerror = () => reject(new Error("Falha ao carregar a imagem: " + imagens[destino]));
-        elemento.src = imagens[destino];
+    const src = imagens[destino];
+    const existente = cacheImagensHero.get(destino);
+    if (existente && existente.src === src && !existente.descartada && existente.estado !== "falhou") return existente;
+    if (existente) existente.descartada = true;
+
+    const elemento = destino === indice ? hero : new Image();
+    if (elemento !== hero) {
+        elemento.className = "hero-image";
+        elemento.alt = hero.alt;
+        elemento.decoding = "async";
+        elemento.setAttribute("aria-hidden", "true");
+        elemento.style.pointerEvents = "none";
+        elemento.style.transition = "none";
+        elemento.style.transform = "translateX(0)";
+    }
+    const imagem = { elemento, destino, src, estado: "a-carregar", descartada: false, pronta: null };
+    let aoCarregar, aoFalhar;
+    imagem.pronta = new Promise((resolve, reject) => {
+        aoCarregar = resolve;
+        aoFalhar = () => reject(new Error("Falha ao carregar a imagem: " + src));
+        elemento.addEventListener("load", aoCarregar);
+        elemento.addEventListener("error", aoFalhar);
+        if (elemento.getAttribute("src") !== src) elemento.src = src;
+        else if (elemento.complete) {
+            if (elemento.naturalWidth) resolve();
+            else aoFalhar();
+        }
     }).then(async () => {
+        if (imagem.descartada) throw new Error("Preparação de imagem descartada.");
         if (elemento.decode) await elemento.decode();
+        if (imagem.descartada) throw new Error("Preparação de imagem descartada.");
+        imagem.estado = "pronta";
+    }).catch(error => {
+        imagem.estado = "falhou";
+        throw error;
     }).finally(() => {
-        elemento.onload = null;
-        elemento.onerror = null;
+        elemento.removeEventListener("load", aoCarregar);
+        elemento.removeEventListener("error", aoFalhar);
     });
-    // Uma pré-visualização pode falhar mesmo quando o gesto usa a outra direção.
-    pronta.catch(() => {});
-    return { elemento, destino, pronta };
+    imagem.pronta.catch(() => {});
+    cacheImagensHero.set(destino, imagem);
+    return imagem;
 }
+
+function preloadImagensHero() {
+    const vizinhas = [indice, (indice + 1) % imagens.length, (indice - 1 + imagens.length) % imagens.length];
+    cacheImagensHero.forEach((imagem, destino) => {
+        if (!vizinhas.includes(destino) || imagem.src !== imagens[destino]) {
+            imagem.descartada = true;
+            cacheImagensHero.delete(destino);
+        }
+    });
+    vizinhas.forEach(criarImagemHero);
+}
+preloadImagensHero();
 
 function animarHero(elementos, aplicarDestino, duracao = 350, curva = "cubic-bezier(.22,.61,.36,1)") {
     if (heroSlideReducedMotion.matches) {
@@ -225,6 +254,12 @@ function animarHero(elementos, aplicarDestino, duracao = 350, curva = "cubic-bez
 
 function ativarImagemHero(imagem) {
     const seguinte = imagem.elemento;
+    hero.removeAttribute("id");
+    hero.setAttribute("aria-hidden", "true");
+    hero.style.pointerEvents = "none";
+    hero.style.transition = "none";
+    hero.style.transform = "translateX(0)";
+    hero.classList.remove("is-sliding");
     hero.remove();
     seguinte.style.transition = "none";
     seguinte.style.transform = "translateX(0)";
@@ -248,6 +283,8 @@ async function irParaImagem(novoIndice) {
     isTransitioning = true;
     const anterior = hero;
     const seguinte = criarImagemHero(destino);
+    seguinte.elemento.style.transition = "none";
+    seguinte.elemento.classList.remove("is-sliding");
     seguinte.elemento.style.transform = "translateX(" + (direcao * 100) + "%)";
     try {
         await seguinte.pronta;
@@ -304,7 +341,12 @@ function limparGestoHero(gesto) {
     if (gestoHero !== gesto) return;
     gestoHero = null;
     [gesto.anterior, gesto.seguinte].forEach(imagem => {
-        if (imagem && imagem.elemento !== hero) imagem.elemento.remove();
+        if (imagem && imagem.elemento !== hero) {
+            imagem.elemento.remove();
+            imagem.elemento.style.transition = "none";
+            imagem.elemento.style.transform = "translateX(0)";
+            imagem.elemento.classList.remove("is-sliding");
+        }
     });
     hero.style.transition = "none";
     hero.style.transform = "translateX(0)";
@@ -313,6 +355,7 @@ function limparGestoHero(gesto) {
     hero.style.removeProperty("transition");
     isTransitioning = false;
     if (gesto.eixo === "x") ignorarCliqueHeroAte = performance.now() + 500;
+    preloadImagensHero();
     iniciarTimer();
 }
 
@@ -327,39 +370,40 @@ function moverGestoHero(gesto, toque) {
         if (Math.max(Math.abs(dx), Math.abs(dy)) < 10) return false;
         gesto.eixo = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
         if (gesto.eixo === "x") {
-            gesto.anterior = criarImagemHero(indice - 1);
-            gesto.seguinte = criarImagemHero(indice + 1);
-            [hero, gesto.anterior.elemento, gesto.seguinte.elemento].forEach(elemento => {
+            const anterior = criarImagemHero(indice - 1);
+            const seguinte = criarImagemHero(indice + 1);
+            // Só entram no gesto fotografias que já terminaram a descodificação.
+            // Uma preparação tardia fica disponível para o gesto seguinte, sem saltos.
+            gesto.anterior = anterior.estado === "pronta" ? anterior : null;
+            gesto.seguinte = seguinte.estado === "pronta" ? seguinte : null;
+            const vizinhas = [gesto.anterior, gesto.seguinte].filter(Boolean).map(imagem => imagem.elemento);
+            [hero, ...vizinhas].forEach(elemento => {
                 elemento.style.transition = "none";
                 elemento.classList.add("is-sliding");
             });
-            hero.after(gesto.anterior.elemento, gesto.seguinte.elemento);
+            hero.after(...vizinhas);
         }
     }
     if (gesto.eixo !== "x") return false;
     gesto.dx = Math.max(-gesto.largura, Math.min(gesto.largura, dx));
-    hero.style.transform = "translateX(" + gesto.dx + "px)";
-    gesto.anterior.elemento.style.transform = "translateX(calc(-100% + " + gesto.dx + "px))";
-    gesto.seguinte.elemento.style.transform = "translateX(calc(100% + " + gesto.dx + "px))";
+    const destino = gesto.dx < 0 ? gesto.seguinte : gesto.anterior;
+    // Em rede lenta, mantém a fotografia atual a cobrir o enquadramento.
+    gesto.deslocamento = destino ? gesto.dx : 0;
+    hero.style.transform = "translateX(" + gesto.deslocamento + "px)";
+    if (gesto.anterior) gesto.anterior.elemento.style.transform = "translateX(calc(-100% + " + gesto.deslocamento + "px))";
+    if (gesto.seguinte) gesto.seguinte.elemento.style.transform = "translateX(calc(100% + " + gesto.deslocamento + "px))";
     ignorarCliqueHeroAte = performance.now() + 500;
     return true;
 }
 
 async function concluirGestoHero(gesto) {
-    let confirmar = Math.abs(gesto.dx) > gesto.largura * .15;
     const direcao = gesto.dx < 0 ? 1 : -1;
     const destino = direcao === 1 ? gesto.seguinte : gesto.anterior;
-    if (confirmar) {
-        try {
-            await destino.pronta;
-        } catch (error) {
-            confirmar = false;
-            console.warn(error.message);
-        }
-    }
-    // O gesto pode ter sido cancelado entretanto por rotação, multitouch ou suspensão.
+    const confirmar = destino && Math.abs(gesto.dx) > gesto.largura * .15;
     if (gestoHero !== gesto) return;
     try {
+        // Nunca deixa um gesto parado à espera de carregamento ou descodificação.
+        if (!gesto.deslocamento) return;
         if (confirmar) {
             await animarHero([hero, destino.elemento], () => {
                 hero.style.transform = "translateX(" + (-direcao * 100) + "%)";
@@ -368,10 +412,11 @@ async function concluirGestoHero(gesto) {
             if (gestoHero !== gesto) return;
             ativarImagemHero(destino);
         } else {
-            await animarHero([hero, gesto.anterior.elemento, gesto.seguinte.elemento], () => {
+            const vizinhas = [gesto.anterior, gesto.seguinte].filter(Boolean).map(imagem => imagem.elemento);
+            await animarHero([hero, ...vizinhas], () => {
                 hero.style.transform = "translateX(0)";
-                gesto.anterior.elemento.style.transform = "translateX(-100%)";
-                gesto.seguinte.elemento.style.transform = "translateX(100%)";
+                if (gesto.anterior) gesto.anterior.elemento.style.transform = "translateX(-100%)";
+                if (gesto.seguinte) gesto.seguinte.elemento.style.transform = "translateX(100%)";
             }, 300, "ease");
         }
     } finally {
@@ -394,6 +439,7 @@ heroWrapper.addEventListener("touchstart", event => {
         largura: heroWrapper.clientWidth,
         eixo: null,
         dx: 0,
+        deslocamento: 0,
         aConcluir: false,
         anterior: null,
         seguinte: null
