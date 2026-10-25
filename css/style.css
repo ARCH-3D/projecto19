@@ -718,6 +718,14 @@ footer p{
         color:#fff;
         --hero-arrow-rest:50%;
         z-index:10000;
+        opacity:0;
+        pointer-events:none;
+        transition:opacity .5s ease;
+    }
+    .modal-nav.show-controls,
+    .modal-nav:focus-visible{
+        opacity:1;
+        pointer-events:auto;
     }
     .modal-nav.prev{
         left:calc(var(--modal-nav-gutter) / 2 - 24px);

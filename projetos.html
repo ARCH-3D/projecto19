@@ -623,13 +623,13 @@ const menu = document.getElementById("menu");
 
 // Mesmas setas da página inicial, fixas nas laterais da galeria.
 const modalNavButtons = modal.querySelectorAll(".modal-nav");
+const controlosModal = [fullscreenBtn, zoomBtn, closeBtn, ...modalNavButtons].filter(Boolean);
 let modalNavBloqueadaAte = 0;
+let posicaoRatoModal = null;
 
 modalNavButtons.forEach(button => {
     const direcao = button.classList.contains("prev") ? -1 : 1;
 
-    button.addEventListener("pointerenter", mostrarBotaoFullscreen);
-    button.addEventListener("pointermove", mostrarBotaoFullscreen);
     button.addEventListener("click", event => {
         event.stopPropagation();
         if (performance.now() < modalNavBloqueadaAte) return;
@@ -823,6 +823,7 @@ function fecharModal(){
 
     // Esconder modal e resetar estilos do fundo e transição
     modalProjeto.style.display = "none";
+    ocultarControlosModal();
     modalProjeto.style.background = "";
     modalProjeto.style.transition = "";
 
@@ -1057,16 +1058,49 @@ function ajustarBolinhasIPhone(){
     aplicarTamanho(elementoSeguinte, safariEdgeLandscape);
 }
 
-function mostrarBotaoFullscreen(){
+function ocultarControlosModal() {
+    posicaoRatoModal = null;
+    clearTimeout(fullscreenTimeout);
+    fullscreenTimeout = null;
+    fullscreenBtn?.classList.remove("show");
+    zoomBtn?.classList.remove("show");
+    closeBtn?.classList.remove("show-controls");
+    modalNavButtons.forEach(button => button.classList.remove("show-controls"));
+}
+
+function controloModalEmUso(controle) {
+    if (controle.matches(":hover, :focus-visible")) return true;
+    if (!posicaoRatoModal) return false;
+    const rect = controle.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0 &&
+        posicaoRatoModal.x >= rect.left && posicaoRatoModal.x <= rect.right &&
+        posicaoRatoModal.y >= rect.top && posicaoRatoModal.y <= rect.bottom;
+}
+
+function agendarOcultarControlosModal() {
+    clearTimeout(fullscreenTimeout);
+    fullscreenTimeout = null;
+    if (modal.style.display !== "flex" || window.matchMedia("(pointer: coarse)").matches) return;
+    fullscreenTimeout = setTimeout(() => {
+        fullscreenTimeout = null;
+        if (controlosModal.some(controloModalEmUso)) return;
+        ocultarControlosModal();
+    }, FULLSCREEN_BUTTON_TIMEOUT);
+}
+
+function mostrarBotaoFullscreen(event){
+    if (event && Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
+        posicaoRatoModal = { x: event.clientX, y: event.clientY };
+    }
     const btn = fullscreenBtn, close = closeBtn, zoom = zoomBtn;
-    if (!btn) return;
-    
+    if (!btn || modal.style.display !== "flex") return;
+
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isApple = isAppleMobile();
 
-    // Determina se o botão deve ser visível no dispositivo atual
-    const deveMostrar = (isApple && FULLSCREEN_IPHONE) || 
-                          (isAndroid && FULLSCREEN_TELEMOVEL) || 
+    // Determina se o botão deve ser visível no dispositivo atual.
+    const deveMostrar = (isApple && FULLSCREEN_IPHONE) ||
+                          (isAndroid && FULLSCREEN_TELEMOVEL) ||
                           (!isApple && !isAndroid);
 
     if (deveMostrar) {
@@ -1081,38 +1115,16 @@ function mostrarBotaoFullscreen(){
 
     if (close) close.classList.add("show-controls");
     if (zoom) zoom.classList.add("show");
-
-    if (window.matchMedia("(pointer: coarse)").matches) {
-        clearTimeout(fullscreenTimeout);
-        return;
-    }
-
-    clearTimeout(fullscreenTimeout);
-    fullscreenTimeout = setTimeout(() => {
-        if ((btn && btn.matches(":hover")) || (close && close.matches(":hover")) || (zoom && zoom.matches(":hover"))) return;
-        btn.classList.remove("show");
-        if (close) close.classList.remove("show-controls");
-        if (zoom) zoom.classList.remove("show");
-    }, FULLSCREEN_BUTTON_TIMEOUT);
+    modalNavButtons.forEach(button => button.classList.add("show-controls"));
+    agendarOcultarControlosModal();
 }
 
-[fullscreenBtn, zoomBtn, closeBtn].forEach(controle => {
-    if (!controle) return;
-    controle.addEventListener("mouseenter", () => {
-        clearTimeout(fullscreenTimeout);
-        if (fullscreenBtn && fullscreenBtn.style.display !== "none") fullscreenBtn.classList.add("show");
-        if (zoomBtn) zoomBtn.classList.add("show");
-        if (closeBtn) closeBtn.classList.add("show-controls");
-    });
-    controle.addEventListener("mouseleave", () => {
-        clearTimeout(fullscreenTimeout);
-        fullscreenTimeout = setTimeout(() => {
-            if (fullscreenBtn?.matches(":hover") || zoomBtn?.matches(":hover") || closeBtn?.matches(":hover")) return;
-            fullscreenBtn?.classList.remove("show");
-            zoomBtn?.classList.remove("show");
-            closeBtn?.classList.remove("show-controls");
-        }, FULLSCREEN_BUTTON_TIMEOUT);
-    });
+// Setas e botões partilham o temporizador, o hover e o foco de teclado.
+controlosModal.forEach(controle => {
+    controle.addEventListener("mouseenter", mostrarBotaoFullscreen);
+    controle.addEventListener("mouseleave", agendarOcultarControlosModal);
+    controle.addEventListener("focus", mostrarBotaoFullscreen);
+    controle.addEventListener("blur", agendarOcultarControlosModal);
 });
 
 function toggleFullscreen(){
@@ -1800,8 +1812,12 @@ modalContent.addEventListener("touchend", function(e){
     }
 });
 
-modalContent.addEventListener("mousemove", mostrarBotaoFullscreen);
-modalContent.addEventListener("touchstart", mostrarBotaoFullscreen);
+modal.addEventListener("mousemove", mostrarBotaoFullscreen);
+modal.addEventListener("mouseleave", () => {
+    posicaoRatoModal = null;
+    agendarOcultarControlosModal();
+});
+modal.addEventListener("touchstart", mostrarBotaoFullscreen, { passive: true });
 
 document.addEventListener("fullscreenchange", () => {
     // Remove o espaço lateral do scrollbar no HTML durante o fullscreen
