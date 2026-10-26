@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20261026-app-browser-layout">
+<link rel="stylesheet" href="css/style.css?v=20261026-app-visible-viewport">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
 <script>
 window.dataLayer=window.dataLayer||[];
@@ -601,6 +601,7 @@ let elementoAnterior = null, elementoAtual = null, elementoSeguinte = null;
 let previewIndice = -1, fullscreenTimeout = null;
 let pedidoFullscreenId = 0, fullscreenWatchdog = null, fullscreenPendente = false;
 let fullscreenDesejado = false, fullscreenAppPermitido = false;
+let rafViewportApp = null;
 let zoomAtivo = false, escalaZoom = 2, zoomX = 0, zoomY = 0;
 let zoomStartX = 0, zoomStartY = 0, moverImagem = false;
 let mouseZoomAtivo = false, mouseZoomStartX = 0, mouseZoomStartY = 0, mouseZoomInicioX = 0, mouseZoomInicioY = 0;
@@ -1153,6 +1154,60 @@ function isAppIPadInstalada() {
     return iPad && instalada;
 }
 
+// Na app, a área visível pode ser menor do que a altura CSS do ecrã.
+const propriedadesViewportApp = ["--app-viewport-top", "--app-viewport-left", "--app-viewport-width", "--app-viewport-height"];
+
+function limparViewportApp() {
+    if (rafViewportApp !== null) cancelAnimationFrame(rafViewportApp);
+    rafViewportApp = null;
+    modal.classList.remove("app-visible-viewport");
+    propriedadesViewportApp.forEach(propriedade => modal.style.removeProperty(propriedade));
+}
+
+function usaViewportApp() {
+    return modal.style.display === "flex" && modal.classList.contains("fullscreen-app");
+}
+
+function atualizarViewportApp() {
+    if (rafViewportApp !== null) cancelAnimationFrame(rafViewportApp);
+    rafViewportApp = null;
+    if (!usaViewportApp()) { limparViewportApp(); return; }
+    const viewport = window.visualViewport;
+    const valido = viewport && Number.isFinite(viewport.width) && viewport.width > 0 &&
+        Number.isFinite(viewport.height) && viewport.height > 0;
+    const deslocamento = valor => Number.isFinite(valor) ? Math.max(0, valor) : 0;
+    const largura = valido ? viewport.width : window.innerWidth;
+    const altura = valido ? viewport.height : window.innerHeight;
+    const valores = [valido ? deslocamento(viewport.offsetTop) : 0, valido ? deslocamento(viewport.offsetLeft) : 0, largura, altura];
+    let mudou = !modal.classList.contains("app-visible-viewport");
+    propriedadesViewportApp.forEach((propriedade, indice) => {
+        const valor = valores[indice] + "px";
+        if (modal.style.getPropertyValue(propriedade) !== valor) {
+            modal.style.setProperty(propriedade, valor);
+            mudou = true;
+        }
+    });
+    modal.classList.add("app-visible-viewport");
+    if (mudou && elementoAtual && !isDragging && !isVerticalDrag && !isPinching) {
+        elementoAtual.style.transition = "none";
+        atualizarZoom();
+    }
+}
+
+function agendarViewportApp() {
+    if (!usaViewportApp() || rafViewportApp !== null) return;
+    rafViewportApp = requestAnimationFrame(atualizarViewportApp);
+}
+
+window.visualViewport?.addEventListener("resize", agendarViewportApp);
+window.visualViewport?.addEventListener("scroll", agendarViewportApp);
+window.addEventListener("resize", agendarViewportApp);
+window.addEventListener("orientationchange", agendarViewportApp);
+window.addEventListener("pageshow", agendarViewportApp);
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") agendarViewportApp();
+});
+
 function pedidoFullscreenNativo() {
     if (typeof modal.requestFullscreen === "function" && document.fullscreenEnabled !== false) return modal.requestFullscreen;
     const prefixado = modal.webkitRequestFullscreen || modal.webkitRequestFullScreen;
@@ -1218,6 +1273,7 @@ function tratarMudancaFullscreen() {
     } else {
         document.documentElement.style.removeProperty("scrollbar-gutter");
     }
+    atualizarViewportApp();
     sincronizarBotaoFullscreen();
     if (modal.style.display !== "flex") return;
     modal.style.background = "";
@@ -1251,6 +1307,7 @@ function reporFullscreenModal() {
     fullscreenDesejado = false;
     fullscreenAppPermitido = false;
     modal.classList.remove("fullscreen-app");
+    limparViewportApp();
     sincronizarBotaoFullscreen();
     const nativo = obterElementoFullscreen();
     if (nativo && (nativo === modal || modal.contains(nativo))) sairFullscreenNativo();
@@ -1279,6 +1336,8 @@ function toggleFullscreen(){
     fullscreenDesejado = true;
     fullscreenAppPermitido = isAppIPadInstalada();
     fullscreenPendente = true;
+    // Na app instalada, evita a altura de layout imposta pelo fullscreen nativo.
+    if (fullscreenAppPermitido) { usarFullscreenApp(pedido); return; }
     const solicitar = pedidoFullscreenNativo();
     if (!solicitar) { usarFullscreenApp(pedido); return; }
     try {
