@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20261026-zoom-minimal-ui">
+<link rel="stylesheet" href="css/style.css?v=20261026-adaptive-contrast">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
 <script>
 window.dataLayer=window.dataLayer||[];
@@ -327,6 +327,7 @@ gtag('config','G-JXJP0D464R');
 <p>© PROJECTO 19</p>
 </footer>
 
+<script src="js/contraste-imagens.js?v=20261026-adaptive"></script>
 <script>
 const projetos = {
 projeto187: {
@@ -640,12 +641,85 @@ let posicaoRatoModal = null;
 // Acompanha a área realmente pintada, incluindo zoom, gestos e transições.
 const alvosContrasteModal = [...controlosModal, ...modal.querySelectorAll(".modal-item")];
 let rafContrasteModal = null, contrasteModalAte = 0;
+const mapasLuminanciaContraste = new Map();
 
 function limparContrasteModal() {
     if (rafContrasteModal !== null) cancelAnimationFrame(rafContrasteModal);
     rafContrasteModal = null;
     contrasteModalAte = 0;
-    alvosContrasteModal.forEach(alvo => alvo.classList.remove("is-over-media"));
+    alvosContrasteModal.forEach(alvo => alvo.classList.remove("is-over-media", "is-over-light-media"));
+}
+
+function obterMapaLuminancia(elemento) {
+    if (elemento.tagName !== "IMG" || !elemento.complete || !elemento.naturalWidth) return null;
+    const src = elemento.currentSrc || elemento.src;
+    if (mapasLuminanciaContraste.has(src)) return mapasLuminanciaContraste.get(src);
+    const tamanho = 32;
+    let pixels = null, origem = "indisponivel";
+    try {
+        const canvas = document.createElement("canvas");
+        canvas.width = tamanho; canvas.height = tamanho;
+        const ctx = canvas.getContext("2d", {willReadFrequently:true});
+        ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, tamanho, tamanho);
+        ctx.drawImage(elemento, 0, 0, tamanho, tamanho);
+        const rgba = ctx.getImageData(0, 0, tamanho, tamanho).data;
+        pixels = new Uint8Array(tamanho * tamanho);
+        const linear = valor => { const c = valor / 255; return c <= .04045 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); };
+        for (let i = 0; i < pixels.length; i++) {
+            const k = i * 4;
+            pixels[i] = Math.round(255 * (.2126 * linear(rgba[k]) + .7152 * linear(rgba[k + 1]) + .0722 * linear(rgba[k + 2])));
+        }
+        origem = "canvas";
+    } catch (_) {
+        // Os mapas permitem experimentar também nos ficheiros locais, sem permissões adicionais.
+        const dados = window.projecto19Luminancia;
+        const caminho = decodeURIComponent(new URL(src, document.baseURI).pathname);
+        const inicio = caminho.indexOf("/img/");
+        const chave = inicio >= 0 ? caminho.slice(inicio + 1) : "";
+        const base64 = dados?.imagens[chave];
+        if (base64 && dados.tamanho === tamanho) {
+            pixels = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+            origem = "mapa";
+        }
+    }
+    const mapa = {tamanho, pixels, origem};
+    mapasLuminanciaContraste.set(src, mapa);
+    if (mapasLuminanciaContraste.size > 12) mapasLuminanciaContraste.delete(mapasLuminanciaContraste.keys().next().value);
+    return mapa;
+}
+
+function luminanciaNoPonto(area, x, y) {
+    const mapa = obterMapaLuminancia(area.elemento);
+    if (!mapa?.pixels) return null;
+    const posX = Math.max(0, Math.min(mapa.tamanho - 1, (x - area.desenho.left) / area.desenho.width * mapa.tamanho - .5));
+    const posY = Math.max(0, Math.min(mapa.tamanho - 1, (y - area.desenho.top) / area.desenho.height * mapa.tamanho - .5));
+    const x0 = Math.floor(posX), y0 = Math.floor(posY), x1 = Math.min(x0 + 1, mapa.tamanho - 1), y1 = Math.min(y0 + 1, mapa.tamanho - 1);
+    const dx = posX - x0, dy = posY - y0, p = mapa.pixels, n = mapa.tamanho;
+    return ((p[y0*n+x0]*(1-dx)+p[y0*n+x1]*dx)*(1-dy)+(p[y1*n+x0]*(1-dx)+p[y1*n+x1]*dx)*dy)/255;
+}
+
+function luminanciaSobAlvo(rect, areas) {
+    const amostras = [];
+    let leuFotografia = false, desconhecida = false;
+    for (let linha = 0; linha < 5; linha++) for (let coluna = 0; coluna < 5; coluna++) {
+        const x = rect.left + rect.width * (coluna + .5) / 5;
+        const y = rect.top + rect.height * (linha + .5) / 5;
+        let luz = 1, pontoDesconhecido = false;
+        areas.forEach(area => {
+            if (x < area.left || x > area.right || y < area.top || y > area.bottom) return;
+            const valor = luminanciaNoPonto(area, x, y);
+            if (valor === null) { pontoDesconhecido = true; return; }
+            leuFotografia = true;
+            luz = luz * (1 - area.opacidade) + valor * area.opacidade;
+            if (area.opacidade > .98) pontoDesconhecido = false;
+        });
+        if (pontoDesconhecido) desconhecida = true;
+        else amostras.push(luz);
+    }
+    if (!leuFotografia || !amostras.length || (desconhecida && amostras.length < 13)) return null;
+    amostras.sort((a,b) => a-b);
+    const margem = Math.floor(amostras.length * .2), centro = amostras.slice(margem, amostras.length - margem);
+    return centro.reduce((soma, valor) => soma + valor, 0) / centro.length;
 }
 
 function areaVisivelMidia(elemento, limite) {
@@ -668,7 +742,11 @@ function areaVisivelMidia(elemento, limite) {
         left:Math.max(esquerda, limite.left),
         top:Math.max(topo, limite.top),
         right:Math.min(esquerda + largura, limite.right),
-        bottom:Math.min(topo + altura, limite.bottom)
+        bottom:Math.min(topo + altura, limite.bottom),
+        elemento,
+        desenho:{left:esquerda, top:topo, width:largura, height:altura},
+        opacidade:parseFloat(estilo.opacity),
+        camada:parseInt(estilo.zIndex, 10) || 0
     };
     return area.right > area.left && area.bottom > area.top ? area : null;
 }
@@ -685,7 +763,7 @@ function atualizarContrasteModal() {
         bottom:Math.min(quadro.bottom, janela.bottom, window.innerHeight)
     };
     const areas = [...modalContent.querySelectorAll("img, video")]
-        .map(elemento => areaVisivelMidia(elemento, limite)).filter(Boolean);
+        .map(elemento => areaVisivelMidia(elemento, limite)).filter(Boolean).sort((a,b) => a.camada - b.camada);
     const estados = alvosContrasteModal.map(alvo => {
         const referencia = alvo.matches("button") ? alvo.querySelector("svg") : alvo;
         const rect = referencia.getBoundingClientRect();
@@ -695,10 +773,15 @@ function atualizarContrasteModal() {
             const altura = Math.max(0, Math.min(rect.bottom, area.bottom) - Math.max(rect.top, area.top));
             return largura * altura >= areaAlvo * .2;
         });
-        return {alvo, sobre};
+        const luz = sobre ? luminanciaSobAlvo(rect, areas) : null;
+        const eraSobre = alvo.classList.contains("is-over-media");
+        const limiar = !eraSobre ? .19 : (alvo.classList.contains("is-over-light-media") ? .17 : .21);
+        const claro = sobre && luz !== null && luz >= limiar;
+        return {alvo, sobre, claro};
     });
-    estados.forEach(({alvo, sobre}) => {
+    estados.forEach(({alvo, sobre, claro}) => {
         if (alvo.classList.contains("is-over-media") !== sobre) alvo.classList.toggle("is-over-media", sobre);
+        if (alvo.classList.contains("is-over-light-media") !== claro) alvo.classList.toggle("is-over-light-media", claro);
     });
     if (performance.now() < contrasteModalAte) rafContrasteModal = requestAnimationFrame(atualizarContrasteModal);
 }
