@@ -1473,3 +1473,23 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
         right:116px !important;
     }
 }
+
+/* Alternativa para a app instalada no iPad quando não existe fullscreen nativo. */
+#modal-projeto.fullscreen-app{
+    height:100dvh;
+    max-height:100dvh;
+}
+#modal-projeto.fullscreen-app #modal-content{
+    padding:0;
+}
+#modal-projeto.fullscreen-app #modal-content img,
+#modal-projeto.fullscreen-app #modal-content video{
+    max-width:100% !important;
+    max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) !important;
+    width:auto !important;
+    height:auto !important;
+}
+#modal-projeto.fullscreen-app .modal-info,
+#modal-projeto.fullscreen-app .media-indicators{
+    display:none !important;
+}
