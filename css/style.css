@@ -1480,22 +1480,47 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
     }
 }
 
-/* Alternativa para a app instalada no iPad quando não existe fullscreen nativo. */
+/* Vista ampliada da app: mantém a legenda e os indicadores abaixo da imagem. */
 #modal-projeto.fullscreen-app{
+    --app-footer-space:calc(110px + env(safe-area-inset-bottom,0px));
     height:100dvh;
     max-height:100dvh;
+    justify-content:flex-start;
 }
 #modal-projeto.fullscreen-app #modal-content{
+    flex:none;
+    height:calc(100dvh - var(--app-footer-space) - env(safe-area-inset-top,0px));
+    margin-top:env(safe-area-inset-top,0px);
     padding:0;
 }
 #modal-projeto.fullscreen-app #modal-content img,
 #modal-projeto.fullscreen-app #modal-content video{
     max-width:100% !important;
-    max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) !important;
+    max-height:calc(100dvh - var(--app-footer-space) - env(safe-area-inset-top,0px) - 20px) !important;
     width:auto !important;
     height:auto !important;
 }
-#modal-projeto.fullscreen-app .modal-info,
+#modal-projeto.fullscreen-app .modal-info{
+    display:block !important;
+    bottom:calc(25px + env(safe-area-inset-bottom,0px)) !important;
+}
 #modal-projeto.fullscreen-app .media-indicators{
-    display:none !important;
+    display:flex !important;
+    bottom:calc(80px + env(safe-area-inset-bottom,0px)) !important;
+    gap:clamp(4px,1vw,8px);
+}
+#modal-projeto.fullscreen-app .media-indicators span{
+    background:rgba(17,17,17,.2);
+}
+#modal-projeto.fullscreen-app .media-indicators span.active{
+    background:var(--c-text);
+}
+#modal-projeto.fullscreen-app .modal-nav{
+    top:calc((100dvh - var(--app-footer-space) + env(safe-area-inset-top,0px)) / 2 - 24px);
+}
+@media (max-width:600px){
+    #modal-projeto.fullscreen-app .modal-details{
+        gap:6px 16px;
+        flex-wrap:wrap;
+    }
 }
