@@ -1610,3 +1610,25 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
 #modal-projeto.is-zoomed .modal-info{
     display:none !important;
 }
+
+/* Nas plantas de fundo predominantemente branco, os símbolos ficam escuros. */
+#modal-projeto .close.is-over-media.is-plan-image,
+#modal-projeto .zoom-btn.is-over-media.is-plan-image,
+#modal-projeto .fullscreen-btn.is-over-media.is-plan-image,
+#modal-projeto .modal-nav.is-over-media.is-plan-image .hero-nav__icon,
+#modal-projeto .modal-item.is-over-media.is-plan-image{
+    color:var(--c-text);
+    text-shadow:none;
+}
+#modal-projeto .close.is-over-media.is-plan-image svg,
+#modal-projeto .zoom-btn.is-over-media.is-plan-image svg,
+#modal-projeto .fullscreen-btn.is-over-media.is-plan-image svg,
+#modal-projeto .modal-nav.is-over-media.is-plan-image .hero-nav__icon,
+#modal-projeto .modal-item.is-over-media.is-plan-image img{
+    filter:none;
+}
+#modal-projeto .close.is-plan-image:focus-visible,
+#modal-projeto .zoom-btn.is-plan-image:focus-visible,
+#modal-projeto .fullscreen-btn.is-plan-image:focus-visible{
+    outline-color:var(--c-text);
+}

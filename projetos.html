@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20261026-zoom-minimal-ui">
+<link rel="stylesheet" href="css/style.css?v=20261026-plan-images-dark-controls">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
 <script>
 window.dataLayer=window.dataLayer||[];
@@ -640,12 +640,55 @@ let posicaoRatoModal = null;
 // Acompanha a área realmente pintada, incluindo zoom, gestos e transições.
 const alvosContrasteModal = [...controlosModal, ...modal.querySelectorAll(".modal-item")];
 let rafContrasteModal = null, contrasteModalAte = 0;
+// Classificação global das imagens existentes, também disponível nos ficheiros locais.
+const plantasCatalogo = {"img/projetos/05_Moradia_Pousa_Barcelos/05_1.webp":false,"img/projetos/05_Moradia_Pousa_Barcelos/05_2.webp":false,"img/projetos/05_Moradia_Pousa_Barcelos/05_3.webp":false,"img/projetos/05_Moradia_Pousa_Barcelos/05_4.webp":false,"img/projetos/05_Moradia_Pousa_Barcelos/05_5.webp":false,"img/projetos/07_Moradia_Besteiros_Amares/07_1.webp":false,"img/projetos/07_Moradia_Besteiros_Amares/07_14.webp":false,"img/projetos/07_Moradia_Besteiros_Amares/07_2.webp":false,"img/projetos/07_Moradia_Besteiros_Amares/07_3.webp":false,"img/projetos/07_Moradia_Besteiros_Amares/07_4.webp":false,"img/projetos/07_Moradia_Besteiros_Amares/07_5.webp":false,"img/projetos/07_Moradia_Besteiros_Amares/07_6.webp":true,"img/projetos/07_Moradia_Besteiros_Amares/07_7.webp":true,"img/projetos/07_Moradia_Besteiros_Amares/07_8.webp":true,"img/projetos/108_Moradia_Estela_PVarzim/108_1.webp":false,"img/projetos/108_Moradia_Estela_PVarzim/108_2.webp":false,"img/projetos/108_Moradia_Estela_PVarzim/108_3.webp":false,"img/projetos/108_Moradia_Estela_PVarzim/108_4.webp":false,"img/projetos/108_Moradia_Estela_PVarzim/108_5.webp":false,"img/projetos/108_Moradia_Estela_PVarzim/108_6.webp":true,"img/projetos/108_Moradia_Estela_PVarzim/108_7.webp":true,"img/projetos/146_Moradia_MireTibaes_Braga/146_01.webp":false,"img/projetos/146_Moradia_MireTibaes_Braga/146_02.webp":false,"img/projetos/146_Moradia_MireTibaes_Braga/146_03.webp":false,"img/projetos/146_Moradia_MireTibaes_Braga/146_06.webp":false,"img/projetos/146_Moradia_MireTibaes_Braga/146_07.webp":false,"img/projetos/146_Moradia_MireTibaes_Braga/146_08.webp":false,"img/projetos/146_Moradia_MireTibaes_Braga/146_09.webp":false,"img/projetos/146_Moradia_MireTibaes_Braga/146_10.webp":false,"img/projetos/146_Moradia_MireTibaes_Braga/146_11.webp":true,"img/projetos/146_Moradia_MireTibaes_Braga/146_12.webp":true,"img/projetos/156_Moradia_Carapecos_Barcelos/156_1.webp":false,"img/projetos/156_Moradia_Carapecos_Barcelos/156_2.webp":false,"img/projetos/156_Moradia_Carapecos_Barcelos/156_3.webp":false,"img/projetos/156_Moradia_Carapecos_Barcelos/156_4.webp":false,"img/projetos/156_Moradia_Carapecos_Barcelos/156_5.webp":false,"img/projetos/156_Moradia_Carapecos_Barcelos/156_6.webp":false,"img/projetos/158_Moradia_Espinho_Braga/158_1.webp":false,"img/projetos/158_Moradia_Espinho_Braga/158_2.webp":false,"img/projetos/158_Moradia_Espinho_Braga/158_3.webp":false,"img/projetos/158_Moradia_Espinho_Braga/158_4.webp":true,"img/projetos/158_Moradia_Espinho_Braga/158_5.webp":true,"img/projetos/168_Moradia_Mogege_Famalicao/168_1.webp":false,"img/projetos/168_Moradia_Mogege_Famalicao/168_2.webp":false,"img/projetos/168_Moradia_Mogege_Famalicao/168_3.webp":false,"img/projetos/168_Moradia_Mogege_Famalicao/168_4.webp":false,"img/projetos/168_Moradia_Mogege_Famalicao/168_5.webp":false,"img/projetos/168_Moradia_Mogege_Famalicao/168_6.webp":false,"img/projetos/168_Moradia_Mogege_Famalicao/168_7.webp":true,"img/projetos/168_Moradia_Mogege_Famalicao/168_8.webp":true,"img/projetos/168_Moradia_Mogege_Famalicao/168_9.webp":true,"img/projetos/176_Renovacao_Real_Braga/176_1.webp":false,"img/projetos/176_Renovacao_Real_Braga/176_2.webp":false,"img/projetos/176_Renovacao_Real_Braga/176_3.webp":false,"img/projetos/176_Renovacao_Real_Braga/176_4.webp":false,"img/projetos/176_Renovacao_Real_Braga/176_5.webp":false,"img/projetos/176_Renovacao_Real_Braga/176_6.webp":false,"img/projetos/18_Moradias_Real_Braga/18_1.webp":false,"img/projetos/18_Moradias_Real_Braga/18_10.webp":false,"img/projetos/18_Moradias_Real_Braga/18_11.webp":false,"img/projetos/18_Moradias_Real_Braga/18_12.webp":false,"img/projetos/18_Moradias_Real_Braga/18_13.webp":true,"img/projetos/18_Moradias_Real_Braga/18_14.webp":true,"img/projetos/18_Moradias_Real_Braga/18_15.webp":true,"img/projetos/18_Moradias_Real_Braga/18_16.webp":true,"img/projetos/18_Moradias_Real_Braga/18_2.webp":false,"img/projetos/18_Moradias_Real_Braga/18_3.webp":false,"img/projetos/18_Moradias_Real_Braga/18_4.webp":false,"img/projetos/18_Moradias_Real_Braga/18_5.webp":false,"img/projetos/18_Moradias_Real_Braga/18_6.webp":false,"img/projetos/18_Moradias_Real_Braga/18_7.webp":false,"img/projetos/18_Moradias_Real_Braga/18_8.webp":false,"img/projetos/18_Moradias_Real_Braga/18_9.webp":false,"img/projetos/181_Moradia_Campo_Barcelos/181_1.webp":false,"img/projetos/181_Moradia_Campo_Barcelos/181_2.webp":false,"img/projetos/181_Moradia_Campo_Barcelos/181_3.webp":false,"img/projetos/181_Moradia_Campo_Barcelos/181_4.webp":false,"img/projetos/181_Moradia_Campo_Barcelos/181_5.webp":false,"img/projetos/181_Moradia_Campo_Barcelos/181_6.webp":false,"img/projetos/181_Moradia_Campo_Barcelos/181_7.webp":false,"img/projetos/181_Moradia_Campo_Barcelos/181_8.webp":true,"img/projetos/181_Moradia_Campo_Barcelos/181_9.webp":true,"img/projetos/183_RenovacaoExterior_CasteloPaiva/183_1.webp":false,"img/projetos/183_RenovacaoExterior_CasteloPaiva/183_2.webp":false,"img/projetos/183_RenovacaoExterior_CasteloPaiva/183_3.webp":false,"img/projetos/183_RenovacaoExterior_CasteloPaiva/183_4.webp":false,"img/projetos/183_RenovacaoExterior_CasteloPaiva/183_5.webp":false,"img/projetos/183_RenovacaoExterior_CasteloPaiva/183_6.webp":false,"img/projetos/183_RenovacaoExterior_CasteloPaiva/183_7.webp":false,"img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_1.webp":false,"img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_2.webp":false,"img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_3.webp":false,"img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_4.webp":false,"img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_5.webp":false,"img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_6.webp":false,"img/projetos/184_EscritoriosCPeixoto_Fradelos_Braga/184_7.webp":true,"img/projetos/187_Moradia_SantoEstevao_Benavente/187_1.webp":false,"img/projetos/187_Moradia_SantoEstevao_Benavente/187_2.webp":false,"img/projetos/187_Moradia_SantoEstevao_Benavente/187_3.webp":false,"img/projetos/187_Moradia_SantoEstevao_Benavente/187_4.webp":false,"img/projetos/187_Moradia_SantoEstevao_Benavente/187_5.webp":false,"img/projetos/187_Moradia_SantoEstevao_Benavente/187_6.webp":false,"img/projetos/187_Moradia_SantoEstevao_Benavente/187_7.webp":true,"img/projetos/187_Moradia_SantoEstevao_Benavente/187_8.webp":true,"img/projetos/19_Apartamentos Vila Verde/19_1.webp":false,"img/projetos/19_Apartamentos Vila Verde/19_2.webp":false,"img/projetos/19_Apartamentos Vila Verde/19_3.webp":false,"img/projetos/19_Apartamentos Vila Verde/19_4.webp":false,"img/projetos/19_Apartamentos Vila Verde/19_5.webp":false,"img/projetos/19_Apartamentos Vila Verde/19_6.webp":true,"img/projetos/19_Apartamentos Vila Verde/19_7.webp":true,"img/projetos/19_Apartamentos Vila Verde/19_8.webp":true,"img/projetos/45_Moradias_Frossos_Braga/45_1.webp":false,"img/projetos/45_Moradias_Frossos_Braga/45_2.webp":false,"img/projetos/45_Moradias_Frossos_Braga/45_3.webp":false,"img/projetos/45_Moradias_Frossos_Braga/45_4.webp":false,"img/projetos/45_Moradias_Frossos_Braga/45_5.webp":true,"img/projetos/45_Moradias_Frossos_Braga/45_6.webp":true,"img/projetos/45_Moradias_Frossos_Braga/45_7.webp":true,"img/projetos/45_Moradias_Frossos_Braga/45_8.webp":true,"img/projetos/56_InterioresBanco_CostaMarfim/56_1.webp":false,"img/projetos/56_InterioresBanco_CostaMarfim/56_2.webp":false,"img/projetos/56_InterioresBanco_CostaMarfim/56_3.webp":false,"img/projetos/56_InterioresBanco_CostaMarfim/56_4.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_1.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_10.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_11.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_12.webp":true,"img/projetos/85_Moradia_Gove_Baiao/85_13.webp":true,"img/projetos/85_Moradia_Gove_Baiao/85_14.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_2.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_3.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_4.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_5.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_6.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_7.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_8.webp":false,"img/projetos/85_Moradia_Gove_Baiao/85_9.webp":false,"img/projetos/98_Moradia_VilarParaiso_VNGaia/98_1.webp":false,"img/projetos/98_Moradia_VilarParaiso_VNGaia/98_2.webp":false,"img/projetos/98_Moradia_VilarParaiso_VNGaia/98_3.webp":false,"img/projetos/98_Moradia_VilarParaiso_VNGaia/98_4.webp":false,"img/projetos/98_Moradia_VilarParaiso_VNGaia/98_5.webp":false,"img/projetos/98_Moradia_VilarParaiso_VNGaia/98_6.webp":false,"img/projetos/98_Moradia_VilarParaiso_VNGaia/98_7.webp":true,"img/projetos/98_Moradia_VilarParaiso_VNGaia/98_8.webp":true,"img/projetos/98_Moradia_VilarParaiso_VNGaia/98_9.webp":true};
+const classificacoesPlantas = new Map();
 
 function limparContrasteModal() {
     if (rafContrasteModal !== null) cancelAnimationFrame(rafContrasteModal);
     rafContrasteModal = null;
     contrasteModalAte = 0;
-    alvosContrasteModal.forEach(alvo => alvo.classList.remove("is-over-media"));
+    alvosContrasteModal.forEach(alvo => alvo.classList.remove("is-over-media", "is-plan-image"));
+}
+
+function imagemDePlanta(elemento) {
+    if (elemento.tagName !== "IMG" || !elemento.complete || !elemento.naturalWidth) return false;
+    const src = elemento.currentSrc || elemento.src;
+    if (classificacoesPlantas.has(src)) return classificacoesPlantas.get(src).planta;
+    let planta = false, origem = "indisponivel", chave = "";
+    try {
+        const caminho = decodeURIComponent(new URL(src, document.baseURI).pathname);
+        const inicio = caminho.indexOf("/img/");
+        if (inicio >= 0) chave = caminho.slice(inicio + 1);
+    } catch (_) {}
+    if (Object.prototype.hasOwnProperty.call(plantasCatalogo, chave)) {
+        planta = plantasCatalogo[chave];
+        origem = "catalogo";
+    } else {
+        // Novas imagens são avaliadas uma única vez, olhando para a imagem inteira.
+        try {
+            const canvas = document.createElement("canvas");
+            canvas.width = 96; canvas.height = 96;
+            const ctx = canvas.getContext("2d", {willReadFrequently:true});
+            ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, 96, 96);
+            ctx.drawImage(elemento, 0, 0, 96, 96);
+            const pixels = ctx.getImageData(0, 0, 96, 96).data;
+            let brancos = 0, coloridos = 0, medios = 0;
+            for (let i = 0; i < pixels.length; i += 4) {
+                const minimo = Math.min(pixels[i], pixels[i+1], pixels[i+2]);
+                const maximo = Math.max(pixels[i], pixels[i+1], pixels[i+2]);
+                if (minimo >= 245 && maximo - minimo <= 10) brancos++;
+                if (maximo - minimo > 20) coloridos++;
+                if (minimo < 235 && maximo > 100) medios++;
+            }
+            const total = 96 * 96;
+            planta = brancos / total >= .60 && coloridos / total <= .025 && medios / total <= .25;
+            origem = "canvas";
+        } catch (_) {}
+    }
+    classificacoesPlantas.set(src, {planta, origem});
+    if (classificacoesPlantas.size > 32) classificacoesPlantas.delete(classificacoesPlantas.keys().next().value);
+    return planta;
 }
 
 function areaVisivelMidia(elemento, limite) {
@@ -668,7 +711,10 @@ function areaVisivelMidia(elemento, limite) {
         left:Math.max(esquerda, limite.left),
         top:Math.max(topo, limite.top),
         right:Math.min(esquerda + largura, limite.right),
-        bottom:Math.min(topo + altura, limite.bottom)
+        bottom:Math.min(topo + altura, limite.bottom),
+        planta:imagemDePlanta(elemento),
+        opacidade:parseFloat(estilo.opacity),
+        camada:parseInt(estilo.zIndex, 10) || 0
     };
     return area.right > area.left && area.bottom > area.top ? area : null;
 }
@@ -690,15 +736,23 @@ function atualizarContrasteModal() {
         const referencia = alvo.matches("button") ? alvo.querySelector("svg") : alvo;
         const rect = referencia.getBoundingClientRect();
         const areaAlvo = rect.width * rect.height;
-        const sobre = areaAlvo > 0 && areas.some(area => {
+        let dominante = null, maiorPeso = 0;
+        if (areaAlvo > 0) areas.forEach(area => {
             const largura = Math.max(0, Math.min(rect.right, area.right) - Math.max(rect.left, area.left));
             const altura = Math.max(0, Math.min(rect.bottom, area.bottom) - Math.max(rect.top, area.top));
-            return largura * altura >= areaAlvo * .2;
+            const intersecao = largura * altura;
+            if (intersecao < areaAlvo * .2) return;
+            const peso = intersecao * area.opacidade;
+            if (peso > maiorPeso || (peso === maiorPeso && area.camada > (dominante?.camada || 0))) {
+                dominante = area;
+                maiorPeso = peso;
+            }
         });
-        return {alvo, sobre};
+        return {alvo, sobre:!!dominante, planta:!!dominante?.planta};
     });
-    estados.forEach(({alvo, sobre}) => {
+    estados.forEach(({alvo, sobre, planta}) => {
         if (alvo.classList.contains("is-over-media") !== sobre) alvo.classList.toggle("is-over-media", sobre);
+        if (alvo.classList.contains("is-plan-image") !== planta) alvo.classList.toggle("is-plan-image", planta);
     });
     if (performance.now() < contrasteModalAte) rafContrasteModal = requestAnimationFrame(atualizarContrasteModal);
 }
