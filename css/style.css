@@ -710,6 +710,7 @@ footer p{
 @media (hover:hover) and (pointer:fine){
     #modal-projeto{
         --modal-nav-gutter:clamp(56px,5vw,80px);
+        width:100vw;
     }
     .modal-nav{
         top:calc(50% - 24px);
@@ -1453,8 +1454,11 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
     transform: translateZ(0); 
     -webkit-transform: translateZ(0);
 }
-/* Margens para os controlos também em ecrã inteiro e durante o zoom. */
+/* Margens para as setas, libertadas ao ampliar a fotografia no PC. */
 @media (hover:hover) and (pointer:fine){
+    html:has(#modal-projeto.is-zoomed){
+        scrollbar-gutter:auto;
+    }
     #modal-projeto.modal #modal-content{
         width:calc(100% - 2 * var(--modal-nav-gutter));
         padding-left:0;
@@ -1465,6 +1469,17 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
         max-width:100% !important;
         width:auto !important;
         height:auto !important;
+    }
+    #modal-projeto.modal.is-zoomed #modal-content{
+        width:100%;
+        z-index:1;
+    }
+    #modal-projeto.modal.is-zoomed #modal-content img,
+    #modal-projeto.modal.is-zoomed #modal-content video{
+        max-width:calc(100% - 2 * var(--modal-nav-gutter)) !important;
+    }
+    #modal-projeto.is-zoomed .modal-nav{
+        display:none;
     }
 }
 
