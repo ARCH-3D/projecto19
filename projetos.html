@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20261026-ipad-fullscreen">
+<link rel="stylesheet" href="css/style.css?v=20261026-uniform-icons">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
 <script>
 window.dataLayer=window.dataLayer||[];
@@ -265,17 +265,24 @@ gtag('config','G-JXJP0D464R');
     </div>
     
 </div>
-<button class="close" onclick="fecharModal()" aria-label="Fechar">&times;</button>
+<button class="close" type="button" onclick="fecharModal()" aria-label="Fechar">
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+<path d="M4 4l16 16M20 4L4 20"/>
+</svg>
+</button>
 <div id="modal-content"></div>
 <button id="fullscreen-btn" class="fullscreen-btn" aria-label="Ecrã inteiro" aria-pressed="false" title="Ecrã inteiro">
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-<path d="M4 9V4h5"/>
-<path d="M20 9V4h-5"/>
-<path d="M4 15v5h5"/>
-<path d="M20 15v5h-5"/>
+<path d="M11 3H3v18h18v-8"/>
+<path class="fullscreen-arrow" d="M14.5 9.5L21 3m-7 0h7v7"/>
 </svg>
 </button>
-<button id="zoom-btn" class="zoom-btn" aria-label="Zoom">+</button>
+<button id="zoom-btn" class="zoom-btn" type="button" aria-label="Ampliar imagem" aria-pressed="false" title="Ampliar imagem">
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+<path d="M4 12h16"/>
+<path class="zoom-icon-vertical" d="M12 4v16"/>
+</svg>
+</button>
 <div id="modal-indicators" class="media-indicators"></div>
 <div class="modal-info">
 <h2 id="modal-title"></h2>
@@ -641,6 +648,14 @@ modalNavButtons.forEach(button => {
     });
 });
 
+function sincronizarBotaoZoom() {
+    if (!zoomBtn) return;
+    const label = zoomAtivo ? "Reduzir imagem" : "Ampliar imagem";
+    zoomBtn.setAttribute("aria-pressed", String(zoomAtivo));
+    zoomBtn.setAttribute("aria-label", label);
+    zoomBtn.title = label;
+}
+
 function resetZoom(){
     zoomAtivo = false;
     modal.classList.remove("is-zoomed");
@@ -658,7 +673,7 @@ function resetZoom(){
     }
 
     if (modalContent) modalContent.style.cursor = "";
-    if (zoomBtn) zoomBtn.textContent = "+";
+    if (zoomBtn) sincronizarBotaoZoom();
 }
 
 function atualizarZoom(){
@@ -767,7 +782,7 @@ function abrirProjeto(nomeProjeto){
     // 4. Carregar e animar a mídia com o modal já visível
     mostrarMidia();
     mostrarBotaoFullscreen();
-    if (zoomBtn) zoomBtn.textContent = "+";
+    if (zoomBtn) sincronizarBotaoZoom();
     preloadImagens();
 
     document.getElementById("modal-title").textContent = projetoAtual.info.nome;
@@ -1159,10 +1174,10 @@ function sincronizarBotaoFullscreen() {
     fullscreenBtn.setAttribute("aria-pressed", String(ativo));
     fullscreenBtn.setAttribute("aria-label", label);
     fullscreenBtn.title = label;
-    const caminhos = ativo ?
-        ["M9 4v5H4", "M15 4v5h5", "M9 20v-5H4", "M15 20v-5h5"] :
-        ["M4 9V4h5", "M20 9V4h-5", "M4 15v5h5", "M20 15v5h-5"];
-    fullscreenBtn.querySelectorAll("path").forEach((path, index) => path.setAttribute("d", caminhos[index]));
+    const seta = fullscreenBtn.querySelector(".fullscreen-arrow");
+    if (seta) seta.setAttribute("d", ativo ?
+        "M20.5 3.5L14 10m0-7v7h7" :
+        "M14.5 9.5L21 3m-7 0h7v7");
 }
 
 function sairFullscreenNativo() {
@@ -1682,7 +1697,7 @@ modal.addEventListener("touchmove", function(e){
         escalaZoom = novaEscala;
         zoomAtivo = escalaZoom > 1.02;
     
-        if (zoomBtn) zoomBtn.textContent = zoomAtivo ? "−" : "+";
+        if (zoomBtn) sincronizarBotaoZoom();
     
         if (!zoomAtivo) {
             zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
@@ -1876,11 +1891,11 @@ modalContent.addEventListener("dblclick", function(e){
     if (zoomAtivo) {
         escalaZoom = DEFAULT_ZOOM;
         zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
-        zoomBtn.textContent = "−";
+        sincronizarBotaoZoom();
     } else {
         escalaZoom = ZOOM_MIN;
         zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
-        zoomBtn.textContent = "+";
+        sincronizarBotaoZoom();
     }
     elementoAtual.style.transition = TRANSITION_FAST;
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
@@ -1902,11 +1917,11 @@ modalContent.addEventListener("touchend", function(e){
                     elementoAtual.style.transition = TRANSITION_FAST;
                     if (zoomAtivo) {
                         escalaZoom = DEFAULT_ZOOM;
-                        zoomBtn.textContent = "−";
+                        sincronizarBotaoZoom();
                     } else {
                         escalaZoom = ZOOM_MIN;
                         zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
-                        zoomBtn.textContent = "+";
+                        sincronizarBotaoZoom();
                     }
                     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
                 });
@@ -1941,7 +1956,7 @@ zoomBtn.addEventListener("click", function(e){
     e.stopPropagation();
     if (!elementoAtual) return;
     zoomAtivo = !zoomAtivo;
-    zoomBtn.textContent = zoomAtivo ? "−" : "+";
+    sincronizarBotaoZoom();
     elementoAtual.style.transition = TRANSITION_FAST;
     if (zoomAtivo) {
         escalaZoom = DEFAULT_ZOOM;

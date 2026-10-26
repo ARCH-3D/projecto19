@@ -7,6 +7,7 @@
     --font-main:'Inter',sans-serif;
     --font-title:'Outfit',sans-serif;
     --trans-main:.3s ease;
+    --icon-stroke:1.25;
 }
 
 /* ================== RESET ================== */
@@ -197,7 +198,7 @@ nav a:focus-visible{
         transform:translate(-50%,-50%);
         fill:none;
         stroke:currentColor;
-        stroke-width:1.75;
+        stroke-width:var(--icon-stroke);
         stroke-linecap:round;
         stroke-linejoin:round;
         filter:drop-shadow(0 1px 2px rgba(0,0,0,.8));
@@ -739,7 +740,7 @@ footer p{
         border:0;
         border-radius:0;
         background:transparent;
-        stroke-width:1.75;
+        stroke-width:var(--icon-stroke);
         filter:none;
     }
     .modal-nav:focus-visible .hero-nav__icon{
@@ -1079,17 +1080,22 @@ footer p{
     opacity:1;
     pointer-events:auto;
 }
+.close svg,
+.zoom-btn svg,
 .fullscreen-btn svg{
     width:24px;
     height:24px;
     display:block;
     fill:none;
     stroke:currentColor;
-    stroke-width:1.8;
-    stroke-linecap:square;
-    stroke-linejoin:miter;
+    stroke-width:var(--icon-stroke);
+    stroke-linecap:round;
+    stroke-linejoin:round;
     transform:translateY(3px);
     pointer-events:none;
+}
+.zoom-btn[aria-pressed="true"] .zoom-icon-vertical{
+    display:none;
 }
 @media (hover:hover){
     .fullscreen-btn:hover{
