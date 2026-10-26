@@ -1603,3 +1603,10 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
         max-height:var(--app-viewport-height,100dvh) !important;
     }
 }
+
+/* Durante o zoom ficam apenas os controlos de ampliar, fullscreen e fechar. */
+#modal-projeto.is-zoomed .modal-nav,
+#modal-projeto.is-zoomed .media-indicators,
+#modal-projeto.is-zoomed .modal-info{
+    display:none !important;
+}
