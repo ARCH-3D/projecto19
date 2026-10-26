@@ -1287,8 +1287,11 @@ footer p{
     }
 }
 
+/* A app instalada usa a mesma composição do fullscreen nativo. */
 #modal-projeto:fullscreen #modal-content img,
-#modal-projeto:fullscreen #modal-content video {
+#modal-projeto:fullscreen #modal-content video,
+#modal-projeto.fullscreen-app #modal-content img,
+#modal-projeto.fullscreen-app #modal-content video {
     max-width: 100vw !important;
     max-height: calc(100dvh - 115px) !important;
 }
@@ -1303,7 +1306,9 @@ footer p{
     #modal-projeto:fullscreen #modal-content img,
     #modal-projeto:fullscreen #modal-content video,
     #modal-projeto:-webkit-full-screen #modal-content img,
-    #modal-projeto:-webkit-full-screen #modal-content video {
+    #modal-projeto:-webkit-full-screen #modal-content video,
+    #modal-projeto.fullscreen-app #modal-content img,
+    #modal-projeto.fullscreen-app #modal-content video {
         max-height: 100dvh !important;
     }
 }
@@ -1371,7 +1376,8 @@ html:has(:fullscreen) {
     scrollbar-gutter: auto;
 }
 
-.modal:fullscreen {
+.modal:fullscreen,
+.modal.fullscreen-app {
     width: 100vw !important;
     height: 100vh !important;
     max-width: 100vw !important;
@@ -1477,50 +1483,5 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
     }
     .modal .zoom-btn{
         right:116px !important;
-    }
-}
-
-/* Vista ampliada da app: mantém a legenda e os indicadores abaixo da imagem. */
-#modal-projeto.fullscreen-app{
-    --app-footer-space:calc(110px + env(safe-area-inset-bottom,0px));
-    height:100dvh;
-    max-height:100dvh;
-    justify-content:flex-start;
-}
-#modal-projeto.fullscreen-app #modal-content{
-    flex:none;
-    height:calc(100dvh - var(--app-footer-space) - env(safe-area-inset-top,0px));
-    margin-top:env(safe-area-inset-top,0px);
-    padding:0;
-}
-#modal-projeto.fullscreen-app #modal-content img,
-#modal-projeto.fullscreen-app #modal-content video{
-    max-width:100% !important;
-    max-height:calc(100dvh - var(--app-footer-space) - env(safe-area-inset-top,0px) - 20px) !important;
-    width:auto !important;
-    height:auto !important;
-}
-#modal-projeto.fullscreen-app .modal-info{
-    display:block !important;
-    bottom:calc(25px + env(safe-area-inset-bottom,0px)) !important;
-}
-#modal-projeto.fullscreen-app .media-indicators{
-    display:flex !important;
-    bottom:calc(80px + env(safe-area-inset-bottom,0px)) !important;
-    gap:clamp(4px,1vw,8px);
-}
-#modal-projeto.fullscreen-app .media-indicators span{
-    background:rgba(17,17,17,.2);
-}
-#modal-projeto.fullscreen-app .media-indicators span.active{
-    background:var(--c-text);
-}
-#modal-projeto.fullscreen-app .modal-nav{
-    top:calc((100dvh - var(--app-footer-space) + env(safe-area-inset-top,0px)) / 2 - 24px);
-}
-@media (max-width:600px){
-    #modal-projeto.fullscreen-app .modal-details{
-        gap:6px 16px;
-        flex-wrap:wrap;
     }
 }
