@@ -7,7 +7,6 @@
     --font-main:'Inter',sans-serif;
     --font-title:'Outfit',sans-serif;
     --trans-main:.3s ease;
-    --icon-stroke:1.25;
 }
 
 /* ================== RESET ================== */
@@ -135,7 +134,6 @@ nav a:focus-visible{
     height: 100vh;
     height: 100dvh;
     overflow:hidden;
-    touch-action:pan-y pinch-zoom;
 }
 .hero-image{
     position:absolute;
@@ -143,88 +141,8 @@ nav a:focus-visible{
     width:100%;
     height:100%;
     object-fit:cover;
-    cursor:pointer;
-    transform:translateX(0);
-    transition:transform .35s cubic-bezier(.22,.61,.36,1);
-}
-.hero-image.is-sliding{
-    will-change:transform;
-}
-@media (prefers-reduced-motion:reduce){
-    .hero-image{
-        transition:none;
-    }
-}
-
-/* ================== NAVEGAÇÃO DO HERO EM COMPUTADOR ================== */
-.hero-nav{
-    display:none;
-}
-@media (hover:hover) and (pointer:fine){
-    .hero-nav{
-        position:absolute;
-        top:0;
-        bottom:0;
-        width:22%;
-        display:block;
-        padding:0;
-        margin:0;
-        border:0;
-        border-radius:0;
-        background:transparent;
-        color:#fff;
-        cursor:pointer;
-        appearance:none;
-        -webkit-appearance:none;
-        z-index:11;
-    }
-    .hero-nav--prev{
-        left:0;
-        --hero-arrow-rest:clamp(32px,4vw,64px);
-    }
-    .hero-nav--next{
-        right:0;
-        --hero-arrow-rest:calc(100% - clamp(32px,4vw,64px));
-    }
-    .hero-nav__icon{
-        position:absolute;
-        left:var(--hero-arrow-x,var(--hero-arrow-rest));
-        top:var(--hero-arrow-y,50%);
-        width:40px;
-        height:40px;
-        border:0;
-        border-radius:50%;
-        background:transparent;
-        transform:translate(-50%,-50%);
-        fill:none;
-        stroke:currentColor;
-        stroke-width:var(--icon-stroke);
-        stroke-linecap:round;
-        stroke-linejoin:round;
-        filter:drop-shadow(0 1px 2px rgba(0,0,0,.8));
-        pointer-events:none;
-    }
-    .hero-nav.is-following{
-        cursor:none;
-    }
-    .hero-nav:focus-visible{
-        outline:none;
-        cursor:pointer;
-    }
-    .hero-nav:focus-visible .hero-nav__icon{
-        left:var(--hero-arrow-rest);
-        top:50%;
-        outline:2px solid currentColor;
-        outline-offset:8px;
-    }
-    /* O efeito global de pressão não deve deslocar a zona de clique. */
-    .hero-nav:active{
-        transform:none !important;
-        opacity:1 !important;
-    }
-    .hero-nav:active .hero-nav__icon{
-        opacity:.65;
-    }
+    opacity:1;
+    transition:opacity .8s ease;
 }
 
 /* ================== HERO TEXT ================== */
@@ -689,6 +607,11 @@ footer p{
     .close:hover{
         opacity:.5;
     }
+    .prev:hover,
+    .next:hover{
+        opacity:.5;
+        transform: translateY(-50%) scale(1.08);
+    }
 }
 @media (pointer:coarse){
     .close{
@@ -705,48 +628,54 @@ footer p{
     }
 }
 
-/* ================== SETAS DO MODAL ================== */
-/* Controlos fixos nas margens reservadas, sempre fora da fotografia. */
-@media (hover:hover) and (pointer:fine){
-    #modal-projeto{
-        --modal-nav-gutter:clamp(56px,5vw,80px);
-        width:100vw;
-    }
-    .modal-nav{
-        top:calc(50% - 24px);
-        bottom:auto;
-        width:48px;
-        height:48px;
-        color:#fff;
-        --hero-arrow-rest:50%;
-        z-index:10000;
-        opacity:0;
-        pointer-events:none;
-        transition:opacity .5s ease;
-    }
-    .modal-nav.show-controls,
-    .modal-nav:focus-visible{
-        opacity:1;
-        pointer-events:auto;
-    }
-    .modal-nav.prev{
-        left:calc(var(--modal-nav-gutter) / 2 - 24px);
-    }
-    .modal-nav.next{
-        left:auto;
-        right:calc(var(--modal-nav-gutter) / 2 - 24px);
-    }
-    .modal-nav .hero-nav__icon{
-        color:var(--c-text);
-        border:0;
-        border-radius:0;
-        background:transparent;
-        stroke-width:var(--icon-stroke);
-        filter:none;
-    }
-    .modal-nav:focus-visible .hero-nav__icon{
-        outline-offset:3px;
-    }
+/* ================== SETAS ================== */
+.prev,
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--c-text);
+    font-size: 42px;
+    font-weight: 300;
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    z-index: 10000;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    
+    width: 60px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    background: transparent;
+    border: none;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+/* Posicionadas nas margens laterais criadas, descansando sobre o fundo branco */
+.prev {
+    left: 20px;
+}
+
+.next {
+    right: 20px;
+}
+
+.prev:focus-visible,
+.next:focus-visible {
+    outline: 2px solid var(--c-text);
+    outline-offset: 4px;
+}
+
+.prev:active,
+.next:active {
+    transform: translateY(-50%) scale(0.92) !important;
+    opacity: 0.4 !important;
+    transition: transform 0.08s ease, opacity 0.08s ease !important;
 }
 
 /* ================= CONTACT WIDGET ================= */
@@ -1081,22 +1010,17 @@ footer p{
     opacity:1;
     pointer-events:auto;
 }
-.close svg,
-.zoom-btn svg,
 .fullscreen-btn svg{
     width:24px;
     height:24px;
     display:block;
     fill:none;
     stroke:currentColor;
-    stroke-width:var(--icon-stroke);
-    stroke-linecap:round;
-    stroke-linejoin:round;
+    stroke-width:1.8;
+    stroke-linecap:square;
+    stroke-linejoin:miter;
     transform:translateY(3px);
     pointer-events:none;
-}
-.zoom-btn[aria-pressed="true"] .zoom-icon-vertical{
-    display:none;
 }
 @media (hover:hover){
     .fullscreen-btn:hover{
@@ -1288,11 +1212,8 @@ footer p{
     }
 }
 
-/* A app instalada usa a mesma composição do fullscreen nativo. */
 #modal-projeto:fullscreen #modal-content img,
-#modal-projeto:fullscreen #modal-content video,
-#modal-projeto.fullscreen-app #modal-content img,
-#modal-projeto.fullscreen-app #modal-content video {
+#modal-projeto:fullscreen #modal-content video {
     max-width: 100vw !important;
     max-height: calc(100dvh - 115px) !important;
 }
@@ -1307,9 +1228,7 @@ footer p{
     #modal-projeto:fullscreen #modal-content img,
     #modal-projeto:fullscreen #modal-content video,
     #modal-projeto:-webkit-full-screen #modal-content img,
-    #modal-projeto:-webkit-full-screen #modal-content video,
-    #modal-projeto.fullscreen-app #modal-content img,
-    #modal-projeto.fullscreen-app #modal-content video {
+    #modal-projeto:-webkit-full-screen #modal-content video {
         max-height: 100dvh !important;
     }
 }
@@ -1377,8 +1296,7 @@ html:has(:fullscreen) {
     scrollbar-gutter: auto;
 }
 
-.modal:fullscreen,
-.modal.fullscreen-app {
+.modal:fullscreen {
     width: 100vw !important;
     height: 100vh !important;
     max-width: 100vw !important;
@@ -1453,95 +1371,4 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
     visibility: visible !important; 
     transform: translateZ(0); 
     -webkit-transform: translateZ(0);
-}
-/* Margens para as setas, libertadas ao ampliar a fotografia no PC. */
-@media (hover:hover) and (pointer:fine){
-    html:has(#modal-projeto.is-zoomed){
-        scrollbar-gutter:auto;
-    }
-    #modal-projeto.modal #modal-content{
-        width:calc(100% - 2 * var(--modal-nav-gutter));
-        padding-left:0;
-        padding-right:0;
-    }
-    #modal-projeto.modal #modal-content img,
-    #modal-projeto.modal #modal-content video{
-        max-width:100% !important;
-        width:auto !important;
-        height:auto !important;
-    }
-    #modal-projeto.modal.is-zoomed #modal-content{
-        width:100%;
-        z-index:1;
-    }
-    #modal-projeto.modal.is-zoomed #modal-content img,
-    #modal-projeto.modal.is-zoomed #modal-content video{
-        max-width:calc(100% - 2 * var(--modal-nav-gutter)) !important;
-    }
-    #modal-projeto.is-zoomed .modal-nav{
-        display:none;
-    }
-}
-
-/* No PC, evita que os controlos de topo tapem as setas em janelas baixas. */
-@media (max-height:550px) and (hover:hover) and (pointer:fine){
-    .modal .close,
-    .modal .fullscreen-btn,
-    .modal .zoom-btn{
-        top:12px !important;
-    }
-    .modal .close{
-        right:20px !important;
-    }
-    .modal .fullscreen-btn{
-        right:68px !important;
-    }
-    .modal .zoom-btn{
-        right:116px !important;
-    }
-}
-
-/* Na app do iPad, centra a galeria na área realmente visível do WebKit. */
-#modal-projeto.app-visible-viewport{
-    --app-image-lift:16px;
-    inset:auto !important;
-    top:var(--app-viewport-top,0px) !important;
-    left:var(--app-viewport-left,0px) !important;
-    width:var(--app-viewport-width,100vw) !important;
-    height:var(--app-viewport-height,100dvh) !important;
-    max-width:var(--app-viewport-width,100vw) !important;
-    max-height:var(--app-viewport-height,100dvh) !important;
-    margin:0 !important;
-    padding:0 !important;
-}
-#modal-projeto.app-visible-viewport #modal-content{
-    flex:none;
-    height:100%;
-    max-height:100%;
-    margin:0;
-}
-#modal-projeto.app-visible-viewport #modal-content img,
-#modal-projeto.app-visible-viewport #modal-content video{
-    top:calc(50% - var(--app-image-lift)) !important;
-    max-width:100% !important;
-    max-height:calc(var(--app-viewport-height,100dvh) - 115px) !important;
-    width:auto !important;
-    height:auto !important;
-}
-#modal-projeto.app-visible-viewport .modal-info{
-    bottom:max(25px,env(safe-area-inset-bottom,0px)) !important;
-}
-@media (max-width:768px) and (orientation:portrait){
-    #modal-projeto.app-visible-viewport .modal-info{
-        bottom:max(15px,env(safe-area-inset-bottom,0px)) !important;
-    }
-}
-@media (max-height:550px) and (orientation:landscape){
-    #modal-projeto.app-visible-viewport{
-        --app-image-lift:0px;
-    }
-    #modal-projeto.app-visible-viewport #modal-content img,
-    #modal-projeto.app-visible-viewport #modal-content video{
-        max-height:var(--app-viewport-height,100dvh) !important;
-    }
 }
