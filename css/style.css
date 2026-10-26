@@ -1461,7 +1461,7 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
 }
 /* Margens para as setas, libertadas ao ampliar a fotografia no PC. */
 @media (hover:hover) and (pointer:fine){
-    html:has(#modal-projeto.is-zoomed){
+    html:has(body.modal-open){
         scrollbar-gutter:auto;
     }
     #modal-projeto.modal #modal-content{
@@ -1532,6 +1532,7 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
 #modal-projeto .close:active,
 #modal-projeto .zoom-btn:active,
 #modal-projeto .fullscreen-btn:active{
+    transform:none !important;
     opacity:1 !important;
 }
 @media (hover:hover) and (pointer:fine){
