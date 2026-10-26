@@ -1096,6 +1096,10 @@ footer p{
     transform:translateY(3px);
     pointer-events:none;
 }
+/* Compensação ótica da moldura para equilibrar o peso dos símbolos. */
+#modal-projeto .fullscreen-btn svg{
+    stroke-width:1.1;
+}
 .zoom-btn[aria-pressed="true"] .zoom-icon-vertical{
     display:none;
 }
