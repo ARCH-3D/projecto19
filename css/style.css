@@ -1610,25 +1610,3 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
 #modal-projeto.is-zoomed .modal-info{
     display:none !important;
 }
-
-/* Sobre zonas claras, preserva o símbolo escuro sem acrescentar formas. */
-#modal-projeto .close.is-over-media.is-over-light-media,
-#modal-projeto .zoom-btn.is-over-media.is-over-light-media,
-#modal-projeto .fullscreen-btn.is-over-media.is-over-light-media,
-#modal-projeto .modal-nav.is-over-media.is-over-light-media .hero-nav__icon,
-#modal-projeto .modal-item.is-over-media.is-over-light-media{
-    color:var(--c-text);
-    text-shadow:none;
-}
-#modal-projeto .close.is-over-media.is-over-light-media svg,
-#modal-projeto .zoom-btn.is-over-media.is-over-light-media svg,
-#modal-projeto .fullscreen-btn.is-over-media.is-over-light-media svg,
-#modal-projeto .modal-nav.is-over-media.is-over-light-media .hero-nav__icon,
-#modal-projeto .modal-item.is-over-media.is-over-light-media img{
-    filter:none;
-}
-#modal-projeto .close.is-over-light-media:focus-visible,
-#modal-projeto .zoom-btn.is-over-light-media:focus-visible,
-#modal-projeto .fullscreen-btn.is-over-light-media:focus-visible{
-    outline-color:var(--c-text);
-}
