@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20261026-desktop-fullwidth-zoom">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
 <script>
 window.dataLayer=window.dataLayer||[];
@@ -114,7 +114,7 @@ gtag('config','G-JXJP0D464R');
 </div>
 <!-- Projeto 158 -->
 <div class="project" onclick="abrirProjeto('projeto158')" tabindex="0" role="button" onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); abrirProjeto('projeto158'); }">
-<img src="img/projetos/158_Moradia_Espinho_Braga/158_1.webp" alt="Moradia em Espinho - Braga" loading="lazy" decoding="async">
+<img src="img/projetos/158_Moradia_Espinho_Braga/158_0.webp" alt="Moradia em Espinho - Braga" loading="lazy" decoding="async">
 <div class="project-title">
 <div class="project-name">Moradia em Espinho</div>
 <div class="project-location">Espinho, Braga</div>
@@ -122,7 +122,7 @@ gtag('config','G-JXJP0D464R');
 </div>
 <!-- Projeto 156 -->
 <div class="project" onclick="abrirProjeto('projeto156')" tabindex="0" role="button" onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); abrirProjeto('projeto156'); }">
-<img src="img/projetos/156_Moradia_Carapecos_Barcelos/156_1.webp" alt="Moradia em Carapeços - Barcelos" loading="lazy" decoding="async">
+<img src="img/projetos/156_Moradia_Carapecos_Barcelos/156_0.webp" alt="Moradia em Carapeços - Barcelos" loading="lazy" decoding="async">
 <div class="project-title">
 <div class="project-name">Moradia em Carapeços</div>
 <div class="project-location">Carapeços, Barcelos</div>
@@ -265,17 +265,24 @@ gtag('config','G-JXJP0D464R');
     </div>
     
 </div>
-<button class="close" onclick="fecharModal()" aria-label="Fechar">&times;</button>
-<div id="modal-content"></div>
-<button id="fullscreen-btn" class="fullscreen-btn" aria-label="Ecrã inteiro">
+<button class="close" type="button" onclick="fecharModal()" aria-label="Fechar">
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-<path d="M4 9V4h5"/>
-<path d="M20 9V4h-5"/>
-<path d="M4 15v5h5"/>
-<path d="M20 15v5h-5"/>
+<path d="M4 4l16 16M20 4L4 20"/>
 </svg>
 </button>
-<button id="zoom-btn" class="zoom-btn" aria-label="Zoom">+</button>
+<div id="modal-content"></div>
+<button id="fullscreen-btn" class="fullscreen-btn" aria-label="Ecrã inteiro" aria-pressed="false" title="Ecrã inteiro">
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+<path d="M11 3H3v18h18v-8"/>
+<path class="fullscreen-arrow" d="M14.5 9.5L21 3m-7 0h7v7"/>
+</svg>
+</button>
+<button id="zoom-btn" class="zoom-btn" type="button" aria-label="Ampliar imagem" aria-pressed="false" title="Ampliar imagem">
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+<path d="M4 12h16"/>
+<path class="zoom-icon-vertical" d="M12 4v16"/>
+</svg>
+</button>
 <div id="modal-indicators" class="media-indicators"></div>
 <div class="modal-info">
 <h2 id="modal-title"></h2>
@@ -294,8 +301,16 @@ gtag('config','G-JXJP0D464R');
 </div>
 </div>
 </div>
-<button class="prev" onclick="mudarMidia(-1)" aria-label="Imagem anterior">‹</button>
-<button class="next" onclick="mudarMidia(1)" aria-label="Imagem seguinte">›</button>
+<button class="prev hero-nav hero-nav--prev modal-nav" type="button" aria-label="Imagem anterior" aria-controls="modal-content">
+    <svg class="hero-nav__icon" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+        <path d="M25 10L15 20l10 10"/>
+    </svg>
+</button>
+<button class="next hero-nav hero-nav--next modal-nav" type="button" aria-label="Imagem seguinte" aria-controls="modal-content">
+    <svg class="hero-nav__icon" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+        <path d="M15 10l10 10-10 10"/>
+    </svg>
+</button>
 </div>
 
 <footer>
@@ -397,8 +412,7 @@ media: [
 { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_6.webp" },
 { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_7.webp" },
 { type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_8.webp" },
-{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_9.webp" },
-{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_10.webp" }
+{ type: 'image', src: "img/projetos/168_Moradia_Mogege_Famalicao/168_9.webp" }
 ]
 },
 projeto158: {
@@ -408,9 +422,7 @@ media: [
 { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_2.webp" },
 { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_3.webp" },
 { type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_4.webp" },
-{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_5.webp" },
-{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_6.webp" },
-{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_7.webp" }
+{ type: 'image', src: "img/projetos/158_Moradia_Espinho_Braga/158_5.webp" }
 ]
 },
 projeto156: {
@@ -587,6 +599,9 @@ let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0, ultimoToque 
 let currentTranslate = 0, isDragging = false, isVerticalDrag = false, currentY = 0;
 let elementoAnterior = null, elementoAtual = null, elementoSeguinte = null;
 let previewIndice = -1, fullscreenTimeout = null;
+let pedidoFullscreenId = 0, fullscreenWatchdog = null, fullscreenPendente = false;
+let fullscreenDesejado = false, fullscreenAppPermitido = false;
+let rafViewportApp = null;
 let zoomAtivo = false, escalaZoom = 2, zoomX = 0, zoomY = 0;
 let zoomStartX = 0, zoomStartY = 0, moverImagem = false;
 let mouseZoomAtivo = false, mouseZoomStartX = 0, mouseZoomStartY = 0, mouseZoomInicioX = 0, mouseZoomInicioY = 0;
@@ -616,8 +631,35 @@ const contactButton = document.querySelector(".contact-trigger");
 const backToTop = document.getElementById("back-to-top");
 const menu = document.getElementById("menu");
 
+// Mesmas setas da página inicial, fixas nas laterais da galeria.
+const modalNavButtons = modal.querySelectorAll(".modal-nav");
+const controlosModal = [fullscreenBtn, zoomBtn, closeBtn, ...modalNavButtons].filter(Boolean);
+let modalNavBloqueadaAte = 0;
+let posicaoRatoModal = null;
+
+modalNavButtons.forEach(button => {
+    const direcao = button.classList.contains("prev") ? -1 : 1;
+
+    button.addEventListener("click", event => {
+        event.stopPropagation();
+        if (performance.now() < modalNavBloqueadaAte) return;
+        modalNavBloqueadaAte = performance.now() + 400;
+        if (zoomAtivo) resetZoom();
+        mudarMidia(direcao);
+    });
+});
+
+function sincronizarBotaoZoom() {
+    if (!zoomBtn) return;
+    const label = zoomAtivo ? "Reduzir imagem" : "Ampliar imagem";
+    zoomBtn.setAttribute("aria-pressed", String(zoomAtivo));
+    zoomBtn.setAttribute("aria-label", label);
+    zoomBtn.title = label;
+}
+
 function resetZoom(){
     zoomAtivo = false;
+    modal.classList.remove("is-zoomed");
     escalaZoom = ZOOM_MIN;
     zoomX = 0;
     zoomY = 0;
@@ -632,11 +674,17 @@ function resetZoom(){
     }
 
     if (modalContent) modalContent.style.cursor = "";
-    if (zoomBtn) zoomBtn.textContent = "+";
+    if (zoomBtn) sincronizarBotaoZoom();
+}
+
+function ajusteVerticalImagemApp(){
+    if (!modal.classList.contains("app-visible-viewport")) return 0;
+    return parseFloat(getComputedStyle(modal).getPropertyValue("--app-image-lift")) || 0;
 }
 
 function atualizarZoom(){
     rafZoom = null;
+    modal.classList.toggle("is-zoomed", zoomAtivo);
     if (!elementoAtual) return;
 
     atualizarLimitesZoom();
@@ -646,9 +694,10 @@ function atualizarZoom(){
         Math.min(limiteZoomX, zoomTargetX)
     );
 
+    const centroLimitesY = limiteZoomY > 0 ? ajusteVerticalImagemApp() : 0;
     zoomTargetY = Math.max(
-        -limiteZoomY,
-        Math.min(limiteZoomY, zoomTargetY)
+        centroLimitesY - limiteZoomY,
+        Math.min(centroLimitesY + limiteZoomY, zoomTargetY)
     );
 
     const isMobilePortrait =
@@ -700,8 +749,8 @@ function atualizarLimitesZoom(){
     if (!elementoAtual) return;
     const larguraImagem = elementoAtual.clientWidth * escalaZoom;
     const alturaImagem = elementoAtual.clientHeight * escalaZoom;
-    limiteZoomX = Math.max(0, (larguraImagem - window.innerWidth) / 2);
-    limiteZoomY = Math.max(0, (alturaImagem - window.innerHeight) / 2);
+    limiteZoomX = Math.max(0, (larguraImagem - modalContent.clientWidth) / 2);
+    limiteZoomY = Math.max(0, (alturaImagem - modalContent.clientHeight) / 2);
 }
 
 function distanciaToques(t1, t2){
@@ -740,7 +789,7 @@ function abrirProjeto(nomeProjeto){
     // 4. Carregar e animar a mídia com o modal já visível
     mostrarMidia();
     mostrarBotaoFullscreen();
-    if (zoomBtn) zoomBtn.textContent = "+";
+    if (zoomBtn) sincronizarBotaoZoom();
     preloadImagens();
 
     document.getElementById("modal-title").textContent = projetoAtual.info.nome;
@@ -798,6 +847,8 @@ function fecharModal(){
 
     // Esconder modal e resetar estilos do fundo e transição
     modalProjeto.style.display = "none";
+    reporFullscreenModal();
+    ocultarControlosModal();
     modalProjeto.style.background = "";
     modalProjeto.style.transition = "";
 
@@ -826,14 +877,6 @@ function fecharModal(){
             backToTop.classList.remove("show");
         }
     }
-    if (document.fullscreenElement) {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        }
-    }
-
     // Limpar parâmetros da URL (?p=...)
     if (window.history && window.history.replaceState) {
         window.history.replaceState(null, "", window.location.pathname);
@@ -936,7 +979,7 @@ function corrigirLayoutEdgeiPad() {
 function ajustarFullscreenAndroid(){
     const emAndroid = /Android/i.test(navigator.userAgent);
     const landscape = window.matchMedia("(orientation: landscape)").matches;
-    const fullscreen = !!document.fullscreenElement;
+    const fullscreen = !!obterElementoFullscreen();
     if (!emAndroid || !landscape || !fullscreen) return;
     
     function aplicar(){
@@ -1032,17 +1075,53 @@ function ajustarBolinhasIPhone(){
     aplicarTamanho(elementoSeguinte, safariEdgeLandscape);
 }
 
-function mostrarBotaoFullscreen(){
+function ocultarControlosModal() {
+    posicaoRatoModal = null;
+    clearTimeout(fullscreenTimeout);
+    fullscreenTimeout = null;
+    fullscreenBtn?.classList.remove("show");
+    zoomBtn?.classList.remove("show");
+    closeBtn?.classList.remove("show-controls");
+    modalNavButtons.forEach(button => button.classList.remove("show-controls"));
+}
+
+function controloModalEmUso(controle) {
+    if (controle.matches(":hover, :focus-visible")) return true;
+    if (!posicaoRatoModal) return false;
+    const rect = controle.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0 &&
+        posicaoRatoModal.x >= rect.left && posicaoRatoModal.x <= rect.right &&
+        posicaoRatoModal.y >= rect.top && posicaoRatoModal.y <= rect.bottom;
+}
+
+function agendarOcultarControlosModal() {
+    clearTimeout(fullscreenTimeout);
+    fullscreenTimeout = null;
+    if (modal.style.display !== "flex" || window.matchMedia("(pointer: coarse)").matches) return;
+    fullscreenTimeout = setTimeout(() => {
+        fullscreenTimeout = null;
+        if (controlosModal.some(controloModalEmUso)) return;
+        ocultarControlosModal();
+    }, FULLSCREEN_BUTTON_TIMEOUT);
+}
+
+function mostrarBotaoFullscreen(event){
+    if (event && Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
+        posicaoRatoModal = { x: event.clientX, y: event.clientY };
+    }
     const btn = fullscreenBtn, close = closeBtn, zoom = zoomBtn;
-    if (!btn) return;
-    
+    if (!btn || modal.style.display !== "flex") return;
+
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isApple = isAppleMobile();
 
-    // Determina se o botão deve ser visível no dispositivo atual
-    const deveMostrar = (isApple && FULLSCREEN_IPHONE) || 
-                          (isAndroid && FULLSCREEN_TELEMOVEL) || 
+    // Determina se o botão deve ser visível no dispositivo atual.
+    const permitidoNoDispositivo = (isApple && FULLSCREEN_IPHONE) ||
+                          (isAndroid && FULLSCREEN_TELEMOVEL) ||
                           (!isApple && !isAndroid);
+    const deveMostrar = permitidoNoDispositivo &&
+        (!!pedidoFullscreenNativo() || isAppIPadInstalada() || modal.classList.contains("fullscreen-app"));
+    sincronizarBotaoFullscreen();
 
     if (deveMostrar) {
         btn.style.display = "";
@@ -1056,92 +1135,231 @@ function mostrarBotaoFullscreen(){
 
     if (close) close.classList.add("show-controls");
     if (zoom) zoom.classList.add("show");
-
-    if (window.matchMedia("(pointer: coarse)").matches) {
-        clearTimeout(fullscreenTimeout);
-        return;
-    }
-
-    clearTimeout(fullscreenTimeout);
-    fullscreenTimeout = setTimeout(() => {
-        if ((btn && btn.matches(":hover")) || (close && close.matches(":hover")) || (zoom && zoom.matches(":hover"))) return;
-        btn.classList.remove("show");
-        if (close) close.classList.remove("show-controls");
-        if (zoom) zoom.classList.remove("show");
-    }, FULLSCREEN_BUTTON_TIMEOUT);
+    modalNavButtons.forEach(button => button.classList.add("show-controls"));
+    agendarOcultarControlosModal();
 }
 
-[fullscreenBtn, zoomBtn, closeBtn].forEach(controle => {
-    if (!controle) return;
-    controle.addEventListener("mouseenter", () => {
-        clearTimeout(fullscreenTimeout);
-        if (fullscreenBtn && fullscreenBtn.style.display !== "none") fullscreenBtn.classList.add("show");
-        if (zoomBtn) zoomBtn.classList.add("show");
-        if (closeBtn) closeBtn.classList.add("show-controls");
-    });
-    controle.addEventListener("mouseleave", () => {
-        clearTimeout(fullscreenTimeout);
-        fullscreenTimeout = setTimeout(() => {
-            if (fullscreenBtn?.matches(":hover") || zoomBtn?.matches(":hover") || closeBtn?.matches(":hover")) return;
-            fullscreenBtn?.classList.remove("show");
-            zoomBtn?.classList.remove("show");
-            closeBtn?.classList.remove("show-controls");
-        }, FULLSCREEN_BUTTON_TIMEOUT);
-    });
+// Setas e botões partilham o temporizador, o hover e o foco de teclado.
+controlosModal.forEach(controle => {
+    controle.addEventListener("mouseenter", mostrarBotaoFullscreen);
+    controle.addEventListener("mouseleave", agendarOcultarControlosModal);
+    controle.addEventListener("focus", mostrarBotaoFullscreen);
+    controle.addEventListener("blur", agendarOcultarControlosModal);
 });
 
-function toggleFullscreen(){
-    if (!document.fullscreenElement) {
-        // Tenta entrar em ecrã inteiro
-        const requestFS = modal.requestFullscreen || modal.webkitRequestFullscreen;
-        
-        if (requestFS) {
-            const promise = requestFS.call(modal);
-            
-            // LÓGICA NOVA: Função auxiliar para rodar apenas se for telemóvel padrão
-            const tentarRodarEcra = () => {
-                // Telemóveis Android incluem "Mobile" no User-Agent. 
-                const isMobile = /Mobile/i.test(navigator.userAgent);
-                
-                // Deteta Z Fold aberto: ecrã simultaneamente largo e alto
-                const isFoldUnfolded = window.innerWidth > 600 && window.innerHeight > 600;
-                
-                // Só bloqueia para "landscape" se for um dispositivo Mobile E não for um Fold aberto
-                if (isMobile && !isFoldUnfolded && screen.orientation && screen.orientation.lock) {
-                    screen.orientation.lock('landscape').catch(err => {
-                        console.warn("A rotação automática falhou:", err);
-                    });
-                }
-            };
-            
-            // Navegadores modernos retornam uma Promise
-            if (promise !== undefined) {
-                promise.then(() => {
-                    tentarRodarEcra();
-                }).catch(err => {
-                    console.error("Erro ao entrar em fullscreen:", err);
-                });
-            } else {
-                // Fallback para navegadores antigos que não retornam Promise
-                setTimeout(() => {
-                    tentarRodarEcra();
-                }, 200);
-            }
+function obterElementoFullscreen() {
+    return document.fullscreenElement || document.webkitFullscreenElement || document.webkitCurrentFullScreenElement || null;
+}
+
+function isAppIPadInstalada() {
+    const iPad = /iPad/i.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const instalada = navigator.standalone === true ||
+        window.matchMedia("(display-mode: standalone)").matches ||
+        (!obterElementoFullscreen() && window.matchMedia("(display-mode: fullscreen)").matches);
+    return iPad && instalada;
+}
+
+// Na app, a área visível pode ser menor do que a altura CSS do ecrã.
+const propriedadesViewportApp = ["--app-viewport-top", "--app-viewport-left", "--app-viewport-width", "--app-viewport-height"];
+
+function limparViewportApp() {
+    if (rafViewportApp !== null) cancelAnimationFrame(rafViewportApp);
+    rafViewportApp = null;
+    modal.classList.remove("app-visible-viewport");
+    propriedadesViewportApp.forEach(propriedade => modal.style.removeProperty(propriedade));
+}
+
+function usaViewportApp() {
+    return modal.style.display === "flex" && modal.classList.contains("fullscreen-app");
+}
+
+function atualizarViewportApp() {
+    if (rafViewportApp !== null) cancelAnimationFrame(rafViewportApp);
+    rafViewportApp = null;
+    if (!usaViewportApp()) { limparViewportApp(); return; }
+    const viewport = window.visualViewport;
+    const valido = viewport && Number.isFinite(viewport.width) && viewport.width > 0 &&
+        Number.isFinite(viewport.height) && viewport.height > 0;
+    const deslocamento = valor => Number.isFinite(valor) ? Math.max(0, valor) : 0;
+    const largura = valido ? viewport.width : window.innerWidth;
+    const altura = valido ? viewport.height : window.innerHeight;
+    const valores = [valido ? deslocamento(viewport.offsetTop) : 0, valido ? deslocamento(viewport.offsetLeft) : 0, largura, altura];
+    let mudou = !modal.classList.contains("app-visible-viewport");
+    propriedadesViewportApp.forEach((propriedade, indice) => {
+        const valor = valores[indice] + "px";
+        if (modal.style.getPropertyValue(propriedade) !== valor) {
+            modal.style.setProperty(propriedade, valor);
+            mudou = true;
         }
+    });
+    modal.classList.add("app-visible-viewport");
+    if (mudou && elementoAtual && !isDragging && !isVerticalDrag && !isPinching) {
+        elementoAtual.style.transition = "none";
+        atualizarZoom();
+    }
+}
+
+function agendarViewportApp() {
+    if (!usaViewportApp() || rafViewportApp !== null) return;
+    rafViewportApp = requestAnimationFrame(atualizarViewportApp);
+}
+
+window.visualViewport?.addEventListener("resize", agendarViewportApp);
+window.visualViewport?.addEventListener("scroll", agendarViewportApp);
+window.addEventListener("resize", agendarViewportApp);
+window.addEventListener("orientationchange", agendarViewportApp);
+window.addEventListener("pageshow", agendarViewportApp);
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") agendarViewportApp();
+});
+
+function pedidoFullscreenNativo() {
+    if (typeof modal.requestFullscreen === "function" && document.fullscreenEnabled !== false) return modal.requestFullscreen;
+    const prefixado = modal.webkitRequestFullscreen || modal.webkitRequestFullScreen;
+    if (typeof prefixado === "function" && document.webkitFullscreenEnabled !== false) return prefixado;
+    return null;
+}
+
+function terminarPedidoFullscreen() {
+    clearTimeout(fullscreenWatchdog);
+    fullscreenWatchdog = null;
+    fullscreenPendente = false;
+}
+
+function sincronizarBotaoFullscreen() {
+    if (!fullscreenBtn) return;
+    const ampliada = modal.classList.contains("fullscreen-app");
+    const ativo = obterElementoFullscreen() === modal || ampliada;
+    const label = ativo ? (ampliada ? "Sair da vista ampliada" : "Sair do ecrã inteiro") : "Ecrã inteiro";
+    fullscreenBtn.setAttribute("aria-pressed", String(ativo));
+    fullscreenBtn.setAttribute("aria-label", label);
+    fullscreenBtn.title = label;
+    const seta = fullscreenBtn.querySelector(".fullscreen-arrow");
+    if (seta) seta.setAttribute("d", ativo ?
+        "M20.5 3.5L14 10m0-7v7h7" :
+        "M14.5 9.5L21 3m-7 0h7v7");
+}
+
+function sairFullscreenNativo() {
+    const sair = document.exitFullscreen || document.webkitExitFullscreen || document.webkitCancelFullScreen;
+    if (typeof sair !== "function") return;
+    try {
+        Promise.resolve(sair.call(document)).catch(error => console.warn("Não foi possível sair do ecrã inteiro:", error));
+    } catch (error) {
+        console.warn("Não foi possível sair do ecrã inteiro:", error);
+    }
+    try { screen.orientation?.unlock?.(); } catch (_) {}
+}
+
+function tentarRodarEcraFullscreen() {
+    const isMobile = /Mobile/i.test(navigator.userAgent);
+    const isFoldUnfolded = window.innerWidth > 600 && window.innerHeight > 600;
+    if (isMobile && !isFoldUnfolded && screen.orientation?.lock) {
+        screen.orientation.lock("landscape").catch(() => {});
+    }
+}
+
+function tratarMudancaFullscreen() {
+    const nativo = obterElementoFullscreen() === modal;
+    if (nativo && (!fullscreenDesejado || modal.style.display !== "flex")) {
+        sairFullscreenNativo();
+        return;
+    }
+    if (nativo) {
+        const rodar = fullscreenPendente;
+        terminarPedidoFullscreen();
+        modal.classList.remove("fullscreen-app");
+        if (rodar) tentarRodarEcraFullscreen();
+    } else if (!fullscreenPendente && !modal.classList.contains("fullscreen-app")) {
+        fullscreenDesejado = false;
+    }
+    if (obterElementoFullscreen() || modal.classList.contains("fullscreen-app")) {
+        document.documentElement.style.setProperty("scrollbar-gutter", "auto", "important");
     } else {
-        // Sai do ecrã inteiro e desbloqueia a rotação
-        if (document.exitFullscreen) {
-            document.exitFullscreen().then(() => {
-                if (screen.orientation && screen.orientation.unlock) {
-                    screen.orientation.unlock();
-                }
-            });
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-            if (screen.orientation && screen.orientation.unlock) {
-                screen.orientation.unlock();
-            }
+        document.documentElement.style.removeProperty("scrollbar-gutter");
+    }
+    atualizarViewportApp();
+    sincronizarBotaoFullscreen();
+    if (modal.style.display !== "flex") return;
+    modal.style.background = "";
+    ajustarFullscreenAndroid();
+    ajustarBolinhasIPhone();
+    requestAnimationFrame(() => {
+        if (modal.style.display !== "flex" || !elementoAtual) return;
+        // Recalcula os limites também quando a ampliação por CSS não gera resize.
+        elementoAtual.style.transition = "none";
+        atualizarZoom();
+    });
+}
+
+function usarFullscreenApp(pedido) {
+    if (pedido !== pedidoFullscreenId || !fullscreenDesejado || modal.style.display !== "flex") return;
+    terminarPedidoFullscreen();
+    if (obterElementoFullscreen() === modal) { tratarMudancaFullscreen(); return; }
+    if (!fullscreenAppPermitido) {
+        fullscreenDesejado = false;
+        sincronizarBotaoFullscreen();
+        return;
+    }
+    modal.classList.add("fullscreen-app");
+    tratarMudancaFullscreen();
+    mostrarBotaoFullscreen();
+}
+
+function reporFullscreenModal() {
+    pedidoFullscreenId++;
+    terminarPedidoFullscreen();
+    fullscreenDesejado = false;
+    fullscreenAppPermitido = false;
+    modal.classList.remove("fullscreen-app");
+    limparViewportApp();
+    sincronizarBotaoFullscreen();
+    const nativo = obterElementoFullscreen();
+    if (nativo && (nativo === modal || modal.contains(nativo))) sairFullscreenNativo();
+    if (!nativo) document.documentElement.style.removeProperty("scrollbar-gutter");
+}
+
+function toggleFullscreen(){
+    if (modal.classList.contains("fullscreen-app")) {
+        pedidoFullscreenId++;
+        terminarPedidoFullscreen();
+        fullscreenDesejado = false;
+        modal.classList.remove("fullscreen-app");
+        tratarMudancaFullscreen();
+        mostrarBotaoFullscreen();
+        return;
+    }
+    if (obterElementoFullscreen() === modal) {
+        pedidoFullscreenId++;
+        terminarPedidoFullscreen();
+        fullscreenDesejado = false;
+        sairFullscreenNativo();
+        return;
+    }
+    if (fullscreenPendente) return;
+    const pedido = ++pedidoFullscreenId;
+    fullscreenDesejado = true;
+    fullscreenAppPermitido = isAppIPadInstalada();
+    fullscreenPendente = true;
+    // Na app instalada, evita a altura de layout imposta pelo fullscreen nativo.
+    if (fullscreenAppPermitido) { usarFullscreenApp(pedido); return; }
+    const solicitar = pedidoFullscreenNativo();
+    if (!solicitar) { usarFullscreenApp(pedido); return; }
+    try {
+        // A chamada mantém-se dentro do toque/clique para preservar a ativação do utilizador.
+        const resultado = solicitar.call(modal);
+        if (obterElementoFullscreen() === modal) tratarMudancaFullscreen();
+        if (fullscreenPendente) {
+            fullscreenWatchdog = setTimeout(() => usarFullscreenApp(pedido), 1200);
         }
+        if (resultado && typeof resultado.then === "function") {
+            Promise.resolve(resultado).then(() => {
+                if (pedido === pedidoFullscreenId && obterElementoFullscreen() === modal) tratarMudancaFullscreen();
+            }).catch(() => usarFullscreenApp(pedido));
+        }
+    } catch (_) {
+        usarFullscreenApp(pedido);
     }
 }
 
@@ -1345,7 +1563,7 @@ function prepararImagemAnterior(){
     if (elementoAnterior && elementoAnterior.parentNode) elementoAnterior.remove();
     const indiceAnterior = (indiceAtual - 1 + midiasAtuais.length) % midiasAtuais.length;
     elementoAnterior = criarElementoMidia(midiasAtuais[indiceAnterior]);
-    if (/Android/i.test(navigator.userAgent) && window.matchMedia("(orientation: landscape)").matches && document.fullscreenElement) {
+    if (/Android/i.test(navigator.userAgent) && window.matchMedia("(orientation: landscape)").matches && obterElementoFullscreen()) {
         elementoAnterior.style.setProperty("max-width", "100vw", "important");
         elementoAnterior.style.setProperty("max-height", window.innerHeight + "px", "important");
         elementoAnterior.style.setProperty("width", "100%", "important");
@@ -1365,7 +1583,7 @@ function prepararProximaImagem(){
     if (elementoSeguinte && elementoSeguinte.parentNode) elementoSeguinte.remove();
     const proximoIndice = (indiceAtual + 1) % midiasAtuais.length;
     elementoSeguinte = criarElementoMidia(midiasAtuais[proximoIndice]);
-    if (/Android/i.test(navigator.userAgent) && window.matchMedia("(orientation: landscape)").matches && document.fullscreenElement) {
+    if (/Android/i.test(navigator.userAgent) && window.matchMedia("(orientation: landscape)").matches && obterElementoFullscreen()) {
         elementoSeguinte.style.setProperty("max-width", "100vw", "important");
         elementoSeguinte.style.setProperty("max-height", window.innerHeight + "px", "important");
         elementoSeguinte.style.setProperty("width", "100%", "important");
@@ -1459,9 +1677,13 @@ document.addEventListener("keydown", function(e){
     if(modal.style.display==="flex"){
         if(e.key==="ArrowLeft"||e.key==="ArrowRight"){
             if(document.activeElement instanceof HTMLElement) document.activeElement.blur();
+            if (zoomAtivo) resetZoom();
             if(e.key==="ArrowLeft") mudarMidia(-1);
             else mudarMidia(1);
-        } else if(e.key==="Escape") fecharModal();
+        } else if(e.key==="Escape") {
+            if (modal.classList.contains("fullscreen-app")) { e.preventDefault(); toggleFullscreen(); }
+            else fecharModal();
+        }
     }
 });
 
@@ -1529,9 +1751,10 @@ modal.addEventListener("touchmove", function(e){
         // Encontrar o rácio de crescimento em relação ao tamanho que a imagem tinha no início do gesto
         const razaoEscala = novaEscala / escalaInicialPinch;
     
-        // O centro visual do ecrã
-        const centroEcraX = window.innerWidth / 2;
-        const centroEcraY = window.innerHeight / 2;
+        // O gesto mantém o centro real da área de visualização da fotografia.
+        const enquadramento = modalContent.getBoundingClientRect();
+        const centroEcraX = enquadramento.left + enquadramento.width / 2;
+        const centroEcraY = enquadramento.top + enquadramento.height / 2 - ajusteVerticalImagemApp();
     
         // Deslocar o alvo de zoom na direção oposta ao centro da pinça, multiplicando pela diferença de escala
         zoomTargetX = pinchImagemX - (pinchCentroX - centroEcraX) * (razaoEscala - 1);
@@ -1541,7 +1764,7 @@ modal.addEventListener("touchmove", function(e){
         escalaZoom = novaEscala;
         zoomAtivo = escalaZoom > 1.02;
     
-        if (zoomBtn) zoomBtn.textContent = zoomAtivo ? "−" : "+";
+        if (zoomBtn) sincronizarBotaoZoom();
     
         if (!zoomAtivo) {
             zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
@@ -1735,11 +1958,11 @@ modalContent.addEventListener("dblclick", function(e){
     if (zoomAtivo) {
         escalaZoom = DEFAULT_ZOOM;
         zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
-        zoomBtn.textContent = "−";
+        sincronizarBotaoZoom();
     } else {
         escalaZoom = ZOOM_MIN;
         zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
-        zoomBtn.textContent = "+";
+        sincronizarBotaoZoom();
     }
     elementoAtual.style.transition = TRANSITION_FAST;
     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
@@ -1761,11 +1984,11 @@ modalContent.addEventListener("touchend", function(e){
                     elementoAtual.style.transition = TRANSITION_FAST;
                     if (zoomAtivo) {
                         escalaZoom = DEFAULT_ZOOM;
-                        zoomBtn.textContent = "−";
+                        sincronizarBotaoZoom();
                     } else {
                         escalaZoom = ZOOM_MIN;
                         zoomX = 0; zoomY = 0; zoomTargetX = 0; zoomTargetY = 0;
-                        zoomBtn.textContent = "+";
+                        sincronizarBotaoZoom();
                     }
                     if (!rafZoom) rafZoom = requestAnimationFrame(atualizarZoom);
                 });
@@ -1775,20 +1998,19 @@ modalContent.addEventListener("touchend", function(e){
     }
 });
 
-modalContent.addEventListener("mousemove", mostrarBotaoFullscreen);
-modalContent.addEventListener("touchstart", mostrarBotaoFullscreen);
+modal.addEventListener("mousemove", mostrarBotaoFullscreen);
+modal.addEventListener("mouseleave", () => {
+    posicaoRatoModal = null;
+    agendarOcultarControlosModal();
+});
+modal.addEventListener("touchstart", mostrarBotaoFullscreen, { passive: true });
 
-document.addEventListener("fullscreenchange", () => {
-    // Remove o espaço lateral do scrollbar no HTML durante o fullscreen
-    if (document.fullscreenElement) {
-        document.documentElement.style.setProperty("scrollbar-gutter", "auto", "important");
-    } else {
-        document.documentElement.style.removeProperty("scrollbar-gutter");
-    }
-    
-    modal.style.background = "";
-    ajustarFullscreenAndroid();
-    ajustarBolinhasIPhone();
+document.addEventListener("fullscreenchange", tratarMudancaFullscreen);
+document.addEventListener("webkitfullscreenchange", tratarMudancaFullscreen);
+["fullscreenerror", "webkitfullscreenerror"].forEach(evento => {
+    document.addEventListener(evento, () => {
+        if (fullscreenPendente) usarFullscreenApp(pedidoFullscreenId);
+    });
 });
 
 fullscreenBtn.addEventListener("click", function(e){
@@ -1801,7 +2023,7 @@ zoomBtn.addEventListener("click", function(e){
     e.stopPropagation();
     if (!elementoAtual) return;
     zoomAtivo = !zoomAtivo;
-    zoomBtn.textContent = zoomAtivo ? "−" : "+";
+    sincronizarBotaoZoom();
     elementoAtual.style.transition = TRANSITION_FAST;
     if (zoomAtivo) {
         escalaZoom = DEFAULT_ZOOM;
@@ -1944,26 +2166,16 @@ if (backToTop) {
     });
 }
 
-// Limpar estilos inline forçados ao sair do modo Fullscreen (corrige imagem colada aos limites)
-document.addEventListener("fullscreenchange", function() {
-    // Verifica se já não estamos em fullscreen
-    if (!document.fullscreenElement) {
-        
-        const limparEstilos = (elemento) => {
-            if (!elemento) return;
-            elemento.style.removeProperty("max-width");
-            elemento.style.removeProperty("max-height");
-            elemento.style.removeProperty("width");
-            elemento.style.removeProperty("height");
-            elemento.style.removeProperty("object-fit");
-        };
-
-        // Remove as propriedades forçadas das imagens carregadas no momento
-        limparEstilos(elementoAtual);
-        limparEstilos(elementoAnterior);
-        limparEstilos(elementoSeguinte);
-    }
-});
+// Limpa estilos forçados tanto na saída nativa normal como na versão WebKit.
+function limparEstilosAoSairFullscreen() {
+    if (obterElementoFullscreen()) return;
+    [elementoAtual, elementoAnterior, elementoSeguinte].forEach(elemento => {
+        if (!elemento) return;
+        ["max-width", "max-height", "width", "height", "object-fit"].forEach(propriedade => elemento.style.removeProperty(propriedade));
+    });
+}
+document.addEventListener("fullscreenchange", limparEstilosAoSairFullscreen);
+document.addEventListener("webkitfullscreenchange", limparEstilosAoSairFullscreen);
 
 // Ouve as rotações/redimensionamentos do dispositivo
 window.addEventListener("resize", () => {
