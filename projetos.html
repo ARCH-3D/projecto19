@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20261026-desktop-fullwidth-zoom">
+<link rel="stylesheet" href="css/style.css?v=20261026-overlap-white-controls">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
 <script>
 window.dataLayer=window.dataLayer||[];
@@ -636,6 +636,94 @@ const modalNavButtons = modal.querySelectorAll(".modal-nav");
 const controlosModal = [fullscreenBtn, zoomBtn, closeBtn, ...modalNavButtons].filter(Boolean);
 let modalNavBloqueadaAte = 0;
 let posicaoRatoModal = null;
+
+// Acompanha a área realmente pintada, incluindo zoom, gestos e transições.
+const alvosContrasteModal = [...controlosModal, ...modal.querySelectorAll(".modal-item")];
+let rafContrasteModal = null, contrasteModalAte = 0;
+
+function limparContrasteModal() {
+    if (rafContrasteModal !== null) cancelAnimationFrame(rafContrasteModal);
+    rafContrasteModal = null;
+    contrasteModalAte = 0;
+    alvosContrasteModal.forEach(alvo => alvo.classList.remove("is-over-media"));
+}
+
+function areaVisivelMidia(elemento, limite) {
+    const estilo = getComputedStyle(elemento);
+    if (parseFloat(estilo.opacity) < .05) return null;
+    const larguraNatural = elemento.naturalWidth || elemento.videoWidth;
+    const alturaNatural = elemento.naturalHeight || elemento.videoHeight;
+    if (!larguraNatural || !alturaNatural) return null;
+    const rect = elemento.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
+    let largura = rect.width, altura = rect.height;
+    if (estilo.objectFit === "contain") {
+        const ajuste = Math.min(elemento.clientWidth / larguraNatural, elemento.clientHeight / alturaNatural);
+        largura = larguraNatural * ajuste * (rect.width / elemento.clientWidth);
+        altura = alturaNatural * ajuste * (rect.height / elemento.clientHeight);
+    }
+    const esquerda = rect.left + (rect.width - largura) / 2;
+    const topo = rect.top + (rect.height - altura) / 2;
+    const area = {
+        left:Math.max(esquerda, limite.left),
+        top:Math.max(topo, limite.top),
+        right:Math.min(esquerda + largura, limite.right),
+        bottom:Math.min(topo + altura, limite.bottom)
+    };
+    return area.right > area.left && area.bottom > area.top ? area : null;
+}
+
+function atualizarContrasteModal() {
+    rafContrasteModal = null;
+    if (modal.style.display !== "flex") { limparContrasteModal(); return; }
+    const quadro = modalContent.getBoundingClientRect();
+    const janela = modal.getBoundingClientRect();
+    const limite = {
+        left:Math.max(quadro.left, janela.left, 0),
+        top:Math.max(quadro.top, janela.top, 0),
+        right:Math.min(quadro.right, janela.right, window.innerWidth),
+        bottom:Math.min(quadro.bottom, janela.bottom, window.innerHeight)
+    };
+    const areas = [...modalContent.querySelectorAll("img, video")]
+        .map(elemento => areaVisivelMidia(elemento, limite)).filter(Boolean);
+    const estados = alvosContrasteModal.map(alvo => {
+        const referencia = alvo.matches("button") ? alvo.querySelector("svg") : alvo;
+        const rect = referencia.getBoundingClientRect();
+        const areaAlvo = rect.width * rect.height;
+        const sobre = areaAlvo > 0 && areas.some(area => {
+            const largura = Math.max(0, Math.min(rect.right, area.right) - Math.max(rect.left, area.left));
+            const altura = Math.max(0, Math.min(rect.bottom, area.bottom) - Math.max(rect.top, area.top));
+            return largura * altura >= areaAlvo * .2;
+        });
+        return {alvo, sobre};
+    });
+    estados.forEach(({alvo, sobre}) => {
+        if (alvo.classList.contains("is-over-media") !== sobre) alvo.classList.toggle("is-over-media", sobre);
+    });
+    if (performance.now() < contrasteModalAte) rafContrasteModal = requestAnimationFrame(atualizarContrasteModal);
+}
+
+function agendarContrasteModal() {
+    if (modal.style.display !== "flex") { limparContrasteModal(); return; }
+    contrasteModalAte = performance.now() + MEDIA_TRANSITION_TIME + 80;
+    if (rafContrasteModal === null) rafContrasteModal = requestAnimationFrame(atualizarContrasteModal);
+}
+
+const observarContrasteModal = new MutationObserver(agendarContrasteModal);
+observarContrasteModal.observe(modal, {attributes:true, attributeFilter:["class", "style"]});
+observarContrasteModal.observe(modalContent, {childList:true, subtree:true, attributes:true, attributeFilter:["style", "class", "src"]});
+if (typeof ResizeObserver === "function") {
+    const dimensoesContrasteModal = new ResizeObserver(agendarContrasteModal);
+    dimensoesContrasteModal.observe(modalContent);
+    dimensoesContrasteModal.observe(modal.querySelector(".modal-info"));
+}
+["load", "loadedmetadata", "loadeddata"].forEach(evento => modalContent.addEventListener(evento, agendarContrasteModal, true));
+["resize", "orientationchange", "pageshow"].forEach(evento => window.addEventListener(evento, agendarContrasteModal));
+["fullscreenchange", "webkitfullscreenchange"].forEach(evento => document.addEventListener(evento, agendarContrasteModal));
+window.visualViewport?.addEventListener("resize", agendarContrasteModal);
+window.visualViewport?.addEventListener("scroll", agendarContrasteModal);
+document.fonts?.addEventListener("loadingdone", agendarContrasteModal);
+
 
 modalNavButtons.forEach(button => {
     const direcao = button.classList.contains("prev") ? -1 : 1;

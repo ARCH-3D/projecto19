@@ -8,6 +8,7 @@
     --font-title:'Outfit',sans-serif;
     --trans-main:.3s ease;
     --icon-stroke:1.25;
+    --image-control-shadow:0 1px 2px rgba(0,0,0,.8);
 }
 
 /* ================== RESET ================== */
@@ -201,7 +202,7 @@ nav a:focus-visible{
         stroke-width:var(--icon-stroke);
         stroke-linecap:round;
         stroke-linejoin:round;
-        filter:drop-shadow(0 1px 2px rgba(0,0,0,.8));
+        filter:drop-shadow(var(--image-control-shadow));
         pointer-events:none;
     }
     .hero-nav.is-following{
@@ -1478,8 +1479,65 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
     #modal-projeto.modal.is-zoomed #modal-content video{
         max-width:calc(100% - 2 * var(--modal-nav-gutter)) !important;
     }
-    #modal-projeto.is-zoomed .modal-nav{
-        display:none;
+}
+
+/* Branco com a mesma sombra do index apenas sobre a fotografia. */
+#modal-projeto .close,
+#modal-projeto .zoom-btn,
+#modal-projeto .fullscreen-btn,
+#modal-projeto .modal-nav .hero-nav__icon{
+    background:transparent;
+    border-radius:0;
+    box-shadow:none;
+}
+#modal-projeto .close svg,
+#modal-projeto .zoom-btn svg,
+#modal-projeto .fullscreen-btn svg{
+    transform:none;
+}
+#modal-projeto .close svg,
+#modal-projeto .zoom-btn svg,
+#modal-projeto .fullscreen-btn svg,
+#modal-projeto .modal-nav .hero-nav__icon{
+    filter:none;
+}
+#modal-projeto .close.is-over-media,
+#modal-projeto .zoom-btn.is-over-media,
+#modal-projeto .fullscreen-btn.is-over-media,
+#modal-projeto .modal-nav.is-over-media .hero-nav__icon{
+    color:#fff;
+}
+#modal-projeto .close.is-over-media svg,
+#modal-projeto .zoom-btn.is-over-media svg,
+#modal-projeto .fullscreen-btn.is-over-media svg,
+#modal-projeto .modal-nav.is-over-media .hero-nav__icon{
+    filter:drop-shadow(var(--image-control-shadow));
+}
+#modal-projeto .modal-item.is-over-media{
+    color:#fff;
+    text-shadow:var(--image-control-shadow);
+}
+#modal-projeto .modal-item.is-over-media img{
+    filter:brightness(0) invert(1) drop-shadow(var(--image-control-shadow));
+}
+#modal-projeto .close.is-over-media:focus-visible,
+#modal-projeto .zoom-btn.is-over-media:focus-visible,
+#modal-projeto .fullscreen-btn.is-over-media:focus-visible{
+    outline-color:#fff;
+}
+#modal-projeto .close:active,
+#modal-projeto .zoom-btn:active,
+#modal-projeto .fullscreen-btn:active{
+    opacity:1 !important;
+}
+@media (hover:hover) and (pointer:fine){
+    #modal-projeto .close:hover,
+    #modal-projeto .zoom-btn:hover,
+    #modal-projeto .fullscreen-btn:hover{
+        opacity:1;
+    }
+    #modal-projeto .modal-nav:active .hero-nav__icon{
+        opacity:1;
     }
 }
 
