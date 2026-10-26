@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20261026-app-visible-viewport">
+<link rel="stylesheet" href="css/style.css?v=20261026-app-image-alignment">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXJP0D464R"></script>
 <script>
 window.dataLayer=window.dataLayer||[];
@@ -677,6 +677,11 @@ function resetZoom(){
     if (zoomBtn) sincronizarBotaoZoom();
 }
 
+function ajusteVerticalImagemApp(){
+    if (!modal.classList.contains("app-visible-viewport")) return 0;
+    return parseFloat(getComputedStyle(modal).getPropertyValue("--app-image-lift")) || 0;
+}
+
 function atualizarZoom(){
     rafZoom = null;
     modal.classList.toggle("is-zoomed", zoomAtivo);
@@ -689,9 +694,10 @@ function atualizarZoom(){
         Math.min(limiteZoomX, zoomTargetX)
     );
 
+    const centroLimitesY = limiteZoomY > 0 ? ajusteVerticalImagemApp() : 0;
     zoomTargetY = Math.max(
-        -limiteZoomY,
-        Math.min(limiteZoomY, zoomTargetY)
+        centroLimitesY - limiteZoomY,
+        Math.min(centroLimitesY + limiteZoomY, zoomTargetY)
     );
 
     const isMobilePortrait =
@@ -1747,7 +1753,7 @@ modal.addEventListener("touchmove", function(e){
         // O gesto mantém o centro real da área de visualização da fotografia.
         const enquadramento = modalContent.getBoundingClientRect();
         const centroEcraX = enquadramento.left + enquadramento.width / 2;
-        const centroEcraY = enquadramento.top + enquadramento.height / 2;
+        const centroEcraY = enquadramento.top + enquadramento.height / 2 - ajusteVerticalImagemApp();
     
         // Deslocar o alvo de zoom na direção oposta ao centro da pinça, multiplicando pela diferença de escala
         zoomTargetX = pinchImagemX - (pinchCentroX - centroEcraX) * (razaoEscala - 1);

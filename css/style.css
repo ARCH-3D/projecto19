@@ -1488,6 +1488,7 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
 
 /* Na app do iPad, centra a galeria na área realmente visível do WebKit. */
 #modal-projeto.app-visible-viewport{
+    --app-image-lift:16px;
     inset:auto !important;
     top:var(--app-viewport-top,0px) !important;
     left:var(--app-viewport-left,0px) !important;
@@ -1506,6 +1507,7 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
 }
 #modal-projeto.app-visible-viewport #modal-content img,
 #modal-projeto.app-visible-viewport #modal-content video{
+    top:calc(50% - var(--app-image-lift)) !important;
     max-width:100% !important;
     max-height:calc(var(--app-viewport-height,100dvh) - 115px) !important;
     width:auto !important;
@@ -1520,6 +1522,9 @@ body.modal-open.modal-vertical-drag > *:not(#modal-projeto) {
     }
 }
 @media (max-height:550px) and (orientation:landscape){
+    #modal-projeto.app-visible-viewport{
+        --app-image-lift:0px;
+    }
     #modal-projeto.app-visible-viewport #modal-content img,
     #modal-projeto.app-visible-viewport #modal-content video{
         max-height:var(--app-viewport-height,100dvh) !important;
